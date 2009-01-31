@@ -4,9 +4,11 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns('cloudme.feather.views',
     # Example:
-    (r'^feather/$', include('cloudme.feather.views.index')),
+    (r'^feather/$', 'index'),
+    (r'^feather/new/$', 'new'),
+    (r'^feather/save/$', 'save'),
 
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
     # to INSTALLED_APPS to enable admin documentation:
