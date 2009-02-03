@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
-from cloudme.feather.models import Sample
+from feather.main.models import Sample
 
 def index(request):
     if (not request.user.is_authenticated()):

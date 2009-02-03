@@ -1,4 +1,4 @@
-from cloudme.feather.models import Sample
+from feather.main.models import Sample
 from django.contrib import admin
 
 class SampleAdmin(admin.ModelAdmin):

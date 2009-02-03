@@ -4,7 +4,7 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('cloudme.feather.views',
+urlpatterns = patterns('feather.main.views',
     # Example:
     (r'^feather/$', 'index'),
     (r'^feather/new/$', 'new'),

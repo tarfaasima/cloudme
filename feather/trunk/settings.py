@@ -1,4 +1,4 @@
-# Django settings for cloudme project.
+# Django settings for feather project.
 import os
 
 DEBUG = True
@@ -11,7 +11,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'cloudme.sqlite3'             # Or path to database file if using sqlite3.
+DATABASE_NAME = 'feather.sqlite3'             # Or path to database file if using sqlite3.
 DATABASE_USER = ''             # Not used with sqlite3.
 DATABASE_PASSWORD = ''         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
@@ -64,7 +64,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
-ROOT_URLCONF = 'cloudme.urls'
+ROOT_URLCONF = 'feather.urls'
 
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), 'templates')
@@ -76,5 +76,5 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-    'cloudme.feather',
+    'feather.main',
 )
