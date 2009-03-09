@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system xmlns="http://cloudme.org/metamodel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://cloudme.org/metamodel metamodel.xsd">
+  <name>Lightroom</name>
+  <vendor>Adobe</vendor>
+  <version>1</version>
+</system>
