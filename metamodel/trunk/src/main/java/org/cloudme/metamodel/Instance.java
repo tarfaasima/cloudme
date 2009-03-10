@@ -9,13 +9,7 @@ import java.util.Map;
  * @author Moritz Petersen, moritz@cloudme.org
  */
 public class Instance {
-    /**
-     * The type of this instance.
-     */
     private final Type type;
-    /**
-     * The map containing all values of this instance.
-     */
     private final Map<Attribute, String> valueMap = new HashMap<Attribute, String>();
 
     /**
