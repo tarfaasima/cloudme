@@ -12,7 +12,6 @@ import javax.xml.validation.SchemaFactory;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
-import org.w3c.dom.Document;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -46,6 +45,6 @@ public class XsdTest {
         dbf.setValidating(true);
         DocumentBuilder db = dbf.newDocumentBuilder();
         db.setErrorHandler(myErrorHandler);
-        Document doc = db.parse(new File("metamodel.xml"));
+        db.parse(new File("metamodel.xml"));
     }
 }

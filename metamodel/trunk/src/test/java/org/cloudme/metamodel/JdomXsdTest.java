@@ -1,49 +1,24 @@
 package org.cloudme.metamodel;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
-import java.io.ByteArrayInputStream;
 import java.util.Arrays;
+import java.util.List;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-
+import org.jdom.Content;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.jdom.transform.JDOMSource;
+import org.jdom.xpath.XPath;
 import org.junit.Test;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
+import org.xml.sax.InputSource;
 
-public class JdomXsdTest {
-    private boolean isValid = true;
-
-    private ErrorHandler myErrorHandler = new ErrorHandler() {
-        public void warning(SAXParseException exception) throws SAXException {
-            System.out.println("WARNING: " + exception.toString());
-            isValid = false;
-        }
-
-        public void fatalError(SAXParseException exception) throws SAXException {
-            System.out.println("FATAL: " + exception.toString());
-            isValid = false;
-        }
-
-        public void error(SAXParseException exception) throws SAXException {
-            System.out.println("ERROR: " + exception.toString());
-            isValid = false;
-        }
-
-    };
-
-    private static final Namespace NS_META = Namespace.getNamespace("m", "http://cloudme.org/metamodel");
+public class JdomXsdTest extends AbstractXsdTest {
+    private static final Namespace NS_META = Namespace.getNamespace("", "http://cloudme.org/metamodel");
     private static final Namespace NS_XSD = Namespace.getNamespace("xs", "http://www.w3.org/2001/XMLSchema");
 
     @Test
@@ -53,17 +28,49 @@ public class JdomXsdTest {
         Document xsdDoc = createXsdDoc();
         prettyPrint(xsdDoc);
 
-        SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        sf.setErrorHandler(myErrorHandler);
-        Schema schema = sf.newSchema(new JDOMSource(xsdDoc));
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(true);
-        dbf.setSchema(schema);
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        db.setErrorHandler(myErrorHandler);
-        db.parse(new ByteArrayInputStream(new XMLOutputter().outputString(xmlDoc).getBytes()));
+        assertXsdValid(new JDOMSource(xsdDoc), inputSource(xmlDoc));
+    }
 
-        assertTrue(isValid);
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testJdomXpath() throws Exception {
+        Document xsd = createXsdDoc();
+        Namespace namespace = xsd.getRootElement().getNamespace();
+        XPath xpath = XPath.newInstance(replacePrefix(namespace.getPrefix(), "/xs:schema/xs:element[@name='system']//xs:element"));
+        xpath.addNamespace(namespace);
+        List<? extends Content> nodes = (List<? extends Content>) xpath.selectNodes(xsd);
+        assertEquals(3, nodes.size());
+        for (Content content : nodes) {
+            if (content instanceof Element) {
+                Element element = (Element) content;
+                System.out.println(element.getAttributeValue("name"));
+            }
+            else {
+                fail("All selected nodes should be elements.");
+            }
+        }
+        Document xml = createXmlDoc();
+        xpath = XPath.newInstance("/system/*");
+        xpath.addNamespace(xml.getRootElement().getNamespace());
+        nodes = xpath.selectNodes(xml);
+        assertEquals(3, nodes.size());
+        for (Content content : nodes) {
+            if (content instanceof Element) {
+                Element element = (Element) content;
+                System.out.println(element.getText());
+            }
+            else {
+                fail("All selected nodes should be elements.");
+            }
+        }
+    }
+
+    private String replacePrefix(String prefix, String xpathQuery) {
+        return "xs".equals(prefix) ? xpathQuery : xpathQuery.replace("xs:", prefix + ":");
+    }
+
+    private InputSource inputSource(Document xmlDoc) {
+        return new JDOMSource(xmlDoc).getInputSource();
     }
 
     private void prettyPrint(Document xmlDoc) throws Exception {
@@ -73,12 +80,9 @@ public class JdomXsdTest {
     private Document createXmlDoc() {
         Document doc = new Document();
         Element root = new Element("system", NS_META);
-        // root.addNamespaceDeclaration(NS_XSI);
-        // root.setAttribute("schemaLocation",
-        // "http://cloudme.org/metamodel metamodel.xsd", NS_XSI);
-        root.addContent(new Element("name", NS_META).setText("Lightroom"));
-        root.addContent(new Element("vendor", NS_META).setText("Adobe"));
-        root.addContent(new Element("version", NS_META).setText("1"));
+        root.addContent(new Element("name", root.getNamespace()).setText("Lightroom"));
+        root.addContent(new Element("vendor", root.getNamespace()).setText("Adobe"));
+        root.addContent(new Element("version", root.getNamespace()).setText("1"));
         doc.setRootElement(root);
         return doc;
     }
