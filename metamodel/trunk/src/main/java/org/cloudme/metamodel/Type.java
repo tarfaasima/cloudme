@@ -1,25 +1,15 @@
 package org.cloudme.metamodel;
 
-import java.util.ArrayList;
-import java.util.Collection;
+public enum Type {
+    STRING("xs:string"), DECIMAL("xs:decimal");
 
-public class Type {
-    private final String name;
-    private final Collection<Attribute> attributes = new ArrayList<Attribute>();
+    private final String xsdDataType;
 
-    public Type(String name) {
-        this.name = name;
+    Type(String xsdDataType) {
+        this.xsdDataType = xsdDataType;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public void addAttribute(Attribute attribute) {
-        attributes.add(attribute);
-    }
-
-    public boolean hasAttribute(Attribute attribute) {
-        return attributes.contains(attribute);
+    
+    public String getXsdDataType() {
+        return xsdDataType;
     }
 }

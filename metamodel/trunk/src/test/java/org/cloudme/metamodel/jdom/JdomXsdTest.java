@@ -1,21 +1,19 @@
-package org.cloudme.metamodel;
+package org.cloudme.metamodel.jdom;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.jdom.Content;
+import org.cloudme.metamodel.AbstractXsdTest;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jdom.Namespace;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.jdom.transform.JDOMSource;
-import org.jdom.xpath.XPath;
 import org.junit.Test;
-import org.xml.sax.InputSource;
 
 public class JdomXsdTest extends AbstractXsdTest {
     private static final Namespace NS_META = Namespace.getNamespace("", "http://cloudme.org/metamodel");
@@ -28,49 +26,36 @@ public class JdomXsdTest extends AbstractXsdTest {
         Document xsdDoc = createXsdDoc();
         prettyPrint(xsdDoc);
 
-        assertXsdValid(new JDOMSource(xsdDoc), inputSource(xmlDoc));
+        assertXsdValid(new JDOMSource(xsdDoc), new JDOMSource(xmlDoc).getInputSource());
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testJdomXpath() throws Exception {
         Document xsd = createXsdDoc();
         Namespace namespace = xsd.getRootElement().getNamespace();
-        XPath xpath = XPath.newInstance(replacePrefix(namespace.getPrefix(), "/xs:schema/xs:element[@name='system']//xs:element"));
-        xpath.addNamespace(namespace);
-        List<? extends Content> nodes = (List<? extends Content>) xpath.selectNodes(xsd);
+        String expr = replacePrefix(namespace.getPrefix(), "/xs:schema/xs:element[@name='system']//xs:element");
+        XPathHandler handler = new XPathHandler(expr, namespace);
+        List<Element> nodes = selectElements(xsd, handler);
         assertEquals(3, nodes.size());
-        for (Content content : nodes) {
-            if (content instanceof Element) {
-                Element element = (Element) content;
-                System.out.println(element.getAttributeValue("name"));
-            }
-            else {
-                fail("All selected nodes should be elements.");
-            }
+        for (Element element : nodes) {
+            System.out.println(element.getAttributeValue("name"));
         }
         Document xml = createXmlDoc();
-        xpath = XPath.newInstance("/system/*");
-        xpath.addNamespace(xml.getRootElement().getNamespace());
-        nodes = xpath.selectNodes(xml);
+        handler = new XPathHandler("/system/*", xml.getRootElement().getNamespace());
+        nodes = selectElements(xml, handler);
         assertEquals(3, nodes.size());
-        for (Content content : nodes) {
-            if (content instanceof Element) {
-                Element element = (Element) content;
-                System.out.println(element.getText());
-            }
-            else {
-                fail("All selected nodes should be elements.");
-            }
+        for (Element element : nodes) {
+            System.out.println(element.getText());
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<Element> selectElements(Document xsd, XPathHandler handler) throws JDOMException {
+        return handler.selectNodes(xsd);
     }
 
     private String replacePrefix(String prefix, String xpathQuery) {
         return "xs".equals(prefix) ? xpathQuery : xpathQuery.replace("xs:", prefix + ":");
-    }
-
-    private InputSource inputSource(Document xmlDoc) {
-        return new JDOMSource(xmlDoc).getInputSource();
     }
 
     private void prettyPrint(Document xmlDoc) throws Exception {
