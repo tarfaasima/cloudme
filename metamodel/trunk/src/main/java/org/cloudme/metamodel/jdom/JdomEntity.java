@@ -6,14 +6,9 @@ import org.cloudme.metamodel.Type;
 import org.jdom.Element;
 import org.jdom.Namespace;
 
-class JdomEntity implements Entity {
-    private final Element element;
-
+class JdomEntity extends AbstractJdomObject implements Entity {
     JdomEntity(Element element) {
-        if (element == null) {
-            throw new NullPointerException("Element must not be null");
-        }
-        this.element = element;
+        super(element);
     }
 
     public String getName() {
@@ -21,54 +16,34 @@ class JdomEntity implements Entity {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        if (obj instanceof JdomEntity) {
-            return element.equals(((JdomEntity) obj).element);
-        }
-        return false;
-    }
-    
-    @Override
     public String toString() {
         return getName();
     }
     
-    @Override
-    public int hashCode() {
-        return element.hashCode();
-    }
-
     public void addProperty(String name, Type type) {
-        Element sequence = getChild("complexType", "sequence");
-        sequence.setAttribute("name", name);
-        sequence.setAttribute("type", type.getXsdDataType());
-    }
-
-    private Element getChild(String... names) {
-        Element child = element;
-        for (String name : names) {
-            child = getChild(child, name);
+        Element propertyElement = getPropertyElement(name);
+        if (propertyElement == null) {
+            Element sequence = getChild("complexType", "sequence");
+            propertyElement = new Element("element", sequence.getNamespace());
+            sequence.addContent(propertyElement);
+            propertyElement.setAttribute("name", name);
         }
-        return child;
-    }
-
-    private Element getChild(Element parent, String name) {
-        Namespace namespace = parent.getNamespace();
-        Element child = parent.getChild(name, namespace);
-        if (child == null) {
-            child = new Element(name, namespace);
-            parent.addContent(child);
-        }
-        return child;
+        propertyElement.setAttribute("type", type.getXsdDataType());
     }
 
     public Instance newInstance() {
         return new JdomInstance(this);
+    }
+
+    public boolean hasProperty(String name) {
+        return getPropertyElement(name) != null;
+    }
+    
+    private Element getPropertyElement(String name) {
+        String expression = "descendant::xs:element[@name='" + name + "']";
+        Namespace namespace = element.getNamespace();
+        XPathHandler xpath = new XPathHandler(expression, namespace);
+        Element node = (Element) xpath.selectSingleNode(element);
+        return node;
     }
 }

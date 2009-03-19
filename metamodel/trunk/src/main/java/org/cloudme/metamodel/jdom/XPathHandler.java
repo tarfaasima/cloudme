@@ -3,6 +3,7 @@ package org.cloudme.metamodel.jdom;
 import java.util.List;
 
 import org.cloudme.metamodel.MetamodelException;
+import org.jdom.Content;
 import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.Namespace;
@@ -20,11 +21,25 @@ class XPathHandler {
         }
         xpath.addNamespace(namespace);
     }
+    
+    @SuppressWarnings("unchecked")
+    public List selectNodes(Content content) {
+        try {
+            return xpath.selectNodes(content);
+        }
+        catch (JDOMException e) {
+            throw new MetamodelException("XPath expression evaluation failed: " + xpath.getXPath());
+        }
+    }
 
     @SuppressWarnings("unchecked")
     public List selectNodes(Document doc) {
+        return selectNodes(doc.getRootElement());
+    }
+
+    public Object selectSingleNode(Content content) {
         try {
-            return xpath.selectNodes(doc);
+            return xpath.selectSingleNode(content);
         }
         catch (JDOMException e) {
             throw new MetamodelException("XPath expression evaluation failed: " + xpath.getXPath());

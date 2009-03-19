@@ -9,6 +9,8 @@ import org.cloudme.metamodel.util.ConvertCollection;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 class JdomMetamodel implements Metamodel {
     private static final Namespace NS_XSD = Namespace.getNamespace("xs", "http://www.w3.org/2001/XMLSchema");
@@ -31,5 +33,10 @@ class JdomMetamodel implements Metamodel {
         element.setAttribute("name", name);
         xsd.getRootElement().addContent(element);
         return new JdomEntity(element);
+    }
+    
+    @Override
+    public String toString() {
+        return new XMLOutputter(Format.getPrettyFormat()).outputString(xsd);
     }
 }

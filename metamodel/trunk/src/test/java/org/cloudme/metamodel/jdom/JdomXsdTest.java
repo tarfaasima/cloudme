@@ -1,8 +1,8 @@
 package org.cloudme.metamodel.jdom;
 
+import static org.cloudme.metamodel.jdom.JdomTestHelper.createXsdDoc;
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.cloudme.metamodel.AbstractXsdTest;
@@ -17,7 +17,6 @@ import org.junit.Test;
 
 public class JdomXsdTest extends AbstractXsdTest {
     private static final Namespace NS_META = Namespace.getNamespace("", "http://cloudme.org/metamodel");
-    private static final Namespace NS_XSD = Namespace.getNamespace("xs", "http://www.w3.org/2001/XMLSchema");
 
     @Test
     public void testWithJdom() throws Exception {
@@ -68,16 +67,6 @@ public class JdomXsdTest extends AbstractXsdTest {
         root.addContent(new Element("name", root.getNamespace()).setText("Lightroom"));
         root.addContent(new Element("vendor", root.getNamespace()).setText("Adobe"));
         root.addContent(new Element("version", root.getNamespace()).setText("1"));
-        doc.setRootElement(root);
-        return doc;
-    }
-
-    private Document createXsdDoc() {
-        Document doc = new Document();
-        Element root = new Element("schema", NS_XSD);
-        root.setAttribute("targetNamespace", "http://cloudme.org/metamodel");
-        root.setAttribute("elementFormDefault", "qualified");
-        root.addContent(new Element("element", NS_XSD).setAttribute("name", "system").addContent(new Element("complexType", NS_XSD).addContent(new Element("sequence", NS_XSD).addContent(Arrays.asList(new Element("element", NS_XSD).setAttribute("name", "name").setAttribute("type", "xs:string"), new Element("element", NS_XSD).setAttribute("name", "vendor").setAttribute("type", "xs:string"), new Element("element", NS_XSD).setAttribute("name", "version").setAttribute("type", "xs:decimal"))))));
         doc.setRootElement(root);
         return doc;
     }
