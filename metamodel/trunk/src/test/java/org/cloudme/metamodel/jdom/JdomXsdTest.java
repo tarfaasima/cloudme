@@ -3,7 +3,17 @@ package org.cloudme.metamodel.jdom;
 import static org.cloudme.metamodel.jdom.JdomTestHelper.createXsdDoc;
 import static org.junit.Assert.assertEquals;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
+
+import javax.xml.XMLConstants;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.cloudme.metamodel.AbstractXsdTest;
 import org.jdom.Document;
@@ -14,6 +24,7 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.jdom.transform.JDOMSource;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 public class JdomXsdTest extends AbstractXsdTest {
     private static final Namespace NS_META = Namespace.getNamespace("", "http://cloudme.org/metamodel");
@@ -25,7 +36,8 @@ public class JdomXsdTest extends AbstractXsdTest {
         Document xsdDoc = createXsdDoc();
         prettyPrint(xsdDoc);
 
-        assertXsdValid(new JDOMSource(xsdDoc), new JDOMSource(xmlDoc).getInputSource());
+        assertXsdValid(new StreamSource(new ByteArrayInputStream(new XMLOutputter().outputString(xsdDoc).getBytes())), new JDOMSource(xmlDoc));
+        assertXsdValid(new JDOMSource(xsdDoc), new JDOMSource(xmlDoc));
     }
 
     @Test
@@ -46,6 +58,13 @@ public class JdomXsdTest extends AbstractXsdTest {
         for (Element element : nodes) {
             System.out.println(element.getText());
         }
+    }
+    
+    protected void assertXsdValid(Source xsdSource, Source xmlSource) throws SAXException, ParserConfigurationException, IOException {
+        SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema = sf.newSchema(xsdSource);
+        Validator validator = schema.newValidator();
+        validator.validate(xmlSource);
     }
 
     @SuppressWarnings("unchecked")

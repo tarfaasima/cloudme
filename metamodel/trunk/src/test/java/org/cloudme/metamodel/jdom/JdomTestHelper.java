@@ -14,6 +14,7 @@ abstract class JdomTestHelper {
         Element root = new Element("schema", NS_XSD);
         root.setAttribute("targetNamespace", "http://cloudme.org/metamodel");
         root.setAttribute("elementFormDefault", "qualified");
+//        root.setAttribute("attributeFormDefault", "qualified");
         root.addContent(new Element("element", NS_XSD).setAttribute("name", "system").addContent(new Element("complexType", NS_XSD).addContent(new Element("sequence", NS_XSD).addContent(Arrays.asList(new Element("element", NS_XSD).setAttribute("name", "name").setAttribute("type", "xs:string"), new Element("element", NS_XSD).setAttribute("name", "vendor").setAttribute("type", "xs:string"), new Element("element", NS_XSD).setAttribute("name", "version").setAttribute("type", "xs:decimal"))))));
         doc.setRootElement(root);
         return doc;

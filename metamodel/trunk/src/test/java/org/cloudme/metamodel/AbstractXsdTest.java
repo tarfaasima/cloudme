@@ -53,6 +53,7 @@ public abstract class AbstractXsdTest {
         isValid = true;
         SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         sf.setErrorHandler(myErrorHandler);
+        System.out.println(sf.getClass());
         Schema schema = sf.newSchema(xsdSource);
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);

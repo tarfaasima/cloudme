@@ -5,7 +5,7 @@
   <artifactId>metamodel</artifactId>
   <name>CloudMe Metadata</name>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
   <description>Metadata framework.</description>
   <url>http://cloudme.org/p/metadata</url>
   <developers>
@@ -84,27 +84,26 @@
           <groupId>xerces</groupId>
           <artifactId>xmlParserAPIs</artifactId>
         </exclusion>
+        <exclusion>
+          <artifactId>jdom</artifactId>
+          <groupId>jdom</groupId>
+        </exclusion>
       </exclusions>
     </dependency>
-    <!--
-      <dependency> <groupId>org.jdom</groupId>
-      <artifactId>jdom</artifactId> <version>1.1</version> </dependency>
-      <dependency> <groupId>dom4j</groupId>
-      <artifactId>dom4j</artifactId> <version>1.6.1</version>
-      </dependency>
-    -->
-    <!--
-      <dependency> <groupId>jaxen</groupId>
-      <artifactId>jaxen</artifactId> <version>1.1.1</version>
-      <exclusions> <exclusion> <artifactId>xml-apis</artifactId>
-      <groupId>xml-apis</groupId> </exclusion> <exclusion>
-      <artifactId>xom</artifactId> <groupId>xom</groupId> </exclusion>
-      <exclusion> <artifactId>xalan</artifactId>
-      <groupId>xalan</groupId> </exclusion> <exclusion>
-      <artifactId>xercesImpl</artifactId> <groupId>xerces</groupId>
-      </exclusion> <exclusion> <artifactId>xmlParserAPIs</artifactId>
-      <groupId>xerces</groupId> </exclusion> </exclusions> </dependency>
-    -->
+    <dependency>
+      <groupId>org.jdom</groupId>
+      <artifactId>jdom</artifactId>
+      <version>1.1</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.parsers</groupId>
+      <artifactId>jaxp-ri</artifactId>
+      <version>1.4.2</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
   <reporting>
     <plugins>
