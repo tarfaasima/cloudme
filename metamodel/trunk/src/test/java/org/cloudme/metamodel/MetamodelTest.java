@@ -1,9 +1,11 @@
 package org.cloudme.metamodel;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 
+import org.cloudme.metamodel.util.ValidationError;
 import org.junit.Test;
 
 public class MetamodelTest {
@@ -20,12 +22,19 @@ public class MetamodelTest {
         systemEntity.addProperty("name", Type.STRING);
         systemEntity.addProperty("vendor", Type.STRING);
         systemEntity.addProperty("version", Type.DECIMAL);
-        System.out.println(metamodel);
+        System.out.println("DEBUG: " + metamodel);
         Instance lightroom = systemEntity.newInstance();
         lightroom.setValue("name", "Lightroom");
         lightroom.setValue("vendor", "Adobe");
         lightroom.setValue("version", "1");
-        System.out.println(lightroom);
-        lightroom.validate();
+        System.out.println("DEBUG: " + lightroom);
+        assertTrue(lightroom.validate().isEmpty());
+        lightroom.setValue("version", "1a");
+        System.out.println("DEBUG: " + lightroom);
+        Collection<ValidationError> errors = lightroom.validate();
+        assertEquals(1, errors.size());
+        ValidationError error = errors.iterator().next();
+        assertEquals("version", error.getProperty());
+        assertEquals("1a", error.getValue());
     }
 }

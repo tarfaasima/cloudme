@@ -36,7 +36,7 @@ public class XsdTest {
         sf.setErrorHandler(myErrorHandler);
         // read to memory
         String schemaStr = FileUtils.readFileToString(new File("metamodel.xsd"));
-        System.out.println(schemaStr);
+        System.out.println("DEBUG: " + schemaStr);
         // get schema from memory
         Schema schema = sf.newSchema(new StreamSource(new ByteArrayInputStream(schemaStr.getBytes())));
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();

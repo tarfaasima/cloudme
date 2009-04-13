@@ -15,7 +15,14 @@ import org.jdom.output.XMLOutputter;
 class JdomMetamodel implements Metamodel {
     private static final Namespace NS_XSD = Namespace.getNamespace("xs", "http://www.w3.org/2001/XMLSchema");
     private static final XPathHandler XPATH_GET_ENTITIES = new XPathHandler("/xs:schema/xs:element", NS_XSD);
-    private Document xsd = new Document(new Element("schema", NS_XSD));
+    private final Document xsd;
+
+    JdomMetamodel() {
+        Element root = new Element("schema", NS_XSD);
+        root.setAttribute("targetNamespace", "http://cloudme.org/metamodel");
+        root.setAttribute("elementFormDefault", "qualified");
+        xsd = new Document(root);
+    }
 
     @SuppressWarnings("unchecked")
     public Collection<Entity> getEntities() {
@@ -34,7 +41,7 @@ class JdomMetamodel implements Metamodel {
         xsd.getRootElement().addContent(element);
         return new JdomEntity(element);
     }
-    
+
     @Override
     public String toString() {
         return new XMLOutputter(Format.getPrettyFormat()).outputString(xsd);

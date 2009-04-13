@@ -49,14 +49,14 @@ public class JdomXsdTest extends AbstractXsdTest {
         List<Element> nodes = selectElements(xsd, handler);
         assertEquals(3, nodes.size());
         for (Element element : nodes) {
-            System.out.println(element.getAttributeValue("name"));
+            System.out.println("DEBUG: " + element.getAttributeValue("name"));
         }
         Document xml = createXmlDoc();
         handler = new XPathHandler("/system/*", xml.getRootElement().getNamespace());
         nodes = selectElements(xml, handler);
         assertEquals(3, nodes.size());
         for (Element element : nodes) {
-            System.out.println(element.getText());
+            System.out.println("DEBUG: " + element.getText());
         }
     }
     

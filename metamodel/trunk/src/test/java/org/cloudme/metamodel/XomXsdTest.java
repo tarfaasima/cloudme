@@ -53,14 +53,14 @@ public class XomXsdTest extends AbstractXsdTest {
         prettyPrint(xmlDoc);
         
         boolean failed = true;
-        System.out.println("The following error output is expected: -------");
+        System.out.println("DEBUG: The following error output is expected: -------");
         try {
             assertXsdValid(xsdDoc, xmlDoc);
             failed = false;
         } catch (AssertionError e) {
             // expected
         }
-        System.out.println("The previous error output was expected -------");
+        System.out.println("DEBUG: The previous error output was expected -------");
         assertTrue(failed);
     }
     
