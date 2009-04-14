@@ -11,7 +11,7 @@ import org.junit.Test;
 public class MetamodelTest {
     @Test
     public void testMetamodel() {
-        Metamodel metamodel = MetamodelFactory.newInstance().newMetamodel();
+        Metamodel metamodel = MetamodelFactory.newInstance().createMetamodel();
         assertEquals("Expected an empty model.", 0, metamodel.getEntities().size());
 
         Entity systemEntity = metamodel.newEntity("system");
@@ -19,9 +19,9 @@ public class MetamodelTest {
         assertEquals("Expected only one entity.", 1, entities.size());
         assertEquals("The entitie's name should be 'system'.", "system", entities.iterator().next().getName());
         assertEquals("The entity should equal the system entity.", systemEntity, entities.iterator().next());
-        systemEntity.addProperty("name", Type.STRING, "Name");
-        systemEntity.addProperty("vendor", Type.STRING, "Vendor");
-        systemEntity.addProperty("version", Type.DECIMAL, "Version");
+        systemEntity.setProperty("name", Type.STRING, "Name");
+        systemEntity.setProperty("vendor", Type.STRING, "Vendor");
+        systemEntity.setProperty("version", Type.DECIMAL, "Version");
         
         Collection<Property> properties = systemEntity.getProperties();
         assertEquals(3, properties.size());
@@ -30,7 +30,7 @@ public class MetamodelTest {
         assertEquals(Type.STRING, property.getType());
         assertEquals("Name", property.getLabel());
         
-        Instance lightroom = systemEntity.newInstance();
+        Instance lightroom = systemEntity.createInstance();
         lightroom.setValue("name", "Lightroom");
         lightroom.setValue("vendor", "Adobe");
         lightroom.setValue("version", "1");
@@ -44,7 +44,7 @@ public class MetamodelTest {
         assertEquals("1a", error.getValue());
         
         lightroom.setValue("version", "1");
-        systemEntity.addProperty("os", Type.STRING, "Operating System");
+        systemEntity.setProperty("os", Type.STRING, "Operating System");
         lightroom.setValue("os", "Mac OS X");
         System.out.println("DEBUG: " + metamodel);
         System.out.println("DEBUG: " + lightroom);

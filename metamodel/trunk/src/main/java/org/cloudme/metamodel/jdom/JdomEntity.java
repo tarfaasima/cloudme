@@ -27,7 +27,7 @@ class JdomEntity extends AbstractJdomObject implements Entity {
         return getName();
     }
     
-    public void addProperty(String name, Type type, String label) {
+    public void setProperty(String name, Type type, String label) {
         Element propertyElement = getPropertyElement(name);
         if (propertyElement == null) {
             Element sequence = getChild("complexType", "sequence");
@@ -53,7 +53,7 @@ class JdomEntity extends AbstractJdomObject implements Entity {
         };
     }
 
-    public Instance newInstance() {
+    public Instance createInstance() {
         return new JdomInstance(this);
     }
 
