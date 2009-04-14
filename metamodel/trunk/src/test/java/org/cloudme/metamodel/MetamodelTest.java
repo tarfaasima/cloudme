@@ -19,22 +19,35 @@ public class MetamodelTest {
         assertEquals("Expected only one entity.", 1, entities.size());
         assertEquals("The entitie's name should be 'system'.", "system", entities.iterator().next().getName());
         assertEquals("The entity should equal the system entity.", systemEntity, entities.iterator().next());
-        systemEntity.addProperty("name", Type.STRING);
-        systemEntity.addProperty("vendor", Type.STRING);
-        systemEntity.addProperty("version", Type.DECIMAL);
-        System.out.println("DEBUG: " + metamodel);
+        systemEntity.addProperty("name", Type.STRING, "Name");
+        systemEntity.addProperty("vendor", Type.STRING, "Vendor");
+        systemEntity.addProperty("version", Type.DECIMAL, "Version");
+        
+        Collection<Property> properties = systemEntity.getProperties();
+        assertEquals(3, properties.size());
+        Property property = properties.iterator().next();
+        assertEquals("name", property.getName());
+        assertEquals(Type.STRING, property.getType());
+        assertEquals("Name", property.getLabel());
+        
         Instance lightroom = systemEntity.newInstance();
         lightroom.setValue("name", "Lightroom");
         lightroom.setValue("vendor", "Adobe");
         lightroom.setValue("version", "1");
-        System.out.println("DEBUG: " + lightroom);
         assertTrue(lightroom.validate().isEmpty());
+        
         lightroom.setValue("version", "1a");
-        System.out.println("DEBUG: " + lightroom);
         Collection<ValidationError> errors = lightroom.validate();
         assertEquals(1, errors.size());
         ValidationError error = errors.iterator().next();
         assertEquals("version", error.getProperty());
         assertEquals("1a", error.getValue());
+        
+        lightroom.setValue("version", "1");
+        systemEntity.addProperty("os", Type.STRING, "Operating System");
+        lightroom.setValue("os", "Mac OS X");
+        System.out.println("DEBUG: " + metamodel);
+        System.out.println("DEBUG: " + lightroom);
+        assertTrue(lightroom.validate().isEmpty());
     }
 }

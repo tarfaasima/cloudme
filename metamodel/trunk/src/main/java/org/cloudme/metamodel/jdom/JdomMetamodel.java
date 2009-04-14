@@ -21,6 +21,7 @@ class JdomMetamodel implements Metamodel {
         Element root = new Element("schema", NS_XSD);
         root.setAttribute("targetNamespace", "http://cloudme.org/metamodel");
         root.setAttribute("elementFormDefault", "qualified");
+        root.addNamespaceDeclaration(JdomEntity.NS_EXT);
         xsd = new Document(root);
     }
 
