@@ -17,4 +17,13 @@ function get_host($url) {
   }
   return false;
 }
-?>
+
+function map($in, $mapping) {
+    foreach ($in as $key => $value) {
+        $out_key = $mapping[$key];
+        if (isset ($out_key)) {
+            $out[$out_key] = $value;
+        }
+    }
+    return $out;
+}
