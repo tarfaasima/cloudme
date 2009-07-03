@@ -1,6 +1,9 @@
 <?php
-include_once 'configKeys.php';
-if (file_exists('configData.php')) { include_once 'configData.php'; }
+$keys_file = 'config_keys.php';
+$data_file = 'config_data.php';
+
+require_once $keys_file;
+if (file_exists($data_file)) { require_once $data_file; }
 
 class Configuration {
   /**
@@ -29,7 +32,8 @@ class Configuration {
       return $configParams;
     }
     else {
-      $file = fopen('configData.php', 'w');
+      global $data_file;
+      $file = fopen($data_file, 'w');
       fwrite($file, '<?php $configData = array(');
       $flag = $this->writeConfig($file, $configData);
       $this->writeConfig($file, $configParams, $flag);
@@ -39,7 +43,7 @@ class Configuration {
     }
   }
 
-  private function writeConfig($file, $config, $flag = false) {
+private function writeConfig($file, $config, $flag = false) {
     foreach ($config as $key => $value) {
       if ($flag) {
         fwrite($file, ', ');
