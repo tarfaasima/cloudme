@@ -1,10 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <?php
-require_once('lib/util.php');
+require_once 'lib/util.php';
+require_once 'EntryManager.php';
 
 unset($params);
-
-require_once 'EntryManager.php';
 
 $em = new EntryManager();
 foreach (array_slice($em->getEntries(), 0, 10) as $item) {
@@ -17,7 +16,7 @@ foreach (array_slice($em->getEntries(), 0, 10) as $item) {
     $params['entries'][] = $entry;
 }
 if (!$params['entries']) {
-  $params['errors'][] = "At the moment, no entries are available. Please try again later.";
+    $params['errors'][] = "At the moment, no entries are available. Please try again later.";
 }
 $params['copyright'] = copyright(2008, 'Moritz Petersen');
 ?>
@@ -53,29 +52,29 @@ $params['copyright'] = copyright(2008, 'Moritz Petersen');
                 <div id="body">
                     <?php if (isset($params['errors'])) foreach($params['errors'] as $error): ?>
                     <div class="error">
-                                <?php echo $error; ?>
+                        <?php echo $error; ?>
                     </div>
-                        <?php endforeach; ?>
-                    <?php if ($params['entries']) foreach ($params['entries'] as $entry): ?>
+                    <?php endforeach; ?>
+                    <?php if (isset($params['entries'])) foreach ($params['entries'] as $entry): ?>
                     <div class="entry">
                         <h1>
                             <a href="<?php out($entry, 'link') ?>" rel="nofollow">
-                                        <?php out($entry, 'title') ?>
+                                <?php out($entry, 'title') ?>
                             </a>
                         </h1>
                         <div class="timestamp">
-                                    <?php out($entry, 'date') ?>
+                            <?php out($entry, 'date') ?>
                         </div>
                         <p>
-                                    <?php out($entry, 'text') ?>
+                            <?php out($entry, 'text') ?>
                         </p>
                         <div class="link">
                             <a href="<?php out($entry, 'link') ?>" rel="nofollow">
-                                        <?php out($entry, 'host') ?>
+                                <?php out($entry, 'host') ?>
                             </a>
                         </div>
                     </div>
-                        <?php endforeach; ?>
+                    <?php endforeach; ?>
                 </div>
                 <div id="footer">
                     <?php out($params, 'copyright'); ?>

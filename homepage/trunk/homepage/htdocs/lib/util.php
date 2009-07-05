@@ -4,7 +4,7 @@ function copyright($year, $owner) {
 }
 
 function out($arr, $index) {
-  echo $arr[$index];
+  echo $arr[$index] . "\n";
 }
 
 function strip_html($str) {

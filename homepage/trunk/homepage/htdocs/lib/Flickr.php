@@ -20,21 +20,15 @@ class Flickr {
         $response = file_get_contents($url);
         return unserialize($response);
     }
-    
-    function get_nsid($username) {
-        $params = array('username' => $username);
-        $response = $this->call('flickr.people.findByUsername', $params);
-        return $response['user']['nsid'];
-    }
 
     function get_public_photos($user_id) {
         $params = array(
             'user_id' => $user_id,
             'extras' => 'date_taken,url_m',
-            'per_page' => '1'
+            'per_page' => '10'
         );
         $response = $this->call('flickr.people.getPublicPhotos', $params);
-        return $response;
+        return $response['photos']['photo'];
     }
 
     function create_url($params) {
