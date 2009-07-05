@@ -89,6 +89,6 @@ $params['copyright'] = copyright(2008, 'Moritz Petersen');
             try {
                 var pageTracker = _gat._getTracker("UA-350767-1");
                 pageTracker._trackPageview();
-        } catch(err) {}</script>
+            } catch(err) {}</script>
     </body>
 </html>
