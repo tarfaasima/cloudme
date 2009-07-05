@@ -27,3 +27,7 @@ function map($in, $mapping) {
     }
     return $out;
 }
+
+function debug($arg) {
+    echo htmlentities($arg) . "<br/>\n";
+}

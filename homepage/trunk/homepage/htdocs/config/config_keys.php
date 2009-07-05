@@ -6,5 +6,6 @@ $configKeys = array(
 //    'db_host',
 //    'db_name',
     'flickr_api_key',
-    'flickr_user_id'
+    'flickr_user_id',
+    'delicious_user_id'
 );
