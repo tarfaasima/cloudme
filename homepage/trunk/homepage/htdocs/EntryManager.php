@@ -39,6 +39,7 @@ class EntryManager {
     }
 
     private function needsUpdate($updateDate) {
+        return true;
         global $configData;
         $dao = new EntryDao();
         $updateDate = $dao->getLastUpdateDate();
