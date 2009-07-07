@@ -9,6 +9,7 @@ class FlickrEntryLoader extends EntryLoader {
         global $configData;
         $apiKey = $configData['flickr_api_key'];
         $userId = $configData['flickr_user_id'];
+        $this->origin = Flickr::createUserUrl($userId);
         $flickr = new Flickr();
         $flickr->setApiKey($apiKey);
         return $flickr->getPublicPhotos($userId);

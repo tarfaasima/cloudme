@@ -44,7 +44,13 @@ class Flickr {
     }
 
     static function createPageUrl($photo) {
-        return 'http://www.flickr.com/photos/' . $photo['owner'] . '/' . $photo['id'];
+        $owner = $photo['owner'];
+        $id = $photo['id'];
+        return "http://www.flickr.com/photos/$owner/$id";
+    }
+
+    static function createUserUrl($userId) {
+        return "http://www.flickr.com/photos/$userId";
     }
 }
 ?>
