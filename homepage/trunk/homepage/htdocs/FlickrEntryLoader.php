@@ -16,18 +16,22 @@ class FlickrEntryLoader extends EntryLoader {
     }
 
     protected function transformEntry($photo) {
+        global $configData;
+        $userId = $configData['flickr_user_id'];
         $url = Flickr::createPageUrl($photo);
         $title = $photo['title'];
         $photoUrl = $photo['url_m'];
         $width = $photo['width_m'];
         $height = $photo['height_m'];
         $date = $photo['dateupload'];
+        $origin = Flickr::createUserUrl($userId);
 
         $entry = new Entry();
         $entry->title = $title;
         $entry->content = "<a href='$url'><img src='$photoUrl' width='$width' height='$height' alt='$title'/></a>";
         $entry->url = $url;
         $entry->date = $date;
+        $entry->origin = $origin;
 
         return $entry;
     }

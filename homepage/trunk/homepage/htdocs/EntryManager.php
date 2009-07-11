@@ -22,8 +22,7 @@ class EntryManager {
         $entryDao = new EntryDao();
         $metaDao = new MetaDao();
         $entries = array();
-        $updateDate = $metaDao->readLastUpdateDate();
-        if ($this->needsUpdate($updateDate)) {
+        if ($this->needsUpdate($metaDao->readLastUpdateDate())) {
             foreach ($this->entryLoaders as $loader) {
                 foreach ($loader->loadEntries() as $entry) {
                     $entries[] = $entry;
@@ -31,6 +30,7 @@ class EntryManager {
             }
             usort($entries, array("Entry", "compareTo"));
             $entryDao->insertEntries($entries);
+            $metaDao->writeLastUpdateDate(time());
         }
         else {
             $entries = $entryDao->readEntries();
@@ -39,11 +39,8 @@ class EntryManager {
     }
 
     private function needsUpdate($updateDate) {
-        return true;
         global $configData;
-        $dao = new EntryDao();
-        $updateDate = $dao->getLastUpdateDate();
-        return !(isset($updateDate)) OR ($updateDate < time() - $configData['timestamp']);
+        return !(isset($updateDate)) OR ($updateDate < time() - $configData['updateDelay']);
     }
 }
 ?>
