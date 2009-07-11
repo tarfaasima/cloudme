@@ -40,7 +40,7 @@ class EntryManager {
 
     private function needsUpdate($updateDate) {
         global $configData;
-        return !(isset($updateDate)) OR ($updateDate < time() - $configData['updateDelay']);
+        return !(isset($updateDate)) OR ($updateDate < time() - $configData['update_delay']);
     }
 }
 ?>

@@ -9,5 +9,5 @@ $configKeys = array(
     'db_host',
     'db_name',
     'db_table_prefix',
-    'updateDelay'
+    'update_delay'
 );
