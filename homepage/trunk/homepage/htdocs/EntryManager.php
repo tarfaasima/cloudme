@@ -33,15 +33,10 @@ class EntryManager {
                     $entries[] = $entry;
                 }
             }
-            usort($entries, array("Entry", "compareTo"));
             $entryDao->insertEntries($entries);
             $metaDao->writeLastUpdateDate(time());
-            $entries =  array_splice($entries, 0, 10);
         }
-        if (count($entries) == 0) {
-            $entries = $entryDao->readEntries(10);
-        }
-        return $entries;
+        return $entryDao->readEntries(10);
     }
 
     private function needsUpdate($updateDate) {
