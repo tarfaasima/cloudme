@@ -5,8 +5,8 @@ require_once 'Request.php';
 abstract class MySqlRequest extends Request {
     private $db;
 
-    public function prepare() {
-        parent::prepare();
+    public function prepare($args) {
+        parent::prepare($args);
         global $configData;
         $server = $configData['db_host'];
         $username = $configData['db_user'];

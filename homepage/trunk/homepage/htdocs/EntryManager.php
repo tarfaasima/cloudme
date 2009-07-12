@@ -18,6 +18,11 @@ class EntryManager {
         );
     }
 
+    function getEntry($id) {
+        $entryDao = new EntryDao();
+        return $entryDao->readEntry($id);
+    }
+
     function getEntries() {
         $entryDao = new EntryDao();
         $metaDao = new MetaDao();
@@ -31,9 +36,10 @@ class EntryManager {
             usort($entries, array("Entry", "compareTo"));
             $entryDao->insertEntries($entries);
             $metaDao->writeLastUpdateDate(time());
+            $entries =  array_splice($entries, 0, 10);
         }
-        else {
-            $entries = $entryDao->readEntries();
+        if (count($entries) == 0) {
+            $entries = $entryDao->readEntries(10);
         }
         return $entries;
     }

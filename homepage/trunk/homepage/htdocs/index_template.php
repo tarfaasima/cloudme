@@ -37,19 +37,19 @@
                     <?php if (isset($params['entries'])) foreach ($params['entries'] as $entry): ?>
                     <div class="entry">
                         <h1>
-                            <a href="<?php out($entry, 'link') ?>" rel="nofollow">
-                                <?php out($entry, 'title') ?>
+                            <a href="<?php $params['renderer']->renderLink($entry) ?>" rel="nofollow">
+                                <?php $params['renderer']->renderTitle($entry) ?>
                             </a>
                         </h1>
                         <div class="timestamp">
-                            <?php out($entry, 'date') ?>
+                            <?php $params['renderer']->renderDate($entry) ?>
                         </div>
                         <p>
-                            <?php out($entry, 'text') ?>
+                            <?php $params['renderer']->renderContent($entry) ?>
                         </p>
                         <div class="link">
-                            <a href="<?php out($entry, 'link') ?>" rel="nofollow">
-                                <?php out($entry, 'host') ?>
+                            <a href="<?php $params['renderer']->renderLink($entry) ?>" rel="nofollow">
+                                <?php $params['renderer']->renderHost($entry) ?>
                             </a>
                         </div>
                     </div>

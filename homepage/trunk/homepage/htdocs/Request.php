@@ -1,12 +1,13 @@
 <?php
 abstract class Request {
     function execute($template) {
-        $params = $this->prepare();
+        global $_REQUEST;
+        $params = $this->prepare($_REQUEST);
         include $template;
         $this->cleanUp();
     }
 
-    function prepare() {
+    function prepare($args) {
     }
 
     function cleanUp() {

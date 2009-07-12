@@ -12,7 +12,7 @@ class RssEntryLoader extends EntryLoader {
 
     protected function loadRawEntries() {
         $xml = simplexml_load_file($this->url);
-        return $xml->channel->item;
+        return isset($xml->channel) ? $xml->channel->item : array();
     }
 
     protected function transformEntry($rawEntry) {
