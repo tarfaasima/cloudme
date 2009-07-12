@@ -81,6 +81,12 @@ div.entry h1 {
   font-size: 14px;
 }
 
+div.entry h2 {
+    margin: 10px 0px 5px 0px;
+    font-weight: normal;
+    font-size: 14px;
+}
+
 div.entry * img {
   border: 1px solid #CCC;
 }
@@ -89,11 +95,11 @@ div.timestamp {
   color: #999;
 }
 
-div.entry > p > a {
+div.entry > p * a {
   border-bottom: 1px solid #CCC;
 }
 
-div.entry > p > a:visited {
+div.entry > p * a:visited {
   border-bottom: 1px dotted #CCC;
 }
 

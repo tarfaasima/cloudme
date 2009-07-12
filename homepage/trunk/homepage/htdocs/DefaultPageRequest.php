@@ -1,4 +1,5 @@
 <?php
+require_once 'EntryManager.php';
 require_once 'MySqlRequest.php';
 
 abstract class DefaultPageRequest extends MySqlRequest {

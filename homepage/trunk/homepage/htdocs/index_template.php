@@ -16,7 +16,7 @@
     <body>
         <div id="container">
             <div id="header">
-                <a href="#"><img src="media/logo.png" alt="Moritz Petersen"/></a>
+                <a href="."><img src="media/logo.png" alt="Moritz Petersen"/></a>
             </div>
             <div id="main">
                 <div id="sidebar">
@@ -24,7 +24,7 @@
                         <li><a href="http://blog.moritzpetersen.de">Blog</a></li>
                         <li><a href="http://photos.moritzpetersen.de">Photos</a></li>
                         <li><a href="http://blog.cloudme.org">Projects</a></li>
-                        <li><a href="impressum.html">Contact</a></li>
+                        <li><a href="about.php">About</a></li>
                         <li class="small"><a href="http://feeds.feedburner.com/moritzpetersen/rss2">RSS Feed</a></li>
                     </ul>
                 </div>
