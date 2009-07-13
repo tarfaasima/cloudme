@@ -14,7 +14,7 @@ abstract class AbstractDao {
             $sql = str_replace(":$key", $this->escape($value), $sql);
         }
         error_log($sql);
-        mysql_query($sql);
+        return mysql_query($sql);
     }
 
     function escape($str) {

@@ -21,10 +21,12 @@
             <div id="main">
                 <div id="sidebar">
                     <ul>
+                        <li><a href="http://moritzpetersen.de">Home</a></li>
                         <li><a href="http://blog.moritzpetersen.de">Blog</a></li>
                         <li><a href="http://photos.moritzpetersen.de">Photos</a></li>
                         <li><a href="http://blog.cloudme.org">Projects</a></li>
                         <li><a href="about.php">About</a></li>
+                        <li class="small"><a href="about.php">Disclaimer</a></li>
                         <li class="small"><a href="http://feeds.feedburner.com/moritzpetersen/rss2">RSS Feed</a></li>
                     </ul>
                 </div>

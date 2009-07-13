@@ -2,7 +2,7 @@ body {
 /*  background-image: url(media/gradient_black_bottom.png);
   background-repeat: repeat-x;
   background-position: bottom;*/
-  background-color: #333;
+  background-color: #333; /*#38414D;*/
   color: #CCC;
   font-family: Verdana, sans-serif;
   font-size: 11px;
@@ -54,6 +54,7 @@ div#sidebar * li {
 
 div#sidebar * li.small {
   font-size: 9px;
+  padding: 3px 0px;
 }
 
 div#body {
