@@ -50,7 +50,7 @@
                             <?php $params['renderer']->renderContent($entry) ?>
                         </p>
                         <div class="link">
-                            <a href="<?php $params['renderer']->renderLink($entry) ?>" rel="nofollow">
+                            <a href="<?php $params['renderer']->renderLink($entry, true) ?>" rel="nofollow">
                                 <?php $params['renderer']->renderHost($entry) ?>
                             </a>
                         </div>

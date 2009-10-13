@@ -2,7 +2,7 @@
 require_once 'lib/util.php';
 
 class EntryRenderer {
-    public function renderLink($entry) {
+    public function renderLink($entry, $direct = false) {
         echo $entry->url;
     }
 

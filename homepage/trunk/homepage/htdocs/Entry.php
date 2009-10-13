@@ -10,5 +10,9 @@ class Entry {
     public static function compareTo($a, $b) {
         return $b->date - $a->date;
     }
+
+    public function isExternal() {
+        return !strpos($this->url, 'moritzpetersen.de') AND !strpos($this->url, 'cloudme.org');
+    }
 }
 ?>

@@ -4,13 +4,8 @@ require_once 'EntryManager.php';
 require_once 'EntryRenderer.php';
 
 class IndexEntryRenderer extends EntryRenderer {
-    public function renderLink($entry) {
-        echo $this->isPersonal($entry) ? $entry->url : "show_entry.php?id=$entry->id";
-    }
-
-    private function isPersonal($entry) {
-        $url = $entry->url;
-        return strpos($url, 'moritzpetersen.de') OR strpos($url, 'cloudme.org');
+    public function renderLink($entry, $direct = false) {
+        echo (!$entry->isExternal() OR $direct) ? $entry->url : "show_entry.php?id=$entry->id";
     }
 }
 
