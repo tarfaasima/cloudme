@@ -3,15 +3,6 @@ require_once 'DefaultPageRequest.php';
 require_once 'EntryRenderer.php';
 
 class RssEntryRenderer extends EntryRenderer {
-    public function renderLink($entry) {
-        if ($entry->isExternal) {
-            $this->renderEntryLink($entry);
-        }
-        else {
-            echo $entry->url;
-        }
-    }
-
     public function renderDate($entry) {
         echo date('Y-m-d H:m', $entry->date);
     }
