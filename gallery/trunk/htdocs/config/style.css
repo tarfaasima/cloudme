@@ -1,0 +1,32 @@
+body {
+  background-color: white;
+  color: black;
+  font-family: Helvetica, Arial, "sans-serif";
+  font-size: 16pt;
+  line-height: 150%;
+  margin: 48pt;
+  width: 800px;
+}
+
+table {
+  border: none;
+}
+
+td {
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+td + td {
+  font-weight: normal;
+}
+
+td.submit {
+  font-weight: normal;
+  text-align: right;
+}
+
+input {
+  font-size: 16pt;
+  font-family: Courier, "monospace";
+}
