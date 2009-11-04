@@ -38,6 +38,16 @@ class MySql {
         return false;
     }
 
+    public function executeQuery($query, $params) {
+        $query = $this->transformQuery($query, $params);
+        echo $query . '<br>';
+        $result = mysql_query($query, $this->link);
+        if ($result) {
+            return mysql_insert_id($this->link);
+        }
+        return false;
+    }
+
     private function transformQuery($query, $params) {
         $query = str_replace('$_', $this->prefix, $query);
         foreach ($params as $key => $value) {

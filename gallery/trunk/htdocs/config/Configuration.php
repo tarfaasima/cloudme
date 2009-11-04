@@ -21,7 +21,7 @@ class Configuration {
         $invalidValue = false;
         foreach ($configKeys as $key) {
             if (!isset($oldConfigData[$key])) {
-                $value = $request[$key];
+                $value = isset($request[$key]) ? $request[$key] : '';
                 if (!$this->validate($value)) {
                     $invalidValue = true;
                 }

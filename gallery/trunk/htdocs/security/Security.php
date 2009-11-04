@@ -32,5 +32,12 @@ class Security {
             header('Location: ' . $redirect);
         }
     }
+
+    public static function getCurrentUser() {
+        if (session_id() == "") {
+            session_start();
+        }
+        return $_SESSION['current_user'];
+    }
 }
 ?>
