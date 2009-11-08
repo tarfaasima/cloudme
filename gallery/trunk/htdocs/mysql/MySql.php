@@ -40,7 +40,6 @@ class MySql {
 
     public function executeQuery($query, $params) {
         $query = $this->transformQuery($query, $params);
-        echo $query . '<br>';
         $result = mysql_query($query, $this->link);
         if ($result) {
             return mysql_insert_id($this->link);
