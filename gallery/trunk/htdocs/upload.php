@@ -1,6 +1,5 @@
 <?php
     include_once 'image/Image.php';
-    include_once 'mysql/MySql.php';
     include_once 'security/Security.php';
 
     Security::checkAuthenticate('login.php');
