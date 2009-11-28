@@ -13,5 +13,21 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/org.springframework.expression-3.0.0.RC2.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jstl.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/standard.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/cos.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/stripes.jar" sourcepath="/Users/Moritz/Documents/Installation/Libraries/stripes-1.5.2/stripes/src">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/Moritz/Documents/Installation/Libraries/stripes-1.5.2/stripes/docs/api/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-fileupload-1.2.1.jar" sourcepath="/Users/Moritz/Documents/Installation/Libraries/commons-fileupload-1.2.1-src/src/java">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/Moritz/Documents/Installation/Libraries/commons-fileupload-1.2.1-src/dist/docs/api/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-io-1.4.jar" sourcepath="/Users/Moritz/Documents/Installation/Libraries/commons-io-1.4-src/src/java">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/Moritz/Documents/Installation/Libraries/commons-io-1.4-src/target/apidocs/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
