@@ -2,9 +2,9 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Gallery</title>
+    <title>Webgallery</title>
   </head>
   <body>
-    <h1>Gallery</h1>
+    <h1>Home</h1>
   </body>
 </html>

@@ -1,1 +1,1 @@
-<jsp:forward page="/photos/home"></jsp:forward>
+<jsp:forward page="/gallery/home"></jsp:forward>
