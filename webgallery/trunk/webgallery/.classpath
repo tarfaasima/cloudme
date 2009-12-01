@@ -7,7 +7,7 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/org.springframework.context-3.0.0.RC2.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/org.springframework.beans-3.0.0.RC2.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/org.springframework.core-3.0.0.RC2.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/org.springframework.web-3.0.0.RC2.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/org.springframework.web-3.0.0.RC2.jar" sourcepath="/Users/Moritz/Documents/Installation/Libraries/spring-framework-3.0.0.RC2/src/org.springframework.web-sources-3.0.0.RC2.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/org.springframework.asm-3.0.0.RC2.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/org.springframework.expression-3.0.0.RC2.jar"/>
@@ -29,5 +29,9 @@
 			<attribute name="javadoc_location" value="file:/Users/Moritz/Documents/Installation/Libraries/commons-io-1.4-src/target/apidocs/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/org.springframework.orm-3.0.0.RC2.jar" sourcepath="/Users/Moritz/Documents/Installation/Libraries/spring-framework-3.0.0.RC2/src/org.springframework.orm-sources-3.0.0.RC2.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/org.springframework.transaction-3.0.0.RC2.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/org.springframework.jdbc-3.0.0.RC2.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/org.springframework.aop-3.0.0.RC2.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

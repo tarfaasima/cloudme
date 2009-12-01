@@ -1,5 +1,7 @@
 package org.cloudme.webgallery;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,5 +12,9 @@ public class GalleryService {
 
     public void create(Gallery gallery) {
         galleryDao.save(gallery);
+    }
+    
+    public Collection<Gallery> listAll() {
+        return galleryDao.findAll();
     }
 }
