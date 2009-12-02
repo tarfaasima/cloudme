@@ -9,8 +9,7 @@
 
   <context:component-scan base-package="org.cloudme.webgallery" />
 
-<!--  <bean class="org.springframework.orm.jdo.LocalPersistenceManagerFactoryBean">-->
-<!--     The name of the PMF is in META-INF/jdoconfig.xml -->
-<!--    <property name="persistenceManagerFactoryName" value="transactions-optional" />-->
-<!--  </bean>-->
+  <bean class="org.springframework.orm.jdo.LocalPersistenceManagerFactoryBean">
+    <property name="persistenceManagerFactoryName" value="transactions-optional" />
+  </bean>
 </beans>
