@@ -24,6 +24,6 @@ public class AdminIndexActionBean extends AbstractActionBean {
     @Override
     @DefaultHandler
     public Resolution show() {
-        return new ForwardResolution(getPath("/gallery/admin/index"));
+        return new ForwardResolution(getJspPath("/gallery/admin/index"));
     }
 }

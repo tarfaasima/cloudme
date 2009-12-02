@@ -3,6 +3,7 @@ package org.cloudme.webgallery.stripes.action.admin;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.integration.spring.SpringBean;
@@ -28,12 +29,12 @@ public class AdminEditActionBean extends AbstractActionBean {
     @DefaultHandler
     @DontValidate
     public Resolution show() {
-        return new ForwardResolution(getPath("/gallery/admin/edit"));
+        return new ForwardResolution(getJspPath("/gallery/admin/edit"));
     }
     
     public Resolution save() {
         galleryService.create(gallery);
-        return new ForwardResolution(AdminIndexActionBean.class);
+        return new RedirectResolution(AdminIndexActionBean.class);
     }
 
     public void setGallery(Gallery gallery) {

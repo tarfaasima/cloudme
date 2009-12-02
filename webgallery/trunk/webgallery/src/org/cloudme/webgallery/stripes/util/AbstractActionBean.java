@@ -20,10 +20,10 @@ public abstract class AbstractActionBean implements ActionBean {
     
     @DefaultHandler
     public Resolution show() {
-        return new ForwardResolution(getPath(getClass().getAnnotation(UrlBinding.class).value()));
+        return new ForwardResolution(getJspPath(getClass().getAnnotation(UrlBinding.class).value()));
     }
 
-    protected String getPath(String urlBinding) {
+    protected String getJspPath(String urlBinding) {
         return "/WEB-INF/jsp" + urlBinding + ".jsp";
     }
 }
