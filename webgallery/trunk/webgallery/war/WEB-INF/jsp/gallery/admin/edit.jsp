@@ -8,6 +8,7 @@
 <body>
 <h1>Edit</h1>
 <s:form beanclass="org.cloudme.webgallery.stripes.action.admin.AdminEditActionBean">
+<s:hidden name="gallery.id"/>
 <s:text name="gallery.name"/>
 <s:textarea name="gallery.description"/>
 <s:submit name="save" value="Save"/>

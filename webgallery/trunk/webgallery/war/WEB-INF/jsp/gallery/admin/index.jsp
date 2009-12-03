@@ -9,8 +9,10 @@
   <body>
     <h1>Galleries</h1>
     <s:link beanclass="org.cloudme.webgallery.stripes.action.admin.AdminEditActionBean">create new gallery</s:link>
+    <ul>
     <c:forEach items="${actionBean.galleryList}" var="gallery">
-      ${gallery.name}
+      <li><s:link href="/gallery/admin/edit/${gallery.id}">${gallery.name}</s:link></li>
     </c:forEach>
+    </ul>
   </body>
 </html>

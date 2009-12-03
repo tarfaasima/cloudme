@@ -10,8 +10,8 @@ import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
+import org.cloudme.webgallery.AbstractService;
 import org.cloudme.webgallery.Gallery;
-import org.cloudme.webgallery.GalleryService;
 import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 import org.springframework.stereotype.Component;
 
@@ -23,17 +23,21 @@ public class AdminEditActionBean extends AbstractActionBean {
     })
     private Gallery gallery;
     @SpringBean
-    private GalleryService galleryService;
+    private AbstractService<Gallery> galleryService;
+    private long galleryId = -1;
     
     @Override
     @DefaultHandler
     @DontValidate
     public Resolution show() {
+        if (galleryId != -1) {
+            gallery = galleryService.find(galleryId);
+        }
         return new ForwardResolution(getJspPath("/gallery/admin/edit"));
     }
     
     public Resolution save() {
-        galleryService.create(gallery);
+        galleryService.save(gallery);
         return new RedirectResolution(AdminIndexActionBean.class);
     }
 
@@ -43,5 +47,13 @@ public class AdminEditActionBean extends AbstractActionBean {
 
     public Gallery getGallery() {
         return gallery;
+    }
+
+    public void setGalleryId(long galleryId) {
+        this.galleryId = galleryId;
+    }
+
+    public long getGalleryId() {
+        return galleryId;
     }
 }

@@ -8,24 +8,24 @@ import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Gallery {
-    @PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private Long id;
-    @Persistent
-    private String name;
     @Persistent
     private String description;
-
-    public String getName() {
-        return name;
-    }
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    protected Long id;
+    @Persistent
+    private String name;
 
     public String getDescription() {
         return description;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setDescription(String description) {
@@ -36,7 +36,7 @@ public class Gallery {
         this.id = id;
     }
 
-    public Long getId() {
-        return id;
+    public void setName(String name) {
+        this.name = name;
     }
 }
