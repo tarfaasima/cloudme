@@ -10,8 +10,8 @@ import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
-import org.cloudme.webgallery.AbstractService;
 import org.cloudme.webgallery.Gallery;
+import org.cloudme.webgallery.GenericService;
 import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +23,7 @@ public class AdminEditActionBean extends AbstractActionBean {
     })
     private Gallery gallery;
     @SpringBean
-    private AbstractService<Gallery> galleryService;
+    private GenericService<Gallery> galleryService;
     private long galleryId = -1;
     
     @Override

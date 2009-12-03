@@ -3,8 +3,10 @@ package org.cloudme.webgallery;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public abstract class AbstractService<T> {
+@Service
+public class GenericService<T> {
     @Autowired
     private Repository<T> repository;
 
