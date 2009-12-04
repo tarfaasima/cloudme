@@ -8,10 +8,13 @@
   </head>
   <body>
     <h1>Galleries</h1>
-    <s:link beanclass="org.cloudme.webgallery.stripes.action.admin.AdminEditActionBean">create new gallery</s:link>
+    <s:link href="/gallery/admin/edit">create new gallery</s:link>
     <ul>
     <c:forEach items="${actionBean.galleryList}" var="gallery">
-      <li><s:link href="/gallery/admin/edit/${gallery.id}">${gallery.name}</s:link></li>
+      <li>
+        <s:link href="/gallery/admin/edit/${gallery.id}">${gallery.name}</s:link> 
+        <s:link href="/gallery/admin/delete/${gallery.id}">delete</s:link>
+      </li>
     </c:forEach>
     </ul>
   </body>

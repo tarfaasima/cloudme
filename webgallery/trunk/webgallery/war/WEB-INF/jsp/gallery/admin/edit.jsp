@@ -12,6 +12,7 @@
 <s:text name="gallery.name"/>
 <s:textarea name="gallery.description"/>
 <s:submit name="save" value="Save"/>
+<s:link beanclass="org.cloudme.webgallery.stripes.action.admin.AdminIndexActionBean">Cancel</s:link>
 </s:form>
 </body>
 </html>

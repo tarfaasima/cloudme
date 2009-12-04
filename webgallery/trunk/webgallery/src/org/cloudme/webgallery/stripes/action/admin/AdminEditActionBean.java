@@ -11,7 +11,7 @@ import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
 import org.cloudme.webgallery.Gallery;
-import org.cloudme.webgallery.GenericService;
+import org.cloudme.webgallery.service.GenericService;
 import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 import org.springframework.stereotype.Component;
 

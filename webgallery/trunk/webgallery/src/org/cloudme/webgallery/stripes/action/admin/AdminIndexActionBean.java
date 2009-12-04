@@ -8,8 +8,8 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 
-import org.cloudme.webgallery.GenericService;
 import org.cloudme.webgallery.Gallery;
+import org.cloudme.webgallery.service.GenericService;
 import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 
 @UrlBinding("/gallery/admin")
