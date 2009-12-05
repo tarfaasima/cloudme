@@ -1,4 +1,4 @@
-package org.cloudme.webgallery.stripes.action.admin;
+package org.cloudme.webgallery.stripes.action.organize;
 
 import java.util.Collection;
 
@@ -12,18 +12,17 @@ import org.cloudme.webgallery.Gallery;
 import org.cloudme.webgallery.service.GenericService;
 import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 
-@UrlBinding("/gallery/admin")
-public class AdminIndexActionBean extends AbstractActionBean {
+@UrlBinding("/p/organize")
+public class OrganizeActionBean extends AbstractActionBean {
     @SpringBean
-    private GenericService<Gallery> galleryService;
+    private GenericService<Gallery> service;
     
     public Collection<Gallery> getGalleryList() {
-        return galleryService.findAll();
+        return service.findAll();
     }
     
-    @Override
     @DefaultHandler
     public Resolution show() {
-        return new ForwardResolution(getJspPath("/gallery/admin/index"));
+        return new ForwardResolution(getJspPath("/organize/index"));
     }
 }

@@ -1,4 +1,4 @@
-package org.cloudme.webgallery.stripes.action.admin;
+package org.cloudme.webgallery.stripes.action.organize;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
@@ -13,32 +13,40 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import org.cloudme.webgallery.Gallery;
 import org.cloudme.webgallery.service.GenericService;
 import org.cloudme.webgallery.stripes.util.AbstractActionBean;
-import org.springframework.stereotype.Component;
 
-@Component
-@UrlBinding("/gallery/admin/edit/{galleryId}")
-public class AdminEditActionBean extends AbstractActionBean {
+@UrlBinding("/p/organize/gallery/{gallery.id}/{$event}")
+public class GalleryActionBean extends AbstractActionBean {
     @ValidateNestedProperties({
         @Validate(field="name", required=true)
     })
     private Gallery gallery;
     @SpringBean
-    private GenericService<Gallery> galleryService;
-    private long galleryId = -1;
+    private GenericService<Gallery> service;
     
-    @Override
     @DefaultHandler
     @DontValidate
-    public Resolution show() {
-        if (galleryId != -1) {
-            gallery = galleryService.find(galleryId);
+    public Resolution load() {
+        if (hasId()) {
+            gallery = service.find(gallery.getId());
         }
-        return new ForwardResolution(getJspPath("/gallery/admin/edit"));
+        return new ForwardResolution(getJspPath("/organize/gallery"));
     }
     
+    private boolean hasId() {
+        return gallery != null && gallery.getId() > 0;
+    }
+
     public Resolution save() {
-        galleryService.save(gallery);
-        return new RedirectResolution(AdminIndexActionBean.class);
+        service.save(gallery);
+        return new RedirectResolution(OrganizeActionBean.class);
+    }
+    
+    @DontValidate
+    public Resolution delete() {
+        if (hasId()) {
+            service.delete(gallery.getId());
+        }
+        return new RedirectResolution(OrganizeActionBean.class);
     }
 
     public void setGallery(Gallery gallery) {
@@ -47,13 +55,5 @@ public class AdminEditActionBean extends AbstractActionBean {
 
     public Gallery getGallery() {
         return gallery;
-    }
-
-    public void setGalleryId(long galleryId) {
-        this.galleryId = galleryId;
-    }
-
-    public long getGalleryId() {
-        return galleryId;
     }
 }

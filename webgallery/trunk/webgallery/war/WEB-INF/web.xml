@@ -37,7 +37,7 @@
 
   <servlet-mapping>
     <servlet-name>StripesDispatcher</servlet-name>
-    <url-pattern>/gallery/*</url-pattern>
+    <url-pattern>/p/*</url-pattern>
   </servlet-mapping>
 
   <listener>

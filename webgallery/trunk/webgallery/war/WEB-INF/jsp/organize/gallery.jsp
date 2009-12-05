@@ -7,12 +7,12 @@
 </head>
 <body>
 <h1>Edit</h1>
-<s:form beanclass="org.cloudme.webgallery.stripes.action.admin.AdminEditActionBean">
+<s:form action="/p/organize/gallery">
 <s:hidden name="gallery.id"/>
 <s:text name="gallery.name"/>
 <s:textarea name="gallery.description"/>
 <s:submit name="save" value="Save"/>
-<s:link beanclass="org.cloudme.webgallery.stripes.action.admin.AdminIndexActionBean">Cancel</s:link>
+<s:link href="/p/organize">Cancel</s:link>
 </s:form>
 </body>
 </html>

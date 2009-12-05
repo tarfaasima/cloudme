@@ -2,10 +2,6 @@ package org.cloudme.webgallery.stripes.util;
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
 
 public abstract class AbstractActionBean implements ActionBean {
     private ActionBeanContext context;
@@ -16,11 +12,6 @@ public abstract class AbstractActionBean implements ActionBean {
 
     public void setContext(ActionBeanContext context) {
         this.context = context;
-    }
-    
-    @DefaultHandler
-    public Resolution show() {
-        return new ForwardResolution(getJspPath(getClass().getAnnotation(UrlBinding.class).value()));
     }
 
     protected String getJspPath(String urlBinding) {
