@@ -7,7 +7,7 @@ public interface Repository<T> {
 
     Collection<T> findAll();
 
-    T find(long id);
+    T find(String id);
 
-    void delete(long id);
+    void delete(String id);
 }

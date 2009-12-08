@@ -4,18 +4,55 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Webgallery - Admin</title>
+    <title>
+      Webgallery - Organize
+    </title>
   </head>
   <body>
-    <h1>Galleries</h1>
-    <s:link beanclass="org.cloudme.webgallery.stripes.action.organize.GalleryActionBean">create new gallery</s:link>
-    <ul>
     <c:forEach items="${actionBean.galleryList}" var="gallery">
-      <li>
-        <s:link href="/p/organize/gallery/${gallery.id}">${gallery.name}</s:link> 
-        <s:link href="/p/organize/gallery/${gallery.id}/delete">delete</s:link>
-      </li>
+      <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.IndexActionBean">
+        <div>
+          Name
+        </div>
+        <div>
+          <s:text name="gallery.name" value="${gallery.name}"/>
+        </div>
+        <div>
+          Description
+        </div>
+        <div>
+          <s:textarea name="gallery.description" value="${gallery.description}"/>
+        </div>
+        <s:hidden name="gallery.id" value="${gallery.id}"/>
+        <div>
+          <s:submit name="save" value="Update"/>
+          <s:reset name="reset" value="Reset"/>
+          <s:submit name="delete" value="Delete"/>
+        </div>
+      </s:form>
+      <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.PhotoActionBean">
+        <div>
+          Upload
+        </div>
+        <div>
+          <s:file name="photoFile"/>
+        </div>
+        <s:hidden name="galleryId" value="${gallery.id}"/>
+        <div>
+          <s:submit name="upload" value="Upload"/>
+        </div>
+      </s:form>
     </c:forEach>
-    </ul>
+    <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.IndexActionBean">
+      <div>
+        Name
+      </div>
+      <div>
+          <s:text name="gallery.name"/>
+      </div>
+      <div>
+        <s:submit name="save" value="Create"/>
+      </div>
+    </s:form>
   </body>
 </html>

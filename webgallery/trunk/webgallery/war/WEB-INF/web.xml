@@ -20,6 +20,10 @@
       <param-name>Interceptor.Classes</param-name>
       <param-value>net.sourceforge.stripes.integration.spring.SpringInterceptor</param-value>
     </init-param>
+    <init-param>
+      <param-name>PopulationStrategy.Class</param-name>
+      <param-value>org.cloudme.stripes.tag.CustomPopulationStrategy</param-value>
+    </init-param>
   </filter>
 
   <filter-mapping>
@@ -37,7 +41,12 @@
 
   <servlet-mapping>
     <servlet-name>StripesDispatcher</servlet-name>
-    <url-pattern>/p/*</url-pattern>
+    <url-pattern>/gallery/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>StripesDispatcher</servlet-name>
+    <url-pattern>/organize/*</url-pattern>
   </servlet-mapping>
 
   <listener>

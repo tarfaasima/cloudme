@@ -15,7 +15,7 @@ public class GenericService<T> {
         return repository.findAll();
     }
 
-    public T find(long id) {
+    public T find(String id) {
         return repository.find(id);
     }
 
@@ -23,7 +23,7 @@ public class GenericService<T> {
         repository.save(t);
     }
     
-    public void delete(long id) {
+    public void delete(String id) {
         repository.delete(id);
     }
 }

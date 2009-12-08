@@ -42,11 +42,11 @@ public abstract class AbstractJdoRepository<T> implements Repository<T> {
         });
     }
 
-    public T find(long id) {
+    public T find(String id) {
         return jdoTemplate.getObjectById(baseClass, id);
     }
     
-    public void delete(final long id) {
+    public void delete(final String id) {
         jdoTemplate.execute(new JdoCallback<T>() {
             public T doInJdo(PersistenceManager pm) throws JDOException {
                 pm.deletePersistent(pm.getObjectById(baseClass, id));
