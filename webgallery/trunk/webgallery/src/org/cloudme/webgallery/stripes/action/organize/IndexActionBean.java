@@ -1,8 +1,8 @@
 package org.cloudme.webgallery.stripes.action.organize;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
@@ -16,11 +16,11 @@ import org.cloudme.webgallery.Gallery;
 import org.cloudme.webgallery.service.GenericService;
 import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 
-@UrlBinding("/organize/{$event}/{deleteGalleryId}")
+@UrlBinding("/organize/gallery/{$event}/{deleteGalleryId}")
 public class IndexActionBean extends AbstractActionBean {
     @SpringBean
     private GenericService<Gallery> service;
-    private Map<String, Gallery> galleryMap;
+    private List<Gallery> galleries;
     private String deleteGalleryId;
 
     public String getDeleteGalleryId() {
@@ -29,13 +29,13 @@ public class IndexActionBean extends AbstractActionBean {
 
     @DefaultHandler
     @DontValidate
-    public Resolution show() {
-        setGalleryMap(createMap(service.findAll()));
+    public Resolution list() {
+        setGalleries(toList(service.findAll()));
         return new ForwardResolution(getJspPath("/organize/index"));
     }
 
     public Resolution save() {
-        for (Gallery gallery : galleryMap.values()) {
+        for (Gallery gallery : galleries) {
             service.save(gallery);
         }
         return new RedirectResolution(IndexActionBean.class);
@@ -55,19 +55,18 @@ public class IndexActionBean extends AbstractActionBean {
         return service.findAll();
     }
 
-    public void setGalleryMap(Map<String, Gallery> galleryMap) {
-        this.galleryMap = galleryMap;
+    public void setGalleries(List<Gallery> galleries) {
+        this.galleries = galleries;
     }
 
-    public Map<String, Gallery> getGalleryMap() {
-        return galleryMap;
+    public List<Gallery> getGalleries() {
+        return galleries;
     }
     
-    private Map<String, Gallery> createMap(Collection<Gallery> galleries) {
-        HashMap<String, Gallery> galleryMap = new HashMap<String, Gallery>(galleries.size());
-        for (Gallery gallery : galleries) {
-            galleryMap.put(gallery.getId(), gallery);
+    private List<Gallery> toList(Collection<Gallery> collection) {
+        if (collection instanceof List<?>) {
+            return (List<Gallery>) collection;
         }
-        return galleryMap;
+        return new ArrayList<Gallery>(collection);
     }
 }

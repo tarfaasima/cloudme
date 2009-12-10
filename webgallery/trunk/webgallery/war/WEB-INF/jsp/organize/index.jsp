@@ -10,23 +10,35 @@
   </head>
   <body>
     <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.IndexActionBean">
-      <c:forEach items="${actionBean.galleryMap}" var="entry">
-        <c:set var="gallery" scope="page" value="${entry.value}"/>
-        <s:hidden name="galleryMap['${gallery.id}'].id"/>
+      <c:forEach items="${actionBean.galleries}" var="gallery" varStatus="loop">
+        <s:hidden name="galleries[${loop.index}].id"/>
         <div>
           Name
         </div>
         <div>
-          <s:text name="galleryMap['${gallery.id}'].name"/>
-          <s:link href="/organize/delete/${gallery.id}">Delete</s:link>
+          <s:text name="galleries[${loop.index}].name"/>
+          <s:link href="/organize/gallery/delete/${gallery.id}">Delete</s:link>
         </div>
         <div>
           Description
         </div>
         <div>
-          <s:textarea name="galleryMap['${gallery.id}'].description"/>
+          <s:textarea name="galleries[${loop.index}].description"/>
         </div>
+        <c:set var="newIndex" value="${loop.index + 1}" scope="page"/>
       </c:forEach>
+        <div>
+          Name
+        </div>
+        <div>
+          <s:text name="galleries[${newIndex}].name"/>
+        </div>
+        <div>
+          Description
+        </div>
+        <div>
+          <s:textarea name="galleryMap[${newIndex}].description"/>
+        </div>
       <s:submit name="save" value="Save"/>
     </s:form>
   </body>
