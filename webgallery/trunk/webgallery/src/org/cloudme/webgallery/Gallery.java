@@ -1,5 +1,7 @@
 package org.cloudme.webgallery;
 
+import java.util.List;
+
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
@@ -16,7 +18,9 @@ public class Gallery {
     @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
     private String id;
     @Persistent
-    private String name; 
+    private String name;
+    @Persistent(mappedBy = "gallery")
+    private List<Photo> photos;
 
     public String getDescription() {
         return description;
@@ -40,5 +44,13 @@ public class Gallery {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
+    }
+
+    public List<Photo> getPhotos() {
+        return photos;
     }
 }

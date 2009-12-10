@@ -31,6 +31,6 @@ public class PhotoActionBean extends AbstractActionBean {
     public Resolution upload() {
         System.out.println("Upload complete.");
         service.save(photo);
-        return new RedirectResolution(IndexActionBean.class);
+        return new RedirectResolution(GalleryActionBean.class);
     }
 }
