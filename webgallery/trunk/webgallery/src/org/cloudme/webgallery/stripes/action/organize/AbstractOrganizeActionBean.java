@@ -14,10 +14,9 @@ import net.sourceforge.stripes.integration.spring.SpringBean;
 import org.cloudme.webgallery.service.GenericService;
 import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 
-public class AbstractOrganizeActionBean<T> extends AbstractActionBean {
+public abstract class AbstractOrganizeActionBean<T> extends AbstractActionBean {
     @SpringBean
     private GenericService<T> service;
-    private List<T> items;
     private String id;
 
     public String getId() {
@@ -31,8 +30,12 @@ public class AbstractOrganizeActionBean<T> extends AbstractActionBean {
         return new ForwardResolution(getJspPath("/organize/gallery"));
     }
 
+    public abstract void setItems(List<T> list);
+    
+    public abstract List<T> getItems();
+
     public Resolution save() {
-        for (T item : items) {
+        for (T item : getItems()) {
             service.save(item);
         }
         return new RedirectResolution(getClass());
@@ -44,18 +47,10 @@ public class AbstractOrganizeActionBean<T> extends AbstractActionBean {
         return new RedirectResolution(getClass());
     }
     
-    public void setId(String deleteGalleryId) {
-        id = deleteGalleryId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setItems(List<T> galleries) {
-        items = galleries;
-    }
-
-    public List<T> getItems() {
-        return items;
-    }
-    
     private List<T> toList(Collection<T> collection) {
         if (collection instanceof List<?>) {
             return (List<T>) collection;
