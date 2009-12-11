@@ -1,24 +1,25 @@
 package org.cloudme.webgallery.stripes.action.organize;
 
 import java.io.IOException;
+import java.util.List;
 
 import net.sourceforge.stripes.action.FileBean;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.integration.spring.SpringBean;
 
 import org.apache.commons.io.IOUtils;
 import org.cloudme.webgallery.Photo;
-import org.cloudme.webgallery.service.GenericService;
-import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 
-@UrlBinding("/p/organize/photo")
-public class PhotoActionBean extends AbstractActionBean {
-    @SpringBean
-    private GenericService<Photo> service;
-    private Photo photo;
-    
+@UrlBinding("/organize/photo/${event}/{id}")
+public class PhotoActionBean extends AbstractOrganizeActionBean<Photo> {
+	private List<Photo> items;
+	private Photo photo;
+
+	public PhotoActionBean() {
+		super("/organize/photo");
+	}
+
     public void setPhotoFile(FileBean photoFile) throws IOException {
         System.out.println(photoFile.getFileName());
         System.out.println(IOUtils.toByteArray(photoFile.getInputStream()).length);
@@ -30,7 +31,17 @@ public class PhotoActionBean extends AbstractActionBean {
     
     public Resolution upload() {
         System.out.println("Upload complete.");
-        service.save(photo);
+		getService().save(photo);
         return new RedirectResolution(GalleryActionBean.class);
     }
+
+	@Override
+	public List<Photo> getItems() {
+		return items;
+	}
+
+	@Override
+	public void setItems(List<Photo> items) {
+		this.items = items;
+	}
 }

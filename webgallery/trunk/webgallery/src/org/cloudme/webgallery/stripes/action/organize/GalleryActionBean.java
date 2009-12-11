@@ -15,6 +15,10 @@ public class GalleryActionBean extends AbstractOrganizeActionBean<Gallery> {
     })
     private List<Gallery> items;
 
+	public GalleryActionBean() {
+		super("/organize/gallery");
+	}
+
     @Override
     public void setItems(List<Gallery> galleries) {
         items = galleries;

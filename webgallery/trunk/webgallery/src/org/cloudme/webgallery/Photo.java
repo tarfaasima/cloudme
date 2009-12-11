@@ -1,5 +1,6 @@
 package org.cloudme.webgallery;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
@@ -7,13 +8,13 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Blob;
-import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Photo {
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private Key key;
+    @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
+    private String id;
     @Persistent
     private Gallery gallery;
     @Persistent
@@ -63,11 +64,11 @@ public class Photo {
         return gallery;
     }
 
-    public void setKey(Key key) {
-        this.key = key;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public Key getKey() {
-        return key;
-    }
+	public String getId() {
+		return id;
+	}
 }

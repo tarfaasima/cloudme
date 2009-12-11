@@ -16,8 +16,13 @@ import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 
 public abstract class AbstractOrganizeActionBean<T> extends AbstractActionBean {
     @SpringBean
-    private GenericService<T> service;
-    private String id;
+	private GenericService<T> service;
+	private String id;
+	private final String forwardPath;
+
+	public AbstractOrganizeActionBean(String forwardPath) {
+		this.forwardPath = forwardPath;
+	}
 
     public String getId() {
         return id;
@@ -27,7 +32,7 @@ public abstract class AbstractOrganizeActionBean<T> extends AbstractActionBean {
     @DontValidate
     public Resolution edit() {
         setItems(toList(service.findAll()));
-        return new ForwardResolution(getJspPath("/organize/gallery"));
+		return new ForwardResolution(getJspPath(forwardPath));
     }
 
     public Resolution save() {
@@ -57,4 +62,9 @@ public abstract class AbstractOrganizeActionBean<T> extends AbstractActionBean {
     public abstract void setItems(List<T> list);
     
     public abstract List<T> getItems();
+
+	protected GenericService<T> getService() {
+		return service;
+	}
 }
+
