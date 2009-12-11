@@ -30,10 +30,6 @@ public abstract class AbstractOrganizeActionBean<T> extends AbstractActionBean {
         return new ForwardResolution(getJspPath("/organize/gallery"));
     }
 
-    public abstract void setItems(List<T> list);
-    
-    public abstract List<T> getItems();
-
     public Resolution save() {
         for (T item : getItems()) {
             service.save(item);
@@ -57,4 +53,8 @@ public abstract class AbstractOrganizeActionBean<T> extends AbstractActionBean {
         }
         return new ArrayList<T>(collection);
     }
+    
+    public abstract void setItems(List<T> list);
+    
+    public abstract List<T> getItems();
 }
