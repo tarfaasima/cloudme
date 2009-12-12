@@ -1,5 +1,6 @@
 package org.cloudme.webgallery;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.annotations.Extension;
@@ -52,5 +53,13 @@ public class Gallery {
 
     public List<Photo> getPhotos() {
         return photos;
+    }
+    
+    public void addPhoto(Photo photo) {
+        if (photos == null) {
+            photos = new ArrayList<Photo>();
+        }
+        photo.setGallery(this);
+        photos.add(photo);
     }
 }

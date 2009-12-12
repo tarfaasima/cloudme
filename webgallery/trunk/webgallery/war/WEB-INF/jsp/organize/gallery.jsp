@@ -21,6 +21,9 @@
           <s:link href="/organize/gallery/delete/${item.id}">
             Delete
           </s:link>
+          <s:link href="/organize/photo/${item.id}">
+            Photos (${f:length(item.photos)})
+          </s:link>
         </div>
         <div>
           Description
