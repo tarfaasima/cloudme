@@ -20,7 +20,6 @@ public class PhotoActionBean extends AbstractOrganizeActionBean<Photo> {
     private Photo photo;
     @SpringBean
     private GenericService<Gallery> galleryService;
-    private String galleryId;
     private Gallery gallery;
 
     public PhotoActionBean() {
@@ -55,12 +54,11 @@ public class PhotoActionBean extends AbstractOrganizeActionBean<Photo> {
     }
 
     public void setGalleryId(String galleryId) {
-        this.galleryId = galleryId;
         gallery = galleryService.find(galleryId);
         items = gallery.getPhotos();
     }
 
     public String getGalleryId() {
-        return galleryId;
+        return gallery.getId();
     }
 }
