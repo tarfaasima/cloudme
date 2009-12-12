@@ -11,7 +11,7 @@ import net.sourceforge.stripes.action.UrlBinding;
 import org.apache.commons.io.IOUtils;
 import org.cloudme.webgallery.Photo;
 
-@UrlBinding("/organize/photo/${event}/{id}")
+@UrlBinding("/organize/{galleryId}/photo/${event}/{id}")
 public class PhotoActionBean extends AbstractOrganizeActionBean<Photo> {
 	private List<Photo> items;
 	private Photo photo;
