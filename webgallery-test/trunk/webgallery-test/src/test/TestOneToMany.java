@@ -29,7 +29,6 @@ public class TestOneToMany extends LocalDatastoreTestCase {
 			Collection<Employee> execute(Void v) {
 				Collection<Employee> items = (Collection<Employee>) pm.newQuery(Employee.class).execute();
 				items = pm.detachCopyAll(items);
-				pm.close();
 				return items;
 			};
 		};
@@ -39,8 +38,8 @@ public class TestOneToMany extends LocalDatastoreTestCase {
 	@Test
 	public void testWithRepository() {
 		final JdoEmployeeRepository repo = new JdoEmployeeRepository();
-		repo.setPersistenceManagerFactory(PMF.get());
-		// repo.init(PMF.get());
+//		repo.setPersistenceManagerFactory(PMF.get());
+		repo.setPersistenceManager(PMF.get().getPersistenceManager());
 		Action<Void, Employee> save = new Action<Void, Employee>() {
 			@Override
 			Void execute(Employee p) {

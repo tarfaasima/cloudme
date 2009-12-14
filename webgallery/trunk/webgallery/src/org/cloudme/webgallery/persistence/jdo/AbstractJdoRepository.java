@@ -15,37 +15,31 @@ public abstract class AbstractJdoRepository<K, T extends IdObject<K>> extends Jd
 	private JdoTemplate jdoTemplate;
 	private final Class<T> baseClass;
 	private final String listOrder;
-	private PersistenceManager pm;
+    private PersistenceManager pm;
 
 	public AbstractJdoRepository(Class<T> baseClass, String listOrder) {
 		this.baseClass = baseClass;
 		this.listOrder = listOrder;
 	}
-
-	//
-	// @Autowired
-	// public void init(PersistenceManagerFactory pmf) {
-	// jdoTemplate = new JdoTemplate(pmf);
-	// pm = pmf.getPersistenceManager();
-	// }
+	
+	public void setPersistenceManager(PersistenceManager pm) {
+        this.pm = pm;
+	}
 
 	public void save(final T t) {
-		PersistenceManager pm = getPersistenceManager();
+//		PersistenceManager pm = getPersistenceManager();
 		pm.makePersistent(t);
-		pm.close();
-		// getJdoTemplate().makePersistent(t);
 	}
 
 	@SuppressWarnings("unchecked")
 	public Collection<T> findAll() {
-		return getJdoTemplate().execute(new JdoCallback<Collection<T>>() {
-			@Override
-			public Collection<T> doInJdo(PersistenceManager pm) throws JDOException {
-				Collection<T> items = (Collection<T>) pm.newQuery(baseClass).execute();
-				 items = pm.detachCopyAll(items);
-				 return items;
-			}
-		});
+	    Collection<T> items = (Collection<T>) pm.newQuery(baseClass).execute();
+	    pm.detachCopyAll(items);
+	    return items;
+//		return getJdoTemplate().execute(new JdoCallback<Collection<T>>() {
+//            public Collection<T> doInJdo(PersistenceManager pm) throws JDOException {
+//            }
+//		});
 	}
 
 	public T find(K id) {
