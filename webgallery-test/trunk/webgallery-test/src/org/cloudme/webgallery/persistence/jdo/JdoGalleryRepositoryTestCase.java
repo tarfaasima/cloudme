@@ -41,7 +41,8 @@ public class JdoGalleryRepositoryTestCase extends LocalDatastoreTestCase {
         gallery.addPhoto(photo);
         repository.save(gallery);
         JdoPhotoRepository photoRepository = new JdoPhotoRepository();
-        photoRepository.init(PMF.get());
+		photoRepository.setPersistenceManagerFactory(PMF.get());
+		// photoRepository.init(PMF.get());
         Collection<Photo> photos = photoRepository.findAll();
         assertEquals(1, photos.size());
         assertEquals("Test Photo", photos.iterator().next().getName());
@@ -67,7 +68,8 @@ public class JdoGalleryRepositoryTestCase extends LocalDatastoreTestCase {
 
     private JdoGalleryRepository initGalleryRepository() {
         JdoGalleryRepository repository = new JdoGalleryRepository();
-        repository.init(PMF.get());
+		repository.setPersistenceManagerFactory(PMF.get());
+		// repository.init(PMF.get());
         return repository;
     }
 }

@@ -12,56 +12,66 @@ import org.junit.Test;
 import com.google.appengine.tools.development.LocalDatastoreTestCase;
 import com.google.appengine.tools.development.PMF;
 
-
 public class TestOneToMany extends LocalDatastoreTestCase {
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testOneToMany() {
-        PersistenceManager pm = PMF.get().getPersistenceManager();
-        // Create employee and contact info
-        Employee e1 = new Employee();
-        ContactInfo c1 = new ContactInfo();
-        c1.setStreetAddress("Infinite Loop 1");
-        e1.addContactInfo(c1);
-        pm.makePersistent(e1);
-        // Fetch employees, check that 1 employee exists
-        Collection<Employee> employees = (Collection<Employee>) pm.newQuery(Employee.class).execute();
-        // Detach employees
-        employees = pm.detachCopyAll(employees);
-        pm.close();
-        assertEquals(1, employees.size());
-        // Fetch contact infos, check that 1 contact info exists
-//        Collection<ContactInfo> contactInfos = (Collection<ContactInfo>) pm.newQuery(ContactInfo.class).execute();
-//        assertEquals(1, contactInfos.size());
-//        // Check that it's the contact info you have just defined
-//        assertEquals("Infinite Loop 1", contactInfos.iterator().next().getStreetAddress());
-        // Check the persistent employee has the contact info attached
-        Employee e2 = employees.iterator().next();
-        List<ContactInfo> c2 = e2.getContactInfos();
-        assertEquals("Infinite Loop 1", c2.get(0).getStreetAddress());
-    }
-    
-    @Test
-    public void testWithRepository() {
-        JdoEmployeeRepository repo = new JdoEmployeeRepository();
-        repo.init(PMF.get());
-        // Create employee and contact info
-        Employee e1 = new Employee();
-        ContactInfo c1 = new ContactInfo();
-        c1.setStreetAddress("Infinite Loop 1");
-        e1.addContactInfo(c1);
-        repo.save(e1);
-        // Fetch employees, check that 1 employee exists
-        Collection<Employee> employees = repo.findAll();
-        assertEquals(1, employees.size());
-        // Fetch contact infos, check that 1 contact info exists
-//        Collection<ContactInfo> contactInfos = (Collection<ContactInfo>) pm.newQuery(ContactInfo.class).execute();
-//        assertEquals(1, contactInfos.size());
-//        // Check that it's the contact info you have just defined
-//        assertEquals("Infinite Loop 1", contactInfos.iterator().next().getStreetAddress());
-        // Check the persistent employee has the contact info attached
-        Employee e2 = employees.iterator().next();
-        List<ContactInfo> c2 = e2.getContactInfos();
-        assertEquals("Infinite Loop 1", c2.get(0).getStreetAddress());
-    }
+	@Test
+	public void testOneToMany() {
+		final PersistenceManager pm = PMF.get().getPersistenceManager();
+		Action<Void, Employee> save = new Action<Void, Employee>() {
+			@Override
+			Void execute(Employee e) {
+				pm.makePersistent(e);
+				return null;
+			}
+		};
+		Action<Collection<Employee>, Void> fetchAll = new Action<Collection<Employee>, Void>() {
+			@SuppressWarnings("unchecked")
+			@Override
+			Collection<Employee> execute(Void v) {
+				Collection<Employee> items = (Collection<Employee>) pm.newQuery(Employee.class).execute();
+				items = pm.detachCopyAll(items);
+				pm.close();
+				return items;
+			};
+		};
+		assertFetchAll(save, fetchAll);
+	}
+
+	@Test
+	public void testWithRepository() {
+		final JdoEmployeeRepository repo = new JdoEmployeeRepository();
+		repo.setPersistenceManagerFactory(PMF.get());
+		// repo.init(PMF.get());
+		Action<Void, Employee> save = new Action<Void, Employee>() {
+			@Override
+			Void execute(Employee p) {
+				repo.save(p);
+				return null;
+			}
+		};
+		Action<Collection<Employee>, Void> fetchAll = new Action<Collection<Employee>, Void>() {
+			@Override
+			Collection<Employee> execute(Void v) {
+				Collection<Employee> items = repo.findAll();
+				return items;
+			}
+		};
+		assertFetchAll(save, fetchAll);
+	}
+
+	private void assertFetchAll(Action<Void, Employee> save, Action<Collection<Employee>, Void> fetchAll) {
+		Employee e1 = new Employee();
+		ContactInfo c1 = new ContactInfo();
+		c1.setStreetAddress("Infinite Loop 1");
+		e1.addContactInfo(c1);
+		save.execute(e1);
+		Collection<Employee> employees = fetchAll.execute(null);
+		assertEquals(1, employees.size());
+		Employee e2 = employees.iterator().next();
+		List<ContactInfo> c2 = e2.getContactInfos();
+		assertEquals("Infinite Loop 1", c2.get(0).getStreetAddress());
+	}
+
+	private abstract class Action<R, P> {
+		abstract R execute(P p);
+	}
 }
