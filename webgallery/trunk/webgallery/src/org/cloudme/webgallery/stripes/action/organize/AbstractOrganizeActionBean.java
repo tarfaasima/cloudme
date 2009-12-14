@@ -11,20 +11,21 @@ import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 
+import org.cloudme.webgallery.IdObject;
 import org.cloudme.webgallery.service.GenericService;
 import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 
-public abstract class AbstractOrganizeActionBean<T> extends AbstractActionBean {
+public abstract class AbstractOrganizeActionBean<K, T extends IdObject<K>> extends AbstractActionBean {
     @SpringBean
-	private GenericService<T> service;
-	private String id;
+	private GenericService<K, T> service;
+	private K id;
 	private final String forwardPath;
 
 	public AbstractOrganizeActionBean(String forwardPath) {
 		this.forwardPath = forwardPath;
 	}
 
-    public String getId() {
+    public K getId() {
         return id;
     }
 
@@ -48,7 +49,7 @@ public abstract class AbstractOrganizeActionBean<T> extends AbstractActionBean {
         return new RedirectResolution(getClass());
     }
     
-    public void setId(String id) {
+    public void setId(K id) {
         this.id = id;
     }
 
@@ -63,7 +64,7 @@ public abstract class AbstractOrganizeActionBean<T> extends AbstractActionBean {
     
     public abstract List<T> getItems();
 
-	protected GenericService<T> getService() {
+	protected GenericService<K, T> getService() {
 		return service;
 	}
 }

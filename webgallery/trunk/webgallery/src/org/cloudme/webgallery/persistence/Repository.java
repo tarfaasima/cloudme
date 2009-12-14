@@ -2,12 +2,14 @@ package org.cloudme.webgallery.persistence;
 
 import java.util.Collection;
 
-public interface Repository<T> {
+import org.cloudme.webgallery.IdObject;
+
+public interface Repository<K, T extends IdObject<K>> {
     void save(T t);
 
     Collection<T> findAll();
 
-    T find(String id);
+    T find(K id);
 
-    void delete(String id);
+    void delete(K id);
 }
