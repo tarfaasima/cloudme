@@ -38,8 +38,7 @@ public class TestOneToMany extends LocalDatastoreTestCase {
 	@Test
 	public void testWithRepository() {
 		final JdoEmployeeRepository repo = new JdoEmployeeRepository();
-//		repo.setPersistenceManagerFactory(PMF.get());
-		repo.setPersistenceManager(PMF.get().getPersistenceManager());
+		repo.setPersistenceManagerFactory(PMF.get());
 		Action<Void, Employee> save = new Action<Void, Employee>() {
 			@Override
 			Void execute(Employee p) {
