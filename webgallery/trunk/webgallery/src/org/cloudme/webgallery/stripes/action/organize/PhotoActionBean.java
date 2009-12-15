@@ -44,7 +44,9 @@ public class PhotoActionBean extends AbstractActionBean {
 
     public void setGalleryId(Long galleryId) {
         System.out.println("galleryId = " + galleryId);
-		setGallery(service.find(galleryId));
+		Gallery gallery = service.find(galleryId);
+		System.out.println(gallery);
+        setGallery(gallery);
     }
 
     public void setGallery(Gallery gallery) {

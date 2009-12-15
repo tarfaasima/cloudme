@@ -11,7 +11,7 @@
   </head>
   <body>
     <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.PhotoActionBean">
-      <s:hidden name="gallery.id"/>
+      <s:hidden name="galleryId" value="${actionBean.gallery.id}"/>
       <div>
         Upload
       </div>
@@ -19,6 +19,12 @@
         <s:file name="photoFile"/>
       </div>
       <s:submit name="upload" value="Upload" />
+    </s:form>
+    <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.PhotoActionBean">
+      <s:hidden name="galleryId" value="${actionBean.gallery.id}"/>
+      <c:forEach items="${actionBean.gallery.photos}" var="item" varStatus="loop">
+      </c:forEach>
+      <s:submit name="save" value="Save" />
     </s:form>
   </body>
 </html>
