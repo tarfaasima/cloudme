@@ -20,11 +20,5 @@
       </div>
       <s:submit name="upload" value="Upload" />
     </s:form>
-    <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.PhotoActionBean">
-      <s:hidden name="gallery.id"></s:hidden>
-      <c:forEach items="${actionBean.allPhotos}" var="photo" varStatus="loop">
-        <div>${photo.id}</div>
-      </c:forEach>
-    </s:form>
   </body>
 </html>

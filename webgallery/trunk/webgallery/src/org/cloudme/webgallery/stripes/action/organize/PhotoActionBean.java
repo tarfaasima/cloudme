@@ -1,8 +1,6 @@
 package org.cloudme.webgallery.stripes.action.organize;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.FileBean;
@@ -18,15 +16,11 @@ import org.cloudme.webgallery.Photo;
 import org.cloudme.webgallery.service.GenericService;
 import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 
-import com.google.appengine.api.datastore.Key;
-
 @UrlBinding("/organize/photo/{galleryId}/${event}/{id}")
 public class PhotoActionBean extends AbstractActionBean {
     private Gallery gallery;
     @SpringBean
-    private GenericService<Long, Gallery> galleryService;
-    @SpringBean
-    private GenericService<Key, Photo> photoService;
+	private GenericService<Long, Gallery> service;
 
     public void setPhotoFile(FileBean photoFile) throws IOException {
         System.out.println(photoFile.getFileName());
@@ -35,19 +29,12 @@ public class PhotoActionBean extends AbstractActionBean {
         System.out.println(photoFile.getSize());
         Photo photo = new Photo();
         photo.setImageDataAsArray(IOUtils.toByteArray(photoFile.getInputStream()));
-//        photo.setGallery(gallery);
         gallery.addPhoto(photo);
-        photoService.save(photo);
-        galleryService.save(gallery);
+		service.save(gallery);
     }
 
     public Resolution upload() {
-//        galleryService.save(gallery);
         return new RedirectResolution("/organize/photo/" + gallery.getId() + "/edit");
-    }
-    
-    public List<Photo> getAllPhotos() {
-        return new ArrayList<Photo>(photoService.findAll());
     }
     
     @DefaultHandler
@@ -57,7 +44,7 @@ public class PhotoActionBean extends AbstractActionBean {
 
     public void setGalleryId(Long galleryId) {
         System.out.println("galleryId = " + galleryId);
-        setGallery(galleryService.find(galleryId));
+		setGallery(service.find(galleryId));
     }
 
     public void setGallery(Gallery gallery) {
