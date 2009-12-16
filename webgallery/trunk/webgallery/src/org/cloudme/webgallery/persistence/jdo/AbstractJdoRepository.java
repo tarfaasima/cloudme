@@ -29,6 +29,7 @@ public abstract class AbstractJdoRepository<K, T extends IdObject<K>> implements
     public void save(final T t) {
         PersistenceManager pm = getPersistenceManager();
         pm.makePersistent(t);
+		pm.close();
     }
 
     @SuppressWarnings("unchecked")
@@ -40,6 +41,7 @@ public abstract class AbstractJdoRepository<K, T extends IdObject<K>> implements
         }
         Collection<T> items = (Collection<T>) query.execute();
         pm.detachCopyAll(items);
+		pm.close();
         return items;
     }
 
