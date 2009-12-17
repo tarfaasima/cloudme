@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
+import javax.jdo.Transaction;
 
 import org.cloudme.webgallery.IdObject;
 import org.cloudme.webgallery.persistence.Repository;
@@ -28,19 +29,26 @@ public abstract class AbstractJdoRepository<K, T extends IdObject<K>> implements
 
     public void save(final T t) {
         PersistenceManager pm = getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		tx.begin();
         pm.makePersistent(t);
+		tx.commit();
 		pm.close();
     }
 
     @SuppressWarnings("unchecked")
     public Collection<T> findAll() {
         PersistenceManager pm = getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		tx.begin();
         Query query = pm.newQuery(baseClass);
         if (!StringUtils.isWhitespace(listOrder)) {
             query.setOrdering(listOrder);
         }
         Collection<T> items = (Collection<T>) query.execute();
         pm.detachCopyAll(items);
+		System.out.println(items);
+		tx.commit();
 		pm.close();
         return items;
     }
