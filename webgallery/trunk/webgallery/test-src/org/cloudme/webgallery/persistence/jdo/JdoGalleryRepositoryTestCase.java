@@ -26,31 +26,36 @@ public class JdoGalleryRepositoryTestCase extends LocalDatastoreTestCase {
         galleries = assertPersistedGalleries(repository, 1);
         gallery = galleries.iterator().next();
         assertEquals("Hamburg", gallery.getName());
+        System.out.println(gallery.getId());
+        System.out.println(repository.find(gallery.getId()).getId());
         repository.delete(gallery.getId());
         assertPersistedGalleries(repository, 0);
     }
     
     @Test
     public void testPersistWithPhoto() {
-        JdoGalleryRepository repository = initGalleryRepository();
-        Gallery gallery = createGallery(repository, "Test Gallery");
-        Collection<Gallery> galleries = assertPersistedGalleries(repository, 1);
-        gallery = galleries.iterator().next();
+        Gallery gallery = new Gallery();
+        gallery.setName("Test Gallery");
         Photo photo = new Photo();
         photo.setName("Test Photo");
         gallery.addPhoto(photo);
+        JdoGalleryRepository repository = initGalleryRepository();
         repository.save(gallery);
-        JdoPhotoRepository photoRepository = new JdoPhotoRepository();
-		photoRepository.setPersistenceManagerFactory(PMF.get());
-		// photoRepository.init(PMF.get());
-        Collection<Photo> photos = photoRepository.findAll();
-        assertEquals(1, photos.size());
-        assertEquals("Test Photo", photos.iterator().next().getName());
-        System.out.println("Photo ID:" + photos.iterator().next().getId());
-        galleries = repository.findAll();
-        gallery = galleries.iterator().next();
-        System.out.println("Gallery ID:" + gallery.getId());
-        assertEquals("Test Photo", gallery.getPhotos().get(0).getName());
+        Collection<Gallery> galleries = repository.findAll();
+        assertEquals(1, galleries.size());
+        Gallery gallery2 = galleries.iterator().next();
+        assertEquals("Test Gallery", gallery2.getName());
+        assertEquals(1, gallery2.getPhotos().size());
+        Gallery gallery3 = repository.find(gallery2.getId());
+        assertEquals("Test Gallery", gallery3.getName());
+        assertEquals(1, gallery3.getPhotos().size());
+        assertEquals("Test Photo", gallery3.getPhotos().get(0).getName());
+        JdoPhotoRepository photoRepo = new JdoPhotoRepository();
+        photoRepo.setPersistenceManagerFactory(PMF.get());
+        assertEquals(1, photoRepo.findAll().size());
+        repository.delete(gallery3.getId());
+        assertEquals(0, repository.findAll().size());
+        assertEquals(0, photoRepo.findAll().size());
     }
     
     private Collection<Gallery> assertPersistedGalleries(JdoGalleryRepository repository, int expected) {

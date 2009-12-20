@@ -1,6 +1,5 @@
 package com.google.appengine.tools.development;
 
-
 import java.io.File;
 
 import org.junit.After;

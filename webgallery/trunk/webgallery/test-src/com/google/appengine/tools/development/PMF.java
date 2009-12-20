@@ -1,6 +1,5 @@
 package com.google.appengine.tools.development;
 
-
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManagerFactory;
 
