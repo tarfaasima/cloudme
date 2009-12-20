@@ -20,7 +20,7 @@ import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 public class PhotoActionBean extends AbstractActionBean {
     private Gallery gallery;
     @SpringBean
-	private GenericService<Long, Gallery> service;
+	private GenericService<String, Gallery> service;
 
     public void setPhotoFile(FileBean photoFile) throws IOException {
         System.out.println(photoFile.getFileName());
@@ -42,7 +42,7 @@ public class PhotoActionBean extends AbstractActionBean {
         return new ForwardResolution(getJspPath("/organize/photo"));
     }
 
-    public void setGalleryId(Long galleryId) {
+    public void setGalleryId(String galleryId) {
         System.out.println("galleryId = " + galleryId);
 		Gallery gallery = service.find(galleryId);
 		System.out.println(gallery);

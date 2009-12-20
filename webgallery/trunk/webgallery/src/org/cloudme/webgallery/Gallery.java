@@ -3,6 +3,7 @@ package org.cloudme.webgallery;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
@@ -10,24 +11,23 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class Gallery implements IdObject<Long> {
+public class Gallery implements IdObject<String> {
     @Persistent
     private String description;
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-//    @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
-    private Long id;
+    @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
+    private String id;
     @Persistent
     private String name;
-    @Persistent(mappedBy = "gallery")
-//    @Persistent
+    @Persistent
     private List<Photo> photos;
 
     public String getDescription() {
         return description;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -39,7 +39,7 @@ public class Gallery implements IdObject<Long> {
         this.description = description;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -59,7 +59,6 @@ public class Gallery implements IdObject<Long> {
         if (photos == null) {
             photos = new ArrayList<Photo>();
         }
-        photo.setGallery(this);
         photos.add(photo);
     }
 }

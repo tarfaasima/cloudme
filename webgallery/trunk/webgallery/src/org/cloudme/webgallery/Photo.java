@@ -13,11 +13,8 @@ import com.google.appengine.api.datastore.Blob;
 public class Photo implements IdObject<String> {
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	// private Key id;
 	@Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
 	private String id;
-    @Persistent
-    private Gallery gallery;
     @Persistent
     private Blob imageData;
     @Persistent
@@ -55,14 +52,6 @@ public class Photo implements IdObject<String> {
 
     public void setSize(long size) {
         this.size = size;
-    }
-
-    public void setGallery(Gallery gallery) {
-        this.gallery = gallery;
-    }
-
-    public Gallery getGallery() {
-        return gallery;
     }
 
 	public void setId(String id) {

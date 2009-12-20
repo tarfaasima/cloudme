@@ -9,7 +9,7 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import org.cloudme.webgallery.Gallery;
 
 @UrlBinding("/organize/gallery/{$event}/{id}")
-public class GalleryActionBean extends AbstractOrganizeActionBean<Long, Gallery> {
+public class GalleryActionBean extends AbstractOrganizeActionBean<String, Gallery> {
     @ValidateNestedProperties({
         @Validate(field="name", required=true)
     })
