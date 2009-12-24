@@ -4,10 +4,12 @@ import java.util.Collection;
 
 import javax.jdo.JDOException;
 import javax.jdo.PersistenceManager;
+import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 
 import org.cloudme.webgallery.IdObject;
 import org.cloudme.webgallery.persistence.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jdo.JdoCallback;
 import org.springframework.orm.jdo.support.JdoDaoSupport;
 
@@ -16,6 +18,11 @@ public abstract class AbstractJdoRepository<K, T extends IdObject<K>> extends Jd
 
     public AbstractJdoRepository(Class<T> baseClass) {
         this.baseClass = baseClass;
+    }
+    
+    @Autowired
+    public void init(PersistenceManagerFactory pmf) {
+        setPersistenceManagerFactory(pmf);
     }
 
     public void save(final T t) {

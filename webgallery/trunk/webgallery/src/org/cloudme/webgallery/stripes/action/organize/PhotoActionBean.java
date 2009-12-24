@@ -28,7 +28,7 @@ public class PhotoActionBean extends AbstractActionBean {
         System.out.println(photoFile.getContentType());
         System.out.println(photoFile.getSize());
         Photo photo = new Photo();
-        photo.setImageDataAsArray(IOUtils.toByteArray(photoFile.getInputStream()));
+//        photo.setImageDataAsArray(IOUtils.toByteArray(photoFile.getInputStream()));
         gallery.addPhoto(photo);
 		service.save(gallery);
     }
@@ -43,9 +43,7 @@ public class PhotoActionBean extends AbstractActionBean {
     }
 
     public void setGalleryId(String galleryId) {
-        System.out.println("galleryId = " + galleryId);
 		Gallery gallery = service.find(galleryId);
-		System.out.println(gallery);
         setGallery(gallery);
     }
 

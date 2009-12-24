@@ -7,58 +7,35 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.google.appengine.api.datastore.Blob;
+import org.springframework.core.style.ToStringCreator;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Photo implements IdObject<String> {
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	@Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
-	private String id;
-    @Persistent
-    private Blob imageData;
+    @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
+    private String id;
     @Persistent
     private String name;
-    @Persistent
-    private long size;
 
-    public Blob getImageData() {
-        return imageData;
+    public String getId() {
+        return id;
     }
 
-    public byte[] getImageDataAsArray() {
-        return imageData.getBytes();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public long getSize() {
-        return size;
-    }
-
-    public void setImageData(Blob imageData) {
-        this.imageData = imageData;
-    }
-
-    public void setImageDataAsArray(byte[] bytes) {
-        imageData = new Blob(bytes);
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setSize(long size) {
-        this.size = size;
+    public String getName() {
+        return name;
     }
-
-	public void setId(String id) {
-        this.id = id;
-    }
-
-	public String getId() {
-        return id;
+    
+    @Override
+    public String toString() {
+        return new ToStringCreator(this).append("id", id).append("name", name).toString();
     }
 }

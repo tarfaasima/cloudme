@@ -8,11 +8,23 @@ import org.cloudme.webgallery.Gallery;
 import org.cloudme.webgallery.Photo;
 import org.junit.Test;
 
-import com.google.appengine.tools.development.LocalDatastoreTestCase;
 import com.google.appengine.tools.development.PMF;
 
 
-public class JdoGalleryRepositoryTestCase extends LocalDatastoreTestCase {
+public class JdoGalleryRepositoryTestCase extends AbstractJdoTestCase<String, Gallery> {
+    @Override
+    public Gallery createEntity() {
+        Gallery gallery = new Gallery();
+        gallery.setName("Gallery Name");
+        gallery.setDescription("Gallery Description");
+        return gallery;
+    }
+    
+    @Override
+    public AbstractJdoRepository<String, Gallery> createRepository() {
+        return new JdoGalleryRepository();
+    }
+    
     @Test
     public void testPersistGallery() {
         JdoGalleryRepository repository = initGalleryRepository();
@@ -26,8 +38,6 @@ public class JdoGalleryRepositoryTestCase extends LocalDatastoreTestCase {
         galleries = assertPersistedGalleries(repository, 1);
         gallery = galleries.iterator().next();
         assertEquals("Hamburg", gallery.getName());
-        System.out.println(gallery.getId());
-        System.out.println(repository.find(gallery.getId()).getId());
         repository.delete(gallery.getId());
         assertPersistedGalleries(repository, 0);
     }
@@ -73,8 +83,8 @@ public class JdoGalleryRepositoryTestCase extends LocalDatastoreTestCase {
 
     private JdoGalleryRepository initGalleryRepository() {
         JdoGalleryRepository repository = new JdoGalleryRepository();
-		repository.setPersistenceManagerFactory(PMF.get());
-		// repository.init(PMF.get());
+		repository.init(PMF.get());
         return repository;
     }
+
 }

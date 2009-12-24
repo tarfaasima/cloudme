@@ -9,18 +9,18 @@ import javax.jdo.annotations.PrimaryKey;
 
 import org.cloudme.webgallery.IdObject;
 
-@PersistenceCapable(identityType = IdentityType.APPLICATION, detachable="true")
+@PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class ContactInfo implements IdObject<String> {
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+    @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
     private String id;
-    
+
     @Persistent
     private String streetAddress;
 
-    public void setId(String key) {
-        id = key;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getId() {
@@ -34,7 +34,7 @@ public class ContactInfo implements IdObject<String> {
     public String getStreetAddress() {
         return streetAddress;
     }
-    
+
     @Override
     public String toString() {
         return "(" + id + ", " + streetAddress + ")";

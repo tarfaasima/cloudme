@@ -12,14 +12,14 @@ import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Gallery implements IdObject<String> {
-    @Persistent
-    private String description;
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
     private String id;
     @Persistent
     private String name;
+    @Persistent
+    private String description;
     @Persistent
     private List<Photo> photos;
 
