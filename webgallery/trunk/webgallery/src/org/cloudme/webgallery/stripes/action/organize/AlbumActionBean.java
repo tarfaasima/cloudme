@@ -6,26 +6,26 @@ import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
-import org.cloudme.webgallery.Gallery;
+import org.cloudme.webgallery.Album;
 
-@UrlBinding("/organize/gallery/{$event}/{id}")
-public class GalleryActionBean extends AbstractOrganizeActionBean<String, Gallery> {
+@UrlBinding("/organize/album/{$event}/{id}")
+public class AlbumActionBean extends AbstractOrganizeActionBean<String, Album> {
     @ValidateNestedProperties({
         @Validate(field="name", required=true)
     })
-    private List<Gallery> items;
+    private List<Album> items;
 
-	public GalleryActionBean() {
-		super("/organize/gallery");
+	public AlbumActionBean() {
+		super("/organize/album");
 	}
 
     @Override
-    public void setItems(List<Gallery> galleries) {
+    public void setItems(List<Album> galleries) {
         items = galleries;
     }
 
     @Override
-    public List<Gallery> getItems() {
+    public List<Album> getItems() {
         return items;
     }
 }

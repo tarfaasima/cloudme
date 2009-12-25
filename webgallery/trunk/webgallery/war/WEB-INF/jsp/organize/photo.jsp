@@ -6,12 +6,12 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
     <title>
-      Photos - ${actionBean.gallery.name}
+      Photos - ${actionBean.album.name}
     </title>
   </head>
   <body>
     <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.PhotoActionBean">
-      <s:hidden name="galleryId" value="${actionBean.gallery.id}"/>
+      <s:hidden name="albumId" value="${actionBean.album.id}"/>
       <div>
         Upload
       </div>
@@ -21,8 +21,8 @@
       <s:submit name="upload" value="Upload" />
     </s:form>
     <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.PhotoActionBean">
-      <s:hidden name="galleryId" value="${actionBean.gallery.id}"/>
-      <c:forEach items="${actionBean.gallery.photos}" var="item" varStatus="loop">
+      <s:hidden name="albumId" value="${actionBean.album.id}"/>
+      <c:forEach items="${actionBean.album.photos}" var="item" varStatus="loop">
       </c:forEach>
       <s:submit name="save" value="Save" />
     </s:form>

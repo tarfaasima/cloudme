@@ -13,6 +13,6 @@ import com.google.appengine.api.users.UserServiceFactory;
 public class LogoutActionBean extends AbstractActionBean {
 	@DefaultHandler
 	public Resolution logout() {
-		return new RedirectResolution(UserServiceFactory.getUserService().createLogoutURL("/organize/gallery"));
+		return new RedirectResolution(UserServiceFactory.getUserService().createLogoutURL("/organize/album"));
 	}
 }

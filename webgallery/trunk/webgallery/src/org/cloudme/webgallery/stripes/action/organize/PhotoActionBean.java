@@ -11,16 +11,16 @@ import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 
 import org.apache.commons.io.IOUtils;
-import org.cloudme.webgallery.Gallery;
+import org.cloudme.webgallery.Album;
 import org.cloudme.webgallery.Photo;
 import org.cloudme.webgallery.service.GenericService;
 import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 
-@UrlBinding("/organize/photo/{galleryId}/${event}/{id}")
+@UrlBinding("/organize/photo/{albumId}/${event}/{id}")
 public class PhotoActionBean extends AbstractActionBean {
-    private Gallery gallery;
+    private Album album;
     @SpringBean
-	private GenericService<String, Gallery> service;
+	private GenericService<String, Album> service;
 
     public void setPhotoFile(FileBean photoFile) throws IOException {
         System.out.println(photoFile.getFileName());
@@ -29,12 +29,12 @@ public class PhotoActionBean extends AbstractActionBean {
         System.out.println(photoFile.getSize());
         Photo photo = new Photo();
 //        photo.setImageDataAsArray(IOUtils.toByteArray(photoFile.getInputStream()));
-        gallery.addPhoto(photo);
-		service.save(gallery);
+        album.addPhoto(photo);
+		service.save(album);
     }
 
     public Resolution upload() {
-        return new RedirectResolution("/organize/photo/" + gallery.getId() + "/edit");
+        return new RedirectResolution("/organize/photo/" + album.getId() + "/edit");
     }
     
     @DefaultHandler
@@ -42,16 +42,16 @@ public class PhotoActionBean extends AbstractActionBean {
         return new ForwardResolution(getJspPath("/organize/photo"));
     }
 
-    public void setGalleryId(String galleryId) {
-		Gallery gallery = service.find(galleryId);
-        setGallery(gallery);
+    public void setAlbumId(String albumId) {
+		Album album = service.find(albumId);
+        setAlbum(album);
     }
 
-    public void setGallery(Gallery gallery) {
-        this.gallery = gallery;
+    public void setAlbum(Album album) {
+        this.album = album;
     }
 
-    public Gallery getGallery() {
-        return gallery;
+    public Album getAlbum() {
+        return album;
     }
 }
