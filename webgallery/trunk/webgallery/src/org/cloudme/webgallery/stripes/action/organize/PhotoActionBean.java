@@ -13,42 +13,61 @@ import net.sourceforge.stripes.integration.spring.SpringBean;
 import org.apache.commons.io.IOUtils;
 import org.cloudme.webgallery.Album;
 import org.cloudme.webgallery.Photo;
-import org.cloudme.webgallery.service.GenericService;
+import org.cloudme.webgallery.service.AlbumService;
+import org.cloudme.webgallery.service.PhotoService;
 import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 
-@UrlBinding("/organize/photo/{albumId}/${event}/{id}")
+@UrlBinding("/organize/photo/{albumId}/{$event}/{id}")
 public class PhotoActionBean extends AbstractActionBean {
-    private Album album;
     @SpringBean
-	private GenericService<String, Album> service;
+    private AlbumService albumService;
+    @SpringBean
+    private PhotoService photoService;
+    private FileBean photoFile;
+    private String photoId;
+    private String albumId;
+    private Album album;
 
-    public void setPhotoFile(FileBean photoFile) throws IOException {
-        System.out.println(photoFile.getFileName());
-        System.out.println(IOUtils.toByteArray(photoFile.getInputStream()).length);
-        System.out.println(photoFile.getContentType());
-        System.out.println(photoFile.getSize());
-        Photo photo = new Photo();
-//        photo.setImageDataAsArray(IOUtils.toByteArray(photoFile.getInputStream()));
-        album.addPhoto(photo);
-		service.save(album);
+    public void setPhotoFile(FileBean photoFile) {
+        this.photoFile = photoFile;
     }
 
-    public Resolution upload() {
-        return new RedirectResolution("/organize/photo/" + album.getId() + "/edit");
+    public Resolution upload() throws IOException {
+        Photo photo = new Photo();
+        photo.setFileName(photoFile.getFileName());
+        photo.setContentType(photoFile.getContentType());
+        photo.setSize(photoFile.getSize());
+        photo.setDataAsArray(IOUtils.toByteArray(photoFile.getInputStream()));
+        album.addPhoto(photo);
+        // Image image = ImagesServiceFactory.makeImage(photo.getDataAsArray());
+        // System.out.println(image.getWidth() + " x " + image.getHeight());
+        // System.out.println(image.getFormat());
+        albumService.save(album);
+        return new RedirectResolution("/organize/photo/" + albumId);
+    }
+
+    public Resolution delete() {
+        photoService.delete(photoId);
+        return new RedirectResolution("/organize/photo/" + albumId);
     }
     
+    public Resolution save() {
+        albumService.save(album);
+        return new RedirectResolution("/organize/photo/" + albumId);
+    }
+
     @DefaultHandler
     public Resolution edit() {
         return new ForwardResolution(getJspPath("/organize/photo"));
     }
 
     public void setAlbumId(String albumId) {
-		Album album = service.find(albumId);
-        setAlbum(album);
+        this.albumId = albumId;
+        album = albumService.find(albumId);
     }
 
-    public void setAlbum(Album album) {
-        this.album = album;
+    public void setId(String photoId) {
+        this.photoId = photoId;
     }
 
     public Album getAlbum() {

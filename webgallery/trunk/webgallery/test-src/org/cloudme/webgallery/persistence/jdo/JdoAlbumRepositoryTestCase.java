@@ -26,65 +26,61 @@ public class JdoAlbumRepositoryTestCase extends AbstractJdoTestCase<String, Albu
     }
     
     @Test
-    public void testPersistGallery() {
-        JdoAlbumRepository repository = initAlbumRepository();
-        assertPersistedAlbums(repository, 0);
-        Album album = createAlbum(repository, "Test");
-        Collection<Album> albums = assertPersistedAlbums(repository, 1);
-        album = albums.iterator().next();
-        assertEquals("Test", album.getName());
-        album.setName("Hamburg");
-        repository.save(album);
-        albums = assertPersistedAlbums(repository, 1);
-        album = albums.iterator().next();
-        assertEquals("Hamburg", album.getName());
-        repository.delete(album.getId());
-        assertPersistedAlbums(repository, 0);
-    }
-    
-    @Test
     public void testPersistWithPhoto() {
-        Album album = new Album();
-        album.setName("Test Album");
+        Album album = createEntity();
         Photo photo = new Photo();
         photo.setName("Test Photo");
+        photo.setDataAsArray(new byte[100000]);
         album.addPhoto(photo);
-        JdoAlbumRepository repository = initAlbumRepository();
-        repository.save(album);
-        Collection<Album> albums = repository.findAll();
-        assertEquals(1, albums.size());
+        repo.save(album);
+        Collection<Album> albums = repo.findAll();
+        assertRepoSize(1);
+
         Album album2 = albums.iterator().next();
-        assertEquals("Test Album", album2.getName());
+        assertEquals("Album Name", album2.getName());
         assertEquals(1, album2.getPhotos().size());
-        Album album3 = repository.find(album2.getId());
-        assertEquals("Test Album", album3.getName());
+        
+        Album album3 = repo.find(album2.getId());
+        assertEquals("Album Name", album3.getName());
         assertEquals(1, album3.getPhotos().size());
-        assertEquals("Test Photo", album3.getPhotos().get(0).getName());
+        Photo photo2 = album3.getPhotos().get(0);
+        assertEquals("Test Photo", photo2.getName());
+        
         JdoPhotoRepository photoRepo = new JdoPhotoRepository();
         photoRepo.setPersistenceManagerFactory(PMF.get());
         assertEquals(1, photoRepo.findAll().size());
-        repository.delete(album3.getId());
-        assertEquals(0, repository.findAll().size());
+        
+        Photo photo3 = photoRepo.find(photo2.getId());
+        assertEquals("Test Photo", photo3.getName());
+        assertEquals(100000, photo3.getDataAsArray().length);
+        
+        repo.delete(album3.getId());
+        assertRepoSize(0);
         assertEquals(0, photoRepo.findAll().size());
     }
     
-    private Collection<Album> assertPersistedAlbums(JdoAlbumRepository repository, int expected) {
-        Collection<Album> albums = repository.findAll();
-        assertEquals(expected, albums.size());
-        return albums;
+    @Test
+    public void testDeletePhoto() {
+        Album album1 = createEntity();
+        repo.save(album1);
+        
+        Album album2 = repo.findAll().iterator().next();
+        Photo photo1 = new Photo();
+        photo1.setName("Photo 1");
+        album2.addPhoto(photo1);
+        Photo photo2 = new Photo();
+        photo2.setName("Photo 2");
+        album2.addPhoto(photo2);
+        repo.save(album2);
+        
+        Album album3 = repo.findAll().iterator().next();
+        assertEquals(2, album3.getPhotos().size());
+        Photo photo3 = album3.getPhotos().get(0);
+        JdoPhotoRepository photoRepo = new JdoPhotoRepository();
+        photoRepo.setPersistenceManagerFactory(PMF.get());
+        photoRepo.delete(photo3.getId());
+        
+        Album album4 = repo.findAll().iterator().next();
+        assertEquals(1, album4.getPhotos().size());
     }
-
-    private Album createAlbum(JdoAlbumRepository repository, String name) {
-        Album album = new Album();
-        album.setName(name);
-        repository.save(album);
-        return album;
-    }
-
-    private JdoAlbumRepository initAlbumRepository() {
-        JdoAlbumRepository repository = new JdoAlbumRepository();
-		repository.init(PMF.get());
-        return repository;
-    }
-
 }

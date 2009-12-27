@@ -15,6 +15,7 @@ import org.cloudme.webgallery.IdObject;
 import org.cloudme.webgallery.service.GenericService;
 import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 
+@Deprecated
 public abstract class AbstractOrganizeActionBean<K, T extends IdObject<K>> extends AbstractActionBean {
     @SpringBean
 	private GenericService<K, T> service;

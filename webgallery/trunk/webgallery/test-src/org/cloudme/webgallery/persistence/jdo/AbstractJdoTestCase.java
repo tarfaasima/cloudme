@@ -11,7 +11,7 @@ import com.google.appengine.tools.development.LocalDatastoreTestCase;
 import com.google.appengine.tools.development.PMF;
 
 public abstract class AbstractJdoTestCase<K, T extends IdObject<K>> extends LocalDatastoreTestCase {
-    private AbstractJdoRepository<K, T> repo;
+    protected AbstractJdoRepository<K, T> repo;
 
     public abstract T createEntity();
 
@@ -44,7 +44,7 @@ public abstract class AbstractJdoTestCase<K, T extends IdObject<K>> extends Loca
         assertRepoSize(0);
     }
     
-    private void assertRepoSize(int expected) {
+    protected void assertRepoSize(int expected) {
         assertEquals(expected, repo.findAll().size());
     }
 

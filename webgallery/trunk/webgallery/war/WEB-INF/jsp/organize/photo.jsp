@@ -10,6 +10,9 @@
     </title>
   </head>
   <body>
+    <s:link beanclass="org.cloudme.webgallery.stripes.action.organize.AlbumActionBean">
+      Albums
+    </s:link>
     <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.PhotoActionBean">
       <s:hidden name="albumId" value="${actionBean.album.id}"/>
       <div>
@@ -22,7 +25,16 @@
     </s:form>
     <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.PhotoActionBean">
       <s:hidden name="albumId" value="${actionBean.album.id}"/>
-      <c:forEach items="${actionBean.album.photos}" var="item" varStatus="loop">
+      <c:forEach items="${actionBean.album.photos}" var="photo" varStatus="loop">
+        <div>
+          <img src="/gallery/photo/${photo.id}_m.jpg"/>
+        </div>
+        <div>
+          <s:text name="album.photos[${loop.index}].name"/>
+        </div>
+        <div>
+          <s:link href="/organize/photo/${actionBean.album.id}/delete/${photo.id}">delete</s:link>
+        </div>
       </c:forEach>
       <s:submit name="save" value="Save" />
     </s:form>

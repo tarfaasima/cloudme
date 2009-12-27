@@ -56,7 +56,7 @@ public abstract class AbstractJdoRepository<K, T extends IdObject<K>> extends Jd
     public void delete(final K id) {
         getJdoTemplate().execute(new JdoCallback<T>() {
             public T doInJdo(PersistenceManager pm) throws JDOException {
-                Object item = pm.getObjectById(baseClass, id);
+                T item = pm.getObjectById(baseClass, id);
                 pm.deletePersistent(item);
                 return null;
             }
