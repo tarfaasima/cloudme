@@ -1,30 +1,26 @@
 package org.cloudme.webgallery.service;
 
 import org.cloudme.webgallery.Photo;
-import org.cloudme.webgallery.persistence.Repository;
-import org.cloudme.webgallery.persistence.jdo.JdoPhotoRepository;
+import org.cloudme.webgallery.image.ImageParameter;
+import org.cloudme.webgallery.image.ImageParameterFactory;
+import org.cloudme.webgallery.image.ImageService;
+import org.cloudme.webgallery.persistence.PhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.appengine.api.images.Image;
-import com.google.appengine.api.images.ImagesServiceFactory;
-import com.google.appengine.api.images.Transform;
-
 @Service
-public class PhotoService extends GenericService<String, Photo> {
+public class PhotoService extends AbstractService<String, Photo> {
     @Autowired
-    private JdoPhotoRepository repository;
+    private ImageService imageService;
     
-    public byte[] getPhotoData(String photoId, String format, String type) {
-        Photo photo = find(photoId);
-        System.out.println(photo.getData());
-        Image image = ImagesServiceFactory.makeImage(photo.getDataAsArray());
-        Transform transform = ImagesServiceFactory.makeResize(64, 64);
-        return ImagesServiceFactory.getImagesService().applyTransform(transform, image).getImageData();
+    @Autowired
+    protected PhotoService(PhotoRepository repository) {
+        super(repository);
     }
 
-    @Override
-    protected Repository<String, Photo> getRepository() {
-        return repository;
+    public byte[] getPhotoData(String photoId, String size, String format) {
+        Photo photo = find(photoId);
+        ImageParameter parameter = ImageParameterFactory.getImageParameter(size);
+        return imageService.process(photo.getDataAsArray(), parameter, format);
     }
 }

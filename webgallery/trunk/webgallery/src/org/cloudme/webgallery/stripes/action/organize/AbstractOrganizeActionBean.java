@@ -12,13 +12,13 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 
 import org.cloudme.webgallery.IdObject;
-import org.cloudme.webgallery.service.GenericService;
+import org.cloudme.webgallery.service.AbstractService;
 import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 
 @Deprecated
 public abstract class AbstractOrganizeActionBean<K, T extends IdObject<K>> extends AbstractActionBean {
     @SpringBean
-	private GenericService<K, T> service;
+	private AbstractService<K, T> service;
 	private K id;
 	private final String forwardPath;
 
@@ -65,7 +65,7 @@ public abstract class AbstractOrganizeActionBean<K, T extends IdObject<K>> exten
     
     public abstract List<T> getItems();
 
-	protected GenericService<K, T> getService() {
+	protected AbstractService<K, T> getService() {
 		return service;
 	}
 }
