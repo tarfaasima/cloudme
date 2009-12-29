@@ -22,9 +22,17 @@ public class GaeImageService implements ImageService {
     };
 
     public byte[] process(byte[] data, ImageParameter parameter, String format) {
-        CompositeTransform tx = ImagesServiceFactory.makeCompositeTransform();
-        tx.concatenate(ImagesServiceFactory.makeResize(parameter.getSize(), parameter.getSize()));
         Image image = ImagesServiceFactory.makeImage(data);
+        CompositeTransform tx = ImagesServiceFactory.makeCompositeTransform();
+        if (parameter.isSquare()) {
+            float width = image.getWidth();
+            float height = image.getHeight();
+            float min = Math.min(width, height);
+            float x = (width - min) / 2;
+            float y = (height - min) / 2;
+            tx.concatenate(ImagesServiceFactory.makeCrop(x / width, y / height, (x + min) / width, (y + min) / height));
+        }
+        tx.concatenate(ImagesServiceFactory.makeResize(parameter.getSize(), parameter.getSize()));
         ImagesService imagesService = ImagesServiceFactory.getImagesService();
         OutputEncoding outputEncoding = getOutputEncoding(format);
         return imagesService.applyTransform(tx, image, outputEncoding).getImageData();

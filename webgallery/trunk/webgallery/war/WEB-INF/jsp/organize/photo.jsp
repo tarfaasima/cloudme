@@ -27,7 +27,7 @@
       <s:hidden name="albumId" value="${actionBean.album.id}"/>
       <c:forEach items="${actionBean.album.photos}" var="photo" varStatus="loop">
         <div>
-          <img src="/gallery/photo/${photo.id}_m.jpg"/>
+          <img src="/gallery/photo/${photo.id}_t.jpg"/>
         </div>
         <div>
           <s:text name="album.photos[${loop.index}].name"/>
