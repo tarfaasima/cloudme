@@ -22,9 +22,9 @@ div#header>div {
 
 div#header h1 {
   margin: 0;
-  padding: 10px 0 0 0;
+  padding: 11px 0 0 0;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 20px;
   float: left;
 }
 
@@ -32,11 +32,13 @@ div#header ul {
   margin: 0;
   padding: 0;
   float: right;
+  list-style-type: none;
 }
 
 div#header li {
   margin: 0;
   padding: 15px 0 0 15px;
+  font-size: 12px;
   float: left;
 }
 
