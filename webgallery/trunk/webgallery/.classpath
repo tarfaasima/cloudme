@@ -34,6 +34,11 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/org.springframework.aop-3.0.0.RC2.jar"/>
 	<classpathentry kind="lib" path="test-lib/appengine-api-stubs.jar"/>
 	<classpathentry kind="lib" path="test-lib/appengine-local-runtime.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-lang-2.4.jar" sourcepath="/Users/Moritz/Documents/Installation/Libraries/commons-lang-2.4-src/src/java">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/Moritz/Documents/Installation/Libraries/commons-lang-2.4-src/dist/docs/api/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
