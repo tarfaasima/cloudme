@@ -13,7 +13,7 @@ import net.sourceforge.stripes.integration.spring.SpringBean;
 
 import org.cloudme.webgallery.IdObject;
 import org.cloudme.webgallery.service.AbstractService;
-import org.cloudme.webgallery.stripes.util.AbstractActionBean;
+import org.cloudme.webgallery.stripes.action.AbstractActionBean;
 
 @Deprecated
 public abstract class AbstractOrganizeActionBean<K, T extends IdObject<K>> extends AbstractActionBean {

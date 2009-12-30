@@ -9,7 +9,6 @@ import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 
 import org.cloudme.webgallery.service.PhotoService;
-import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 
 @UrlBinding("/gallery/photo/{photoId}_{format}.{type}")
 public class PhotoActionBean extends AbstractActionBean {

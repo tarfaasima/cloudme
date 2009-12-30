@@ -15,7 +15,7 @@ import org.cloudme.webgallery.Album;
 import org.cloudme.webgallery.Photo;
 import org.cloudme.webgallery.service.AlbumService;
 import org.cloudme.webgallery.service.PhotoService;
-import org.cloudme.webgallery.stripes.util.AbstractActionBean;
+import org.cloudme.webgallery.stripes.action.AbstractActionBean;
 
 @UrlBinding("/organize/photo/{albumId}/{$event}/{id}")
 public class PhotoActionBean extends AbstractActionBean {

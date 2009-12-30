@@ -6,20 +6,17 @@ import java.io.Serializable;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.cloudme.webgallery.image.ImageParameter;
 
 public class CacheKey implements Serializable {
-    private final String photoId;
-    private final ImageParameter parameter;
-    private final String format;
+    private final Serializable[] parameters;
 
-    public CacheKey(String photoId, ImageParameter parameter, String format) {
-        assert photoId != null;
-        assert parameter != null;
-        assert format != null;
-        this.photoId = photoId;
-        this.parameter = parameter;
-        this.format = format;
+    public CacheKey(Serializable... parameters) {
+        for (int i = 0; i < parameters.length; i++) {
+            if (parameters[i] == null) {
+                throw new IllegalArgumentException("Parameters must not be null (" + i + ")");
+            }
+        }
+        this.parameters = parameters;
     }
 
     @Override
@@ -34,16 +31,16 @@ public class CacheKey implements Serializable {
             return false;
         }
         CacheKey key = (CacheKey) obj;
-        return new EqualsBuilder().append(photoId, key.photoId).append(parameter, key.parameter).append(format, key.format).isEquals();
+        return new EqualsBuilder().append(parameters, key.parameters).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(photoId).append(parameter).append(format).toHashCode();
+        return new HashCodeBuilder().append(parameters).toHashCode();
     }
-    
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append(photoId).append(parameter).append(format).toString();
+        return new ToStringBuilder(this).append(parameters).toString();
     }
 }

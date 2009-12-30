@@ -27,9 +27,11 @@ public class GaeCacheService implements CacheService {
     public byte[] cachePhoto(String photoId, ImageParameter parameter, String format, CacheProducer<byte[]> cacheProducer) {
         CacheKey key = new CacheKey(photoId, parameter, format);
         if (cache.containsKey(key)) {
+            System.out.println("hit: " + key);
             return (byte[]) cache.get(key);
         }
         else {
+            System.out.println("miss: " + key);
             byte[] output = cacheProducer.produce();
             cache.put(key, output);
             return output;

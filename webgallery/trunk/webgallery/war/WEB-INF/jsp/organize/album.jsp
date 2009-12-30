@@ -2,14 +2,9 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions" %>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>
-      Webgallery - Organize
-    </title>
-  </head>
-  <body>
+<s:layout-render name="/WEB-INF/layout/default.jsp" title="">
+<s:layout-component name="content">
+<div>
     <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.AlbumActionBean">
       <c:forEach items="${actionBean.items}" var="item" varStatus="loop">
         <s:hidden name="items[${loop.index}].id"/>
@@ -41,5 +36,9 @@
       <s:submit name="save" value="Save"/>
       <s:reset name="reset" value="Reset"/>
     </s:form>
-  </body>
-</html>
+</div>
+</s:layout-component>
+<s:layout-component name="footerLink">
+<a href="/logout">logout</a>
+</s:layout-component>
+</s:layout-render>

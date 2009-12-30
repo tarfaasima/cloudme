@@ -1,4 +1,4 @@
-package org.cloudme.webgallery.stripes.util;
+package org.cloudme.webgallery.stripes.action;
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;

@@ -10,7 +10,6 @@ import net.sourceforge.stripes.integration.spring.SpringBean;
 
 import org.cloudme.webgallery.Photo;
 import org.cloudme.webgallery.service.PhotoService;
-import org.cloudme.webgallery.stripes.util.AbstractActionBean;
 
 @UrlBinding("/gallery/home")
 public class HomeActionBean extends AbstractActionBean {

@@ -15,7 +15,7 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
 import org.cloudme.webgallery.Album;
 import org.cloudme.webgallery.service.AlbumService;
-import org.cloudme.webgallery.stripes.util.AbstractActionBean;
+import org.cloudme.webgallery.stripes.action.AbstractActionBean;
 
 @UrlBinding("/organize/album/{$event}/{id}")
 public class AlbumActionBean extends AbstractActionBean {
