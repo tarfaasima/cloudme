@@ -1,10 +1,11 @@
 // created 30.12.2009 10:28:46 by Moritz Petersen
-package org.cloudme.webgallery.service;
+package org.cloudme.webgallery.cache;
 
 import java.io.Serializable;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.cloudme.webgallery.image.ImageParameter;
 
 public class CacheKey implements Serializable {
@@ -39,5 +40,10 @@ public class CacheKey implements Serializable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(photoId).append(parameter).append(format).toHashCode();
+    }
+    
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append(photoId).append(parameter).append(format).toString();
     }
 }

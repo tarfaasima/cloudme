@@ -7,7 +7,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import org.springframework.core.style.ToStringCreator;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import com.google.appengine.api.datastore.Blob;
 
@@ -87,6 +87,6 @@ public class Photo implements IdObject<String> {
 
     @Override
     public String toString() {
-        return new ToStringCreator(this).append("id", id).append("name", name).toString();
+        return new ToStringBuilder(this).append(id).append(name).toString();
     }
 }

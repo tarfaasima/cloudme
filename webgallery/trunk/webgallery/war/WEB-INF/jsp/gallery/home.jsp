@@ -36,7 +36,7 @@
 </div>
 </div>
 <div id="footer">
-  <a href="/organize/album">Organize</a>
+  <a href="/organize/album">organize</a> &ndash; &copy; 2009 by Moritz Petersen
 </div>
 </body>
 </html>
