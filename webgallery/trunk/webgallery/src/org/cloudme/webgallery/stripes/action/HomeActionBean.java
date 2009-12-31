@@ -1,6 +1,8 @@
 package org.cloudme.webgallery.stripes.action;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -22,6 +24,8 @@ public class HomeActionBean extends AbstractActionBean {
     }
     
     public Collection<Photo> getPhotos() {
-        return service.findAll();
+        ArrayList<Photo> photos = new ArrayList<Photo>(service.findAll());
+        Collections.shuffle(photos);
+        return photos;
     }
 }

@@ -39,6 +39,6 @@
 </div>
 </s:layout-component>
 <s:layout-component name="footerLink">
-<a href="/logout">logout</a>
+<s:link beanclass="org.cloudme.webgallery.stripes.action.LogoutActionBean">logout</s:link>
 </s:layout-component>
 </s:layout-render>
