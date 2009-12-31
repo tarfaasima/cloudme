@@ -1,13 +1,13 @@
 package org.cloudme.webgallery.image;
 
-public enum ImageParameter {
+public enum ImageFormat {
     THUMBNAIL("t", 210, true), LARGE("l", 894, false);
     
     private final String id;
     private final int size;
     private final boolean isSquare;
 
-    private ImageParameter(String id, int size, boolean isSquare) {
+    private ImageFormat(String id, int size, boolean isSquare) {
         this.id = id;
         this.size = size;
         this.isSquare = isSquare;
