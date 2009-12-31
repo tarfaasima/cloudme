@@ -26,6 +26,9 @@ public class HomeActionBean extends AbstractActionBean {
     public Collection<Photo> getPhotos() {
         ArrayList<Photo> photos = new ArrayList<Photo>(service.findAll());
         Collections.shuffle(photos);
-        return photos;
+        if (photos.size() <= 16) {
+            return photos;
+        }
+        return photos.subList(0, 16);
     }
 }
