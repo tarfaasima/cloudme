@@ -10,11 +10,18 @@ public class ContentTypeFactory {
         if (contentTypeMap == null) {
             contentTypeMap = new HashMap<String, ContentType>();
             for (ContentType contentType : ContentType.values()) {
+                contentTypeMap.put(contentType.name(), contentType);
+                contentTypeMap.put(contentType.toString().toUpperCase(), contentType);
                 for (String suffix : contentType.getSuffixes()) {
                     contentTypeMap.put(suffix, contentType);
                 }
             }
         }
         return contentTypeMap.get(type.trim().toUpperCase());
+    }
+    
+    public static ContentType getContentTypeByFileName(String fileName) {
+        String suffix = fileName.substring(fileName.lastIndexOf('.') + 1);
+        return getContentType(suffix);
     }
 }

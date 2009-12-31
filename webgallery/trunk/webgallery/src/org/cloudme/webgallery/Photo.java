@@ -87,6 +87,6 @@ public class Photo implements IdObject<String> {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append(id).append(name).toString();
+        return new ToStringBuilder(this).append(id).append(name).append(contentType).append(fileName).append(size).toString();
     }
 }

@@ -1,7 +1,7 @@
 package org.cloudme.webgallery.image;
 
 public enum ContentType {
-    JPEG("image/jpeg", "JPG", "JPEG"), PNG("image/png", "PNG");
+    JPEG("image/jpeg", "JPG"), PNG("image/png");
     
     private final String type;
     private final String[] suffixes;

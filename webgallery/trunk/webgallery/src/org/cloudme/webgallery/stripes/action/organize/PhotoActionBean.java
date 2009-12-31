@@ -1,6 +1,7 @@
 package org.cloudme.webgallery.stripes.action.organize;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.FileBean;
@@ -10,12 +11,12 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 
-import org.apache.commons.io.IOUtils;
 import org.cloudme.webgallery.Album;
 import org.cloudme.webgallery.Photo;
 import org.cloudme.webgallery.service.AlbumService;
 import org.cloudme.webgallery.service.PhotoService;
 import org.cloudme.webgallery.stripes.action.AbstractActionBean;
+import org.cloudme.webgallery.stripes.action.organize.upload.UploadManager;
 
 @UrlBinding("/organize/photo/{albumId}/{$event}/{id}")
 public class PhotoActionBean extends AbstractActionBean {
@@ -33,16 +34,12 @@ public class PhotoActionBean extends AbstractActionBean {
     }
 
     public Resolution upload() throws IOException {
-        Photo photo = new Photo();
-        photo.setFileName(photoFile.getFileName());
-        photo.setContentType(photoFile.getContentType());
-        photo.setSize(photoFile.getSize());
-        photo.setDataAsArray(IOUtils.toByteArray(photoFile.getInputStream()));
-        album.addPhoto(photo);
-        // Image image = ImagesServiceFactory.makeImage(photo.getDataAsArray());
-        // System.out.println(image.getWidth() + " x " + image.getHeight());
-        // System.out.println(image.getFormat());
-        albumService.save(album);
+        UploadManager manager = new UploadManager();
+        Collection<Photo> photos = manager.upload(photoFile);
+        for (Photo photo : photos) {
+            album.addPhoto(photo);
+            albumService.save(album);
+        }
         return new RedirectResolution("/organize/photo/" + albumId);
     }
 
