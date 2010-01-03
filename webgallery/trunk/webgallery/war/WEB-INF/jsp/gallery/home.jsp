@@ -12,7 +12,7 @@
 <script type="text/javascript" src="/js/lightbox.js"></script>
 </s:layout-component>
 <s:layout-component name="content">
-<div>
+<% /*<div> */ %>
 <c:forEach items="${actionBean.photos}" var="photo">
   <div class="thumbnail">
     <a href="/gallery/photo/${photo.id}_l.jpg" rel="lightbox[gallery]" title="${photo.name}">
@@ -20,7 +20,7 @@
     </a>
   </div>
 </c:forEach>
-</div>
+<% /* </div> */ %>
 </s:layout-component>
 <s:layout-component name="footerLink">
 <a href="/organize/album">organize</a>

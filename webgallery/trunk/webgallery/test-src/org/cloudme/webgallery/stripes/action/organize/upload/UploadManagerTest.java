@@ -21,9 +21,6 @@ public class UploadManagerTest {
             }
         };
         Collection<Photo> photos = new UploadManager().upload(fileBean);
-        for (Photo photo : photos) {
-            System.out.println(photo);
-        }
         assertEquals(2, photos.size());
     }
 }

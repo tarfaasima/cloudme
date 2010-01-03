@@ -65,7 +65,6 @@ public class Photo implements IdObject<String> {
     }
 
     public void setDataAsArray(byte[] data) {
-        System.out.println("size: " + data.length);
         this.data = new Blob(data);
     }
 
