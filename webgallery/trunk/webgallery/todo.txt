@@ -1,7 +1,13 @@
+Functional
+----------
 - Individual photo pages
 - Link to albums from start page
 - Album pages
 - Better admin pages
+- Download photos (albums) as ZIP file
 
+Technical
+---------
 - Put image data in separate entity; seperate from Photo
 - Link to Album from Photo
+- Upgrade / migration assistent
