@@ -11,3 +11,4 @@ Technical
 - Put image data in separate entity; seperate from Photo
 - Link to Album from Photo
 - Upgrade / migration assistent
+- Use pseudo-API for image transformation instead of ImageFormat
