@@ -29,7 +29,9 @@ Effect.toggle
 </script>
 </s:layout-component>
 <s:layout-component name="content">
+<div>I'm currently updating the site. Please check back later.</div>
 <% /*
+<div>Albums &rang;</div>
 <c:forEach items="${actionBean.photos}" var="photo">
   <div class="thumbnail">
     <a href="/gallery/photo/${photo.id}_l.jpg" rel="lightbox[gallery]" title="${photo.name}">

@@ -67,6 +67,15 @@ div#content {
   padding: 8px;
 }
 
+/* update message */
+div#content div {
+  margin-top: 8px;
+  padding: 8px;
+  background-color: #FFFFFF;
+  font-size: 28px;
+  font-weight: bold;
+}
+
 div.thumbnail {
   padding: 8px;
   width: 212px;
@@ -80,13 +89,16 @@ div.thumbnail img {
 
 div#footer {
   clear: both;
-  margin: 16px auto;
-  padding: 16px 0;
-  width: 896px;
-  border: 1px solid #BBBBBB;
+  padding: 8px 0;
   text-align: center;
   font-size: 10px;
   color: #BBBBBB;
+  
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  display: table-cell;
+  vertical-align: middle;
   
   background-color: #FFFFFF;
   /* for IE */
