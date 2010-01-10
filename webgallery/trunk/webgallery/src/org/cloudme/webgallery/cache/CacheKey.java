@@ -2,6 +2,7 @@
 package org.cloudme.webgallery.cache;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -14,7 +15,7 @@ public class CacheKey implements Serializable {
 	public CacheKey(Serializable... parameters) {
 		for (int i = 0; i < parameters.length; i++) {
 			if (parameters[i] == null) {
-				throw new IllegalArgumentException("Parameters must not be null (" + i + ")");
+				throw new IllegalArgumentException("Parameters must not be null: " + Arrays.asList(parameters));
 			}
 		}
 		this.parameters = parameters;

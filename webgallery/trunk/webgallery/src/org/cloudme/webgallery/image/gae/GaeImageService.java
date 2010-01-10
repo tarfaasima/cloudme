@@ -16,15 +16,15 @@ public class GaeImageService implements ImageService {
     public byte[] process(byte[] data, ImageFormat format, ContentType type) {
         Image image = ImagesServiceFactory.makeImage(data);
         CompositeTransform tx = ImagesServiceFactory.makeCompositeTransform();
-        if (format.isSquare()) {
-            float width = image.getWidth();
-            float height = image.getHeight();
-            float min = Math.min(width, height);
-            float x = (width - min) / 2;
-            float y = (height - min) / 2;
-            tx.concatenate(ImagesServiceFactory.makeCrop(x / width, y / height, (x + min) / width, (y + min) / height));
+        if (format.isCrop()) {
+            float w1 = image.getWidth();
+            float h1 = image.getHeight();
+            float w2 = format.getWidth();
+            float h2 = format.getHeight();
+            Crop c = new Crop(w1, h1, w2, h2);
+            tx.concatenate(ImagesServiceFactory.makeCrop(c.x, c.y, c.x + c.width, c.y + c.height));
         }
-        tx.concatenate(ImagesServiceFactory.makeResize(format.getSize(), format.getSize()));
+        tx.concatenate(ImagesServiceFactory.makeResize(format.getWidth(), format.getHeight()));
         ImagesService imagesService = ImagesServiceFactory.getImagesService();
         OutputEncoding outputEncoding = OutputEncoding.valueOf(type.name());
         return imagesService.applyTransform(tx, image, outputEncoding).getImageData();

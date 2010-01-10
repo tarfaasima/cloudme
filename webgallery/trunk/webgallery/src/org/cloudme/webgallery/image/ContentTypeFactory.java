@@ -6,7 +6,7 @@ import java.util.Map;
 public class ContentTypeFactory {
     private static Map<String, ContentType> contentTypeMap;
 
-    public static ContentType getContentType(String type) {
+    public synchronized static ContentType getContentType(String type) {
         if (contentTypeMap == null) {
             contentTypeMap = new HashMap<String, ContentType>();
             for (ContentType contentType : ContentType.values()) {
