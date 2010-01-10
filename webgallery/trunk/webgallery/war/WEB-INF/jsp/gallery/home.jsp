@@ -10,9 +10,26 @@
 <script type="text/javascript" src="/js/prototype.js"></script>
 <script type="text/javascript" src="/js/scriptaculous.js?load=effects,builder"></script>
 <script type="text/javascript" src="/js/lightbox.js"></script>
+<script type="text/javascript">
+Effect.toggle
+
+  function updateBackgroundImage() {
+    var dim = document.viewport.getDimensions();
+    var img = '/gallery/photo/${actionBean.randomPhotoId}_' + dim.width + 'x' + dim.height + '.jpg';
+    $(document.body).setStyle('background: url(' + img + ') repeat fixed');
+  }
+
+  Event.observe(window, "resize", function(event) {
+    updateBackgroundImage();
+  })
+
+  Event.observe(window, "load", function(event) {
+    updateBackgroundImage();
+  })
+</script>
 </s:layout-component>
 <s:layout-component name="content">
-<% /*<div> */ %>
+<% /*
 <c:forEach items="${actionBean.photos}" var="photo">
   <div class="thumbnail">
     <a href="/gallery/photo/${photo.id}_l.jpg" rel="lightbox[gallery]" title="${photo.name}">
@@ -20,7 +37,7 @@
     </a>
   </div>
 </c:forEach>
-<% /* </div> */ %>
+*/ %>
 </s:layout-component>
 <s:layout-component name="footerLink">
 <a href="/organize/album">organize</a>

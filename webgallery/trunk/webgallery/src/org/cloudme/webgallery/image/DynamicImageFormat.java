@@ -4,13 +4,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DynamicImageFormat implements ImageFormat {
+    private static final Pattern REGEX = Pattern.compile("(\\d*)x(\\d*)");
     private final int width;
     private final int height;
 
     public DynamicImageFormat(String id) {
-        Pattern p = Pattern.compile("(\\d*)x(\\d*)");
-        System.out.println("matching " + id);
-        Matcher m = p.matcher(id);
+        Matcher m = REGEX.matcher(id);
         if (!m.find()) {
             throw new IllegalArgumentException(id);
         }

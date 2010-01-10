@@ -6,15 +6,111 @@
 <title>Test</title>
 <script type="text/javascript" src="/js/prototype.js"></script>
 <script type="text/javascript">
-  Event.observe(window, "resize", function() {
+  function updateBackgroundImage() {
     var dim = document.viewport.getDimensions();
-    $('hello').update(dim.height + "x" + dim.width);
-  } );
+    var img = '/gallery/photo/ahVwaG90b3MtbW9yaXR6cGV0ZXJzZW5yFgsSBUFsYnVtGBcMCxIFUGhvdG8YIww_' + dim.width + 'x' + dim.height + '.jpg';
+    $(document.body).setStyle('background: url(' + img + ') repeat fixed');
+  }
+
+  Event.observe(window, "resize", function(event) {
+    updateBackgroundImage();
+  });
 </script>
 </head>
-<body>
-<div id="hello">
-Hello
-</div>
+<body onload="updateBackgroundImage()">
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
+<div id="hello">Hello</div>
 </body>
 </html>

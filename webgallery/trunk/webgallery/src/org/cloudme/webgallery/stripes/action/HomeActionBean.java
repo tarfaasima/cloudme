@@ -12,6 +12,7 @@ import net.sourceforge.stripes.integration.spring.SpringBean;
 
 import org.cloudme.webgallery.Photo;
 import org.cloudme.webgallery.service.PhotoService;
+import org.cloudme.webgallery.util.CollectionUtils;
 
 @UrlBinding("/gallery/home")
 public class HomeActionBean extends AbstractActionBean {
@@ -21,6 +22,12 @@ public class HomeActionBean extends AbstractActionBean {
     @DefaultHandler
     public Resolution show() {
         return new ForwardResolution(getJspPath("/gallery/home"));
+    }
+    
+    public String getRandomPhotoId() {
+        Collection<Photo> photos = service.findAll();
+        int index = (int) (Math.random() * photos.size());
+        return CollectionUtils.asList(photos).get(index).getId();
     }
     
     public Collection<Photo> getPhotos() {

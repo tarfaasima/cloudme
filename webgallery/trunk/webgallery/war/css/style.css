@@ -2,6 +2,9 @@ body {
   margin: 0;
   padding: 0;
   font-family: Helvetica, Arial, sans-serif;
+  height: 100%;
+/*  display: table-cell;*/
+  vertical-align: bottom;
 }
 
 a {
@@ -80,10 +83,23 @@ div#footer {
   margin: 16px auto;
   padding: 16px 0;
   width: 896px;
-  border-top: 1px solid #BBBBBB;
+  border: 1px solid #BBBBBB;
   text-align: center;
   font-size: 10px;
   color: #BBBBBB;
+  
+  background-color: #FFFFFF;
+  /* for IE */
+  filter:alpha(opacity=60);
+  /* CSS3 standard */
+  opacity:0.6;
+}
+
+div#footer:hover {
+  /* for IE */
+  filter:alpha(opacity=1);
+  /* CSS3 standard */
+  opacity:1;
 }
 
 div#footer a {
