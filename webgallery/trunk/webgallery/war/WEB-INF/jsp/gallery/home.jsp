@@ -7,29 +7,23 @@
 <link type="text/css" rel="stylesheet" href="/css/lightbox.css" media="screen" />
 </s:layout-component>
 <s:layout-component name="headJs">
-<script type="text/javascript" src="/js/prototype.js"></script>
-<script type="text/javascript" src="/js/scriptaculous.js?load=effects,builder"></script>
-<script type="text/javascript" src="/js/lightbox.js"></script>
+<script type="text/javascript" src="/js/jquery-1.3.2.min.js"></script>
 <script type="text/javascript">
-Effect.toggle
+$(document).ready(function() {
+  $(window).bind("resize", updateBackground);
+  updateBackground();
+});
 
-  function updateBackgroundImage() {
-    var dim = document.viewport.getDimensions();
-    var img = '/gallery/photo/${actionBean.randomPhotoId}_' + dim.width + 'x' + dim.height + '.jpg';
-    $(document.body).setStyle('background: url(' + img + ') repeat fixed');
-  }
-
-  Event.observe(window, "resize", function(event) {
-    updateBackgroundImage();
-  })
-
-  Event.observe(window, "load", function(event) {
-    updateBackgroundImage();
-  })
+function updateBackground() {
+  var id = "${actionBean.randomPhotoId}";
+  var dim = $(document).width() + "x" + $(document).height();
+  var img = "/gallery/photo/" + id + "_" + dim + ".jpg";
+  $("body").css("background", "url(" + img + ") repeat fixed");
+}
 </script>
 </s:layout-component>
 <s:layout-component name="content">
-<div>I'm currently updating the site. Please check back later.</div>
+<div>I'm currently updating the site. Please try again later. <a href="/">Or click here to see another random photo.</a></div>
 <% /*
 <div>Albums &rang;</div>
 <c:forEach items="${actionBean.photos}" var="photo">
