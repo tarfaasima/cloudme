@@ -4,7 +4,6 @@
 
 <s:layout-render name="/WEB-INF/layout/default.jsp" title="">
 <s:layout-component name="headCss">
-<link type="text/css" rel="stylesheet" href="/css/lightbox.css" media="screen" />
 </s:layout-component>
 <s:layout-component name="headJs">
 <script type="text/javascript" src="/js/jquery-1.3.2.min.js"></script>
@@ -18,22 +17,24 @@ function updateBackground() {
   var id = "${actionBean.randomPhotoId}";
   var dim = $(document).width() + "x" + $(document).height();
   var img = "/gallery/photo/" + id + "_" + dim + ".jpg";
-  $("body").css("background", "url(" + img + ") repeat fixed");
+  $("body").css("background", "url(" + img + ") no-repeat fixed");
 }
 </script>
 </s:layout-component>
 <s:layout-component name="content">
-<div>I'm currently updating the site. Please try again later. <a href="/">Or click here to see another random photo.</a></div>
 <% /*
-<div>Albums &rang;</div>
-<c:forEach items="${actionBean.photos}" var="photo">
-  <div class="thumbnail">
-    <a href="/gallery/photo/${photo.id}_l.jpg" rel="lightbox[gallery]" title="${photo.name}">
-      <img src="/gallery/photo/${photo.id}_t.jpg" />
-    </a>
-  </div>
-</c:forEach>
+<div>I'm currently updating the site. Please try again later. <a href="/">Or click here to see another random photo.</a></div>
 */ %>
+<div id="albums">
+<a href="">Albums</a>
+<div>
+<c:forEach items="${actionBean.photos}" var="photo">
+<div>
+<img src="/gallery/photo/${photo.id}_894x180.jpg"/>
+</div>
+</c:forEach>
+</div>
+</div>
 </s:layout-component>
 <s:layout-component name="footerLink">
 <a href="/organize/album">organize</a>

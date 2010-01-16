@@ -4,6 +4,7 @@ body {
   font-family: Helvetica, Arial, sans-serif;
   height: 100%;
   vertical-align: bottom;
+  background-color: #FFFFFF;
 }
 
 a {
@@ -63,21 +64,24 @@ div#header a:hover {
 div#content {
   width: 912px;
   margin: 0 auto;
-  padding: 8px;
+  text-align: left;
 }
 
-/* update message */
-div#content div {
-  margin-top: 8px;
-  padding: 8px;
+div#albums {
+  width: 912px;
   background-color: #FFFFFF;
-  font-size: 28px;
-  font-weight: bold;
 }
 
 div#content div a {
   color: #000000;
-  text-decoration: underline;
+  background-color: #FFFFFF;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+div#content div a:hover {
+  background-color: #CCCCCC;
 }
 
 div.thumbnail {
@@ -85,6 +89,7 @@ div.thumbnail {
   width: 212px;
   height: 212px;
   float: left;
+  visibility: hidden;
 }
 
 div.thumbnail img {
@@ -98,7 +103,7 @@ div#footer {
   font-size: 10px;
   color: #BBBBBB;
   
-  position: absolute;
+  position: fixed;
   bottom: 0px;
   width: 100%;
   vertical-align: middle;
