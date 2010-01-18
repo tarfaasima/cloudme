@@ -10,6 +10,10 @@
 <script type="text/javascript">
 $(document).ready(function() {
   $(window).bind("resize", updateBackground);
+  $(".albumheader").click(function () {
+	  $(".albums").slideToggle();
+  });
+  $(".albums").hide();
   updateBackground();
 });
 
@@ -17,23 +21,23 @@ function updateBackground() {
   var id = "${actionBean.randomPhotoId}";
   var dim = $(document).width() + "x" + $(document).height();
   var img = "/gallery/photo/" + id + "_" + dim + ".jpg";
-  $("body").css("background", "url(" + img + ") no-repeat fixed");
+  $("body").css("background", "url(" + img + ") repeat fixed");
 }
 </script>
 </s:layout-component>
 <s:layout-component name="content">
-<% /*
-<div>I'm currently updating the site. Please try again later. <a href="/">Or click here to see another random photo.</a></div>
-*/ %>
-<div id="albums">
-<a href="">Albums</a>
-<div>
-<c:forEach items="${actionBean.photos}" var="photo">
-<div>
-<img src="/gallery/photo/${photo.id}_894x180.jpg"/>
-</div>
+<div class="albumheader">Albums</div>
+<div class="albums">
+<c:forEach items="${actionBean.albums}" var="album">
+  	<a href="#" class="albumtitle" style="background-image: url(/gallery/photo/${album.photos[0].id}_894x210.jpg); height: 210px">
+  	${album.name}
+  	<div>${album.description}</div>
+  	</a>
+<% /* 
+</h2>
+	<img src="/gallery/photo/${album.photos[0].id}_894x105.jpg"/>
+	*/ %>
 </c:forEach>
-</div>
 </div>
 </s:layout-component>
 <s:layout-component name="footerLink">

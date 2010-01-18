@@ -1,120 +1,149 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: Helvetica, Arial, sans-serif;
-  height: 100%;
-  vertical-align: bottom;
-  background-color: #FFFFFF;
+	margin: 0;
+	padding: 0;
+	font-family: Helvetica, Arial, sans-serif;
+	height: 100%;
+	vertical-align: bottom;
 }
 
 a {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 div#header {
-  background-color: #000000;
-  color: #FFFFFF;
-  text-transform: uppercase;
-  height: 42px;
+	background-color: #000;
+	color: #FFF;
+	text-transform: uppercase;
+	height: 42px;
 }
 
 div#header>div {
-  width: 912px;
-  margin: 0 auto;
+	width: 912px;
+	margin: 0 auto;
 }
 
 div#header h1 {
-  margin: 0;
-  font-weight: normal;
-  font-size: 20px;
-  float: left;
+	margin: 0;
+	font-weight: normal;
+	font-size: 20px;
+	float: left;
 }
 
 div#header ul {
-  margin: 0;
-  padding: 0;
-  float: right;
-  list-style-type: none;
+	margin: 0;
+	padding: 0;
+	float: right;
+	list-style-type: none;
 }
 
 div#header li {
-  margin: 0;
-  padding: 0;
-  font-size: 12px;
-  float: left;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	float: left;
 }
 
 div#header li.selected {
-  font-weight: bold;
+	font-weight: bold;
 }
 
 div#header a {
-  margin: 8px;
-  padding: 8px;
-  display: table-cell;
-  vertical-align: middle;
-  color: #FFFFFF;
-  height: 42px;
+	margin: 8px;
+	padding: 8px;
+	display: table-cell;
+	vertical-align: middle;
+	color: #FFF;
+	height: 42px;
 }
 
 div#header a:hover {
-  background-color: #333333;
+	background-color: #333;
 }
 
 div#content {
-  width: 912px;
-  margin: 0 auto;
-  text-align: left;
+	width: 912px;
+	margin: 0 auto;
+	padding: 0;
 }
 
-div#albums {
-  width: 912px;
-  background-color: #FFFFFF;
+div.albums {
+	background-color: #FFF;
+	width: 912px;
+	clear: both;
+	float: left;
 }
 
-div#content div a {
-  color: #000000;
-  background-color: #FFFFFF;
-  font-size: 12px;
-  font-weight: bold;
-  text-transform: uppercase;
+div.albumheader {
+	background-color: #FFF;
+	color: #000;
+	font-size: 20px;
+	font-weight: normal;
+	padding: 8px;
+	float: left;
+	clear: both;
+	width: auto;
+	text-transform: uppercase;
+	cursor: pointer;
 }
 
-div#content div a:hover {
-  background-color: #CCCCCC;
+a.albumtitle {
+	background-color: #FFF;
+	color: #000;
+	font-size: 40px;
+	float: left;
+	clear: both;
+	margin: 8px;
+	width: 878px;
+	font-weight: bold;
+	border: 1px solid #CCC;
+	padding: 0 8px;
+}
+
+a.albumtitle div {
+	font-size: 12px;
+	font-weight: normal;
+	padding: 8px 0;
+}
+
+div.albumheader:hover {
+	background-color: #CCC;
+}
+
+a.albumtitle:hover {
+	color: #FFF;
+	border: 9px solid #CCC;
+	margin: 0;
 }
 
 div.thumbnail {
-  padding: 8px;
-  width: 212px;
-  height: 212px;
-  float: left;
-  visibility: hidden;
+	padding: 8px;
+	width: 212px;
+	height: 212px;
+	float: left;
 }
 
 div.thumbnail img {
-  border: 1px solid #DDDDDD;
+	border: 1px solid #CCC;
 }
 
 div#footer {
-  clear: both;
-  padding: 8px 0;
-  text-align: center;
-  font-size: 10px;
-  color: #BBBBBB;
-  
-  position: fixed;
-  bottom: 0px;
-  width: 100%;
-  vertical-align: middle;
+	clear: both;
+	padding: 8px 0;
+	text-align: center;
+	font-size: 10px;
+	color: #333;
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	vertical-align: middle;
 }
 
 div#footer:hover {
-  background-color: #FFFFFF;
+	background-color: #FFF;
 }
 
 div#footer a {
-  color: #BBBBBB;
-  font-size: 10px;
-  font-weight: bold;
+	color: #333;
+	font-size: 10px;
+	font-weight: bold;
 }
