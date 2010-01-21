@@ -3,6 +3,7 @@ package org.cloudme.webgallery.image;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("serial")
 public class DynamicImageFormat implements ImageFormat {
     private static final Pattern REGEX = Pattern.compile("(\\d*)x(\\d*)");
     private final int width;

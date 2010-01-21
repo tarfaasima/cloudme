@@ -1,0 +1,41 @@
+package org.cloudme.webgallery.stripes.action;
+
+import java.util.Collection;
+
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
+import net.sourceforge.stripes.integration.spring.SpringBean;
+
+import org.cloudme.webgallery.Album;
+import org.cloudme.webgallery.Photo;
+import org.cloudme.webgallery.service.AlbumService;
+
+@UrlBinding("/gallery/album/{albumId}")
+public class AlbumActionBean extends AbstractActionBean {
+	@SpringBean
+	private AlbumService albumService;
+	private String albumId;
+
+	@DefaultHandler
+	public Resolution album() {
+		return new ForwardResolution(getJspPath("/gallery/album"));
+	}
+
+	public Collection<Album> getAlbums() {
+		return albumService.findAll();
+	}
+
+	public Collection<Photo> getPhotos() {
+		return albumService.find(albumId).getPhotos();
+	}
+
+	public void setAlbumId(String albumId) {
+		this.albumId = albumId;
+	}
+
+	public String getAlbumId() {
+		return albumId;
+	}
+}

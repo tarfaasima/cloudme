@@ -28,8 +28,8 @@
   <s:layout-component name="content" />
 </div>
 <div id="footer">
-  ${footerLink} | 
-  &copy; ${w:copyrightYear("2008", "&ndash;")} by Moritz Petersen | 
+  ${footerLink} &bull; 
+  &copy; ${w:copyrightYear("2008", "-")} by Moritz Petersen &bull; 
   <a href="http://formspring.me/moritzpetersen" title="Ask me on Formspring.me" rel="nofollow">ask me</a>
 </div>
 </body>

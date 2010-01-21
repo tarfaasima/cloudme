@@ -39,6 +39,7 @@
 			<attribute name="javadoc_location" value="file:/Users/Moritz/Documents/Installation/Libraries/commons-lang-2.4-src/dist/docs/api/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="test-lib/junit-4.8.1.jar"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>

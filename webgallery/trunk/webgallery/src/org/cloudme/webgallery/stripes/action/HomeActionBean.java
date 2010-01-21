@@ -1,8 +1,8 @@
 package org.cloudme.webgallery.stripes.action;
 
-import java.util.ArrayList;
+import static org.cloudme.webgallery.util.CollectionUtils.asList;
+
 import java.util.Collection;
-import java.util.Collections;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -14,7 +14,6 @@ import org.cloudme.webgallery.Album;
 import org.cloudme.webgallery.Photo;
 import org.cloudme.webgallery.service.AlbumService;
 import org.cloudme.webgallery.service.PhotoService;
-import org.cloudme.webgallery.util.CollectionUtils;
 
 @UrlBinding("/gallery/home")
 public class HomeActionBean extends AbstractActionBean {
@@ -31,19 +30,10 @@ public class HomeActionBean extends AbstractActionBean {
     public String getRandomPhotoId() {
 		Collection<Photo> photos = photoService.findAll();
         int index = (int) (Math.random() * photos.size());
-        return CollectionUtils.asList(photos).get(index).getId();
+		return asList(photos).get(index).getId();
     }
     
 	public Collection<Album> getAlbums() {
 		return albumService.findAll();
 	}
-
-    public Collection<Photo> getPhotos() {
-		ArrayList<Photo> photos = new ArrayList<Photo>(photoService.findAll());
-        Collections.shuffle(photos);
-        if (photos.size() <= 16) {
-            return photos;
-        }
-        return photos.subList(0, 16);
-    }
 }
