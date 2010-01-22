@@ -13,7 +13,7 @@
 <ul>
 <c:forEach items="${actionBean.albums}" var="album">
 <li>
-  	<a href="/gallery/album/${album.id}" class="album${(album.id == actionBean.albumId) ? " selected" : ""}">${album.name}</a>
+  	<a href="${(album.id == actionBean.albumId) ? '/' : w:url(album)}" class="album${(album.id == actionBean.albumId) ? " selected" : ""}">${album.name}</a>
 </li>
 </c:forEach>
 </ul>

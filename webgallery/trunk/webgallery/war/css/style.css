@@ -63,7 +63,7 @@ div#header a:hover {
 
 div#albums {
 	background-color: #FFF;
-	line-height: 31px;
+	padding: 8px;
 }
 
 div#albums ul {
