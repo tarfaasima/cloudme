@@ -10,6 +10,8 @@ a {
 	text-decoration: none;
 }
 
+/* Header */
+
 div#header {
 	background-color: #000;
 	color: #FFF;
@@ -61,21 +63,19 @@ div#header a:hover {
 	background-color: #333;
 }
 
+/* Albums */
+
 div#albums {
 	background-color: #FFF;
 	padding: 8px;
 }
 
-div#albums ul {
+div#albums div {
 	text-align: justify;
 	list-style-type: none;
 	width: 912px;
 	margin: 0 auto;
 	padding: 0;
-}
-
-div#albums li {
-	display: inline;
 }
 
 div#albums a {
@@ -86,28 +86,34 @@ div#albums a {
 }
 div#albums a.selected {
 	font-weight: bold;
+    font-size: 12px;
 }
 
 div#albums a:hover {
 	background-color: #CCC;
+    font-size: 12px;
 }
+
+/* Photos */
 
 div#photos {
   list-style-type: none;
-  width: 912px;
+  width: 928px;
   margin: 0 auto;
-  padding: 0;
+  padding: 0 0 42px 0;
 }
 
 div#photos img {
   border: 1px solid #CCC;
-  margin: 8;
+  margin: 0 8 16 8;
   padding: 8;
 }
 
 div#photos img:hover {
   background-color: #CCC;
 }
+
+/* Footer */
 
 div#footer {
 	clear: both;

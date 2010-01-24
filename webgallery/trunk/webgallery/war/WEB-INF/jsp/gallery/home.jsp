@@ -23,13 +23,15 @@ function updateBackground() {
 </s:layout-component>
 <s:layout-component name="content">
 <div id="albums">
+<div>
+<% /*
 <ul>
-<c:forEach items="${actionBean.albums}" var="album">
-<li>
-  	<a href="/gallery/album/${album.id}" class="album">${album.name}</a>
+<li> 
 </li>
-</c:forEach>
 </ul>
+*/%>
+<c:forEach items="${actionBean.albums}" var="album"><a href="/gallery/album/${album.id}" class="album">${album.name}</a></c:forEach>
+</div>
 </div>
 </s:layout-component>
 <s:layout-component name="footerLink">
