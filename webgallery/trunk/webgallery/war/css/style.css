@@ -68,9 +68,9 @@ div#albums {
 
 div#albums ul {
 	text-align: justify;
+	list-style-type: none;
 	width: 912px;
 	margin: 0 auto;
-	list-style-type: none;
 	padding: 0;
 }
 
@@ -90,6 +90,23 @@ div#albums a.selected {
 
 div#albums a:hover {
 	background-color: #CCC;
+}
+
+div#photos {
+  list-style-type: none;
+  width: 912px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+div#photos img {
+  border: 1px solid #CCC;
+  margin: 8;
+  padding: 8;
+}
+
+div#photos img:hover {
+  background-color: #CCC;
 }
 
 div#footer {

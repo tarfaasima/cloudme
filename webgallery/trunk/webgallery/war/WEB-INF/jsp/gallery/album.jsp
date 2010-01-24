@@ -5,27 +5,28 @@
 
 <s:layout-render name="/WEB-INF/layout/default.jsp" title="">
 <s:layout-component name="headCss">
+<base href="/"/>
+<link rel="stylesheet" type="text/css" href="/css/jquery.lightbox-0.5.css" media="screen" />
 </s:layout-component>
 <s:layout-component name="headJs">
+<script type="text/javascript" src="/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery.lightbox-0.5.js"></script>
+<script type="text/javascript">
+$(function() {
+    $('div#photos a').lightBox();
+});
+</script>
 </s:layout-component>
 <s:layout-component name="content">
 <div id="albums">
 <ul>
 <c:forEach items="${actionBean.albums}" var="album">
-<li>
-  	<a href="${(album.id == actionBean.albumId) ? '/' : w:url(album)}" class="album${(album.id == actionBean.albumId) ? " selected" : ""}">${album.name}</a>
-</li>
+<li><a href="${(album.id == actionBean.albumId) ? '/' : w:url(album)}" class="album${(album.id == actionBean.albumId) ? " selected" : ""}">${album.name}</a></li>
 </c:forEach>
 </ul>
 </div>
 <div id="photos">
-<ul>
-<c:forEach items="${actionBean.photos}" var="photo">
-<li>
-	<img src="/gallery/photo/${photo.id}_210x210.jpg"/>
-</li>
-</c:forEach>
-</ul>
+<c:forEach items="${actionBean.photos}" var="photo"><a href="/gallery/photo/${photo.id}_l.jpg"><img src="/gallery/photo/${photo.id}_194x194.jpg"/></a></c:forEach>
 </div>
 </s:layout-component>
 <s:layout-component name="footerLink">
