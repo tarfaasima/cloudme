@@ -5,7 +5,6 @@
 
 <s:layout-render name="/WEB-INF/layout/default.jsp" title="">
 <s:layout-component name="headCss">
-<% /* <base href="/"/> */ %>
 <link rel="stylesheet" type="text/css" href="/css/jquery.lightbox-0.5.css" media="screen" />
 </s:layout-component>
 <s:layout-component name="headJs">
