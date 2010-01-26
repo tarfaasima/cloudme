@@ -113,6 +113,26 @@ div#photos img:hover {
   background-color: #CCC;
 }
 
+div.tooltip {
+  display: none;
+  background: url(/images/tooltip/white.png);
+  font-size: 12px;
+  height: 60px;
+  width: 160px;
+  padding: 25px;
+  color: #000;
+}
+
+div.tooltip a {
+  color: #000;
+  text-decoration: underline;
+}
+
+div.tooltip>div+div {
+  padding-top: 8px;
+  text-align: right;
+}
+
 /* Footer */
 
 div#footer {
