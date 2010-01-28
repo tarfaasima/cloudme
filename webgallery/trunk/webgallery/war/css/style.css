@@ -115,11 +115,11 @@ div#photos img:hover {
 
 div.tooltip {
   display: none;
-  background: url(/images/tooltip/white.png);
-  font-size: 12px;
-  height: 60px;
-  width: 160px;
-  padding: 25px;
+  background-color: #FFF;
+  border: 1px solid #000;
+  margin-top: 8px;
+  max-width: 198px;
+  padding: 8px;
   color: #000;
 }
 
