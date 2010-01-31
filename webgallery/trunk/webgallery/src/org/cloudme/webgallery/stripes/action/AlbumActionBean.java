@@ -12,15 +12,20 @@ import org.cloudme.webgallery.Album;
 import org.cloudme.webgallery.Photo;
 import org.cloudme.webgallery.service.AlbumService;
 
-@UrlBinding("/gallery/album/{albumId}")
+@UrlBinding("/gallery/album/{albumId}/{$event}/{photoId}")
 public class AlbumActionBean extends AbstractActionBean {
-	@SpringBean
-	private AlbumService albumService;
+    @SpringBean
+    private AlbumService albumService;
 	private String albumId;
+	private String photoId;
 
 	@DefaultHandler
 	public Resolution album() {
 		return new ForwardResolution(getJspPath("/gallery/album"));
+	}
+	
+	public Resolution photo() {
+	    return new ForwardResolution(getJspPath("/gallery/photo"));
 	}
 
 	public Collection<Album> getAlbums() {
@@ -38,4 +43,12 @@ public class AlbumActionBean extends AbstractActionBean {
 	public String getAlbumId() {
 		return albumId;
 	}
+	
+	public void setPhotoId(String photoId) {
+        this.photoId = photoId;
+    }
+
+    public String getPhotoId() {
+        return photoId;
+    }
 }

@@ -113,18 +113,39 @@ div#photos img:hover {
   background-color: #CCC;
 }
 
+div#photo {
+  list-style-type: none;
+  width: 928px;
+  margin: 0 auto;
+  padding: 0 0 42px 0;
+  text-align: center;
+}
+
+div#photo div+div {
+  text-align: left;
+}
+
+div#photo img {
+  border: 1px solid #CCC;
+  margin: 0 8 16 8;
+  padding: 8;
+}
+
+div#photo img:hover {
+  background-color: #CCC;
+}
+
 div.tooltip {
   display: none;
   background-color: #FFF;
   border: 1px solid #000;
+  margin-top: 8px;
   max-width: 198px;
   padding: 8px;
   color: #000;
-  font-size: 12px;
 }
 
 div.tooltip a {
-  font-size: 12px;
   color: #000;
   text-decoration: underline;
 }
