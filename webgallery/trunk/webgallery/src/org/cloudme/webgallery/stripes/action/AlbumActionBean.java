@@ -11,11 +11,14 @@ import net.sourceforge.stripes.integration.spring.SpringBean;
 import org.cloudme.webgallery.Album;
 import org.cloudme.webgallery.Photo;
 import org.cloudme.webgallery.service.AlbumService;
+import org.cloudme.webgallery.service.PhotoService;
 
 @UrlBinding("/gallery/album/{albumId}/{$event}/{photoId}")
 public class AlbumActionBean extends AbstractActionBean {
     @SpringBean
     private AlbumService albumService;
+    @SpringBean
+    private PhotoService photoService;
 	private String albumId;
 	private String photoId;
 
@@ -50,5 +53,9 @@ public class AlbumActionBean extends AbstractActionBean {
 
     public String getPhotoId() {
         return photoId;
+    }
+    
+    public Photo getPhoto() {
+        return photoService.find(photoId);
     }
 }

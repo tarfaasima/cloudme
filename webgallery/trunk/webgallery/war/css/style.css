@@ -105,8 +105,8 @@ div#photos {
 
 div#photos img {
   border: 1px solid #CCC;
-  margin: 0 8 16 8;
-  padding: 8;
+  margin: 0 8px 16px 8px;
+  padding: 8px;
 }
 
 div#photos img:hover {
@@ -127,20 +127,25 @@ div#photo div+div {
 
 div#photo img {
   border: 1px solid #CCC;
-  margin: 0 8 16 8;
-  padding: 8;
+  margin: 0 8px 16px 8px;
+  padding: 8px;
 }
 
 div#photo img:hover {
   background-color: #CCC;
 }
 
+div#photo div#description {
+  font-size: 12px;
+  margin: 0 8px 24px 16px;
+}
+
 div.tooltip {
   display: none;
   background-color: #FFF;
   border: 1px solid #000;
-  margin-top: 8px;
-  max-width: 198px;
+  margin-top: -16px;
+  max-width: 166px;
   padding: 8px;
   color: #000;
 }
