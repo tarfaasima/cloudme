@@ -9,6 +9,9 @@ import org.cloudme.webgallery.Photo;
 import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.model.PhotoData;
 import org.cloudme.webgallery.persistence.jdo.JdoAlbumRepository;
+import org.cloudme.webgallery.persistence.jdo.JdoPhotoDataRepository;
+import org.cloudme.webgallery.persistence.jdo.NewAlbumRepository;
+import org.cloudme.webgallery.persistence.jdo.NewPhotoRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,9 +44,9 @@ public class MigrationServiceTest extends LocalDatastoreTestCase {
         newPhotoRepository.setPersistenceManagerFactory(PMF.get());
         service.newPhotoRepository = newPhotoRepository;
         
-        NewPhotoDataRepository newPhotoDataRepository = new NewPhotoDataRepository();
-        newPhotoDataRepository.setPersistenceManagerFactory(PMF.get());
-        service.newPhotoDataRepository = newPhotoDataRepository;
+        JdoPhotoDataRepository jdoPhotoDataRepository = new JdoPhotoDataRepository();
+        jdoPhotoDataRepository.setPersistenceManagerFactory(PMF.get());
+        service.jdoPhotoDataRepository = jdoPhotoDataRepository;
     }
     
     @Test
@@ -62,7 +65,8 @@ public class MigrationServiceTest extends LocalDatastoreTestCase {
         album.addPhoto(photo);
         service.albumRepository.save(album);
         
-        service.migrate();
+        String log = service.migrate();
+        System.out.println(log);
         
         // validate
         Collection<org.cloudme.webgallery.model.Album> albums = service.newAlbumRepository.findAll();
@@ -75,7 +79,7 @@ public class MigrationServiceTest extends LocalDatastoreTestCase {
         
         assertEquals(album3.getId(), photo2.getAlbumId());
         
-        Collection<PhotoData> photoDatas = service.newPhotoDataRepository.findAll();
+        Collection<PhotoData> photoDatas = service.jdoPhotoDataRepository.findAll();
         assertEquals(1, photoDatas.size());
         PhotoData photoData = photoDatas.iterator().next();
         

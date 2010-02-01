@@ -5,6 +5,9 @@ import java.util.Date;
 
 import org.cloudme.webgallery.Album;
 import org.cloudme.webgallery.persistence.AlbumRepository;
+import org.cloudme.webgallery.persistence.jdo.JdoPhotoDataRepository;
+import org.cloudme.webgallery.persistence.jdo.NewAlbumRepository;
+import org.cloudme.webgallery.persistence.jdo.NewPhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,16 +23,18 @@ public class MigrationService {
     @Autowired
     NewPhotoRepository newPhotoRepository;
     @Autowired
-    NewPhotoDataRepository newPhotoDataRepository;
+    JdoPhotoDataRepository jdoPhotoDataRepository;
+    private final StringBuilder log = new StringBuilder();
     
-    public synchronized void migrate() {
+    public synchronized String migrate() {
         acquireLock();
         Collection<Album> albums = albumRepository.findAll();
         for (Album album : albums) {
-            albumMigrator.migrate(newAlbumRepository, newPhotoRepository, newPhotoDataRepository, album.getDescription(), album.getName(), album.getPhotos());
+            albumMigrator.migrate(log, newAlbumRepository, newPhotoRepository, jdoPhotoDataRepository, album.getDescription(), album.getName(), album.getPhotos());
             albumRepository.delete(album.getId());
         }
         releaseLock();
+        return log.toString();
     }
 
     private void releaseLock() {

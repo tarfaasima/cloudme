@@ -1,8 +1,9 @@
-package org.cloudme.webgallery.model.migration;
+package org.cloudme.webgallery.persistence.jdo;
 
 import org.cloudme.webgallery.model.Photo;
-import org.cloudme.webgallery.persistence.jdo.AbstractJdoRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class NewPhotoRepository extends AbstractJdoRepository<Long, Photo> {
     public NewPhotoRepository() {
         super(Photo.class);
