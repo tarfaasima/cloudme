@@ -8,14 +8,10 @@ import javax.jdo.annotations.PrimaryKey;
 
 import org.cloudme.webgallery.IdObject;
 
-import com.google.appengine.api.datastore.Blob;
-
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Photo implements IdObject<Long> {
 	@Persistent
 	private String contentType;
-	@Persistent
-	private Blob data;
 	@Persistent
 	private String fileName;
 	@PrimaryKey
@@ -30,10 +26,6 @@ public class Photo implements IdObject<Long> {
 
 	public String getContentType() {
 		return contentType;
-	}
-
-	public Blob getData() {
-		return data;
 	}
 
 	public String getFileName() {
@@ -54,10 +46,6 @@ public class Photo implements IdObject<Long> {
 
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
-	}
-
-	public void setData(Blob data) {
-		this.data = data;
 	}
 
 	public void setFileName(String fileName) {

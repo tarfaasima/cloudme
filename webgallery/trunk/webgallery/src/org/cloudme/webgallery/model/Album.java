@@ -1,5 +1,6 @@
 package org.cloudme.webgallery.model;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -10,6 +11,7 @@ import org.cloudme.webgallery.IdObject;
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Album implements IdObject<Long> {
 	@PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;
 	@Persistent
 	private String name;
