@@ -8,7 +8,7 @@ import java.util.Collection;
 
 import net.sourceforge.stripes.action.FileBean;
 
-import org.cloudme.webgallery.Photo;
+import org.cloudme.webgallery.model.Photo;
 import org.junit.Test;
 
 public class UploadManagerTest {

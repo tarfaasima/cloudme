@@ -4,5 +4,5 @@ import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.image.ImageFormat;
 
 public interface CacheService {
-    byte[] cachePhoto(String photoId, ImageFormat format, ContentType type, CacheProducer<byte[]> cacheProducer);
+	byte[] cachePhoto(Long photoId, ImageFormat format, ContentType type, CacheProducer<byte[]> cacheProducer);
 }

@@ -3,7 +3,7 @@ package org.cloudme.webgallery.tags;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.cloudme.webgallery.Album;
+import org.cloudme.webgallery.model.Album;
 
 public class Functions {
     public static String coyprightYear(String year, String separator) {

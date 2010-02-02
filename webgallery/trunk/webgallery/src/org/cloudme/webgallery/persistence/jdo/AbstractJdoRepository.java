@@ -7,7 +7,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 
-import org.cloudme.webgallery.IdObject;
+import org.cloudme.webgallery.model.IdObject;
 import org.cloudme.webgallery.persistence.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jdo.JdoCallback;
@@ -29,11 +29,18 @@ public abstract class AbstractJdoRepository<K, T extends IdObject<K>> extends Jd
         getJdoTemplate().makePersistent(t);
     }
 
+	public Collection<T> findAll() {
+		return executeQuery(null);
+	}
+
     @SuppressWarnings("unchecked")
-    public Collection<T> findAll() {
+	protected Collection<T> executeQuery(final String filter) {
         return getJdoTemplate().executeFind(new JdoCallback<Collection<T>>() {
             public Collection<T> doInJdo(PersistenceManager pm) throws JDOException {
                 Query query = pm.newQuery(baseClass);
+				if (filter == null) {
+					query.setFilter(filter);
+				}
                 Collection<T> items = (Collection<T>) query.execute();
                 pm.retrieveAll(items);
                 pm.makeTransientAll(items);

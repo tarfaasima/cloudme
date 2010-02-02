@@ -6,7 +6,6 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import org.cloudme.webgallery.IdObject;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Album implements IdObject<Long> {

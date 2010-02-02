@@ -4,24 +4,25 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.cloudme.webgallery.Album;
-import org.cloudme.webgallery.persistence.AlbumRepository;
+import org.cloudme.webgallery.persistence.OldAlbumRepository;
+import org.cloudme.webgallery.persistence.jdo.JdoAlbumRepository;
 import org.cloudme.webgallery.persistence.jdo.JdoPhotoDataRepository;
-import org.cloudme.webgallery.persistence.jdo.NewAlbumRepository;
-import org.cloudme.webgallery.persistence.jdo.NewPhotoRepository;
+import org.cloudme.webgallery.persistence.jdo.JdoPhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@SuppressWarnings("deprecation")
 @Service
 public class MigrationService {
     @Autowired
     MigrationFlagRepository migrationFlagRepository;
     @Autowired
-    AlbumRepository albumRepository;
+    OldAlbumRepository albumRepository;
     private final AlbumMigrator albumMigrator = new AlbumMigrator();
     @Autowired
-    NewAlbumRepository newAlbumRepository;
+    JdoAlbumRepository newAlbumRepository;
     @Autowired
-    NewPhotoRepository newPhotoRepository;
+    JdoPhotoRepository newPhotoRepository;
     @Autowired
     JdoPhotoDataRepository jdoPhotoDataRepository;
     private final StringBuilder log = new StringBuilder();

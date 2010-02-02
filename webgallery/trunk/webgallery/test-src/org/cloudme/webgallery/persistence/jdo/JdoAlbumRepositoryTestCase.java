@@ -22,7 +22,7 @@ public class JdoAlbumRepositoryTestCase extends AbstractJdoTestCase<String, Albu
     
     @Override
     public AbstractJdoRepository<String, Album> createRepository() {
-        return new JdoAlbumRepository();
+        return new OldJdoAlbumRepository();
     }
     
     @Test
@@ -46,7 +46,7 @@ public class JdoAlbumRepositoryTestCase extends AbstractJdoTestCase<String, Albu
         Photo photo2 = album3.getPhotos().get(0);
         assertEquals("Test Photo", photo2.getName());
         
-        JdoPhotoRepository photoRepo = new JdoPhotoRepository();
+        OldJdoPhotoRepository photoRepo = new OldJdoPhotoRepository();
         photoRepo.setPersistenceManagerFactory(PMF.get());
         assertEquals(1, photoRepo.findAll().size());
         
@@ -76,7 +76,7 @@ public class JdoAlbumRepositoryTestCase extends AbstractJdoTestCase<String, Albu
         Album album3 = repo.findAll().iterator().next();
         assertEquals(2, album3.getPhotos().size());
         Photo photo3 = album3.getPhotos().get(0);
-        JdoPhotoRepository photoRepo = new JdoPhotoRepository();
+        OldJdoPhotoRepository photoRepo = new OldJdoPhotoRepository();
         photoRepo.setPersistenceManagerFactory(PMF.get());
         photoRepo.delete(photo3.getId());
         

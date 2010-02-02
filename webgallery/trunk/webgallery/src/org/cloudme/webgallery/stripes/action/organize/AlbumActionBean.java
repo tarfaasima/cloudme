@@ -13,13 +13,13 @@ import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
-import org.cloudme.webgallery.Album;
+import org.cloudme.webgallery.model.Album;
 import org.cloudme.webgallery.service.AlbumService;
 import org.cloudme.webgallery.stripes.action.AbstractActionBean;
 
 @UrlBinding("/organize/album/{$event}/{id}")
 public class AlbumActionBean extends AbstractActionBean {
-    private String id;
+    private Long id;
     @ValidateNestedProperties( { @Validate(field = "name", required = true) })
     private List<Album> items;
     @SpringBean
@@ -38,7 +38,7 @@ public class AlbumActionBean extends AbstractActionBean {
         return new ForwardResolution(getJspPath("/organize/album"));
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -53,11 +53,11 @@ public class AlbumActionBean extends AbstractActionBean {
         return new RedirectResolution(getClass());
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public void setItems(List<Album> album) {
-        items = album;
+	public void setItems(List<Album> items) {
+		this.items = items;
     }
 }

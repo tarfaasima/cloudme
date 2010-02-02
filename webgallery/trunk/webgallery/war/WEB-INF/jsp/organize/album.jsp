@@ -17,7 +17,7 @@
             Delete
           </s:link>
           <s:link href="/organize/photo/${item.id}">
-            Photos (${f:length(item.photos)})
+            Photos
           </s:link>
         </div>
         <div>

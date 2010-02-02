@@ -8,9 +8,11 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.cloudme.webgallery.model.IdObject;
 
 import com.google.appengine.api.datastore.Blob;
 
+@Deprecated
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Photo implements IdObject<String> {
     @Persistent

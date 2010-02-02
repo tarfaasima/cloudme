@@ -1,4 +1,4 @@
-package org.cloudme.webgallery;
+package org.cloudme.webgallery.model;
 
 public interface IdObject<K> {
     public K getId();

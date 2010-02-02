@@ -11,7 +11,7 @@ import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 
-import org.cloudme.webgallery.IdObject;
+import org.cloudme.webgallery.model.IdObject;
 import org.cloudme.webgallery.service.AbstractService;
 import org.cloudme.webgallery.stripes.action.AbstractActionBean;
 

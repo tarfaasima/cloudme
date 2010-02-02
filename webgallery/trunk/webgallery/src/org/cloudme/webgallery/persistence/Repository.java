@@ -2,7 +2,7 @@ package org.cloudme.webgallery.persistence;
 
 import java.util.Collection;
 
-import org.cloudme.webgallery.IdObject;
+import org.cloudme.webgallery.model.IdObject;
 
 public interface Repository<K, T extends IdObject<K>> {
     void save(T t);

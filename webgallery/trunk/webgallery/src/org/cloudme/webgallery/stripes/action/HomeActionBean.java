@@ -10,8 +10,8 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 
-import org.cloudme.webgallery.Album;
-import org.cloudme.webgallery.Photo;
+import org.cloudme.webgallery.model.Album;
+import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.service.AlbumService;
 import org.cloudme.webgallery.service.PhotoService;
 
@@ -27,7 +27,7 @@ public class HomeActionBean extends AbstractActionBean {
         return new ForwardResolution(getJspPath("/gallery/home"));
     }
     
-    public String getRandomPhotoId() {
+	public Long getRandomPhotoId() {
 		Collection<Photo> photos = photoService.findAll();
 		if (photos.isEmpty()) {
 		    return null;

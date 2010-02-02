@@ -13,15 +13,15 @@ import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.image.ContentTypeFactory;
 import org.cloudme.webgallery.image.ImageFormat;
 import org.cloudme.webgallery.image.ImageFormatFactory;
-import org.cloudme.webgallery.service.PhotoService;
+import org.cloudme.webgallery.service.PhotoDataService;
 
 @UrlBinding("/gallery/photo/{photoId}_{format}.{type}")
 public class PhotoActionBean extends AbstractActionBean {
-    private String photoId;
+	private Long photoId;
     private ImageFormat format;
     private ContentType type;
     @SpringBean
-    private PhotoService service;
+	private PhotoDataService service;
     
     @DefaultHandler
     public void show() throws IOException {
@@ -31,7 +31,7 @@ public class PhotoActionBean extends AbstractActionBean {
         out.write(service.getPhotoData(photoId, format, type));
     }
 
-    public void setPhotoId(String photoId) {
+	public void setPhotoId(Long photoId) {
         this.photoId = photoId;
     }
 

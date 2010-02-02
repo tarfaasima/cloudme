@@ -8,9 +8,10 @@ import java.util.Collection;
 
 import net.sourceforge.stripes.action.FileBean;
 
-import org.cloudme.webgallery.Photo;
 import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.image.ImageFormatEnum;
+import org.cloudme.webgallery.model.Photo;
+import org.cloudme.webgallery.model.PhotoData;
 import org.cloudme.webgallery.stripes.action.organize.upload.UploadManager;
 import org.junit.Test;
 
@@ -25,7 +26,7 @@ public class GaeImageServiceTest extends LocalServiceTestCase {
         assertProcess(loadPhoto(), ImageFormatEnum.THUMBNAIL, 210, 210);
     }
 
-    private void assertProcess(Photo photo, ImageFormatEnum format, int width, int height) {
+	private void assertProcess(PhotoData photo, ImageFormatEnum format, int width, int height) {
         GaeImageService service = new GaeImageService();
         byte[] data = service.process(photo.getDataAsArray(), format, ContentType.JPEG);
         Image image = ImagesServiceFactory.makeImage(data);
@@ -33,7 +34,7 @@ public class GaeImageServiceTest extends LocalServiceTestCase {
         assertEquals(height, image.getHeight());
     }
 
-    private Photo loadPhoto() throws IOException {
+	private PhotoData loadPhoto() throws IOException {
         FileBean fileBean = new FileBean(null, "application/zip", "images.zip") {
             @Override
             public InputStream getInputStream() throws IOException {
@@ -41,6 +42,6 @@ public class GaeImageServiceTest extends LocalServiceTestCase {
             }
         };
         Collection<Photo> photos = new UploadManager().upload(fileBean);
-        return photos.iterator().next();
+		return photos.iterator().next().getPhotoData();
     }
 }

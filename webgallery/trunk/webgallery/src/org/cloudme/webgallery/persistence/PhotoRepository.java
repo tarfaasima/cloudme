@@ -1,6 +1,10 @@
 package org.cloudme.webgallery.persistence;
 
-import org.cloudme.webgallery.Photo;
+import java.util.Collection;
 
-public interface PhotoRepository extends Repository<String, Photo> {
+import org.cloudme.webgallery.model.Photo;
+
+
+public interface PhotoRepository extends Repository<Long, Photo> {
+	Collection<Photo> findByAlbumId(Long albumId);
 }

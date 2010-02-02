@@ -2,13 +2,13 @@ package org.cloudme.webgallery.service;
 
 import java.util.Collection;
 
-import org.cloudme.webgallery.IdObject;
+import org.cloudme.webgallery.model.IdObject;
 import org.cloudme.webgallery.persistence.Repository;
 import org.springframework.stereotype.Service;
 
 @Service
 public abstract class AbstractService<K, T extends IdObject<K>> {
-    private final Repository<K, T> repository;
+	private final Repository<K, T> repository;
     
     protected AbstractService(Repository<K, T> repository) {
         this.repository = repository;

@@ -2,11 +2,11 @@ package org.cloudme.webgallery.model;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import org.cloudme.webgallery.IdObject;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Photo implements IdObject<Long> {
@@ -23,6 +23,8 @@ public class Photo implements IdObject<Long> {
 	private long size;
 	@Persistent
 	private Long albumId;
+	@NotPersistent
+	private PhotoData photoData;
 
 	public String getContentType() {
 		return contentType;
@@ -70,6 +72,14 @@ public class Photo implements IdObject<Long> {
 
 	public Long getAlbumId() {
 		return albumId;
+	}
+
+	public void setPhotoData(PhotoData photoData) {
+		this.photoData = photoData;
+	}
+
+	public PhotoData getPhotoData() {
+		return photoData;
 	}
 
 }

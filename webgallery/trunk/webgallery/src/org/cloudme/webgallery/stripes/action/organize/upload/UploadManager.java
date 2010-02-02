@@ -13,9 +13,10 @@ import java.util.zip.ZipInputStream;
 import net.sourceforge.stripes.action.FileBean;
 
 import org.apache.commons.io.IOUtils;
-import org.cloudme.webgallery.Photo;
 import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.image.ContentTypeFactory;
+import org.cloudme.webgallery.model.Photo;
+import org.cloudme.webgallery.model.PhotoData;
 
 public class UploadManager {
     private enum UploadHandler {
@@ -28,15 +29,14 @@ public class UploadManager {
                     in = new ZipInputStream(fileBean.getInputStream());
                     ZipEntry entry;
                     while ((entry = in.getNextEntry()) != null) {
-                        String name = new File(entry.getName()).getName();
-                        if (!name.startsWith(".")) {
-                            ContentType type = ContentTypeFactory.getContentTypeByFileName(name);
+						String fileName = new File(entry.getName()).getName();
+						if (!fileName.startsWith(".")) {
+							ContentType type = ContentTypeFactory.getContentTypeByFileName(fileName);
                             if (type != null) {
-                                Photo photo = new Photo();
-                                photo.setContentType(type.toString());
-                                photo.setDataAsArray(IOUtils.toByteArray(in));
-                                photo.setFileName(name);
-                                photo.setSize(entry.getSize());
+								String contentType = type.toString();
+								long size = entry.getSize();
+								byte[] data = IOUtils.toByteArray(in);
+								Photo photo = createPhoto(fileName, contentType, size, data);
                                 photos.add(photo);
                             }
                         }
@@ -53,12 +53,11 @@ public class UploadManager {
         IMAGE("image/jpeg", "image/png") {
             @Override
             public Collection<Photo> process(FileBean fileBean) throws IOException {
-                final Photo photo = new Photo();
-                photo.setContentType(fileBean.getContentType());
-                photo.setDataAsArray(IOUtils.toByteArray(fileBean.getInputStream()));
-                photo.setFileName(fileBean.getFileName());
-                photo.setSize(fileBean.getSize());
-                return Arrays.asList(photo);
+				String fileName = fileBean.getFileName();
+				String contentType = fileBean.getContentType();
+				long size = fileBean.getSize();
+				byte[] data = IOUtils.toByteArray(fileBean.getInputStream());
+				return Arrays.asList(createPhoto(fileName, contentType, size, data));
             }
         };
 
@@ -73,6 +72,17 @@ public class UploadManager {
         }
 
         public abstract Collection<Photo> process(FileBean fileBean) throws IOException;
+
+		private static Photo createPhoto(String fileName, String contentType, long size, byte[] data) {
+			Photo photo = new Photo();
+			photo.setContentType(contentType);
+			photo.setFileName(fileName);
+			photo.setSize(size);
+			PhotoData photoData = new PhotoData();
+			photoData.setDataAsArray(data);
+			photo.setPhotoData(photoData);
+			return photo;
+		}
     }
 
     private Map<String, UploadHandler> uploadHandlerMap;

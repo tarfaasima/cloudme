@@ -8,8 +8,8 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 
-import org.cloudme.webgallery.Album;
-import org.cloudme.webgallery.Photo;
+import org.cloudme.webgallery.model.Album;
+import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.service.AlbumService;
 import org.cloudme.webgallery.service.PhotoService;
 
@@ -19,8 +19,8 @@ public class AlbumActionBean extends AbstractActionBean {
     private AlbumService albumService;
     @SpringBean
     private PhotoService photoService;
-	private String albumId;
-	private String photoId;
+	private Long albumId;
+	private Long photoId;
 
 	@DefaultHandler
 	public Resolution album() {
@@ -36,22 +36,22 @@ public class AlbumActionBean extends AbstractActionBean {
 	}
 
 	public Collection<Photo> getPhotos() {
-		return albumService.find(albumId).getPhotos();
+		return photoService.findByAlbumId(albumId);
 	}
 
-	public void setAlbumId(String albumId) {
+	public void setAlbumId(Long albumId) {
 		this.albumId = albumId;
 	}
 
-	public String getAlbumId() {
+	public Long getAlbumId() {
 		return albumId;
 	}
 	
-	public void setPhotoId(String photoId) {
+	public void setPhotoId(Long photoId) {
         this.photoId = photoId;
     }
 
-    public String getPhotoId() {
+	public Long getPhotoId() {
         return photoId;
     }
     

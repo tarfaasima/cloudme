@@ -3,7 +3,7 @@ package org.cloudme.webgallery.persistence.jdo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.cloudme.webgallery.IdObject;
+import org.cloudme.webgallery.model.IdObject;
 import org.junit.Before;
 import org.junit.Test;
 
