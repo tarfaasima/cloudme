@@ -29,4 +29,7 @@ public class PhotoDataService {
 	    });
 	}
 
+	public void save(PhotoData photoData) {
+		photoDataRepository.save(photoData);
+	}
 }

@@ -10,6 +10,6 @@ public class PhotoDataMigrator {
         photoData.setId(id);
         photoData.setDataAsArray(data);
         jdoPhotoDataRepository.save(photoData);
-        log.append(new ToStringBuilder(photoData).append(id).toString() + "\n");
+		log.append(new ToStringBuilder(photoData).append(id).append(data.length).toString() + "\n");
     }
 }
