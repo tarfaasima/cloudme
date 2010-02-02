@@ -29,6 +29,9 @@ public class HomeActionBean extends AbstractActionBean {
     
     public String getRandomPhotoId() {
 		Collection<Photo> photos = photoService.findAll();
+		if (photos.isEmpty()) {
+		    return null;
+		}
         int index = (int) (Math.random() * photos.size());
 		return asList(photos).get(index).getId();
     }
