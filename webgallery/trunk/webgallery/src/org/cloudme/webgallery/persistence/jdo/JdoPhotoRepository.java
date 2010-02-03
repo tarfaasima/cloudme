@@ -12,7 +12,6 @@ public class JdoPhotoRepository extends AbstractJdoRepository<Long, Photo> imple
         super(Photo.class);
     }
 
-	@Override
 	public Collection<Photo> findByAlbumId(Long albumId) {
 		return executeQuery("albumId == " + albumId);
 	}

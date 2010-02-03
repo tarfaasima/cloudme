@@ -12,27 +12,29 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PhotoService extends AbstractService<Long, Photo> {
-	private final PhotoRepository photoRepository;
-	@Autowired
-	private PhotoDataService photoDataService;
+    private final PhotoRepository photoRepository;
+    @Autowired
+    private PhotoDataService photoDataService;
 
-	@Autowired
-	protected PhotoService(PhotoRepository repository) throws CacheException {
+    @Autowired
+    protected PhotoService(PhotoRepository repository) throws CacheException {
         super(repository);
-		photoRepository = repository;
+        photoRepository = repository;
     }
 
-	public Collection<Photo> findByAlbumId(Long albumId) {
-		return photoRepository.findByAlbumId(albumId);
-	}
+    public Collection<Photo> findByAlbumId(Long albumId) {
+        return photoRepository.findByAlbumId(albumId);
+    }
 
-	@Override
-	public void save(Photo photo) {
-		super.save(photo);
-		PhotoData photoData = photo.getPhotoData();
-		if (photoData != null) {
-			photoData.setId(photo.getId());
-			photoDataService.save(photoData);
-		}
-	}
+    public void save(Long albumId, Collection<Photo> photos) {
+        for (Photo photo : photos) {
+            photo.setAlbumId(albumId);
+            super.save(photo);
+            PhotoData photoData = photo.getPhotoData();
+            if (photoData != null) {
+                photoData.setId(photo.getId());
+                photoDataService.save(photoData);
+            }
+        }
+    }
 }

@@ -34,10 +34,7 @@ public class PhotoActionBean extends AbstractActionBean {
 	public Resolution upload() throws IOException {
 		UploadManager manager = new UploadManager();
 		Collection<Photo> photos = manager.upload(photoFile);
-		for (Photo photo : photos) {
-			photo.setAlbumId(albumId);
-			photoService.save(photo);
-		}
+		photoService.save(albumId, photos);
 		return new RedirectResolution("/organize/photo/" + albumId);
 	}
 

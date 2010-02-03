@@ -15,9 +15,11 @@ $(document).ready(function() {
 
 function updateBackground() {
   var id = "${actionBean.randomPhotoId}";
-  var dim = $(document).width() + "x" + $(document).height();
-  var img = "/gallery/photo/" + id + "_" + dim + ".jpg";
-  $("body").css("background", "url(" + img + ") repeat fixed");
+  if (id != "") {
+    var dim = $(document).width() + "x" + $(document).height();
+    var img = "/gallery/photo/" + id + "_" + dim + ".jpg";
+    $("body").css("background", "url(" + img + ") repeat fixed");
+  }
 }
 </script>
 </s:layout-component>

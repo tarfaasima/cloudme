@@ -17,8 +17,10 @@ public abstract class AbstractJdoTestCase<K, T extends IdObject<K>> extends Loca
 
     public abstract AbstractJdoRepository<K, T> createRepository();
 
+    @Override
     @Before
-    public void setupRepository() {
+    public void setUp() {
+        super.setUp();
         repo = createRepository();
         repo.setPersistenceManagerFactory(PMF.get());
         assertRepoSize(0);

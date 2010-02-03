@@ -29,4 +29,9 @@ public class DynamicImageFormat implements ImageFormat {
     public boolean isCrop() {
         return true;
     }
+    
+    @Override
+    public String toString() {
+        return width + "x" + height;
+    };
 }
