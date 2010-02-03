@@ -38,7 +38,7 @@ public abstract class AbstractJdoRepository<K, T extends IdObject<K>> extends Jd
         return getJdoTemplate().executeFind(new JdoCallback<Collection<T>>() {
             public Collection<T> doInJdo(PersistenceManager pm) throws JDOException {
                 Query query = pm.newQuery(baseClass);
-				if (filter == null) {
+				if (filter != null) {
 					query.setFilter(filter);
 				}
                 Collection<T> items = (Collection<T>) query.execute();

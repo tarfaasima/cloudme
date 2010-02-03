@@ -8,10 +8,10 @@ import org.cloudme.webgallery.Album;
 import org.cloudme.webgallery.Photo;
 import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.model.PhotoData;
-import org.cloudme.webgallery.persistence.jdo.OldJdoAlbumRepository;
-import org.cloudme.webgallery.persistence.jdo.JdoPhotoDataRepository;
 import org.cloudme.webgallery.persistence.jdo.JdoAlbumRepository;
+import org.cloudme.webgallery.persistence.jdo.JdoPhotoDataRepository;
 import org.cloudme.webgallery.persistence.jdo.JdoPhotoRepository;
+import org.cloudme.webgallery.persistence.jdo.OldJdoAlbumRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,10 +27,6 @@ public class MigrationServiceTest extends LocalDatastoreTestCase {
     public void setUp() {
         super.setUp();
         service = new MigrationService();
-        
-        MigrationFlagRepository migrationFlagRepository = new MigrationFlagRepository();
-        migrationFlagRepository.setPersistenceManagerFactory(PMF.get());
-        service.migrationFlagRepository = migrationFlagRepository;
         
         OldJdoAlbumRepository albumRepository = new OldJdoAlbumRepository();
         albumRepository.setPersistenceManagerFactory(PMF.get());
