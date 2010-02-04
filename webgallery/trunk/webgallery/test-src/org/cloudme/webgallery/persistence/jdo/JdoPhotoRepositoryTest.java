@@ -39,6 +39,19 @@ public class JdoPhotoRepositoryTest extends AbstractJdoTestCase<Long, Photo> {
         assertEquals(p1.getId(), photos.iterator().next().getId());
     }
 
+	@Test
+	public void testCountPhotosByAlbumId() {
+		Album a1 = new Album();
+		Photo p1 = new Photo();
+		create(a1, p1);
+		Album a2 = new Album();
+		Photo p2 = new Photo();
+		create(a2, p2);
+
+		int count = photoRepository.countPhotosByAlbumId(a1.getId());
+		assertEquals(1, count);
+	}
+
     private void create(Album album, Photo... photos) {
         albumRepository.save(album);
         for (Photo photo : photos) {

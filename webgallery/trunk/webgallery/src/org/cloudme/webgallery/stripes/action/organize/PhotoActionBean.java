@@ -39,7 +39,7 @@ public class PhotoActionBean extends AbstractActionBean {
 	}
 
 	public Resolution delete() {
-		photoService.delete(photoId);
+		photoService.delete(albumId, photoId);
 		return new RedirectResolution("/organize/photo/" + albumId);
 	}
 

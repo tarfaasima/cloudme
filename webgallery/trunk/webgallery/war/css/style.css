@@ -148,14 +148,17 @@ div.tooltip {
   max-width: 166px;
   padding: 8px;
   color: #000;
+  font-size: 12px;
 }
 
 div.tooltip a {
+  font-size: 12px;
   color: #000;
   text-decoration: underline;
 }
 
 div.tooltip>div+div {
+  font-size: 12px;
   padding-top: 8px;
   text-align: right;
 }

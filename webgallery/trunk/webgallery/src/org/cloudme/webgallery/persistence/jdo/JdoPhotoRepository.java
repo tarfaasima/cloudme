@@ -13,6 +13,10 @@ public class JdoPhotoRepository extends AbstractJdoRepository<Long, Photo> imple
     }
 
 	public Collection<Photo> findByAlbumId(Long albumId) {
-		return executeQuery("albumId == " + albumId);
+		return queryCollection("albumId == " + albumId);
+	}
+
+	public int countPhotosByAlbumId(final Long albumId) {
+		return findByAlbumId(albumId).size();
 	}
 }

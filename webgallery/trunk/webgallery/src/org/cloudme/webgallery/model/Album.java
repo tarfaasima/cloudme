@@ -16,6 +16,8 @@ public class Album implements IdObject<Long> {
 	private String name;
 	@Persistent
 	private String description;
+	@Persistent
+	private Integer photoCount;
 
 	public Long getId() {
 		return id;
@@ -39,5 +41,13 @@ public class Album implements IdObject<Long> {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public void setPhotoCount(Integer photoCount) {
+		this.photoCount = photoCount;
+	}
+
+	public Integer getPhotoCount() {
+		return photoCount;
 	}
 }

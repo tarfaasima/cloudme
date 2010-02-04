@@ -8,6 +8,7 @@
     <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.AlbumActionBean">
       <c:forEach items="${actionBean.items}" var="item" varStatus="loop">
         <s:hidden name="items[${loop.index}].id"/>
+        <s:hidden name="items[${loop.index}].photoCount"/>
         <div>
           Name
         </div>
@@ -17,7 +18,7 @@
             Delete
           </s:link>
           <s:link href="/organize/photo/${item.id}">
-            Photos
+            Photos (${item.photoCount})
           </s:link>
         </div>
         <div>

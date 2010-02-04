@@ -30,11 +30,11 @@ public abstract class AbstractJdoRepository<K, T extends IdObject<K>> extends Jd
     }
 
 	public Collection<T> findAll() {
-		return executeQuery(null);
+		return queryCollection(null);
 	}
 
     @SuppressWarnings("unchecked")
-	protected Collection<T> executeQuery(final String filter) {
+	protected Collection<T> queryCollection(final String filter) {
         return getJdoTemplate().executeFind(new JdoCallback<Collection<T>>() {
             public Collection<T> doInJdo(PersistenceManager pm) throws JDOException {
                 Query query = pm.newQuery(baseClass);
