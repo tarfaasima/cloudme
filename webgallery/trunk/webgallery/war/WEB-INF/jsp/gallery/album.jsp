@@ -3,7 +3,7 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ taglib prefix="w" uri="/WEB-INF/tags/webgallery.tld" %>
 
-<s:layout-render name="/WEB-INF/layout/default.jsp" title="">
+<s:layout-render name="/WEB-INF/layout/default.jsp" title=" - ${actionBean.album.name}">
 <s:layout-component name="headCss">
 <link rel="stylesheet" type="text/css" href="/css/jquery.lightbox-0.5.css" media="screen" />
 </s:layout-component>
@@ -33,9 +33,7 @@ $(document).ready(function() {
 </script>
 </s:layout-component>
 <s:layout-component name="content">
-<div id="albums"><div>
-<c:forEach items="${actionBean.albums}" var="album"><a href="${(album.id == actionBean.albumId) ? '/' : w:url(album)}" class="album${(album.id == actionBean.albumId) ? " selected" : ""}">${album.name}</a></c:forEach>
-</div></div>
+<jsp:include page="/WEB-INF/layout/_albums.jsp"/>
 <div id="photos">
 <c:forEach items="${actionBean.photos}" var="photo"><a href="/gallery/photo/${photo.id}_l.jpg"><img src="/gallery/photo/${photo.id}_198x198.jpg"/></a><div class="tooltip"><div>${photo.name}</div><div><a href="/gallery/album/${actionBean.albumId}/photo/${photo.id}">view</a></div></div></c:forEach>
 </div>

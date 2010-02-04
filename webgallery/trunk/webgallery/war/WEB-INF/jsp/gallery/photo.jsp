@@ -3,15 +3,13 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ taglib prefix="w" uri="/WEB-INF/tags/webgallery.tld" %>
 
-<s:layout-render name="/WEB-INF/layout/default.jsp" title="">
+<s:layout-render name="/WEB-INF/layout/default.jsp" title=" - ${actionBean.photo.name}">
 <s:layout-component name="headCss">
 </s:layout-component>
 <s:layout-component name="headJs">
 </s:layout-component>
 <s:layout-component name="content">
-<div id="albums"><div>
-<c:forEach items="${actionBean.albums}" var="album"><a href="${(album.id == actionBean.albumId) ? '/' : w:url(album)}" class="album${(album.id == actionBean.albumId) ? " selected" : ""}">${album.name}</a></c:forEach>
-</div></div>
+<jsp:include page="/WEB-INF/layout/_albums.jsp"/>
 <div id="photo">
 <div><a href="/gallery/album/${actionBean.albumId}"><img src="/gallery/photo/${actionBean.photoId}_l.jpg"/></a></div>
 <div id="description">

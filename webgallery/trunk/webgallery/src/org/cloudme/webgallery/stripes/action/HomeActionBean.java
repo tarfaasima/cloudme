@@ -39,4 +39,8 @@ public class HomeActionBean extends AbstractActionBean {
 	public Collection<Album> getAlbums() {
 		return albumService.findAll();
 	}
+	
+	public Long getAlbumId() {
+	    return null;
+	}
 }

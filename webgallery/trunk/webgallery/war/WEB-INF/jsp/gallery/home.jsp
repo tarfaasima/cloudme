@@ -24,17 +24,7 @@ function updateBackground() {
 </script>
 </s:layout-component>
 <s:layout-component name="content">
-<div id="albums">
-<div>
-<% /*
-<ul>
-<li> 
-</li>
-</ul>
-*/%>
-<c:forEach items="${actionBean.albums}" var="album"><a href="/gallery/album/${album.id}" class="album">${album.name}</a></c:forEach>
-</div>
-</div>
+<jsp:include page="/WEB-INF/layout/_albums.jsp"/>
 </s:layout-component>
 <s:layout-component name="footerLink">
 <a href="/organize/album">organize</a>

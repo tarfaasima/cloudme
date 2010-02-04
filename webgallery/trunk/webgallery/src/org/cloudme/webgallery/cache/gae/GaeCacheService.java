@@ -23,7 +23,7 @@ public class GaeCacheService implements CacheService {
         CacheFactory cacheFactory = cacheManager.getCacheFactory();
         cache = cacheFactory.createCache(Collections.EMPTY_MAP);
     }
-
+    
     @SuppressWarnings("unchecked")
 	public byte[] cachePhoto(Long photoId, ImageFormat format, ContentType type, CacheProducer<byte[]> cacheProducer) {
         CacheKey key = new CacheKey(photoId, format, type);

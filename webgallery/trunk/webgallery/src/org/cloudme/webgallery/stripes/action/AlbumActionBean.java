@@ -47,6 +47,10 @@ public class AlbumActionBean extends AbstractActionBean {
 		return albumId;
 	}
 	
+	public Album getAlbum() {
+	    return albumService.find(albumId);
+	}
+	
 	public void setPhotoId(Long photoId) {
         this.photoId = photoId;
     }
