@@ -1,6 +1,8 @@
 package org.cloudme.webgallery.cache.gae;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.cache.Cache;
 import javax.cache.CacheException;
@@ -23,17 +25,29 @@ public class GaeCacheService implements CacheService {
         CacheFactory cacheFactory = cacheManager.getCacheFactory();
         cache = cacheFactory.createCache(Collections.EMPTY_MAP);
     }
-    
+
     @SuppressWarnings("unchecked")
-	public byte[] cachePhoto(Long photoId, ImageFormat format, ContentType type, CacheProducer<byte[]> cacheProducer) {
-        CacheKey key = new CacheKey(photoId, format, type);
-        if (cache.containsKey(key)) {
-            return (byte[]) cache.get(key);
+    public byte[] cachePhoto(Long photoId, ImageFormat format, ContentType type, CacheProducer<byte[]> cacheProducer) {
+        CacheKey key = new CacheKey(format, type);
+        Map<CacheKey, byte[]> dataMap;
+        if (cache.containsKey(photoId)) {
+            dataMap = (Map<CacheKey, byte[]>) cache.get(photoId);
+        }
+        else {
+            dataMap = new HashMap<CacheKey, byte[]>();
+            cache.put(photoId, dataMap);    
+        }
+        if (dataMap.containsKey(key)) {
+            return dataMap.get(key);
         }
         else {
             byte[] output = cacheProducer.produce();
-            cache.put(key, output);
+            dataMap.put(key, output);
             return output;
         }
+    }
+
+    public void invalidate(Long photoId) {
+        cache.remove(photoId);
     }
 }

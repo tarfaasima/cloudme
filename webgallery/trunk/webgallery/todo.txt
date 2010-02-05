@@ -1,14 +1,20 @@
 Functional
 ----------
-- Individual photo pages
-- Link to albums from start page
-- Album pages
+- Individual photo pages (done)
+- Link to albums from start page (done)
+- Album pages (done)
 - Better admin pages
 - Download photos (albums) as ZIP file
+- Allow Images to assign do another album
+- Send to Flickr
+- Send to RSS
+- Send to Twitter
+- Define "anchor" for photo crops (0%, 25%, 50%, 75%, 100%)
 
 Technical
 ---------
-- Put image data in separate entity; seperate from Photo
-- Link to Album from Photo
-- Upgrade / migration assistent
+- Put image data in separate entity; seperate from Photo (done)
+- Link to Album from Photo (done)
+- Upgrade / migration assistent (done)
 - Use pseudo-API for image transformation instead of ImageFormat
+- Introduce defined formats for image sizes: large, medium, small

@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import javax.cache.CacheException;
 
+import org.cloudme.webgallery.cache.CacheService;
 import org.cloudme.webgallery.model.Album;
 import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.model.PhotoData;
@@ -21,6 +22,8 @@ public class PhotoService extends AbstractService<Long, Photo> {
 	private PhotoDataService photoDataService;
 	@Autowired
 	private AlbumService albumService;
+	@Autowired
+	private CacheService cacheService;
 	private static final Logger LOGGER = Logger.getLogger(PhotoService.class.getName());
 
 	@Autowired
@@ -39,6 +42,12 @@ public class PhotoService extends AbstractService<Long, Photo> {
 	public Collection<Photo> findByAlbumId(Long albumId) {
 		return photoRepository.findByAlbumId(albumId);
 	}
+	
+	@Override
+	public void save(Photo photo) {
+	    super.save(photo);
+	    cacheService.invalidate(photo.getId());
+	}
 
 	/**
 	 * Saves the {@link Photo}s for the given {@link Album} ID. If
@@ -54,7 +63,7 @@ public class PhotoService extends AbstractService<Long, Photo> {
 	public void save(Long albumId, Collection<Photo> photos) {
 		for (Photo photo : photos) {
 			photo.setAlbumId(albumId);
-			super.save(photo);
+			save(photo);
 			PhotoData photoData = photo.getPhotoData();
 			if (photoData != null) {
 				photoData.setId(photo.getId());

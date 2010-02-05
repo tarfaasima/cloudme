@@ -6,7 +6,7 @@ public class Crop {
     public final float width;
     public final float height;
 
-    public Crop(float w1, float h1, float w2, float h2) {
+    public Crop(float w1, float h1, float w2, float h2, float balance) {
         float r1 = w1 / h1;
         float r2 = w2 / h2;
         if (r1 < r2) {
@@ -17,7 +17,7 @@ public class Crop {
             width = r2 / r1;
             height = 1;
         }
-        x = (1f - width) / 2;
-        y = (1f - height) / 2;
+        x = (1f - width) * balance;
+        y = (1f - height) * balance;
     }
 }

@@ -23,12 +23,12 @@ import com.google.appengine.tools.development.LocalServiceTestCase;
 public class GaeImageServiceTest extends LocalServiceTestCase {
     @Test
     public void testProcess() throws IOException {
-        assertProcess(loadPhoto(), ImageFormatEnum.THUMBNAIL, 210, 210);
+        assertProcess(loadPhoto(), ImageFormatEnum.MEDIUM, ImageFormatEnum.MEDIUM.getWidth(), ImageFormatEnum.MEDIUM.getHeight());
     }
 
 	private void assertProcess(PhotoData photo, ImageFormatEnum format, int width, int height) {
         GaeImageService service = new GaeImageService();
-        byte[] data = service.process(photo.getDataAsArray(), format, ContentType.JPEG);
+        byte[] data = service.process(photo.getDataAsArray(), format, ContentType.JPEG, 0.5f);
         Image image = ImagesServiceFactory.makeImage(data);
         assertEquals(width, image.getWidth());
         assertEquals(height, image.getHeight());

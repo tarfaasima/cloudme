@@ -35,6 +35,10 @@ public class CacheKey implements Serializable {
 		CacheKey key = (CacheKey) obj;
 		return new EqualsBuilder().append(parameters, key.parameters).isEquals();
 	}
+	
+	public Serializable[] getParameters() {
+        return parameters;
+    }
 
 	@Override
 	public int hashCode() {

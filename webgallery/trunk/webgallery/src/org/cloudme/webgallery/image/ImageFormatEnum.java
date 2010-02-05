@@ -1,7 +1,7 @@
 package org.cloudme.webgallery.image;
 
 public enum ImageFormatEnum implements ImageFormat {
-    THUMBNAIL("t", 210, true), LARGE("l", 894, false);
+    THUMBNAIL("t", 82, false), SMALL("s", 82, true), MEDIUM("m", 198, true), LARGE("l", 894, false);
     
     private final String id;
     private final boolean isCrop;

@@ -1,7 +1,6 @@
 package org.cloudme.webgallery.stripes.action.organize;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -33,8 +32,8 @@ public class PhotoActionBean extends AbstractActionBean {
 
 	public Resolution upload() throws IOException {
 		UploadManager manager = new UploadManager();
-		Collection<Photo> photos = manager.upload(photoFile);
-		photoService.save(albumId, photos);
+		photos = CollectionUtils.asList(manager.upload(photoFile));
+		save();
 		return new RedirectResolution("/organize/photo/" + albumId);
 	}
 
@@ -44,10 +43,7 @@ public class PhotoActionBean extends AbstractActionBean {
 	}
 
 	public Resolution save() {
-		for (Photo photo : photos) {
-			photo.setAlbumId(albumId);
-			photoService.save(photo);
-		}
+	    photoService.save(albumId, photos);
 		return new RedirectResolution("/organize/photo/" + albumId);
 	}
 

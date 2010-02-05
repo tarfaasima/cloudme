@@ -35,7 +35,7 @@ $(document).ready(function() {
 <s:layout-component name="content">
 <jsp:include page="/WEB-INF/layout/_albums.jsp"/>
 <div id="photos">
-<c:forEach items="${actionBean.photos}" var="photo"><a href="/gallery/photo/${photo.id}_l.jpg"><img src="/gallery/photo/${photo.id}_198x198.jpg"/></a><div class="tooltip"><div>${photo.name}</div><div><a href="/gallery/album/${actionBean.albumId}/photo/${photo.id}">view</a></div></div></c:forEach>
+<c:forEach items="${actionBean.photos}" var="photo"><a href="/gallery/photo/${photo.id}_l.jpg" title="${photo.name}"><img src="/gallery/photo/${photo.id}_m.jpg" alt="${photo.name}"/></a><div class="tooltip"><div>${photo.name}</div><div><a href="/gallery/album/${actionBean.albumId}/photo/${photo.id}">view</a></div></div></c:forEach>
 </div>
 </s:layout-component>
 <s:layout-component name="footerLink">

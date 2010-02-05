@@ -13,7 +13,7 @@ import com.google.appengine.api.images.ImagesService.OutputEncoding;
 
 @Component
 public class GaeImageService implements ImageService {
-    public byte[] process(byte[] data, ImageFormat format, ContentType type) {
+    public byte[] process(byte[] data, ImageFormat format, ContentType type, float balance) {
         Image image = ImagesServiceFactory.makeImage(data);
         CompositeTransform tx = ImagesServiceFactory.makeCompositeTransform();
         if (format.isCrop()) {
@@ -21,7 +21,7 @@ public class GaeImageService implements ImageService {
             float h1 = image.getHeight();
             float w2 = format.getWidth();
             float h2 = format.getHeight();
-            Crop c = new Crop(w1, h1, w2, h2);
+            Crop c = new Crop(w1, h1, w2, h2, balance);
             tx.concatenate(ImagesServiceFactory.makeCrop(c.x, c.y, c.x + c.width, c.y + c.height));
         }
         tx.concatenate(ImagesServiceFactory.makeResize(format.getWidth(), format.getHeight()));

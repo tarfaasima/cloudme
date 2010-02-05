@@ -19,6 +19,8 @@ public class PhotoDataService {
 	private ImageService imageService;
 	@Autowired
 	private PhotoDataRepository photoDataRepository;
+	@Autowired
+	private PhotoService photoService;
 
 	/**
 	 * Returns the {@link Photo}'s image data for the given {@link Photo} ID,
@@ -37,9 +39,10 @@ public class PhotoDataService {
 	public byte[] getPhotoData(final Long photoId, final ImageFormat format, final ContentType type) {
 		return cacheService.cachePhoto(photoId, format, type, new CacheProducer<byte[]>() {
 			public byte[] produce() {
+			    float balance = photoService.find(photoId).getCropBalance();
 				PhotoData photoData = photoDataRepository.find(photoId);
 				byte[] input = photoData.getDataAsArray();
-				return imageService.process(input, format, type);
+				return imageService.process(input, format, type, balance);
 			}
 		});
 	}

@@ -23,6 +23,8 @@ public class Photo implements IdObject<Long> {
 	private long size;
 	@Persistent
 	private Long albumId;
+	@Persistent
+	private Float cropBalance = 0.5f;
 	@NotPersistent
 	private PhotoData photoData;
 
@@ -81,5 +83,14 @@ public class Photo implements IdObject<Long> {
 	public PhotoData getPhotoData() {
 		return photoData;
 	}
+
+    public void setCropBalance(Float cropBalance) {
+        System.out.println("corpBalance = " + cropBalance);
+        this.cropBalance = cropBalance;
+    }
+
+    public Float getCropBalance() {
+        return cropBalance;
+    }
 
 }

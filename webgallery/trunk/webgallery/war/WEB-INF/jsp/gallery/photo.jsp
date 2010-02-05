@@ -16,7 +16,7 @@
 ${actionBean.photo.name}
 </div>
 <div id="thumbnails">
-<c:forEach items="${actionBean.photos}" var="photo"><a href="/gallery/album/${actionBean.albumId}/photo/${photo.id}"><img src="/gallery/photo/${photo.id}_82x82.jpg"/></a></c:forEach>
+<c:forEach items="${actionBean.photos}" var="photo"><a href="/gallery/album/${actionBean.albumId}/photo/${photo.id}"><img src="/gallery/photo/${photo.id}_s.jpg"/></a></c:forEach>
 </div>
 </div>
 </s:layout-component>
