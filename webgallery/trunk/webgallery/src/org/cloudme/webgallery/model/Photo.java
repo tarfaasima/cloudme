@@ -85,12 +85,11 @@ public class Photo implements IdObject<Long> {
 	}
 
     public void setCropBalance(Float cropBalance) {
-        System.out.println("corpBalance = " + cropBalance);
         this.cropBalance = cropBalance;
     }
 
     public Float getCropBalance() {
-        return cropBalance;
+        return cropBalance == null ? 0.5f : cropBalance;
     }
 
 }

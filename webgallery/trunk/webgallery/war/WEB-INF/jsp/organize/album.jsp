@@ -4,7 +4,8 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions" %>
 <s:layout-render name="/WEB-INF/layout/default.jsp" title=" - Organize Albums">
 <s:layout-component name="content">
-<div>
+<div id="photos">
+  <div>
     <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.AlbumActionBean">
       <c:forEach items="${actionBean.items}" var="item" varStatus="loop">
         <s:hidden name="items[${loop.index}].id"/>
@@ -37,6 +38,7 @@
       <s:submit name="save" value="Save"/>
       <s:reset name="reset" value="Reset"/>
     </s:form>
+  </div>
 </div>
 </s:layout-component>
 <s:layout-component name="footerLink">

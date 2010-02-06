@@ -25,9 +25,7 @@ $(function() {
 </s:layout-component>
 <s:layout-component name="content">
     <div id="menu"><div>
-    <s:link beanclass="org.cloudme.webgallery.stripes.action.organize.AlbumActionBean">
-      Albums
-    </s:link>
+    <a href="/">Home</a><s:link beanclass="org.cloudme.webgallery.stripes.action.organize.AlbumActionBean">Albums</s:link>
     </div></div>
     <div id="photos">
     <div id="upload">
