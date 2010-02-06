@@ -1,13 +1,9 @@
 package org.cloudme.webgallery.image.gae;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
 import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.image.ImageFormat;
 import org.cloudme.webgallery.image.ImageService;
+import org.cloudme.webgallery.image.ImageServiceException;
 import org.springframework.stereotype.Component;
 
 import com.google.appengine.api.images.CompositeTransform;
@@ -19,8 +15,6 @@ import com.google.apphosting.api.ApiProxy.OverQuotaException;
 
 @Component
 public class GaeImageService implements ImageService {
-    private static final Logger LOG = Logger.getLogger(GaeImageService.class);
-    
     public byte[] process(byte[] data, ImageFormat format, ContentType type, float balance) {
         Image image = ImagesServiceFactory.makeImage(data);
         CompositeTransform tx = ImagesServiceFactory.makeCompositeTransform();
@@ -39,24 +33,7 @@ public class GaeImageService implements ImageService {
             return imagesService.applyTransform(tx, image, outputEncoding).getImageData();
         }
         catch (OverQuotaException e) {
-            LOG.warn("Over quota.", e);
-            return getOverQuotaImage(format);
-        }
-    }
-
-    private byte[] getOverQuotaImage(ImageFormat format) {
-        int max = Math.max(format.getWidth(), format.getHeight());
-        String overQuotaFileName = "over_quota_" + max + ".jpg";
-        try {
-            InputStream in = getClass().getResourceAsStream(overQuotaFileName);
-            if (in == null) {
-                in = getClass().getResourceAsStream("over_quota_198.jpg");
-            }
-            return IOUtils.toByteArray(in);
-        }
-        catch (IOException e) {
-            LOG.debug(e);
-            return null;
+            throw new ImageServiceException(format, e);
         }
     }
 }

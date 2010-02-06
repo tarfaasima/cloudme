@@ -27,7 +27,7 @@ public class GaeCacheService implements CacheService {
     @SuppressWarnings("unchecked")
     public byte[] cachePhoto(Long photoId, ImageFormat format, ContentType type, CacheProducer<byte[]> cacheProducer) {
         CacheKey key = new CacheKey(photoId, format, type);
-        if (cache.containsKey(photoId)) {
+        if (cache.containsKey(key)) {
             return (byte[]) cache.get(key);
         }
         else {
