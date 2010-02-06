@@ -42,12 +42,6 @@ public class PhotoService extends AbstractService<Long, Photo> {
 	public Collection<Photo> findByAlbumId(Long albumId) {
 		return photoRepository.findByAlbumId(albumId);
 	}
-	
-	@Override
-	public void save(Photo photo) {
-	    super.save(photo);
-	    cacheService.invalidate(photo.getId());
-	}
 
 	/**
 	 * Saves the {@link Photo}s for the given {@link Album} ID. If
@@ -77,6 +71,7 @@ public class PhotoService extends AbstractService<Long, Photo> {
 			}
 		}
 		updatePhotoCount(albumId);
+		cacheService.invalidate();
 	}
 
 	private void updatePhotoCount(Long albumId) {
