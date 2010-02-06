@@ -9,7 +9,7 @@ Functional
 - Send to Flickr
 - Send to RSS
 - Send to Twitter
-- Define "anchor" for photo crops (0%, 25%, 50%, 75%, 100%)
+- Define "anchor" for photo crops (0%, 25%, 50%, 75%, 100%) (done)
 
 Technical
 ---------
@@ -17,4 +17,4 @@ Technical
 - Link to Album from Photo (done)
 - Upgrade / migration assistent (done)
 - Use pseudo-API for image transformation instead of ImageFormat
-- Introduce defined formats for image sizes: large, medium, small
+- Introduce defined formats for image sizes: large, medium, small (done)
