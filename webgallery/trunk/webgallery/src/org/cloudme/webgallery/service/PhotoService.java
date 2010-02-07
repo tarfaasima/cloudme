@@ -5,7 +5,6 @@ import java.util.Collection;
 import javax.cache.CacheException;
 
 import org.apache.log4j.Logger;
-import org.cloudme.webgallery.cache.CacheService;
 import org.cloudme.webgallery.model.Album;
 import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.model.PhotoData;
@@ -22,8 +21,6 @@ public class PhotoService extends AbstractService<Long, Photo> {
     private PhotoDataService photoDataService;
     @Autowired
     private AlbumService albumService;
-    @Autowired
-    private CacheService cacheService;
     private static final Logger LOG = Logger.getLogger(PhotoService.class);
 
     @Autowired
@@ -71,7 +68,6 @@ public class PhotoService extends AbstractService<Long, Photo> {
             }
         }
         updatePhotoCount(albumId);
-        cacheService.invalidate();
     }
 
     private void updatePhotoCount(Long albumId) {

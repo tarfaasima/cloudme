@@ -3,6 +3,7 @@ package org.cloudme.webgallery.service;
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
+import org.cloudme.webgallery.cache.CacheService;
 import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.image.ImageFormatEnum;
 import org.cloudme.webgallery.model.Photo;
@@ -15,7 +16,13 @@ public class CacheUpdateService {
     private PhotoDataService photoDataService;
     @Autowired
     private PhotoService photoService;
+    @Autowired
+    private CacheService cacheService;
     private static final Logger LOG = Logger.getLogger(CacheUpdateService.class);
+    
+    public void invalidate() {
+        cacheService.invalidate();
+    }
 
     public void update() {
         Collection<Photo> photos = photoService.findAll();
