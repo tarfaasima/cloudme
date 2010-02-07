@@ -30,6 +30,7 @@
 <div id="footer">
   ${footerLink} &bull; 
   &copy; ${w:copyrightYear("2008", "-")} by Moritz Petersen &bull; 
+  <a href="http://appengine.google.com/a/cloudme.org">v.${w:appVersion("WEB-INF/appengine-web.xml")}</a> &bull; 
   <a href="http://formspring.me/moritzpetersen" title="Ask me on Formspring.me" rel="nofollow">ask me</a>
 </div>
 </body>
