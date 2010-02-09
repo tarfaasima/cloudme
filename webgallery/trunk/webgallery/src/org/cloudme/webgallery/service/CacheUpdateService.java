@@ -5,7 +5,7 @@ import java.util.Collection;
 import org.apache.log4j.Logger;
 import org.cloudme.webgallery.cache.CacheService;
 import org.cloudme.webgallery.image.ContentType;
-import org.cloudme.webgallery.image.ImageFormatEnum;
+import org.cloudme.webgallery.image.DefaultImageFormat;
 import org.cloudme.webgallery.model.Photo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +40,7 @@ public class CacheUpdateService {
     }
 
     private void updateCache(Long photoId) {
-        for (ImageFormatEnum format : ImageFormatEnum.values()) {
+        for (DefaultImageFormat format : DefaultImageFormat.values()) {
             photoDataService.getPhotoData(photoId, format, ContentType.JPEG);
         }
     }

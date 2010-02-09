@@ -9,7 +9,7 @@ public class ImageFormatFactory {
     public synchronized static ImageFormat getImageFormat(String id) {
         if (imageFormatMap == null) {
             imageFormatMap = new HashMap<String, ImageFormat>();
-            for (ImageFormatEnum imageFormat : ImageFormatEnum.values()) {
+            for (DefaultImageFormat imageFormat : DefaultImageFormat.values()) {
                 imageFormatMap.put(imageFormat.getId(), imageFormat);
             }
         }

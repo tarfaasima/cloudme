@@ -1,6 +1,6 @@
 package org.cloudme.webgallery.image;
 
-public enum ImageFormatEnum implements ImageFormat {
+public enum DefaultImageFormat implements ImageFormat {
     THUMBNAIL("t", 82, false), SMALL("s", 82, true), MEDIUM("m", 198, true), LARGE("l", 894, false);
     
     private final String id;
@@ -8,11 +8,11 @@ public enum ImageFormatEnum implements ImageFormat {
     private final int width;
     private final int height;
 
-    private ImageFormatEnum(String id, int size, boolean isCrop) {
+    private DefaultImageFormat(String id, int size, boolean isCrop) {
         this(id, size, size, isCrop);
     }
     
-    private ImageFormatEnum(String id, int width, int height, boolean isCrop) {
+    private DefaultImageFormat(String id, int width, int height, boolean isCrop) {
         this.id = id;
         this.width = width;
         this.height = height;
