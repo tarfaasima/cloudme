@@ -1,5 +1,6 @@
 package org.cloudme.webgallery.service;
 
+import org.cloudme.webgallery.cache.CacheKey;
 import org.cloudme.webgallery.cache.CacheProducer;
 import org.cloudme.webgallery.cache.CacheService;
 import org.cloudme.webgallery.image.ContentType;
@@ -39,7 +40,8 @@ public class PhotoDataService {
      */
     public byte[] getPhotoData(final Long photoId, final ImageFormat format, final ContentType type) {
         try {
-            return cacheService.cachePhoto(photoId, format, type, new CacheProducer<byte[]>() {
+            CacheKey key = new CacheKey(photoId, format, type);
+            return cacheService.cache(key, new CacheProducer<byte[]>() {
                 public byte[] produce() {
                     float balance = photoService.find(photoId).getCropBalance();
                     PhotoData photoData = photoDataRepository.find(photoId);

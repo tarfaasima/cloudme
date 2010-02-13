@@ -10,8 +10,6 @@ import javax.cache.CacheManager;
 import org.cloudme.webgallery.cache.CacheKey;
 import org.cloudme.webgallery.cache.CacheProducer;
 import org.cloudme.webgallery.cache.CacheService;
-import org.cloudme.webgallery.image.ContentType;
-import org.cloudme.webgallery.image.ImageFormat;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,20 +22,17 @@ public class GaeCacheService implements CacheService {
         cache = cacheFactory.createCache(Collections.EMPTY_MAP);
     }
 
-    @SuppressWarnings("unchecked")
-    public byte[] cachePhoto(Long photoId, ImageFormat format, ContentType type, CacheProducer<byte[]> cacheProducer) {
-        CacheKey key = new CacheKey(photoId, format, type);
-        if (cache.containsKey(key)) {
-            return (byte[]) cache.get(key);
-        }
-        else {
-            byte[] output = cacheProducer.produce();
-            cache.put(key, output);
-            return output;
-        }
-    }
-
     public void invalidate() {
         cache.clear();
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T cache(CacheKey key, CacheProducer<T> producer) {
+        if (cache.containsKey(key)) {
+            return (T) cache.get(key);
+        }
+        T t = producer.produce();
+        cache.put(key, t);
+        return t;
     }
 }

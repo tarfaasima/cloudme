@@ -13,14 +13,29 @@ import org.cloudme.webgallery.image.DefaultImageFormat;
 import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.model.PhotoData;
 import org.cloudme.webgallery.stripes.action.organize.upload.UploadManager;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.google.appengine.api.images.Image;
 import com.google.appengine.api.images.ImagesServiceFactory;
-import com.google.appengine.tools.development.LocalServiceTestCase;
+import com.google.appengine.tools.development.testing.LocalImagesServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 
-public class GaeImageServiceTest extends LocalServiceTestCase {
+public class GaeImageServiceTest  {
+    private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalImagesServiceTestConfig());
+    
+    @Before
+    public void setUp() {
+        helper.setUp();
+    }
+    
+    @After
+    public void tearDown() {
+        helper.tearDown();
+    }
+
     @Test
     public void testProcess() throws IOException {
         assertProcess(loadPhoto(), DefaultImageFormat.MEDIUM, DefaultImageFormat.MEDIUM.getWidth(), DefaultImageFormat.MEDIUM.getHeight());
