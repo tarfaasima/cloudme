@@ -1,6 +1,5 @@
 package org.cloudme.webgallery.service;
 
-import org.cloudme.webgallery.cache.CacheKey;
 import org.cloudme.webgallery.cache.CacheProducer;
 import org.cloudme.webgallery.cache.CacheService;
 import org.cloudme.webgallery.image.ContentType;
@@ -40,15 +39,14 @@ public class PhotoDataService {
      */
     public byte[] getPhotoData(final Long photoId, final ImageFormat format, final ContentType type) {
         try {
-            CacheKey key = new CacheKey(photoId, format, type);
-            return cacheService.cache(key, new CacheProducer<byte[]>() {
+            return cacheService.cache(new CacheProducer<byte[]>() {
                 public byte[] produce() {
                     float balance = photoService.find(photoId).getCropBalance();
                     PhotoData photoData = photoDataRepository.find(photoId);
                     byte[] input = photoData.getDataAsArray();
                     return imageService.process(input, format, type, balance);
                 }
-            });
+            }, photoId, format, type);
         }
         catch (ImageServiceException e) {
             return e.getImageData();

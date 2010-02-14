@@ -1,5 +1,6 @@
 package org.cloudme.webgallery.cache.gae;
 
+import java.io.Serializable;
 import java.util.Collections;
 
 import javax.cache.Cache;
@@ -7,7 +8,6 @@ import javax.cache.CacheException;
 import javax.cache.CacheFactory;
 import javax.cache.CacheManager;
 
-import org.cloudme.webgallery.cache.CacheKey;
 import org.cloudme.webgallery.cache.CacheProducer;
 import org.cloudme.webgallery.cache.CacheService;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,8 @@ public class GaeCacheService implements CacheService {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T cache(CacheKey key, CacheProducer<T> producer) {
+    public <T> T cache(CacheProducer<T> producer, Serializable... params) {
+        CacheKey key = new CacheKey(params);
         if (cache.containsKey(key)) {
             return (T) cache.get(key);
         }
