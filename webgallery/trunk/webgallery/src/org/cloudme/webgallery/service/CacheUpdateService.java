@@ -19,22 +19,28 @@ public class CacheUpdateService {
     @Autowired
     private CacheService cacheService;
     private static final Logger LOG = Logger.getLogger(CacheUpdateService.class);
-    
+
     public void invalidate() {
         cacheService.invalidate();
     }
 
-    public void update() {
+    public void update(long timeout) {
+        LOG.info("timeout=" + timeout);
+        long start = System.currentTimeMillis();
         Collection<Photo> photos = photoService.findAll();
         int successful = 0;
         try {
             for (Photo photo : photos) {
+                if (System.currentTimeMillis() - start > timeout) {
+                    LOG.warn("Timeout while updating photo cache.");
+                    break;
+                }
                 updateCache(photo.getId());
                 successful++;
             }
         }
         catch (Exception e) {
-            LOG.error("Cache update failed.", e);
+            LOG.error("Cache update failed", e);
         }
         LOG.info(successful + " of " + photos.size() + " photos updated.");
     }
