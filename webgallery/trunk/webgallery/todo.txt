@@ -10,6 +10,7 @@ Functional
 - Send to RSS
 - Send to Twitter
 - Define "anchor" for photo crops (0%, 25%, 50%, 75%, 100%) (done)
+- Desktop uploader
 
 Technical
 ---------
