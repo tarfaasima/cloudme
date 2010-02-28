@@ -93,8 +93,10 @@ public class FlickrRequest {
             PostData value = postParam.getValue();
             postBuilder.append(key, value.contentType, value.filename, value.data);
         }
+        String apiSig = sigBuilder.toSignature();
+        urlBuilder.append("api_sig", apiSig);
+        postBuilder.append("api_sig", apiSig);
         multipart = postBuilder.getMultipart();
-        urlBuilder.append("api_sig", sigBuilder.toSignature());
         return urlBuilder.toUrl();
     }
     

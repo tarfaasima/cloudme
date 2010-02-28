@@ -1,8 +1,12 @@
 package org.cloudme.webgallery.service;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Collection;
+
+import javax.mail.internet.MimeMultipart;
 
 import org.cloudme.webgallery.cache.CacheProducer;
 import org.cloudme.webgallery.cache.CacheService;
@@ -34,7 +38,7 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
             return name().toLowerCase();
         };
     }
-    
+
     private class FlickrImageFormat implements ImageFormat {
         public int getHeight() {
             return 500;
@@ -110,7 +114,15 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
     private InputStream openStream(FlickrRequest request) {
         try {
             URL url = new URL(request.toUrl());
-            return url.openStream();
+            URLConnection con = url.openConnection();
+            MimeMultipart multipart = request.getMultipart();
+            if (multipart != null) {
+                con.setDoInput(false);
+                OutputStream out = con.getOutputStream();
+                multipart.writeTo(out);
+                out.close();
+            }
+            return con.getInputStream();
         }
         catch (Exception e) {
             throw new IllegalStateException(e);
@@ -134,6 +146,6 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         request.append("hidden", 2);
         byte[] data = photoDataService.getPhotoData(photoId, new FlickrImageFormat(), ContentType.JPEG);
         request.appendPost("photo", ContentType.JPEG.toString(), photo.getFileName(), data);
-        
+
     }
 }

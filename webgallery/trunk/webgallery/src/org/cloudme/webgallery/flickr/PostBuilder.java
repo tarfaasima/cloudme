@@ -6,15 +6,14 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 
 class PostBuilder {
-    private final boolean isPost;
-    private final MimeMultipart multipart = new MimeMultipart("form-data");
+    private final MimeMultipart multipart;
 
     public PostBuilder(boolean isPost) {
-        this.isPost = isPost;
+        multipart = isPost ? new MimeMultipart("form-data") : null;
     }
 
     public void append(String name, String value) {
-        if (isPost) {
+        if (multipart != null) {
             try {
                 MimeBodyPart part = new MimeBodyPart();
                 part.setDisposition("form-data; name=\"" + name + "\"");
