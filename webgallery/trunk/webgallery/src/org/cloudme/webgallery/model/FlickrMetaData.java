@@ -15,6 +15,16 @@ public class FlickrMetaData implements IdObject<Long> {
     private String key;
     @Persistent
     private String secret;
+    @Persistent
+    private String nsid;
+    @Persistent
+    private String perms;
+    @Persistent
+    private String fullname;
+    @Persistent
+    private String token;
+    @Persistent
+    private String username;
 
     public Long getId() {
         return id;
@@ -38,5 +48,45 @@ public class FlickrMetaData implements IdObject<Long> {
 
     public void setSecret(String secret) {
         this.secret = secret;
+    }
+
+    public String getNsid() {
+        return nsid;
+    }
+
+    public String getPerms() {
+        return perms;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setNsid(String nsid) {
+        this.nsid = nsid;
+    }
+
+    public void setPerms(String perms) {
+        this.perms = perms;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

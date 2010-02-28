@@ -28,4 +28,16 @@ public interface CacheService {
      * Invalidats (clears) the cache.
      */
     void invalidate();
+
+    /**
+     * Updates the data with the given cache key.
+     * 
+     * @param <T>
+     *            The type of data.
+     * @param data
+     *            The data.
+     * @param params
+     *            The key parameters.
+     */
+    <T> void update(T data, Serializable... params);
 }

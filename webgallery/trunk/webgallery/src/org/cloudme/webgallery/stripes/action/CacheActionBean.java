@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.integration.spring.SpringBean;
@@ -17,7 +16,7 @@ import org.cloudme.webgallery.service.CacheUpdateService;
 public class CacheActionBean extends AbstractActionBean {
     @SpringBean
     private CacheUpdateService cacheUpdateService;
-    private final long timeout = 20000;
+    private long timeout = 20000;
     
     @SuppressWarnings("unchecked")
     @DefaultHandler
@@ -30,6 +29,10 @@ public class CacheActionBean extends AbstractActionBean {
             System.out.println(name + " : " + header);
         }
         cacheUpdateService.update(timeout);
-        return new ForwardResolution("/gallery/home");
+        return null;
+    }
+    
+    public void setTimeout(long timeout) {
+        this.timeout = timeout;
     }
 }

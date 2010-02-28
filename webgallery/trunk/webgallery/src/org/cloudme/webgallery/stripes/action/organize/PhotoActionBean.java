@@ -42,10 +42,10 @@ public class PhotoActionBean extends AbstractActionBean {
 		return new RedirectResolution("/organize/photo/" + albumId);
 	}
 
-	public Resolution save() {
-	    photoService.save(albumId, photos);
-		return new RedirectResolution("/organize/photo/" + albumId);
-	}
+    public Resolution save() {
+        photoService.save(albumId, photos);
+        return new RedirectResolution("/organize/photo/" + albumId);
+    }
 
 	@DefaultHandler
 	public Resolution edit() {

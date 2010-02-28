@@ -6,7 +6,7 @@ Functional
 - Better admin pages
 - Download photos (albums) as ZIP file
 - Allow Images to assign do another album
-- Send to Flickr
+- Send to Flickr (in progress)
 - Send to RSS
 - Send to Twitter
 - Define "anchor" for photo crops (0%, 25%, 50%, 75%, 100%) (done)
@@ -19,3 +19,4 @@ Technical
 - Upgrade / migration assistent (done)
 - Use pseudo-API for image transformation instead of ImageFormat
 - Introduce defined formats for image sizes: large, medium, small (done)
+- Implement forced cache update for changed photos
