@@ -4,9 +4,13 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import javax.mail.internet.MimeMultipart;
+
 public class FlickrRequest {
     public enum FlickrUrl {
-        AUTH("http://flickr.com/services/auth/"), REST("http://api.flickr.com/services/rest/");
+        AUTH("http://flickr.com/services/auth/"),
+        REST("http://api.flickr.com/services/rest/"),
+        UPLOAD("http://api.flickr.com/services/upload/");
 
         private final String url;
 
@@ -19,13 +23,34 @@ public class FlickrRequest {
             return url;
         }
     }
+    
+    private class PostData {
+        private final String contentType;
+        private final String filename;
+        private final byte[] data;
 
-    private final SortedMap<String, String> params = new TreeMap<String, String>();
+        public PostData(String contentType, String filename, byte[] data) {
+            this.contentType = contentType;
+            this.filename = filename;
+            this.data = data;
+        }
+    }
+
+    private final SortedMap<String, String> getParams = new TreeMap<String, String>();
+    private final SortedMap<String, PostData> postParams = new TreeMap<String, PostData>();
     private String secret;
     private FlickrUrl url;
+    private MimeMultipart multipart;
 
     public FlickrRequest append(String name, Object value) {
-        params.put(name, value.toString());
+        if (value != null) {
+            getParams.put(name, value.toString());
+        }
+        return this;
+    }
+    
+    public FlickrRequest appendPost(String name, String contentType, String filename, byte[] data) {
+        postParams.put(name, new PostData(contentType, filename, data));
         return this;
     }
 
@@ -38,11 +63,10 @@ public class FlickrRequest {
         this.secret = secret;
         return this;
     }
-    
+
     public FlickrRequest method(String method) {
         append("method", method);
         return this;
-        
     }
 
     public FlickrRequest url(FlickrUrl url) {
@@ -51,17 +75,30 @@ public class FlickrRequest {
     }
 
     public String toUrl() {
-        UrlBuilder urlBuilder = new UrlBuilder(url.toString());
+        boolean isPost = !postParams.isEmpty();
+        UrlBuilder urlBuilder = new UrlBuilder(url.toString(), isPost);
         SignatureBuilder sigBuilder = new SignatureBuilder(secret);
-        if (!params.isEmpty()) {
-            for (Entry<String, String> param : params.entrySet()) {
+        PostBuilder postBuilder = new PostBuilder(isPost);
+        if (!getParams.isEmpty()) {
+            for (Entry<String, String> param : getParams.entrySet()) {
                 String name = param.getKey();
                 String value = param.getValue();
                 urlBuilder.append(name, value);
                 sigBuilder.append(name, value);
+                postBuilder.append(name, value);
             }
         }
+        for (Entry<String, PostData> postParam : postParams.entrySet()) {
+            String key = postParam.getKey();
+            PostData value = postParam.getValue();
+            postBuilder.append(key, value.contentType, value.filename, value.data);
+        }
+        multipart = postBuilder.getMultipart();
         urlBuilder.append("api_sig", sigBuilder.toSignature());
         return urlBuilder.toUrl();
+    }
+    
+    public MimeMultipart getMultipart() {
+        return multipart;
     }
 }

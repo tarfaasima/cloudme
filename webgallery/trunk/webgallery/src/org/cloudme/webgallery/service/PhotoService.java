@@ -69,12 +69,12 @@ public class PhotoService extends AbstractService<Long, Photo> {
         }
         updatePhotoCount(albumId);
     }
-
+    
     private void updatePhotoCount(Long albumId) {
         int count = photoRepository.countPhotosByAlbumId(albumId);
         albumService.updatePhotoCount(albumId, count);
     }
-
+    
     /**
      * Deletes the {@link Photo} and the {@link PhotoData}. If the
      * {@link PhotoData} cannot be deleted, the {@link Photo} will not be

@@ -9,7 +9,10 @@ import org.cloudme.webgallery.cache.CacheService;
 import org.cloudme.webgallery.flickr.FlickrRequest;
 import org.cloudme.webgallery.flickr.FlickrResponse;
 import org.cloudme.webgallery.flickr.FlickrRequest.FlickrUrl;
+import org.cloudme.webgallery.image.ContentType;
+import org.cloudme.webgallery.image.ImageFormat;
 import org.cloudme.webgallery.model.FlickrMetaData;
+import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.persistence.FlickrMetaDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +20,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class FlickrService extends AbstractService<Long, FlickrMetaData> {
     @Autowired
-    private CacheService cacheService;
+    protected CacheService cacheService;
+    @Autowired
+    private PhotoService photoService;
+    @Autowired
+    private PhotoDataService photoDataService;
 
     public enum Perms {
         READ, WRITE, DELETE;
@@ -26,6 +33,20 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         public String toString() {
             return name().toLowerCase();
         };
+    }
+    
+    private class FlickrImageFormat implements ImageFormat {
+        public int getHeight() {
+            return 500;
+        }
+
+        public int getWidth() {
+            return 500;
+        }
+
+        public boolean isCrop() {
+            return false;
+        }
     }
 
     @Autowired
@@ -39,7 +60,7 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
                 Collection<FlickrMetaData> items = findAll();
                 switch (items.size()) {
                 case 0:
-                    return new FlickrMetaData();
+                    return null;
 
                 case 1:
                     return items.iterator().next();
@@ -57,9 +78,12 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
     }
 
     public String createLoginLink(Perms perms) {
+        FlickrMetaData metaData = get();
+        if (metaData == null) {
+            return "";
+        }
         FlickrRequest request = new FlickrRequest();
         request.url(FlickrUrl.AUTH);
-        FlickrMetaData metaData = get();
         request.apiKey(metaData.getKey());
         request.secret(metaData.getSecret());
         request.append("perms", perms);
@@ -91,5 +115,25 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         catch (Exception e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    public void post(Long photoId) {
+        FlickrRequest request = new FlickrRequest();
+        request.url(FlickrUrl.UPLOAD);
+        FlickrMetaData metaData = get();
+        request.apiKey(metaData.getKey());
+        request.secret(metaData.getSecret());
+        Photo photo = photoService.find(photoId);
+        request.append("title", photo.getName());
+        request.append("description", "Taken by Moritz Petersen. View <a href=\"http://photos.moritzpetersen.de/gallery/album/" + photo.getAlbumId() + "/photo/" + photoId + "\">large</a>");
+        request.append("is_public", 0);
+        request.append("is_friend", 0);
+        request.append("is_family", 0);
+        request.append("safety_level", 1);
+        request.append("content_type", 1);
+        request.append("hidden", 2);
+        byte[] data = photoDataService.getPhotoData(photoId, new FlickrImageFormat(), ContentType.JPEG);
+        request.appendPost("photo", ContentType.JPEG.toString(), photo.getFileName(), data);
+        
     }
 }
