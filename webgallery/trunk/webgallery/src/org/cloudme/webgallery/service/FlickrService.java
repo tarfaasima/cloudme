@@ -1,17 +1,15 @@
 package org.cloudme.webgallery.service;
 
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Collection;
-
-import javax.mail.internet.MimeMultipart;
 
 import org.cloudme.webgallery.cache.CacheProducer;
 import org.cloudme.webgallery.cache.CacheService;
 import org.cloudme.webgallery.flickr.FlickrRequest;
 import org.cloudme.webgallery.flickr.FlickrResponse;
+import org.cloudme.webgallery.flickr.HttpRequest;
 import org.cloudme.webgallery.flickr.FlickrRequest.FlickrUrl;
 import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.image.ImageFormat;
@@ -87,21 +85,21 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
             return "";
         }
         FlickrRequest request = new FlickrRequest();
-        request.url(FlickrUrl.AUTH);
-        request.apiKey(metaData.getKey());
-        request.secret(metaData.getSecret());
-        request.append("perms", perms);
-        return request.toUrl();
+        request.setUrl(FlickrUrl.AUTH);
+        request.addApiKey(metaData.getKey());
+        request.addSecret(metaData.getSecret());
+        request.add("perms", perms);
+        return request.getHttpRequest().getUrl();
     }
 
     public void flickrAuthGetToken(String frob) {
         FlickrRequest request = new FlickrRequest();
-        request.url(FlickrUrl.REST);
+        request.setUrl(FlickrUrl.REST);
         FlickrMetaData metaData = get();
-        request.apiKey(metaData.getKey());
-        request.secret(metaData.getSecret());
-        request.method("flickr.auth.getToken");
-        request.append("frob", frob);
+        request.addApiKey(metaData.getKey());
+        request.addSecret(metaData.getSecret());
+        request.addMethod("flickr.auth.getToken");
+        request.add("frob", frob);
         FlickrResponse response = new FlickrResponse(openStream(request));
         metaData.setFullname(response.get("/auth/user@fullname"));
         metaData.setNsid(response.get("/auth/user@nsid"));
@@ -113,15 +111,10 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
 
     private InputStream openStream(FlickrRequest request) {
         try {
-            URL url = new URL(request.toUrl());
+            HttpRequest httpRequest = request.getHttpRequest();
+            URL url = new URL(httpRequest.getUrl());
             URLConnection con = url.openConnection();
-            MimeMultipart multipart = request.getMultipart();
-            if (multipart != null) {
-                con.setDoInput(false);
-                OutputStream out = con.getOutputStream();
-                multipart.writeTo(out);
-                out.close();
-            }
+            httpRequest.writeTo(con);
             return con.getInputStream();
         }
         catch (Exception e) {
@@ -131,21 +124,21 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
 
     public void post(Long photoId) {
         FlickrRequest request = new FlickrRequest();
-        request.url(FlickrUrl.UPLOAD);
+        request.setUrl(FlickrUrl.UPLOAD);
         FlickrMetaData metaData = get();
-        request.apiKey(metaData.getKey());
-        request.secret(metaData.getSecret());
+        request.addApiKey(metaData.getKey());
+        request.addSecret(metaData.getSecret());
         Photo photo = photoService.find(photoId);
-        request.append("title", photo.getName());
-        request.append("description", "Taken by Moritz Petersen. View <a href=\"http://photos.moritzpetersen.de/gallery/album/" + photo.getAlbumId() + "/photo/" + photoId + "\">large</a>");
-        request.append("is_public", 0);
-        request.append("is_friend", 0);
-        request.append("is_family", 0);
-        request.append("safety_level", 1);
-        request.append("content_type", 1);
-        request.append("hidden", 2);
+        request.add("title", photo.getName());
+        request.add("description", "Taken by Moritz Petersen. View <a href=\"http://photos.moritzpetersen.de/gallery/album/" + photo.getAlbumId() + "/photo/" + photoId + "\">large</a>");
+        request.add("is_public", 0);
+        request.add("is_friend", 0);
+        request.add("is_family", 0);
+        request.add("safety_level", 1);
+        request.add("content_type", 1);
+        request.add("hidden", 2);
         byte[] data = photoDataService.getPhotoData(photoId, new FlickrImageFormat(), ContentType.JPEG);
-        request.appendPost("photo", ContentType.JPEG.toString(), photo.getFileName(), data);
+        request.addPhoto(ContentType.JPEG.toString(), photo.getFileName(), data);
 
     }
 }

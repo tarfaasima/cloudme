@@ -1,5 +1,6 @@
 package org.cloudme.webgallery.flickr;
 
+@Deprecated
 class UrlBuilder {
     private final StringBuilder builder;
     private boolean hasParams = false;

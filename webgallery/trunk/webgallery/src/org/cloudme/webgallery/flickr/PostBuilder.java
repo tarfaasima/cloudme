@@ -5,6 +5,7 @@ import javax.mail.internet.InternetHeaders;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 
+@Deprecated
 class PostBuilder {
     private final MimeMultipart multipart;
 
@@ -31,7 +32,7 @@ class PostBuilder {
             InternetHeaders headers = new InternetHeaders();
             headers.addHeader("Content-Type", contentType);
             MimeBodyPart part = new MimeBodyPart(headers, data);
-            part.setDisposition("form-data); name=\"" + name + "\"; filename=" + filename);
+            part.setDisposition("form-data; name=\"" + name + "\"; filename=" + filename);
             multipart.addBodyPart(part);
         }
         catch (MessagingException e) {

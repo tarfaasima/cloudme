@@ -1,10 +1,10 @@
 package org.cloudme.webgallery.flickr;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.Map.Entry;
-
-import javax.mail.internet.MimeMultipart;
 
 public class FlickrRequest {
     public enum FlickrUrl {
@@ -24,83 +24,62 @@ public class FlickrRequest {
         }
     }
     
-    private class PostData {
+    private class PhotoData {
         private final String contentType;
         private final String filename;
         private final byte[] data;
 
-        public PostData(String contentType, String filename, byte[] data) {
+        public PhotoData(String contentType, String filename, byte[] data) {
             this.contentType = contentType;
             this.filename = filename;
             this.data = data;
         }
     }
 
-    private final SortedMap<String, String> getParams = new TreeMap<String, String>();
-    private final SortedMap<String, PostData> postParams = new TreeMap<String, PostData>();
+    private final SortedMap<String, String> params = new TreeMap<String, String>();
+    private final Collection<PhotoData> photos = new ArrayList<PhotoData>();
     private String secret;
     private FlickrUrl url;
-    private MimeMultipart multipart;
 
-    public FlickrRequest append(String name, Object value) {
+    public void add(String name, Object value) {
         if (value != null) {
-            getParams.put(name, value.toString());
+            params.put(name, value.toString());
         }
-        return this;
     }
     
-    public FlickrRequest appendPost(String name, String contentType, String filename, byte[] data) {
-        postParams.put(name, new PostData(contentType, filename, data));
-        return this;
+    public void addPhoto(String contentType, String filename, byte[] data) {
+        photos.add(new PhotoData(contentType, filename, data));
     }
 
-    public FlickrRequest apiKey(String apiKey) {
-        append("api_key", apiKey);
-        return this;
+    public void addApiKey(String apiKey) {
+        add("api_key", apiKey);
     }
 
-    public FlickrRequest secret(String secret) {
+    public void addSecret(String secret) {
         this.secret = secret;
-        return this;
     }
 
-    public FlickrRequest method(String method) {
-        append("method", method);
-        return this;
+    public void addMethod(String method) {
+        add("method", method);
     }
 
-    public FlickrRequest url(FlickrUrl url) {
+    public void setUrl(FlickrUrl url) {
         this.url = url;
-        return this;
-    }
-
-    public String toUrl() {
-        boolean isPost = !postParams.isEmpty();
-        UrlBuilder urlBuilder = new UrlBuilder(url.toString(), isPost);
-        SignatureBuilder sigBuilder = new SignatureBuilder(secret);
-        PostBuilder postBuilder = new PostBuilder(isPost);
-        if (!getParams.isEmpty()) {
-            for (Entry<String, String> param : getParams.entrySet()) {
-                String name = param.getKey();
-                String value = param.getValue();
-                urlBuilder.append(name, value);
-                sigBuilder.append(name, value);
-                postBuilder.append(name, value);
-            }
-        }
-        for (Entry<String, PostData> postParam : postParams.entrySet()) {
-            String key = postParam.getKey();
-            PostData value = postParam.getValue();
-            postBuilder.append(key, value.contentType, value.filename, value.data);
-        }
-        String apiSig = sigBuilder.toSignature();
-        urlBuilder.append("api_sig", apiSig);
-        postBuilder.append("api_sig", apiSig);
-        multipart = postBuilder.getMultipart();
-        return urlBuilder.toUrl();
     }
     
-    public MimeMultipart getMultipart() {
-        return multipart;
+    public HttpRequest getHttpRequest() {
+        AbstractHttpRequest req = photos.isEmpty() ? new HttpGetRequest(url.toString()) : new HttpPostRequest(url.toString());
+        SignatureBuilder sigBuilder = new SignatureBuilder(secret);
+        for (Entry<String, String> param : params.entrySet()) {
+            String name = param.getKey();
+            String value = param.getValue();
+            req.append(name, value);
+            sigBuilder.append(name, value);
+        }
+        for (PhotoData photo : photos) {
+            req.append("photo", photo.filename, photo.contentType, photo.data);
+        }
+        req.append("api_sig", sigBuilder.toSignature());
+        return req;
     }
 }
