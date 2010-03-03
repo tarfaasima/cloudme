@@ -141,7 +141,7 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         request.add("hidden", 2);
         request.add("async", 1);
         byte[] data = photoDataService.getPhotoData(photoId, new FlickrImageFormat(), ContentType.JPEG);
-        request.addPhoto(ContentType.JPEG.toString(), photo.getFileName(), data);
+        request.addFile(ContentType.JPEG.toString(), photo.getFileName(), data);
         FlickrResponse response = new FlickrResponse(openStream(request));
         if (response.isOk()) {
         	
