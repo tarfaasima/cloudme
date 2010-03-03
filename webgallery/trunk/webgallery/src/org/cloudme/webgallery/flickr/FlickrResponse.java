@@ -79,4 +79,8 @@ public class FlickrResponse {
     public String get(String key) {
         return values.get(key);
     }
+    
+    public boolean isOk() {
+    	return "ok".equalsIgnoreCase(stat);
+    }
 }

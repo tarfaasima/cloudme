@@ -1,5 +1,6 @@
 package org.cloudme.webgallery.service;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -128,17 +129,22 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         FlickrMetaData metaData = get();
         request.addApiKey(metaData.getKey());
         request.addSecret(metaData.getSecret());
+        request.addAuthToken(metaData.getToken());
         Photo photo = photoService.find(photoId);
         request.add("title", photo.getName());
-        request.add("description", "Taken by Moritz Petersen. View <a href=\"http://photos.moritzpetersen.de/gallery/album/" + photo.getAlbumId() + "/photo/" + photoId + "\">large</a>");
+        request.add("description", "Coypright by Moritz Petersen. View <a href=\"http://photos.moritzpetersen.de/gallery/album/" + photo.getAlbumId() + "/photo/" + photoId + "\">large</a>");
         request.add("is_public", 0);
         request.add("is_friend", 0);
         request.add("is_family", 0);
         request.add("safety_level", 1);
         request.add("content_type", 1);
         request.add("hidden", 2);
+        request.add("async", 1);
         byte[] data = photoDataService.getPhotoData(photoId, new FlickrImageFormat(), ContentType.JPEG);
         request.addPhoto(ContentType.JPEG.toString(), photo.getFileName(), data);
-
+        FlickrResponse response = new FlickrResponse(openStream(request));
+        if (response.isOk()) {
+        	
+        }
     }
 }
