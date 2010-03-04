@@ -1,10 +1,10 @@
 package org.cloudme.webgallery.service;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.cloudme.webgallery.cache.CacheProducer;
 import org.cloudme.webgallery.cache.CacheService;
@@ -13,7 +13,6 @@ import org.cloudme.webgallery.flickr.FlickrResponse;
 import org.cloudme.webgallery.flickr.HttpRequest;
 import org.cloudme.webgallery.flickr.FlickrRequest.FlickrUrl;
 import org.cloudme.webgallery.image.ContentType;
-import org.cloudme.webgallery.image.ImageFormat;
 import org.cloudme.webgallery.model.FlickrMetaData;
 import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.persistence.FlickrMetaDataRepository;
@@ -38,28 +37,16 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         };
     }
 
-    private class FlickrImageFormat implements ImageFormat {
-        public int getHeight() {
-            return 500;
-        }
-
-        public int getWidth() {
-            return 500;
-        }
-
-        public boolean isCrop() {
-            return false;
-        }
-    }
-
     @Autowired
     protected FlickrService(FlickrMetaDataRepository repository) {
         super(repository);
     }
 
     public FlickrMetaData get() {
+        System.out.println("get");
         return cacheService.cache(new CacheProducer<FlickrMetaData>() {
             public FlickrMetaData produce() {
+                System.out.println("Cache miss");
                 Collection<FlickrMetaData> items = findAll();
                 switch (items.size()) {
                 case 0:
@@ -76,7 +63,10 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
     }
 
     public void put(FlickrMetaData metaData) {
-        cacheService.update(metaData, FlickrMetaData.class);
+        cacheService.remove(FlickrMetaData.class);
+        for (Iterator<FlickrMetaData> it = findAll().iterator(); it.hasNext();) {
+            delete(it.next().getId());
+        }
         save(metaData);
     }
 
@@ -144,7 +134,12 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         request.addFile(ContentType.JPEG.toString(), photo.getFileName(), data);
         FlickrResponse response = new FlickrResponse(openStream(request));
         if (response.isOk()) {
-        	
+        	System.out.println("ok");
+        }
+        else {
+            System.out.println("fail");
+            System.out.println("code: " + response.get("/err@code"));
+            System.out.println("msg: " + response.get("/err@msg"));
         }
     }
 }

@@ -37,8 +37,7 @@ public class GaeCacheService implements CacheService {
         return t;
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> void update(T data, Serializable... params) {
-        cache.put(new CacheKey(params), data);
+    public void remove(Serializable... params) {
+        cache.remove(new CacheKey(params));
     }
 }

@@ -59,6 +59,7 @@ public class HttpPostRequestTest {
 				+ "Hello World!\r\n"
 				+ boundary + "\r\n";
 		req.writeTo(con);
+		System.out.println(con.toString());
 		assertEqualLines(expected, con.toString());
 		assertTrue(con.getDoOutput());
 	}

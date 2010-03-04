@@ -1,11 +1,13 @@
 package org.cloudme.webgallery.flickr;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Random;
+
+import org.apache.commons.io.output.ByteArrayOutputStream;
 
 class HttpPostRequest implements AppendableHttpRequest {
     private static final String BOUNDARY_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -14,7 +16,7 @@ class HttpPostRequest implements AppendableHttpRequest {
     private final String boundary;
     private final String host;
     private final String path;
-    private final StringBuilder content = new StringBuilder();
+    private final ByteArrayOutputStream content = new ByteArrayOutputStream();
     private int contentLength;
 
     public HttpPostRequest(String url) {
@@ -28,7 +30,8 @@ class HttpPostRequest implements AppendableHttpRequest {
             URL u = new URL(url);
             host = u.getHost();
             path = u.getPath();
-        } catch (MalformedURLException e) {
+        }
+        catch (MalformedURLException e) {
             throw new IllegalStateException(e);
         }
     }
@@ -52,21 +55,29 @@ class HttpPostRequest implements AppendableHttpRequest {
 
     public void writeTo(URLConnection con) {
         con.setDoOutput(true);
-        PrintWriter out = null;
+        PrintStream out = null;
         try {
-            out = new PrintWriter(con.getOutputStream());
-            out.println("POST " + path + " HTTP/1.1");
-            out.println("Content-Type: multipart/form-data; boundary=" + boundary);
-            out.println("Host: " + host);
-            out.println("Content-Length: " + contentLength);
-            if (content.length() > 0) {
-                out.println();
-                out.println(boundary);
-                out.print(content.toString());
+            out = new PrintStream(con.getOutputStream()) {
+                @Override
+                public void print(String s) {
+                    super.print(s);
+                    System.out.print(s);
+                }
+            };
+            out.print("POST " + path + " HTTP/1.1" + NL);
+            out.print("Content-Type: multipart/form-data; boundary=" + boundary + NL);
+            out.print("Host: " + host + NL);
+            out.print("Content-Length: " + contentLength + NL);
+            if (content.size() > 0) {
+                out.print(NL);
+                out.print(boundary + NL);
+                out.print(content.toByteArray());
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
-        } finally {
+        }
+        finally {
             if (out != null) {
                 out.close();
             }
@@ -78,20 +89,28 @@ class HttpPostRequest implements AppendableHttpRequest {
         addContent("Content-Disposition: form-data; name=\"", name, "\"; filename=\"", filename, "\"");
         addContent("Content-Type: ", contentType);
         addContent();
-        addContent(new String(data));
+        addContent(data);
         addContent(boundary);
     }
 
     public String getUrl() {
         return url;
     }
-    
+
     private void addContent(Object... args) {
-        for (Object arg : args) {
-            if (arg != null) {
-                content.append(arg.toString());
+        try {
+            for (Object arg : args) {
+                if (arg != null) {
+                    if (arg instanceof byte[]) {
+                        content.write((byte[]) arg);
+                    }
+                    content.write(arg.toString().getBytes());
+                }
             }
+            content.write(NL.getBytes());
         }
-        content.append(NL);
+        catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }
