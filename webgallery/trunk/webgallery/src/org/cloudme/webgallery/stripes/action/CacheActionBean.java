@@ -1,10 +1,5 @@
 package org.cloudme.webgallery.stripes.action;
 
-import java.util.Enumeration;
-
-import javax.servlet.http.HttpServletRequest;
-
-import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
@@ -18,16 +13,8 @@ public class CacheActionBean extends AbstractActionBean {
     private CacheUpdateService cacheUpdateService;
     private long timeout = 20000;
     
-    @SuppressWarnings("unchecked")
     @DefaultHandler
     public Resolution update() {
-        ActionBeanContext context = getContext();
-        HttpServletRequest request = context.getRequest();
-        for (Enumeration<String> names = request.getHeaderNames(); names.hasMoreElements();) {
-            String name = names.nextElement();
-            String header = request.getHeader(name);
-            System.out.println(name + " : " + header);
-        }
         cacheUpdateService.update(timeout);
         return null;
     }

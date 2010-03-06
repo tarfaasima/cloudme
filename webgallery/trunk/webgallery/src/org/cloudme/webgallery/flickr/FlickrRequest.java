@@ -1,12 +1,19 @@
 package org.cloudme.webgallery.flickr;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.Map.Entry;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 /**
  * Encapsulates a request to the Flickr API. Access to authentication, RESTful
@@ -79,11 +86,10 @@ public class FlickrRequest {
         }
     }
 
-    private static final String ENCODING = "UTF-8";
     private final SortedMap<String, String> params = new TreeMap<String, String>();
     private final Collection<FileData> files = new ArrayList<FileData>();
     private String secret;
-    private FlickrUrl url;
+    private String url;
 
     /**
      * Adds a parameter.
@@ -107,11 +113,7 @@ public class FlickrRequest {
      * @return the encoded value.
      */
     private String enc(Object value) {
-        try {
-            return URLEncoder.encode(value.toString(), ENCODING);
-        } catch (UnsupportedEncodingException e) {
-            throw new IllegalStateException(e);
-        }
+        return value.toString();
     }
 
     /**
@@ -176,30 +178,51 @@ public class FlickrRequest {
      *            The URL.
      */
     public void setUrl(FlickrUrl url) {
-        this.url = url;
+        this.url = url.toString();
     }
 
     /**
-     * Creates the HTTP request.
+     * Executes the request and returns the response.
      * 
-     * @return The HTTP request. If binary data has been added this will be a
-     *         HTTP POST request, otherwise HTTP GET. The request is
-     *         automatically signed, if a secret has been provided.
+     * @return the response.
      */
-    public HttpRequest getHttpRequest() {
-        AppendableHttpRequest req = files.isEmpty() ? new HttpGetRequest(url.toString()) : new HttpPostRequest(url
-                .toString());
+    public FlickrResponse execute() {
+        HttpUriRequest request = getHttpRequest();
+        HttpClient client = new DefaultHttpClient();
+        try {
+            HttpResponse response = client.execute(request);
+            HttpEntity entity = response.getEntity();
+            return new FlickrResponse(entity.getContent());
+        }
+        catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Constructs the HTTP request.
+     * 
+     * @return The HTTP request.
+     */
+    public HttpUriRequest getHttpRequest() {
+        HttpHandler handler = files.isEmpty() ? new HttpGetHandler(url) : new HttpPostHandler(url);
         SignatureBuilder sigBuilder = new SignatureBuilder(secret);
         for (Entry<String, String> param : params.entrySet()) {
             String name = param.getKey();
             String value = param.getValue();
-            req.append(name, value);
+            handler.append(name, value);
             sigBuilder.append(name, value);
         }
-        req.append("api_sig", sigBuilder.toSignature());
+        handler.append("api_sig", sigBuilder.toSignature());
         for (FileData file : files) {
-            req.append("photo", file.filename, file.contentType, file.data);
+            handler.append("photo", file.filename, file.contentType, file.data);
         }
-        return req;
+        return handler.getRequest();
     }
 }

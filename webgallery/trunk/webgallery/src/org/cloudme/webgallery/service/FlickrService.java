@@ -1,8 +1,5 @@
 package org.cloudme.webgallery.service;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -10,7 +7,6 @@ import org.cloudme.webgallery.cache.CacheProducer;
 import org.cloudme.webgallery.cache.CacheService;
 import org.cloudme.webgallery.flickr.FlickrRequest;
 import org.cloudme.webgallery.flickr.FlickrResponse;
-import org.cloudme.webgallery.flickr.HttpRequest;
 import org.cloudme.webgallery.flickr.FlickrRequest.FlickrUrl;
 import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.model.FlickrMetaData;
@@ -42,12 +38,18 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         super(repository);
     }
 
+    /**
+     * Returns the {@link FlickrMetaData} instance or null if not yet created.
+     * 
+     * @return the {@link FlickrMetaData} instance.
+     */
     public FlickrMetaData get() {
-        System.out.println("get");
         return cacheService.cache(new CacheProducer<FlickrMetaData>() {
             public FlickrMetaData produce() {
-                System.out.println("Cache miss");
                 Collection<FlickrMetaData> items = findAll();
+                if (items == null) {
+                    return null;
+                }
                 switch (items.size()) {
                 case 0:
                     return null;
@@ -64,10 +66,23 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
 
     public void put(FlickrMetaData metaData) {
         cacheService.remove(FlickrMetaData.class);
-        for (Iterator<FlickrMetaData> it = findAll().iterator(); it.hasNext();) {
-            delete(it.next().getId());
+        Collection<FlickrMetaData> items = findAll();
+        if (items != null) {
+            for (Iterator<FlickrMetaData> it = items.iterator(); it.hasNext();) {
+                delete(it.next().getId());
+            }
         }
-        save(metaData);
+        super.save(metaData);
+    }
+    
+    /**
+     * Disabled for {@link FlickrService}. Use {@link #put(FlickrMetaData)} instead.
+     * 
+     * @see #put(FlickrMetaData)
+     */
+    @Override
+    public void save(FlickrMetaData t) {
+        throw new UnsupportedOperationException("Use put() instead.");
     }
 
     public String createLoginLink(Perms perms) {
@@ -80,7 +95,7 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         request.addApiKey(metaData.getKey());
         request.addSecret(metaData.getSecret());
         request.add("perms", perms);
-        return request.getHttpRequest().getUrl();
+        return request.getHttpRequest().getURI().toString();
     }
 
     public void flickrAuthGetToken(String frob) {
@@ -91,26 +106,13 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         request.addSecret(metaData.getSecret());
         request.addMethod("flickr.auth.getToken");
         request.add("frob", frob);
-        FlickrResponse response = new FlickrResponse(openStream(request));
+        FlickrResponse response = request.execute();
         metaData.setFullname(response.get("/auth/user@fullname"));
         metaData.setNsid(response.get("/auth/user@nsid"));
         metaData.setPerms(response.get("/auth/perms"));
         metaData.setToken(response.get("/auth/token"));
         metaData.setUsername(response.get("/auth/user@username"));
         put(metaData);
-    }
-
-    private InputStream openStream(FlickrRequest request) {
-        try {
-            HttpRequest httpRequest = request.getHttpRequest();
-            URL url = new URL(httpRequest.getUrl());
-            URLConnection con = url.openConnection();
-            httpRequest.writeTo(con);
-            return con.getInputStream();
-        }
-        catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
     }
 
     public void post(Long photoId) {
@@ -132,9 +134,8 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         request.add("async", 1);
         byte[] data = photoDataService.getPhotoData(photoId, new FlickrImageFormat(), ContentType.JPEG);
         request.addFile(ContentType.JPEG.toString(), photo.getFileName(), data);
-        FlickrResponse response = new FlickrResponse(openStream(request));
+        FlickrResponse response = request.execute();
         if (response.isOk()) {
-        	System.out.println("ok");
         }
         else {
             System.out.println("fail");
