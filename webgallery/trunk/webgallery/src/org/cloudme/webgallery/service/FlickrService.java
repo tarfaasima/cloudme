@@ -9,6 +9,7 @@ import org.cloudme.webgallery.flickr.FlickrRequest;
 import org.cloudme.webgallery.flickr.FlickrResponse;
 import org.cloudme.webgallery.flickr.FlickrRequest.FlickrUrl;
 import org.cloudme.webgallery.image.ContentType;
+import org.cloudme.webgallery.message.Message;
 import org.cloudme.webgallery.model.FlickrMetaData;
 import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.persistence.FlickrMetaDataRepository;
@@ -31,6 +32,13 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         public String toString() {
             return name().toLowerCase();
         };
+    }
+
+    private class FlickrErrorMessage extends Message {
+        public FlickrErrorMessage(FlickrResponse res) {
+            super("Flickr API error: {0} (code {1})", res.get("/err@msg"), res.get("/err@code"));
+            assert !res.isOk();
+        }
     }
 
     @Autowired
@@ -74,9 +82,10 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         }
         super.save(metaData);
     }
-    
+
     /**
-     * Disabled for {@link FlickrService}. Use {@link #put(FlickrMetaData)} instead.
+     * Disabled for {@link FlickrService}. Use {@link #put(FlickrMetaData)}
+     * instead.
      * 
      * @see #put(FlickrMetaData)
      */
@@ -98,7 +107,7 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         return request.getHttpRequest().getURI().toString();
     }
 
-    public void flickrAuthGetToken(String frob) {
+    public Message flickrAuthGetToken(String frob) {
         FlickrRequest request = new FlickrRequest();
         request.setUrl(FlickrUrl.REST);
         FlickrMetaData metaData = get();
@@ -107,15 +116,21 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         request.addMethod("flickr.auth.getToken");
         request.add("frob", frob);
         FlickrResponse response = request.execute();
-        metaData.setFullname(response.get("/auth/user@fullname"));
-        metaData.setNsid(response.get("/auth/user@nsid"));
-        metaData.setPerms(response.get("/auth/perms"));
-        metaData.setToken(response.get("/auth/token"));
-        metaData.setUsername(response.get("/auth/user@username"));
-        put(metaData);
+        if (response.isOk()) {
+            metaData.setFullname(response.get("/auth/user@fullname"));
+            metaData.setNsid(response.get("/auth/user@nsid"));
+            metaData.setPerms(response.get("/auth/perms"));
+            metaData.setToken(response.get("/auth/token"));
+            metaData.setUsername(response.get("/auth/user@username"));
+            put(metaData);
+            return new Message("Flickr authentication successful.");
+        }
+        else {
+            return new FlickrErrorMessage(response);
+        }
     }
 
-    public void post(Long photoId) {
+    public Message post(Long photoId) {
         FlickrRequest request = new FlickrRequest();
         request.setUrl(FlickrUrl.UPLOAD);
         FlickrMetaData metaData = get();
@@ -136,11 +151,10 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         request.addFile(ContentType.JPEG.toString(), photo.getFileName(), data);
         FlickrResponse response = request.execute();
         if (response.isOk()) {
+            return new Message("Upload successful");
         }
         else {
-            System.out.println("fail");
-            System.out.println("code: " + response.get("/err@code"));
-            System.out.println("msg: " + response.get("/err@msg"));
+            return new FlickrErrorMessage(response);
         }
     }
 }

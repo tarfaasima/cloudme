@@ -3,7 +3,6 @@ package org.cloudme.webgallery.flickr;
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -35,7 +34,6 @@ public class HttpPostHandler implements HttpHandler {
 
     public HttpUriRequest getRequest() {
         post.setEntity(multipart);
-        UrlEncodedFormEntity e;
         return post;
     }
 }

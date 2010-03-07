@@ -11,6 +11,7 @@ Functional
 - Send to Twitter
 - Define "anchor" for photo crops (0%, 25%, 50%, 75%, 100%) (done)
 - Desktop uploader
+- Display status messages with button to discard messages, smooth fadeout
 
 Technical
 ---------
@@ -20,3 +21,4 @@ Technical
 - Use pseudo-API for image transformation instead of ImageFormat
 - Introduce defined formats for image sizes: large, medium, small (done)
 - Implement forced cache update for changed photos
+- Standard layout templates (generic names for divs), better admin layout

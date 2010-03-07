@@ -51,7 +51,7 @@ public class PhotoActionBean extends AbstractActionBean {
     }
     
     public Resolution flickr() {
-        flickrService.post(photoId);
+        addMessage(flickrService.post(photoId));
         return new RedirectResolution("/organize/photo/" + albumId);
     }
     

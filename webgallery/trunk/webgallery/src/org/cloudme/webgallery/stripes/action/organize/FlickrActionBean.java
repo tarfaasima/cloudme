@@ -20,7 +20,7 @@ public class FlickrActionBean extends AbstractActionBean {
     
     @DefaultHandler
     public Resolution login() {
-        flickrService.flickrAuthGetToken(frob);
+        addMessage(flickrService.flickrAuthGetToken(frob));
         return new RedirectResolution(SettingsActionBean.class);
     }
 

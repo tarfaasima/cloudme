@@ -20,12 +20,18 @@ $(function() {
         containerResizeSpeed:   200,
         txtImage:               'Photo'
     });
+    $('#message').click(function() {
+        fadeOut("slow");
+    });
 });
 </script>
 </s:layout-component>
 <s:layout-component name="content">
 <jsp:include page="/WEB-INF/layout/_menu.jsp"/>
 <div id="photos">
+<div id="message">
+<s:messages/>
+</div>
 <div id="upload">
 <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.PhotoActionBean">
   <s:hidden name="albumId" value="${actionBean.albumId}"/>
