@@ -5,11 +5,11 @@ import org.cloudme.webgallery.image.ImageFormat;
 
 class FlickrImageFormat implements ImageFormat {
     public int getHeight() {
-        return 500;
+        return 800;
     }
 
     public int getWidth() {
-        return 500;
+        return 800;
     }
 
     public boolean isCrop() {

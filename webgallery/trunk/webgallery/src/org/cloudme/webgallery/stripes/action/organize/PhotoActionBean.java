@@ -3,6 +3,8 @@ package org.cloudme.webgallery.stripes.action.organize;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.FileBean;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -51,7 +53,8 @@ public class PhotoActionBean extends AbstractActionBean {
     }
     
     public Resolution flickr() {
-        addMessage(flickrService.post(photoId));
+        HttpServletRequest req = getContext().getRequest();
+        addMessage(flickrService.post(photoId, req.getServerName(), req.getServerPort()));
         return new RedirectResolution("/organize/photo/" + albumId);
     }
     

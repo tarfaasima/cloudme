@@ -13,6 +13,7 @@ import org.cloudme.webgallery.message.Message;
 import org.cloudme.webgallery.model.FlickrMetaData;
 import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.persistence.FlickrMetaDataRepository;
+import org.cloudme.webgallery.util.UrlUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -130,7 +131,7 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         }
     }
 
-    public Message post(Long photoId) {
+    public Message post(Long photoId, String host, int port) {
         FlickrRequest request = new FlickrRequest();
         request.setUrl(FlickrUrl.UPLOAD);
         FlickrMetaData metaData = get();
@@ -139,13 +140,15 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         request.addAuthToken(metaData.getToken());
         Photo photo = photoService.find(photoId);
         request.add("title", photo.getName());
-        request.add("description", "Coypright by Moritz Petersen. View <a href=\"http://photos.moritzpetersen.de/gallery/album/" + photo.getAlbumId() + "/photo/" + photoId + "\">large</a>");
-        request.add("is_public", 0);
-        request.add("is_friend", 0);
-        request.add("is_family", 0);
+        request.add("description", "Coypright by Moritz Petersen. View <a href=\"" + UrlUtils.createUrl(host, port, photo) + "\">more</a> photos.");
+        if (UrlUtils.isLocal(host)) {
+            request.add("is_public", 0);
+            request.add("is_friend", 0);
+            request.add("is_family", 0);
+            request.add("hidden", 2);
+        }
         request.add("safety_level", 1);
         request.add("content_type", 1);
-        request.add("hidden", 2);
         request.add("async", 1);
         byte[] data = photoDataService.getPhotoData(photoId, new FlickrImageFormat(), ContentType.JPEG);
         request.addFile(ContentType.JPEG.toString(), photo.getFileName(), data);

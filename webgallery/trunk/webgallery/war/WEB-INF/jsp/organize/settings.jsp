@@ -3,8 +3,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions" %>
 <s:layout-render name="/WEB-INF/layout/default.jsp" title=" - Settings">
+<s:layout-component name="headJs">
+<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript">
+$(function() {
+    $('a#close').click(function() {
+        $('.messages').fadeOut("slow");
+    });
+    $('.messages').delay(5000).fadeOut("slow");
+});
+</script>
+</s:layout-component>
 <s:layout-component name="content">
 <jsp:include page="/WEB-INF/layout/_menu.jsp"/>
+<s:messages/>
 <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.SettingsActionBean">
 <s:hidden name="metaData.id" />
 <div>Flickr</div>
