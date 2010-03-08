@@ -9,6 +9,7 @@ import org.cloudme.webgallery.flickr.FlickrRequest;
 import org.cloudme.webgallery.flickr.FlickrResponse;
 import org.cloudme.webgallery.flickr.FlickrRequest.FlickrUrl;
 import org.cloudme.webgallery.image.ContentType;
+import org.cloudme.webgallery.image.SimpleImageFormat;
 import org.cloudme.webgallery.message.Message;
 import org.cloudme.webgallery.model.FlickrMetaData;
 import org.cloudme.webgallery.model.Photo;
@@ -150,7 +151,7 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         request.add("safety_level", 1);
         request.add("content_type", 1);
         request.add("async", 1);
-        byte[] data = photoDataService.getPhotoData(photoId, new FlickrImageFormat(), ContentType.JPEG);
+        byte[] data = photoDataService.getPhotoData(photoId, new SimpleImageFormat(500, 500, false), ContentType.JPEG);
         request.addFile(ContentType.JPEG.toString(), photo.getFileName(), data);
         FlickrResponse response = request.execute();
         if (response.isOk()) {
