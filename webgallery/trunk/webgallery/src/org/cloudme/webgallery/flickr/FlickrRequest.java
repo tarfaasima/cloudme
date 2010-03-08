@@ -13,7 +13,12 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.SingleClientConnManager;
+import org.apache.http.params.BasicHttpParams;
 
 /**
  * Encapsulates a request to the Flickr API. Access to authentication, RESTful
@@ -188,7 +193,13 @@ public class FlickrRequest {
      */
     public FlickrResponse execute() {
         HttpUriRequest request = getHttpRequest();
-        HttpClient client = new DefaultHttpClient();
+        SchemeRegistry schemeRegistry = new SchemeRegistry(); 
+        schemeRegistry.register( 
+          new Scheme("http", PlainSocketFactory.getSocketFactory(), 80)); 
+        BasicHttpParams params = new BasicHttpParams(); 
+        SingleClientConnManager connmgr = 
+          new SingleClientConnManager(params, schemeRegistry); 
+        HttpClient client = new DefaultHttpClient(connmgr, params);
         try {
             HttpResponse response = client.execute(request);
             HttpEntity entity = response.getEntity();

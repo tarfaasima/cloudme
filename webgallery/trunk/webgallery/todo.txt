@@ -1,7 +1,5 @@
 Todo
 ----
-- Send to Flickr (in progress)
-- URL generator - generate URL in Flickr description automatically
 - Better admin pages
 - Standard layout templates (generic names for divs), better admin layout
 - Display status messages with button to discard messages, smooth fadeout
@@ -12,9 +10,12 @@ Todo
 - Desktop uploader
 - Use pseudo-API for image transformation instead of ImageFormat
 - Implement forced cache update for changed photos
+- Custom functions to generate URLs in JSPs (for photo pages, album pages, images)
 
 Done
 ----
+- Send to Flickr (done)
+- URL generator - generate URL in Flickr description automatically (done)
 - Individual photo pages (done)
 - Link to albums from start page (done)
 - Album pages (done)

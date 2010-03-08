@@ -10,30 +10,30 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.cloudme.webgallery.model.Album;
+import org.cloudme.webgallery.model.Photo;
+import org.cloudme.webgallery.util.UrlUtils;
 
 public class Functions {
     private static final Logger LOG = Logger.getLogger(Functions.class);
     private static final Pattern APP_VERSION_REGEX = Pattern.compile("<version>([^<]*)</version>");
-    
+
     public static String coyprightYear(String year, String separator) {
         String currentYear = new SimpleDateFormat("yyyy").format(new Date());
         return year + (currentYear.equals(year) ? "" : separator + currentYear);
     }
-    
+
     public static String url(Object obj) {
-        if (obj == null) {
-            throw new IllegalArgumentException("Object must not be null");
+        if (obj instanceof Photo) {
+            Photo photo = (Photo) obj;
+            return UrlUtils.createUrl(photo);
         }
         if (obj instanceof Album) {
-            return albumUrl((Album) obj);
+            Album album = (Album) obj;
+            return UrlUtils.createUrl(album);
         }
-        throw new IllegalArgumentException("Unsupported type: " + obj.getClass());
+        throw new IllegalStateException("Unknown type for URL: " + obj.getClass().getName());
     }
 
-    private static String albumUrl(Album album) {
-        return "/gallery/album/" + album.getId();
-    }
-    
     public static String appVersion(String path) {
         try {
             BufferedReader in = new BufferedReader(new FileReader(path));

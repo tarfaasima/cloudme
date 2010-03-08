@@ -12,12 +12,14 @@ public class Crop {
         if (r1 < r2) {
             width = 1;
             height = r1 / r2;
+            x = 0;
+            y = (1f - height) * balance;
         }
         else {
             width = r2 / r1;
             height = 1;
+            x = (1f - width) * balance;
+            y = 0;
         }
-        x = (1f - width) * balance;
-        y = (1f - height) * balance;
     }
 }
