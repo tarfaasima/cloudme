@@ -7,8 +7,8 @@ import org.cloudme.webgallery.model.Photo;
 
 public class UrlUtils {
     private static final String HOST_URL_PATTERN = "http://{0}{1,choice,79#:{1,number,0}|80#|80<:{1,number,0}}";
-    private static final String ALBUM_URL_PATTERN = "/gallery/album/{0}";
-    private static final String PHOTO_URL_PATTERN = ALBUM_URL_PATTERN + "/photo/{1}";
+	private static final String ALBUM_URL_PATTERN = "/gallery/album/{0,number,0}";
+	private static final String PHOTO_URL_PATTERN = ALBUM_URL_PATTERN + "/photo/{1,number,0}";
     private static final MessageFormat HOST_URL_FORMAT = new MessageFormat(HOST_URL_PATTERN);
     private static final MessageFormat ALBUM_URL_FORMAT = new MessageFormat(ALBUM_URL_PATTERN);
     private static final MessageFormat PHOTO_URL_FORMAT = new MessageFormat(PHOTO_URL_PATTERN);
