@@ -1,8 +1,8 @@
 Todo
 ----
-- Better admin pages
 - Standard layout templates (generic names for divs), better admin layout
 - Display status messages with button to discard messages, smooth fadeout
+- Better admin pages
 - Download photos (albums) as ZIP file
 - Allow Images to assign do another album
 - Send to RSS
