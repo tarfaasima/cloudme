@@ -13,21 +13,21 @@ a.selected {
 
 #header {
   background-color: #000;
-  height: 42px;
+  overflow: hidden;
   text-transform: uppercase;
 }
 
 #header h1 {
-  margin: 0;
-  padding: 0;
+  float: left;
   font-size: 20px;
   font-weight: normal;
-  float: left;
+  margin: 0;
+  padding: 0;
 }
 
 #header div {
-  width: 912px;
   margin: 0 auto;
+  width: 912px;
 }
 
 #header a {
@@ -65,6 +65,7 @@ a.selected {
 
 #menu {
   background-color: #fff;
+  overflow: hidden;
 }
 
 #menu a {
@@ -110,7 +111,7 @@ a.selected {
 
 /* -------- Photos -------- */ 
 
-#photos ul {
+.photos ul {
   clear: both;
   margin: 0;
   padding: 0;
@@ -119,23 +120,23 @@ a.selected {
   margin: 0 auto;
 }
 
-#photos li {
+.photos li {
   float: left;
-}
-
-#photos img {
-  border: 1px solid #ccc;
-  padding: 8px;
   margin: 0 8px 16px 8px;
 }
+  
+.photos img, img.photo {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
 
-#photos a img:hover {
+.photos a img:hover, img.photo:hover {
   background-color: #ccc;
 }
 
 /* -------- Tooltip -------- */ 
 
-#photos .tooltip {
+.tooltip {
   display: none;
   background-color: rgba(255, 255, 220, 0.5);
   border: 1px solid #000;
@@ -145,11 +146,11 @@ a.selected {
   color: #000;
 }
 
-#photos .tooltip:hover {
+.tooltip:hover {
   background-color: rgba(255, 255, 220, 1.0);
 }
 
-#photos .tooltip a {
+.tooltip a {
   clear: both;
   float: right;
   color: #000;
@@ -158,29 +159,59 @@ a.selected {
 
 /* -------- Description -------- */ 
 
-#description {
+.description {
   clear: both;
   width: 894px;
   margin: 0 auto;
 }
 
-#description p {
+.description p {
   padding: 0;
   margin: 8px 0 16px 0;
 }
 
-/* -------- Control -------- */ 
+/* -------- Form -------- */ 
 
-.control {
-  background-color: #eee;
-  clear: both;
-  padding: 9px;
-  width: 894px;
+form {
   margin: 0 auto;
+  padding: 0;
+  width: 912px;
+  overflow: hidden;
+  clear: both;
 }
 
-.control input[type=submit] {
+form div {
+  background-color: #eee;
+  padding: 9px;
+  overflow: hidden;
+}
+
+input[type=submit] {
   float: right;
+}
+
+textarea {
+  background-color: #ffc;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  height: 82px;
+  width: 220px;
+}   
+
+table {
+  margin: 16px 0;
+}
+
+td, th {
+  text-align: left;
+  vertical-align: top;
+  padding: 9px;
+  margin: 9px;
+}
+
+.nopad {
+  margin: 0px;
+  padding: 0px;
 }
 
 /* -------- Footer -------- */ 

@@ -4,15 +4,15 @@
 <title>Moritz Petersen &ndash; Photos</title>
 <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" src="js/jquery.tools.min.js"></script>
-<script type="text/javascript" src="js/dynaheight.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-  $("#menu").dynaHeight("#menu a");
-  $("#photos img").tooltip({
-    tip:      "#photos .tooltip",
+  $(".photos img").tooltip({
+    tip:      ".tooltip",
     position: "bottom center"
   });
-  $("#messages li").delay(2500).fadeOut("slow");
+  $("#messages li").delay(2500).fadeOut("slow", function() {
+    $("#messages").hide();
+  });
 });
 </script>
 </head>
@@ -29,8 +29,6 @@ $(document).ready(function() {
 </ul>
 </div>
 </div>
-
-<div id="content">
 
 <div id="menu">
 <ul>
@@ -84,7 +82,9 @@ $(document).ready(function() {
 </ul>
 </div>
 
-<div id="photos">
+<div id="content">
+
+<div class="photos">
 <ul>
   <li><a href="#"><img src="http://photos.moritzpetersen.de/gallery/photo/5052_m.jpg" alt="Photo"/></a><div class="tooltip">This is a long tooltip text that should wrap. What exactly happens if...<a href="#">view</a></div></li>
   <li><a href="#"><img src="http://photos.moritzpetersen.de/gallery/photo/5052_m.jpg" alt="Photo"/></a><div class="tooltip">Photo<a href="#">view</a></div></li>
@@ -97,17 +97,17 @@ $(document).ready(function() {
 </ul>
 </div>
 
-<div id="photos">
+<div class="photos">
 <ul>
   <li><a href="#"><img src="http://photos.moritzpetersen.de/gallery/photo/5052_l.jpg" alt="Photo"/></a></li>
 </ul>
 </div>
 
-<div id="description">
+<div class="description">
   <p>Hello World!</p>
 </div>
 
-<div id="photos">
+<div class="photos">
 <ul>
   <li><a href="#"><img src="http://photos.moritzpetersen.de/gallery/photo/5052_s.jpg" alt="Photo"/></a></li>
   <li><a href="#"><img src="http://photos.moritzpetersen.de/gallery/photo/5052_s.jpg" alt="Photo"/></a></li>
@@ -126,13 +126,34 @@ $(document).ready(function() {
 </div>
 
 <form>
-  <div class="control">
-    Upload photo: <input type="file"/>
+  <div>
+    <b>Upload photo</b> <input type="file"/>
     <input type="submit" value="Upload"/>
   </div>
 </form>
 <form>
-  <div class="control">
+  <div>
+    <input type="submit" value="Save"/>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="nopad"><a href="#"><img class="photo" src="http://photos.moritzpetersen.de/gallery/photo/5052_t.jpg" alt="Photo"/></a></td>
+        <td>1443</td>
+        <td>Photo</td>
+        <td><textarea name="t"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
     <input type="submit" value="Save"/>
   </div>
 </form>
