@@ -169,6 +169,20 @@ a.selected {
   margin: 8px 0 16px 0;
 }
 
+/* -------- Control -------- */ 
+
+.control {
+  background-color: #eee;
+  clear: both;
+  padding: 9px;
+  width: 894px;
+  margin: 0 auto;
+}
+
+.control input[type=submit] {
+  float: right;
+}
+
 /* -------- Footer -------- */ 
 
 #footer {

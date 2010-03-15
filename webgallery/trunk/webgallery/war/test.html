@@ -6,11 +6,9 @@
 <script type="text/javascript" src="js/jquery.tools.min.js"></script>
 <script type="text/javascript" src="js/dynaheight.js"></script>
 <script type="text/javascript">
-
 $(document).ready(function() {
   $("#menu").dynaHeight("#menu a");
   $("#photos img").tooltip({
-    effect:   "fade",
     tip:      "#photos .tooltip",
     position: "bottom center"
   });
@@ -88,7 +86,7 @@ $(document).ready(function() {
 
 <div id="photos">
 <ul>
-  <li><a href="#"><img src="http://photos.moritzpetersen.de/gallery/photo/5052_m.jpg" alt="Photo"/></a><div class="tooltip">Photo<a href="#">view</a></div></li>
+  <li><a href="#"><img src="http://photos.moritzpetersen.de/gallery/photo/5052_m.jpg" alt="Photo"/></a><div class="tooltip">This is a long tooltip text that should wrap. What exactly happens if...<a href="#">view</a></div></li>
   <li><a href="#"><img src="http://photos.moritzpetersen.de/gallery/photo/5052_m.jpg" alt="Photo"/></a><div class="tooltip">Photo<a href="#">view</a></div></li>
   <li><a href="#"><img src="http://photos.moritzpetersen.de/gallery/photo/5052_m.jpg" alt="Photo"/></a><div class="tooltip">Photo<a href="#">view</a></div></li>
   <li><a href="#"><img src="http://photos.moritzpetersen.de/gallery/photo/5052_m.jpg" alt="Photo"/></a><div class="tooltip">Photo<a href="#">view</a></div></li>
@@ -126,6 +124,18 @@ $(document).ready(function() {
   <li><a href="#"><img src="http://photos.moritzpetersen.de/gallery/photo/5052_s.jpg" alt="Photo"/></a></li>
 </ul>
 </div>
+
+<form>
+  <div class="control">
+    Upload photo: <input type="file"/>
+    <input type="submit" value="Upload"/>
+  </div>
+</form>
+<form>
+  <div class="control">
+    <input type="submit" value="Save"/>
+  </div>
+</form>
 
 </div>
 
