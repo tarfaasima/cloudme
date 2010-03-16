@@ -28,25 +28,14 @@ $(function() {
 </s:layout-component>
 <s:layout-component name="content">
 <jsp:include page="/WEB-INF/layout/_menu.jsp"/>
-<div id="photos">
 <s:messages/>
-<div id="upload">
 <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.PhotoActionBean">
   <s:hidden name="albumId" value="${actionBean.albumId}"/>
-  <span>
-    Upload new photos:
-  </span>
-  <span>
-    (JPEG, PNG or ZIP file allowed)
-    <s:file name="photoFile"/>
-  </span>
-  <s:submit name="upload" value="Upload" />
-</s:form>
-</div>
-<s:form beanclass="org.cloudme.webgallery.stripes.action.organize.PhotoActionBean">
-  <div id="save">
-    <s:submit name="save" value="Save" />
+  <div>
+    <b>Upload new photos:</b> (JPEG, PNG or ZIP file allowed) <s:file name="photoFile"/> <s:submit name="upload" value="Upload" />
   </div>
+</s:form>
+<s:form beanclass="org.cloudme.webgallery.stripes.action.organize.PhotoActionBean">
   <s:hidden name="albumId" value="${actionBean.albumId}"/>
   <table>
     <thead>
@@ -69,7 +58,7 @@ $(function() {
       <s:hidden name="photo[${loop.index}].id"/>
       <tr>
         <td>
-          <a href="/gallery/photo/${photo.id}_l.jpg" class="lightbox"><img src="/gallery/photo/${photo.id}_t.jpg"/></a>
+          <a href="/gallery/photo/${photo.id}_l.jpg" class="lightbox"><img src="/gallery/photo/${photo.id}_t.jpg" class="photo"/></a>
         </td>
         <td>
           <s:textarea name="photos[${loop.index}].name" class="name"/>
@@ -103,7 +92,6 @@ $(function() {
     <s:submit name="save" value="Save" />
   </div>
 </s:form>
-</div>
 </s:layout-component>
 <s:layout-component name="footerLink">
 <s:link beanclass="org.cloudme.webgallery.stripes.action.LogoutActionBean">logout</s:link>

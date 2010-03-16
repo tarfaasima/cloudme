@@ -1,225 +1,253 @@
 body {
-	margin: 0;
-	padding: 0;
-	font-family: Helvetica, Arial, sans-serif;
-	height: 100%;
-	vertical-align: bottom;
-}
-
-a {
-	text-decoration: none;
-}
-
-/* Header */
-
-div#header {
-	background-color: #000;
-	color: #FFF;
-	text-transform: uppercase;
-	height: 42px;
-	display: block;
-}
-
-div#header>div {
-	width: 912px;
-	margin: 0 auto;
-}
-
-div#header h1 {
-	margin: 0;
-	font-weight: normal;
-	font-size: 20px;
-	float: left;
-}
-
-div#header ul {
-	margin: 0;
-	padding: 0;
-	float: right;
-	list-style-type: none;
-}
-
-div#header li {
-	margin: 0;
-	padding: 0;
-	font-size: 12px;
-	float: left;
-}
-
-div#header li.selected {
-	font-weight: bold;
-}
-
-div#header a {
-	margin: 8px;
-	padding: 8px;
-	display: table-cell;
-	vertical-align: middle;
-	color: #FFF;
-	height: 42px;
-}
-
-div#header a:hover {
-	background-color: #333;
-}
-
-/* Menubar */
-
-div#menu {
-	background-color: #FFF;
-	padding: 8px;
-}
-
-div#menu div {
-	text-align: justify;
-	list-style-type: none;
-	width: 912px;
-	margin: 0 auto;
-	padding: 0;
-}
-
-div#menu a {
-	padding: 8px;
-	color: #000;
-	text-transform: uppercase;
-	font-size: 12px;
-}
-div#menu a.selected {
-	font-weight: bold;
-    font-size: 12px;
-}
-
-div#menu a:hover {
-	background-color: #CCC;
-    font-size: 12px;
-}
-
-/* Photos */
-
-div#photos {
-  list-style-type: none;
-  width: 928px;
-  margin: 0 auto;
-  padding: 0 0 42px 0;
-}
-
-div#photos img {
-  border: 1px solid #CCC;
-  margin: 0 8px 16px 8px;
-  padding: 8px;
-}
-
-div#photos img:hover {
-  background-color: #CCC;
-}
-
-div#upload, div#save {
-  padding: 8px;
-  margin: 0 8px;
-  font-weight: bold;
-  background-color: #EEE;
-}
-
-div#upload span+span {
-  font-weight: normal;
-}
-
-div#upload input[type=submit] {
-  float: right;
-}
-
-div#photos table {
-  margin-top: 16px;
-}
-
-div#photos tr {
-  vertical-align: top;
-}
-
-div#photos textarea.name {
-  width: 200px;
-  height: 100px;
-  border: 1px solid #CCC;
-  background-color: #F1FACA;
-  vertical-align: top;
-  margin: 0 8px 16px 8px;
-}
-
-div#photos input[type=radio] {
-  width: 32px;
-  margin: 0 8px;
-}
-
-div#photo {
-  list-style-type: none;
-  width: 928px;
-  margin: 0 auto;
-  padding: 0 0 42px 0;
-  text-align: center;
-}
-
-div#photo div+div {
-  text-align: left;
-}
-
-div#photo img {
-  border: 1px solid #CCC;
-  margin: 0 8px 16px 8px;
-  padding: 8px;
-}
-
-div#photo img:hover {
-  background-color: #CCC;
-}
-
-div#photo div#description {
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica, Arial, sans-serif;
   font-size: 12px;
-  margin: 0 8px 24px 16px;
 }
 
-div.tooltip {
+a.selected {
+  font-weight: bold;
+}
+
+/* -------- Header -------- */ 
+
+#header {
+  background-color: #000;
+  overflow: hidden;
+  text-transform: uppercase;
+}
+
+#header h1 {
+  float: left;
+  font-size: 20px;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+}
+
+#header div {
+  margin: 0 auto;
+  width: 912px;
+}
+
+#header a {
+  height: 42px;
+  padding: 9px;
+  display: table-cell;
+  color: #fff;
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+#header a:hover {
+  background-color: #333;
+}
+
+#header ul {
+  margin: 0;
+  padding: 0;
+  float: right;
+  list-style-type: none;
+}
+
+#header li {
+  float: left;
+}
+
+/* -------- Content -------- */
+
+#content {
+  margin-bottom: 64px;
+} 
+
+
+/* -------- Menu -------- */ 
+
+#menu {
+  background-color: #fff;
+  overflow: hidden;
+}
+
+#menu a {
+  padding: 9px;
+  color: #000;
+  text-decoration: none;
+  display: block;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+#menu a:hover {
+  background-color: #ccc;
+}
+
+#menu ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  width: 912px;
+  margin: 0 auto;
+}
+
+#menu li {
+  float: left;
+}
+
+/* -------- Messages -------- */ 
+
+#messages ul {
+  clear: both;
+  width: 912px;
+  margin: 0 auto;
+  padding: 0;
+  list-style-type: none;
+}
+
+#messages li {
+  float: left;
+  padding: 9px;
+  width: 894px;
+  background-color: #ffc;
+}
+
+/* -------- Photos -------- */ 
+
+.photos ul {
+  clear: both;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  width: 928px;
+  margin: 0 auto;
+}
+
+.photos li {
+  float: left;
+  margin: 0 8px 16px 8px;
+}
+  
+.photos img, img.photo {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+.photos a img:hover, img.photo:hover {
+  background-color: #ccc;
+}
+
+/* -------- Tooltip -------- */ 
+
+.tooltip {
   display: none;
-  background-color: #FFF;
+  background-color: rgba(255, 255, 220, 0.5);
   border: 1px solid #000;
   margin-top: -16px;
-  max-width: 166px;
+  width: 166px;
   padding: 8px;
   color: #000;
-  font-size: 12px;
 }
 
-div.tooltip a {
-  font-size: 12px;
+.tooltip:hover {
+  background-color: rgba(255, 255, 220, 1.0);
+}
+
+.tooltip a {
+  clear: both;
+  float: right;
   color: #000;
   text-decoration: underline;
 }
 
-div.tooltip>div+div {
+/* -------- Description -------- */ 
+
+.description {
+  clear: both;
+  width: 894px;
+  margin: 0 auto;
+}
+
+.description p {
+  padding: 0;
+  margin: 8px 0 16px 0;
+}
+
+/* -------- Form -------- */ 
+
+form {
+  margin: 0 auto;
+  padding: 0;
+  width: 912px;
+  overflow: hidden;
+  clear: both;
+}
+
+form div {
+  background-color: #eee;
+  padding: 9px;
+  overflow: hidden;
+}
+
+input[type=submit] {
+  float: right;
+}
+
+input[type=text], textarea {
+  padding: 0;
+  margin: 0;
+  background-color: #ffc;
+  font-family: Helvetica, Arial, sans-serif;
   font-size: 12px;
-  padding-top: 8px;
-  text-align: right;
+  width: 220px;
+  border: 1px solid #000;
 }
 
-/* Footer */
-
-div#footer {
-	clear: both;
-	padding: 8px 0;
-	text-align: center;
-	font-size: 10px;
-	color: #333;
-	position: fixed;
-	bottom: 0px;
-	width: 100%;
-	vertical-align: middle;
+div div input[type=text] {
+  backgr"war/style.css"ound-color: #fff;
+  width: 160px;
 }
 
-div#footer:hover {
-	background-color: #FFF;
+textarea {
+  height: 82px;
+}   
+
+table {
+  margin: 16px 0;
 }
 
-div#footer a {
-	color: #333;
-	font-size: 10px;
-	font-weight: bold;
+td, th {
+  text-align: left;
+  vertical-align: top;
+  padding: 9px;
+  margin: 9px;
+  font-size: 12px;
+}
+
+.nopad {
+  margin: 0px;
+  padding: 0px;
+}
+
+/* -------- Footer -------- */ 
+
+#footer {
+    clear: both;
+    padding: 8px 0;
+    text-align: center;
+    font-size: 10px;
+    color: #333;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    vertical-align: middle;
+}
+
+#footer:hover {
+    background-color: #FFF;
+}
+
+#footer a {
+    color: #333;
+    font-size: 10px;
+    font-weight: bold;
+    text-decoration: none;
 }

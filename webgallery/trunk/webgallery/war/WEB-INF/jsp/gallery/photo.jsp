@@ -10,13 +10,20 @@
 </s:layout-component>
 <s:layout-component name="content">
 <jsp:include page="/WEB-INF/layout/_albums.jsp"/>
-<div id="photo">
-<div><a href="/gallery/album/${actionBean.albumId}"><img src="/gallery/photo/${actionBean.photoId}_l.jpg"/></a></div>
-<div id="description">
-${actionBean.photo.name}
+<div class="photos">
+<ul>
+  <li><a href="/gallery/album/${actionBean.albumId}"><img src="/gallery/photo/${actionBean.photoId}_l.jpg"/></a></li>
+</ul>
 </div>
-<div id="thumbnails">
-<c:forEach items="${actionBean.photos}" var="photo"><a href="/gallery/album/${actionBean.albumId}/photo/${photo.id}"><img src="/gallery/photo/${photo.id}_s.jpg"/></a></c:forEach>
+<div class="description">
+  <p>${actionBean.photo.name}</p>
+</div>
+<div class="photos">
+<ul>
+<c:forEach items="${actionBean.photos}" var="photo">
+  <li><a href="/gallery/album/${actionBean.albumId}/photo/${photo.id}"><img src="/gallery/photo/${photo.id}_s.jpg"/></a></li>
+</c:forEach>
+</ul>
 </div>
 </div>
 </s:layout-component>

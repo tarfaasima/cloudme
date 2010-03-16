@@ -17,7 +17,7 @@
 <div>
 <h1><a href="http://moritzpetersen.de">Moritz Petersen</a></h1>
 <ul>
-  <li class="selected"><a href="/">Photos</a></li>
+  <li><a href="/" class="selected">Photos</a></li>
   <li><a href="http://blog.moritzpetersen.de">Blog</a></li>
   <li><a href="http://blog.cloudme.org">Coding</a></li>
   <li><a href="http://moritzpetersen.de/about.php">About</a></li>

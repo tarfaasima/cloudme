@@ -18,14 +18,27 @@ $(function() {
 <jsp:include page="/WEB-INF/layout/_menu.jsp"/>
 <s:messages/>
 <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.SettingsActionBean">
-<s:hidden name="metaData.id" />
-<div>Flickr</div>
-<div>Key:</div>
-<div><s:text name="metaData.key" /></div>
-<div>Secret:</div>
-<div><s:text name="metaData.secret" /></div>
-<div><a href="${actionBean.flickrLoginLink}">Authenticate</a></div>
-<div><s:submit value="Save" name="save"/></div>
+  <s:hidden name="metaData.id" />
+  <div>Flickr</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Secret</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><s:text name="metaData.key" /></td>
+        <td><s:text name="metaData.secret" /></td>
+        <td><a href="${actionBean.flickrLoginLink}">Authenticate</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <s:submit value="Save" name="save"/>
+  </div>
 </s:form>
 </s:layout-component>
 <s:layout-component name="footerLink">

@@ -5,42 +5,36 @@
 <s:layout-render name="/WEB-INF/layout/default.jsp" title=" - Organize Albums">
 <s:layout-component name="content">
 <jsp:include page="/WEB-INF/layout/_menu.jsp"/>
-<div id="photos">
+<s:form beanclass="org.cloudme.webgallery.stripes.action.organize.AlbumActionBean">
   <div>
-    <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.AlbumActionBean">
-      <c:forEach items="${actionBean.items}" var="item" varStatus="loop">
-        <s:hidden name="items[${loop.index}].id"/>
-        <s:hidden name="items[${loop.index}].photoCount"/>
-        <div>
-          Name
-        </div>
-        <div>
-          <s:text name="items[${loop.index}].name"/>
-          <s:link href="/organize/album/delete/${item.id}">
-            Delete
-          </s:link>
-          <s:link href="/organize/photo/${item.id}">
-            Photos (${item.photoCount})
-          </s:link>
-        </div>
-        <div>
-          Description
-        </div>
-        <div>
-          <s:textarea name="items[${loop.index}].description"/>
-        </div>
-      </c:forEach>
-      <div>
-        Name
-      </div>
-      <div>
-        <s:text name="items[${f:length(actionBean.items)}].name"/>
-      </div>
-      <s:submit name="save" value="Save"/>
-      <s:reset name="reset" value="Reset"/>
-    </s:form>
+    <b>Create new album:</b> <s:text name="items[${f:length(actionBean.items)}].name"/>
   </div>
-</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <c:forEach items="${actionBean.items}" var="item" varStatus="loop">
+      <tr>
+        <td><s:text name="items[${loop.index}].name"/></td>
+        <td><s:textarea name="items[${loop.index}].description"/></td>
+        <td><s:link href="/organize/photo/${item.id}">Photos (${item.photoCount})</s:link></td>
+        <td><s:link href="/organize/album/delete/${item.id}">Delete</s:link></td>
+      </tr>
+      <s:hidden name="items[${loop.index}].id"/>
+      <s:hidden name="items[${loop.index}].photoCount"/>
+      </c:forEach>
+    </tbody>
+  </table>
+  <div>
+    <s:submit name="save" value="Save"/>
+  </div>
+</s:form>
 </s:layout-component>
 <s:layout-component name="footerLink">
 <s:link beanclass="org.cloudme.webgallery.stripes.action.LogoutActionBean">logout</s:link>

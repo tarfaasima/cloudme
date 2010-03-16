@@ -2,6 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="w" uri="/WEB-INF/tags/webgallery.tld" %>
 
-<div id="menu"><div>
-<c:forEach items="${actionBean.albums}" var="album"><a href="${(album.id == actionBean.albumId) ? '/' : w:url(album)}" class="album${(album.id == actionBean.albumId) ? " selected" : ""}">${album.name}</a></c:forEach>
-</div></div>
+<div id="menu">
+<ul>
+<c:forEach items="${actionBean.albums}" var="album">
+<li><a href="${(album.id == actionBean.albumId) ? '/' : w:url(album)}" class="${(album.id == actionBean.albumId) ? " selected" : ""}">${album.name}</a></li>
+</c:forEach>
+</ul>
+</div>
