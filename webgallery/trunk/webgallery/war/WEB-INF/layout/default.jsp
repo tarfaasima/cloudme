@@ -9,7 +9,30 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Moritz Petersen &ndash; Photos ${title}</title>
 <link type="text/css" rel="stylesheet" href="/css/style.css" />
+<link rel="stylesheet" type="text/css" href="/css/jquery.lightbox-0.5.css" media="screen" />
 <s:layout-component name="headCss" />
+<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery.lightbox-0.5.js"></script>
+<script type="text/javascript" src="/js/jquery.tools.min.js"></script>
+<script type="text/javascript">
+$(function() {
+    $('a.lightbox').lightBox({
+        imageLoading:           '/images/lightbox/lightbox-ico-loading.gif',
+        imageBtnPrev:           '/images/lightbox/lightbox-btn-prev.gif',
+        imageBtnNext:           '/images/lightbox/lightbox-btn-next.gif',
+        imageBtnClose:          '/images/lightbox/lightbox-btn-close.gif',
+        imageBlank:             '/images/lightbox/lightbox-blank.gif',
+        containerResizeSpeed:   200,
+        txtImage:               'Photo'
+    });
+});
+$(document).ready(function() {
+    $('.photos img').tooltip({
+        tip:      '.tooltip',
+        position: 'bottom center'
+    });
+});
+</script>
 <s:layout-component name="headJs" />
 </head>
 <body>
@@ -24,6 +47,12 @@
 </ul>
 </div>
 </div>
+<div id="menu">
+  <ul>
+    <s:layout-component name="menu" />
+  </ul>
+</div>
+<s:messages />
 <div id="content">
   <s:layout-component name="content" />
 </div>

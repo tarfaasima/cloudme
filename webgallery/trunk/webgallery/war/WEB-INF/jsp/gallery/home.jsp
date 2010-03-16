@@ -3,10 +3,8 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
 <s:layout-render name="/WEB-INF/layout/default.jsp" title="">
-<s:layout-component name="headCss">
-</s:layout-component>
 <s:layout-component name="headJs">
-<script type="text/javascript" src="/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
   $(window).bind("resize", updateBackground);
@@ -23,8 +21,8 @@ function updateBackground() {
 }
 </script>
 </s:layout-component>
-<s:layout-component name="content">
-<jsp:include page="/WEB-INF/layout/_albums.jsp"/>
+<s:layout-component name="menu">
+  <s:layout-render name="/WEB-INF/layout/albumMenu.jsp" />
 </s:layout-component>
 <s:layout-component name="footerLink">
 <a href="/organize/album">organize</a>

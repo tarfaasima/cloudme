@@ -194,7 +194,7 @@ input[type=submit] {
 input[type=text], textarea {
   padding: 0;
   margin: 0;
-  background-color: #ffc;
+  background-color: #fff;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 12px;
   width: 220px;
@@ -207,7 +207,7 @@ div div input[type=text] {
 }
 
 textarea {
-  height: 82px;
+  height: 100px;
 }   
 
 table {

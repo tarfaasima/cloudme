@@ -3,29 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <s:layout-render name="/WEB-INF/layout/default.jsp" title=" - Organize Photos">
-<s:layout-component name="headCss">
-<link rel="stylesheet" type="text/css" href="/css/jquery.lightbox-0.5.css" media="screen" />
-</s:layout-component>
-<s:layout-component name="headJs">
-<script type="text/javascript" src="/js/jquery-1.3.2.min.js"></script>
-<script type="text/javascript" src="/js/jquery.lightbox-0.5.js"></script>
-<script type="text/javascript">
-$(function() {
-    $('a.lightbox').lightBox({
-        imageLoading:           '/images/lightbox/lightbox-ico-loading.gif',
-        imageBtnPrev:           '/images/lightbox/lightbox-btn-prev.gif',
-        imageBtnNext:           '/images/lightbox/lightbox-btn-next.gif',
-        imageBtnClose:          '/images/lightbox/lightbox-btn-close.gif',
-        imageBlank:             '/images/lightbox/lightbox-blank.gif',
-        containerResizeSpeed:   200,
-        txtImage:               'Photo'
-    });
-    $('a#close').click(function() {
-        fadeOut("slow");
-    });
-});
-</script>
-</s:layout-component>
 <s:layout-component name="content">
 <jsp:include page="/WEB-INF/layout/_menu.jsp"/>
 <s:messages/>

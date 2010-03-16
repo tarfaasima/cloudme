@@ -4,35 +4,10 @@
 <%@ taglib prefix="w" uri="/WEB-INF/tags/webgallery.tld" %>
 
 <s:layout-render name="/WEB-INF/layout/default.jsp" title=" - ${actionBean.album.name}">
-<s:layout-component name="headCss">
-<link rel="stylesheet" type="text/css" href="/css/jquery.lightbox-0.5.css" media="screen" />
-</s:layout-component>
-<s:layout-component name="headJs">
-<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
-<script type="text/javascript" src="/js/jquery.lightbox-0.5.js"></script>
-<script type="text/javascript" src="/js/jquery.tools.min.js"></script>
-<script type="text/javascript">
-$(function() {
-    $('a.lightbox').lightBox({
-	    imageLoading:           '/images/lightbox/lightbox-ico-loading.gif',
-	    imageBtnPrev:           '/images/lightbox/lightbox-btn-prev.gif',
-	    imageBtnNext:           '/images/lightbox/lightbox-btn-next.gif',
-	    imageBtnClose:          '/images/lightbox/lightbox-btn-close.gif',
-	    imageBlank:             '/images/lightbox/lightbox-blank.gif',
-        containerResizeSpeed:   200,
-        txtImage:               'Photo'
-    });
-});
-$(document).ready(function() {
-    $('.photos img').tooltip({
-        tip:      '.tooltip',
-        position: 'bottom center'
-    });
-});
-</script>
+<s:layout-component name="menu">
+  <s:layout-render name="/WEB-INF/layout/albumMenu.jsp" />
 </s:layout-component>
 <s:layout-component name="content">
-<jsp:include page="/WEB-INF/layout/_albums.jsp"/>
 <div class="photos">
 <ul>
 <c:forEach items="${actionBean.photos}" var="photo">
