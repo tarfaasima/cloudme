@@ -23,7 +23,6 @@
 </c:forEach>
 </ul>
 </div>
-</div>
 </s:layout-component>
 <s:layout-component name="footerLink">
 <a href="/organize/album">organize</a>
