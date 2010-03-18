@@ -2,11 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<s:layout-render name="/WEB-INF/layout/default.jsp" title="">
+<s:layout-render name="/WEB-INF/layout/gallery.jsp" title="">
+
 <s:layout-component name="headJs">
-<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
+$(function() {
   $(window).bind("resize", updateBackground);
   updateBackground();
 });
@@ -21,10 +21,5 @@ function updateBackground() {
 }
 </script>
 </s:layout-component>
-<s:layout-component name="menu">
-  <s:layout-render name="/WEB-INF/layout/albumMenu.jsp" />
-</s:layout-component>
-<s:layout-component name="footerLink">
-<a href="/organize/album">organize</a>
-</s:layout-component>
+
 </s:layout-render>

@@ -3,10 +3,8 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ taglib prefix="w" uri="/WEB-INF/tags/webgallery.tld" %>
 
-<s:layout-render name="/WEB-INF/layout/default.jsp" title=" - ${actionBean.album.name}">
-<s:layout-component name="menu">
-  <s:layout-render name="/WEB-INF/layout/albumMenu.jsp" />
-</s:layout-component>
+<s:layout-render name="/WEB-INF/layout/gallery.jsp" title=" - ${actionBean.album.name}">
+
 <s:layout-component name="content">
 <div class="photos">
 <ul>
@@ -16,7 +14,5 @@
 </ul>
 </div>
 </s:layout-component>
-<s:layout-component name="footerLink">
-<a href="/organize/album">organize</a>
-</s:layout-component>
+
 </s:layout-render>

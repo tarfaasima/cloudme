@@ -16,25 +16,7 @@
 <script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" src="/js/jquery.lightbox-0.5.js"></script>
 <script type="text/javascript" src="/js/jquery.tools.min.js"></script>
-<script type="text/javascript">
-$(function() {
-    $('a.lightbox').lightBox({
-        imageLoading:           '/images/lightbox/lightbox-ico-loading.gif',
-        imageBtnPrev:           '/images/lightbox/lightbox-btn-prev.gif',
-        imageBtnNext:           '/images/lightbox/lightbox-btn-next.gif',
-        imageBtnClose:          '/images/lightbox/lightbox-btn-close.gif',
-        imageBlank:             '/images/lightbox/lightbox-blank.gif',
-        containerResizeSpeed:   200,
-        txtImage:               'Photo'
-    });
-});
-$(document).ready(function() {
-    $('.photos img').tooltip({
-        tip:      '.tooltip',
-        position: 'bottom center'
-    });
-});
-</script>
+<script type="text/javascript" src="/js/webgallery.js"></script>
 <s:layout-component name="headJs" />
 </head>
 <body>

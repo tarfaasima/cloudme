@@ -32,7 +32,7 @@ a.selected {
 
 #header a {
   height: 42px;
-  padding: 9px;
+  padding: 0 9px;
   display: table-cell;
   color: #fff;
   text-decoration: none;
@@ -201,6 +201,10 @@ input[type=text], textarea {
   border: 1px solid #000;
 }
 
+input[type=text] {
+	height: 20px;
+}
+
 div div input[type=text] {
   width: 160px;
 }
@@ -211,6 +215,7 @@ textarea {
 
 table {
   margin: 16px 0;
+  padding: 0;
 }
 
 td, th {

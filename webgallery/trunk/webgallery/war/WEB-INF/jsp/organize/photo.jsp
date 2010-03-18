@@ -2,10 +2,9 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<s:layout-render name="/WEB-INF/layout/default.jsp" title=" - Organize Photos">
+<s:layout-render name="/WEB-INF/layout/organize.jsp" title=" - Organize Photos">
+
 <s:layout-component name="content">
-<jsp:include page="/WEB-INF/layout/_menu.jsp"/>
-<s:messages/>
 <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.PhotoActionBean">
   <s:hidden name="albumId" value="${actionBean.albumId}"/>
   <div>
@@ -70,7 +69,5 @@
   </div>
 </s:form>
 </s:layout-component>
-<s:layout-component name="footerLink">
-<s:link beanclass="org.cloudme.webgallery.stripes.action.LogoutActionBean">logout</s:link>
-</s:layout-component>
+
 </s:layout-render>
