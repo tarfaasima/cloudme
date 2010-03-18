@@ -13,7 +13,7 @@ a.selected {
 
 #header {
   background-color: #000;
-  overflow: hidden;
+  height: 42px;
   text-transform: uppercase;
 }
 
