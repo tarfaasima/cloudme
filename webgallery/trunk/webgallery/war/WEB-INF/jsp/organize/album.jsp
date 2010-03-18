@@ -5,6 +5,8 @@
 
 <s:layout-render name="/WEB-INF/layout/organize.jsp" title="Albums">
 
+<s:layout-component name="selected">albums</s:layout-component>
+
 <s:layout-component name="content">
 <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.AlbumActionBean">
   <div>

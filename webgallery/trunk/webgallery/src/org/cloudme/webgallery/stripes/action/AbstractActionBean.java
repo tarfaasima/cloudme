@@ -22,6 +22,9 @@ public abstract class AbstractActionBean implements ActionBean {
     }
     
     protected void addMessage(Message msg) {
+        if (msg == null) {
+            return;
+        }
         ctx.getMessages().add(new SimpleMessage(msg.getText(), msg.getParams()));
     }
 }

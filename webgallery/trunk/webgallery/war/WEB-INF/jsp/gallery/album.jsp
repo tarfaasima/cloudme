@@ -6,13 +6,13 @@
 <s:layout-render name="/WEB-INF/layout/gallery.jsp" title="${actionBean.album.name}">
 
 <s:layout-component name="content">
-<div class="photos">
-<ul>
-<c:forEach items="${actionBean.photos}" var="photo">
-  <li><a href="/gallery/photo/${photo.id}_l.jpg" title="${photo.name}" class="lightbox"><img src="/gallery/photo/${photo.id}_m.jpg" alt="${photo.name}"/></a><div class="tooltip">${photo.name}<a href="${w:url(photo)}">view</a></div></li>
-</c:forEach>
-</ul>
-</div>
+	<div class="photos">
+		<ul>
+		<c:forEach items="${actionBean.photos}" var="photo">
+		  <li><a href="/gallery/photo/${photo.id}_l.jpg" title="${photo.name}" class="lightbox"><img src="/gallery/photo/${photo.id}_m.jpg" alt="${photo.name}"/></a><div class="tooltip">${photo.name}<a href="${w:url(photo)}">view</a></div></li>
+		</c:forEach>
+		</ul>
+	</div>
 </s:layout-component>
 
 </s:layout-render>

@@ -17,7 +17,7 @@ $(function() {
   });
 
   /* ---------- Messages ---------- */
-  $("#messages li").delay(2500, "messages").fadeOut("slow", function() {
+  $("#messages li").delay(2500).fadeOut("slow", function() {
     $("#messages").hide();
   });
 });

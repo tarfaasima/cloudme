@@ -13,6 +13,7 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 
+import org.cloudme.webgallery.message.Message;
 import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.service.FlickrService;
 import org.cloudme.webgallery.service.PhotoService;
@@ -38,17 +39,20 @@ public class PhotoActionBean extends AbstractActionBean {
 	public Resolution upload() throws IOException {
 		UploadManager manager = new UploadManager();
 		photos = CollectionUtils.asList(manager.upload(photoFile));
-		save();
+        photoService.save(albumId, photos);
+        addMessage(new Message("{0} photos uploaded successfully.", photos.size()));
 		return new RedirectResolution("/organize/photo/" + albumId);
 	}
 
 	public Resolution delete() {
 		photoService.delete(albumId, photoId);
+		addMessage(new Message("Photo deleted successfully."));
 		return new RedirectResolution("/organize/photo/" + albumId);
 	}
 
     public Resolution save() {
         photoService.save(albumId, photos);
+        addMessage(new Message("Photo saved successfully."));
         return new RedirectResolution("/organize/photo/" + albumId);
     }
     

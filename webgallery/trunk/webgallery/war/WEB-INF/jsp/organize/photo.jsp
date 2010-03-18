@@ -4,6 +4,8 @@
 
 <s:layout-render name="/WEB-INF/layout/organize.jsp" title="Photos">
 
+<s:layout-component name="selected">albums</s:layout-component>
+
 <s:layout-component name="content">
 <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.PhotoActionBean">
   <s:hidden name="albumId" value="${actionBean.albumId}"/>

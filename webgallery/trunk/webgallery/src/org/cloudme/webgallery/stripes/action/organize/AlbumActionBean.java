@@ -13,6 +13,7 @@ import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
+import org.cloudme.webgallery.message.Message;
 import org.cloudme.webgallery.model.Album;
 import org.cloudme.webgallery.service.AlbumService;
 import org.cloudme.webgallery.stripes.action.AbstractActionBean;
@@ -28,6 +29,7 @@ public class AlbumActionBean extends AbstractActionBean {
     @DontValidate
     public Resolution delete() {
         service.delete(id);
+        addMessage(new Message("Album {0} deleted successfully.", id));
         return new RedirectResolution(getClass());
     }
 
@@ -47,9 +49,10 @@ public class AlbumActionBean extends AbstractActionBean {
     }
 
     public Resolution save() {
-        for (Album album : getItems()) {
+        for (Album album : items) {
             service.save(album);
         }
+        addMessage(new Message("{0} albums saved successfully.", items == null ? 0 : items.size()));
         return new RedirectResolution(getClass());
     }
 

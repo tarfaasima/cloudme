@@ -59,6 +59,7 @@ a.selected {
 #content {
   margin-bottom: 64px;
   overflow: hidden;
+  clear: both;
 } 
 
 
@@ -179,7 +180,6 @@ form {
   padding: 0;
   width: 912px;
   overflow: hidden;
-  clear: both;
 }
 
 form div {

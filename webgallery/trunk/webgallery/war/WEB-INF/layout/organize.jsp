@@ -14,8 +14,8 @@
 
     <s:layout-component name="menu">
 		  <li><a href="/">Home</a></li>
-		  <li><s:link beanclass="org.cloudme.webgallery.stripes.action.organize.AlbumActionBean">Albums</s:link></li>
-		  <li><s:link beanclass="org.cloudme.webgallery.stripes.action.organize.SettingsActionBean">Settings</s:link></li>
+		  <li><s:link class="${selected eq 'albums' ? 'selected' : ''}"  beanclass="org.cloudme.webgallery.stripes.action.organize.AlbumActionBean">Albums</s:link></li>
+		  <li><s:link class="${selected eq 'settings' ? 'selected' : ''}" beanclass="org.cloudme.webgallery.stripes.action.organize.SettingsActionBean">Settings</s:link></li>
     </s:layout-component>
 
 		<s:layout-component name="content">${content}</s:layout-component>

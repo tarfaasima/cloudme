@@ -9,6 +9,7 @@ import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
+import org.cloudme.webgallery.message.Message;
 import org.cloudme.webgallery.model.FlickrMetaData;
 import org.cloudme.webgallery.service.FlickrService;
 import org.cloudme.webgallery.service.FlickrService.Perms;
@@ -33,6 +34,7 @@ public class SettingsActionBean extends AbstractActionBean {
 
     public Resolution save() {
         flickrService.put(metaData);
+        addMessage(new Message("Settings saved successfully."));
         return new ForwardResolution(getJspPath("/organize/settings"));
     }
     
