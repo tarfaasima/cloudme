@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Moritz Petersen &ndash; Photos ${title}</title>
+<title>Moritz Petersen &ndash; Photos${title}</title>
 <link type="text/css" rel="stylesheet" href="/css/style.css" />
 <link rel="stylesheet" type="text/css" href="/css/jquery.lightbox-0.5.css" media="screen" />
 <s:layout-component name="headCss" />

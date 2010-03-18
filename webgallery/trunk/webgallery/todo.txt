@@ -11,6 +11,7 @@ Todo
 - Use pseudo-API for image transformation instead of ImageFormat
 - Implement forced cache update for changed photos
 - Custom functions to generate URLs in JSPs (for photo pages, album pages, images)
+- Mobile / iPhone UI
 
 Done
 ----

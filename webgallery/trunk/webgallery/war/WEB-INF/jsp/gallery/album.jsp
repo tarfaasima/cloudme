@@ -3,7 +3,7 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ taglib prefix="w" uri="/WEB-INF/tags/webgallery.tld" %>
 
-<s:layout-render name="/WEB-INF/layout/gallery.jsp" title=" - ${actionBean.album.name}">
+<s:layout-render name="/WEB-INF/layout/gallery.jsp" title="${actionBean.album.name}">
 
 <s:layout-component name="content">
 <div class="photos">
