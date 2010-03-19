@@ -34,10 +34,10 @@ import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 class GAEClientConnection implements ManagedClientConnection {
 
     public GAEClientConnection(ClientConnectionManager cm, HttpRoute route, Object state) {
-        this.connManager = cm;
+        connManager = cm;
         this.route = route;
         this.state = state;
-        this.closed = true;
+        closed = true;
     }
 
     // From interface ManagedClientConnection
@@ -112,9 +112,9 @@ class GAEClientConnection implements ManagedClientConnection {
             this.request = new HTTPRequest(uri.toURL(), HTTPMethod.valueOf(request.getRequestLine().getMethod()),
                     FetchOptions.Builder.disallowTruncate().doNotFollowRedirects());
         } catch (URISyntaxException ex) {
-            throw new IOException("Malformed request URI: " + ex.getMessage(), ex);
+            throw new IOException("Malformed request URI: " + ex.getMessage());
         } catch (IllegalArgumentException ex) {
-            throw new IOException("Unsupported HTTP method: " + ex.getMessage(), ex);
+            throw new IOException("Unsupported HTTP method: " + ex.getMessage());
         }
 
         // System.err.println("SEND: " + this.request.getMethod() + " " +
@@ -135,7 +135,7 @@ class GAEClientConnection implements ManagedClientConnection {
     }
 
     public HttpResponse receiveResponseHeader() throws HttpException, IOException {
-        if (this.response == null) {
+        if (response == null) {
             flush();
         }
 
@@ -240,7 +240,7 @@ class GAEClientConnection implements ManagedClientConnection {
         shutdown();
     }
 
-    private ClientConnectionManager connManager;
+    private final ClientConnectionManager connManager;
     private HttpRoute route;
     private Object state;
     private boolean reusable;

@@ -1,8 +1,5 @@
 Todo
 ----
-- Standard layout templates (generic names for divs), better admin layout
-- Display status messages with button to discard messages, smooth fadeout
-- Better admin pages
 - Download photos (albums) as ZIP file
 - Allow Images to assign do another album
 - Send to RSS
@@ -15,6 +12,9 @@ Todo
 
 Done
 ----
+- Standard layout templates (generic names for divs), better admin layout (done)
+- Display status messages with button to discard messages, smooth fadeout (done)
+- Better admin pages (done)
 - Send to Flickr (done)
 - URL generator - generate URL in Flickr description automatically (done)
 - Individual photo pages (done)
