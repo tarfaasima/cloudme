@@ -5,7 +5,7 @@
 
 <s:layout-render name="/WEB-INF/layout/organize.jsp" title="Settings">
 
-<s:layout-component name="selected">settings</s:layout-component>
+<s:layout-component name="select">2</s:layout-component>
 
 <s:layout-component name="content">
 <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.SettingsActionBean">
