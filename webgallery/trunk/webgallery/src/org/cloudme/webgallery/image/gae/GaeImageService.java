@@ -18,7 +18,6 @@ public class GaeImageService implements ImageService {
     public byte[] process(byte[] data, ImageFormat format, ContentType type, float balance) {
         Image image = ImagesServiceFactory.makeImage(data);
         CompositeTransform tx = ImagesServiceFactory.makeCompositeTransform();
-        tx.concatenate(ImagesServiceFactory.makeResize(format.getWidth(), format.getHeight()));
         if (format.isCrop()) {
             float w1 = image.getWidth();
             float h1 = image.getHeight();
@@ -27,6 +26,7 @@ public class GaeImageService implements ImageService {
             Crop c = new Crop(w1, h1, w2, h2, balance);
             tx.concatenate(ImagesServiceFactory.makeCrop(c.x, c.y, c.x + c.width, c.y + c.height));
         }
+        tx.concatenate(ImagesServiceFactory.makeResize(format.getWidth(), format.getHeight()));
         ImagesService imagesService = ImagesServiceFactory.getImagesService();
         OutputEncoding outputEncoding = OutputEncoding.valueOf(type.name());
         try {
