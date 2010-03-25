@@ -18,9 +18,18 @@ public abstract class AbstractActionBean implements ActionBean {
     }
 
     protected String getJspPath(String urlBinding) {
-        return "/WEB-INF/jsp" + urlBinding + ".jsp";
+        String userAgent = ctx.getRequest().getHeader("User-Agent");
+        String prefix = "default";
+        if (isIphone(userAgent)) {
+            prefix = "iPhone";
+        }
+        return "/WEB-INF/jsp/" + prefix + urlBinding + ".jsp";
     }
     
+    private boolean isIphone(String userAgent) {
+        return userAgent.contains("iPhone") && userAgent.contains("AppleWebKit");
+    }
+
     protected void addMessage(Message msg) {
         if (msg == null) {
             return;
