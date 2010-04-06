@@ -6,7 +6,7 @@
 <s:layout-definition>
   <s:layout-render name="/WEB-INF/layout/default.jsp">
 
-	<s:layout-component name="title">${empty title ? '' : ' &ndash; '}${title}</s:layout-component>
+	<s:layout-component name="title">${empty title ? '' : ' &ndash; title'}</s:layout-component>
 	
 	<s:layout-component name="headCss">${headCss}</s:layout-component>
 	

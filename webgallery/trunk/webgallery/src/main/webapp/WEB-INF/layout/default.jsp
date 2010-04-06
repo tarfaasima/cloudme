@@ -9,11 +9,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"/>
 <title>Moritz Petersen &ndash; Photos${title}</title>
-<link media="only screen and (max-device-width: 480px)" href="/css/iphone.css" type= "text/css" rel="stylesheet"/>
-<link media="screen and (min-device-width: 481p)" href="/css/style.css" type="text/css" rel="stylesheet" />
-<link media="screen and (min-device-width: 481p)" href="/css/jquery.lightbox-0.5.css" type="text/css" rel="stylesheet" />
+<link media="screen" href="/css/style.css" type="text/css" rel="stylesheet" />
+<link media="screen" href="/css/jquery.lightbox-0.5.css" type="text/css" rel="stylesheet" />
 <s:layout-component name="headCss" />
 <script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" src="/js/jquery.lightbox-0.5.js"></script>
