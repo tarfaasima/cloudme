@@ -23,7 +23,7 @@ public abstract class AbstractActionBean implements ActionBean {
         if (isIphone(userAgent)) {
             prefix = "/iphone";
         }
-        return "/WEB-INF/jsp" + prefix + urlBinding + ".jsp";
+        return "/WEB-INF" + prefix + "/jsp" + urlBinding + ".jsp";
     }
     
     private boolean isIphone(String userAgent) {
