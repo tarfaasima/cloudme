@@ -227,6 +227,10 @@ td, th {
   font-size: 12px;
 }
 
+a {
+  text-decoration: none;
+}
+
 .nopad {
   margin: 0px;
   padding: 0px;
