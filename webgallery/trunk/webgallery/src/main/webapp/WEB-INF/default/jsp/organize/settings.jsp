@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<s:layout-render name="/WEB-INF/layout/organize.jsp" title="Settings" selected="settings">
+<s:layout-render name="/WEB-INF/default/layout/organize.jsp" title="Settings" selected="settings">
 
 <s:layout-component name="content">
 <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.SettingsActionBean">

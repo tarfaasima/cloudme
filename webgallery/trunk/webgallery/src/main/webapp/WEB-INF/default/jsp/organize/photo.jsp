@@ -2,7 +2,7 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<s:layout-render name="/WEB-INF/layout/organize.jsp" title="Photos" selected="albums">
+<s:layout-render name="/WEB-INF/default/layout/organize.jsp" title="Photos" selected="albums">
 
 <s:layout-component name="content">
 <s:form beanclass="org.cloudme.webgallery.stripes.action.organize.PhotoActionBean">

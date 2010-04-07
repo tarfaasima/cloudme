@@ -1,4 +1,4 @@
-$(function() {
+$(document).ready(function() {
   /* ---------- Lightbox ---------- */ 
   $('a.lightbox').lightBox({
 	imageLoading:           '/images/lightbox/lightbox-ico-loading.gif',
@@ -21,3 +21,11 @@ $(function() {
     $("#messages").hide();
   });
 });
+
+function updateBackground(id) {
+  if (id != "") {
+    var dim = $(document).width() + "x" + $(document).height();
+    var img = "/gallery/photo/" + id + "_" + dim + ".jpg";
+    $("body").css("background", "url(" + img + ") repeat fixed");
+  }
+}

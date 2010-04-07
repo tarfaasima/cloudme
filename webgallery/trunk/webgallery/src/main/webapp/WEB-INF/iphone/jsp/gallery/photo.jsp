@@ -8,7 +8,7 @@
 <s:layout-component name="content">
 	<div class="photos">
 		<ul>
-		  <li><a href="/gallery/album/${actionBean.albumId}"><img src="/gallery/photo/${actionBean.photoId}_l.jpg"/></a></li>
+		  <li><a href="/gallery/album/${actionBean.albumId}"><img src=""/></a></li>
 		</ul>
 	</div>
 	<div class="description">
