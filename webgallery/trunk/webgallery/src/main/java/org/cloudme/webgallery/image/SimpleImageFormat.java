@@ -5,6 +5,10 @@ public class SimpleImageFormat implements ImageFormat {
     private final int width;
     private final int height;
     private final boolean isCrop;
+    
+    public SimpleImageFormat(ImageFormat format) {
+        this(format.getWidth(), format.getHeight(), format.isCrop());
+    }
 
     public SimpleImageFormat(int width, int height, boolean isCrop) {
         this.width = width;

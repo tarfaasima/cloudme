@@ -3,23 +3,28 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ taglib prefix="w" uri="/WEB-INF/tags/webgallery.tld" %>
 
-<s:layout-render name="/WEB-INF/default/layout/gallery.jsp" title="${actionBean.photo.name}">
+<s:layout-render name="/WEB-INF/iphone/layout/base.jsp" title="${actionBean.photo.name}">
 
-<s:layout-component name="content">
-	<div class="photos">
-		<ul>
-		  <li><a href="/gallery/album/${actionBean.albumId}"><img src=""/></a></li>
-		</ul>
-	</div>
-	<div class="description">
-	  <p>${actionBean.photo.name}</p>
-	</div>
-	<div class="photos">
-		<ul>
-		<c:forEach items="${actionBean.photos}" var="photo">
-		  <li><a href="/gallery/album/${actionBean.albumId}/photo/${photo.id}"><img src="/gallery/photo/${photo.id}_s.jpg"/></a></li>
-		</c:forEach>
-		</ul>
+<s:layout-component name="headJs">
+<script type="text/javascript">
+$(function() {
+  var id = "${actionBean.photoId}";
+  var width = $(document).width();
+  var height = $(document).height();
+  var dim = width + "#" + height;
+	var src = "/gallery/photo/" + id + "_" + dim + ".jpg";
+	$("div.fullscreen").css({
+	  "width": width + "px",
+	  "height": height + "px"
+	});
+	$(".fullscreen img").attr("src", src);
+});
+</script>
+</s:layout-component>
+
+<s:layout-component name="body">
+	<div class="fullscreen">
+	  <a href="/gallery/album/${actionBean.albumId}"><img src=""/></a>
 	</div>
 </s:layout-component>
 
