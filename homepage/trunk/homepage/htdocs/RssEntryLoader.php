@@ -4,10 +4,12 @@ require_once 'EntryLoader.php';
 class RssEntryLoader extends EntryLoader {
     protected $url;
     protected $origin;
+    protected $prefix;
 
-    public function __construct($url, $origin) {
+    public function __construct($url, $origin, $prefix = "") {
         $this->url = $url;
         $this->origin = $origin;
+        $this->prefix = $prefix;
     }
 
     protected function loadRawEntries() {
@@ -19,7 +21,7 @@ class RssEntryLoader extends EntryLoader {
         $entry = new Entry();
         $entry->content = (string) $rawEntry->description;
         $entry->date = strtotime($rawEntry->pubDate);
-        $entry->title = (string) $rawEntry->title;
+        $entry->title = $this->prefix . ' ' . (string) $rawEntry->title;
         $entry->url = (string) $rawEntry->link;
         $entry->origin = $this->origin;
         return $entry;

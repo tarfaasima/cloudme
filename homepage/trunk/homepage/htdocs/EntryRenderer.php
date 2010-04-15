@@ -3,7 +3,7 @@ require_once 'lib/util.php';
 
 class EntryRenderer {
     public function renderLink($entry, $direct = false) {
-        echo (!$entry->isExternal() OR $direct) ? $entry->url : "show_entry.php?id=$entry->id";
+        echo $entry->url;
     }
 
     public function renderTitle($entry) {

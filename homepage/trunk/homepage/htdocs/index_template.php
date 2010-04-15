@@ -6,7 +6,8 @@
         <link rel="icon" type="image/png" href="favicon.ico"/>
         <link rel="alternate" type="application/rss+xml" title="Moritz Petersen (RSS)" href="http://feeds.feedburner.com/moritzpetersen/rss2" />
         <link rel="stylesheet" type="text/css" href="style.css"/>
-        <script type="text/javascript" src="jquery.js"></script>
+		<link rel="me" type="text/html" href="http://www.google.com/profiles/moritz.petersen"/> 
+		<script type="text/javascript" src="jquery.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 $("div.entry > code").wrap("<pre></pre>");

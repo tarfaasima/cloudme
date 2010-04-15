@@ -14,7 +14,8 @@ class EntryManager {
             new FlickrEntryLoader(),
             new DeliciousEntryLoader(),
             new RssEntryLoader('http://blog.moritzpetersen.de/feed/', 'http://blog.moritzpetersen.de'),
-            new RssEntryLoader('http://feeds.feedburner.com/cloudme-blog?format=xml', 'http://blog.cloudme.org')
+            new RssEntryLoader('http://feeds.feedburner.com/cloudme-blog?format=xml', 'http://blog.cloudme.org'),
+            new RssEntryLoader('http://www.instapaper.com/starred/rss/132003/p3OSfpM3ATK2e0FGUcWpSd94MtE', 'http://www.instapaper.com/', '[Link]'),
         );
     }
 

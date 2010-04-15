@@ -27,7 +27,7 @@ class FlickrEntryLoader extends EntryLoader {
         $origin = Flickr::createUserUrl($userId);
 
         $entry = new Entry();
-        $entry->title = $title;
+        $entry->title = '[Flickr] ' . $title;
         $entry->content = "<a href='$url'><img src='$photoUrl' width='$width' height='$height' alt='$title'/></a>";
         $entry->url = $url;
         $entry->date = $date;
