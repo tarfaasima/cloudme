@@ -6,5 +6,5 @@
 	-->
 	<entry-point class="com.vaadin.terminal.gwt.client.DefaultWidgetSet" />
 	<inherits name="com.vaadin.terminal.gwt.DefaultWidgetSet" />
-	<inherits name="org.vaadin.touchkit.widgetset.TouchKitWidgetset" />
+	<inherits name="com.vaadin.touchkit.widgetset.TouchKitWidgetset" />
 </module>

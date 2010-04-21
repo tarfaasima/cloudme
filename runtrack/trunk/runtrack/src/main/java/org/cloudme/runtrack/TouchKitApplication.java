@@ -1,6 +1,8 @@
 package org.cloudme.runtrack;
 
-import org.vaadin.touchkit.TouchPanel;
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserServiceFactory;
+import com.vaadin.touchkit.TouchPanel;
 
 import com.vaadin.Application;
 import com.vaadin.ui.Window;
@@ -11,6 +13,7 @@ public class TouchKitApplication extends Application {
 
     @Override
     public void init() {
+    	
         final Window mainWindow = new Window("Sampler");
         final TouchPanel panel = new TouchPanel();
 
