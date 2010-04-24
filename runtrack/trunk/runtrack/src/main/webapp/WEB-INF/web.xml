@@ -18,7 +18,7 @@
     <init-param>
       <description>Vaadin application class to start</description>
       <param-name>application</param-name>
-      <param-value>org.cloudme.runtrack.TouchKitApplication</param-value>
+      <param-value>org.cloudme.runtrack.RuntrackApplication</param-value>
     </init-param>
     <init-param>
       <param-name>widgetset</param-name>
