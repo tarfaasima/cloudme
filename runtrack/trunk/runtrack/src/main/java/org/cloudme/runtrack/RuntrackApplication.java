@@ -1,6 +1,6 @@
 package org.cloudme.runtrack;
 
-import org.cloudme.runtrack.layout.EntryLayout;
+import org.cloudme.runtrack.view.EntryView;
 
 import com.vaadin.Application;
 import com.vaadin.touchkit.TouchPanel;
@@ -12,11 +12,12 @@ public class RuntrackApplication extends Application {
 
     @Override
     public void init() {
-        final Window mainWindow = new Window("Runtrack");
+        final Window main = new Window("Runtrack");
         final TouchPanel panel = new TouchPanel();
-        panel.navigateTo(new EntryLayout());
-        mainWindow.setContent(panel);
-        setMainWindow(mainWindow);
+        panel.navigateTo(new EntryView());
+        panel.setSizeFull();
+        main.setContent(panel);
+        setMainWindow(main);
         setTheme("touch");
     }
 }
