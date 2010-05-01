@@ -1,6 +1,10 @@
 package org.cloudme.runtrack.model;
 
+import com.vercer.engine.persist.annotation.Key;
+
 public class Route {
+	@Key
+	private Long id;
 	private String name;
 	private float distance;
 	private String type;
@@ -22,11 +26,6 @@ public class Route {
 		this.distance = distance;
 	}
 
-	@Override
-	public String toString() {
-		return name + " (" + distance + " km)";
-	}
-
 	public String getType() {
 		return type;
 	}
@@ -41,5 +40,13 @@ public class Route {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getId() {
+		return id;
 	}
 }

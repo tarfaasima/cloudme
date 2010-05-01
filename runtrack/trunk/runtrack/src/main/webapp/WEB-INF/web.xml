@@ -16,7 +16,7 @@
     </init-param>
     <init-param>
       <param-name>MultipartWrapper.Class</param-name>
-      <param-value>org.cloudme.runtrack.stripes.controller.multipart.BufferedMultipartWrapper</param-value>
+      <param-value>org.cloudme.runtrack.stripes.controller.multipart.EmptyMultipartWrapper</param-value>
     </init-param>
   </filter>
 
