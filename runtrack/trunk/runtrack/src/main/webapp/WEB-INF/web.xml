@@ -8,7 +8,6 @@
   version="2.4">
 
   <filter>
-    <display-name>Stripes Filter</display-name>
     <filter-name>StripesFilter</filter-name>
     <filter-class>net.sourceforge.stripes.controller.StripesFilter</filter-class>
     <init-param>
@@ -29,13 +28,13 @@
   </filter-mapping>
 
   <servlet>
-    <servlet-name>StripesDispatcher</servlet-name>
+    <servlet-name>DispatcherServlet</servlet-name>
     <servlet-class>net.sourceforge.stripes.controller.DispatcherServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>StripesDispatcher</servlet-name>
+    <servlet-name>DispatcherServlet</servlet-name>
     <url-pattern>/*</url-pattern>
   </servlet-mapping>
 
