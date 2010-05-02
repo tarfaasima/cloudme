@@ -7,4 +7,15 @@ public class Service<T> {
         this.repository = repository;
     }
 
+    public void put(T t) {
+        repository.put(t);
+    }
+
+    public T find(long id) {
+        return repository.find(id);
+    }
+
+    public void delete(long id) {
+        repository.delete(id);
+    }
 }
