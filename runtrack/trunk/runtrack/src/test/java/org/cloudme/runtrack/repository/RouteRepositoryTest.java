@@ -1,6 +1,7 @@
 package org.cloudme.runtrack.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import org.cloudme.runtrack.model.Route;
@@ -12,32 +13,32 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class RouteRepositoryTest {
-	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
-			new LocalDatastoreServiceTestConfig());
+    private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
-	@Before
-	public void setUp() {
-		helper.setUp();
-	}
+    @Before
+    public void setUp() {
+        helper.setUp();
+    }
 
-	@After
-	public void tearDown() {
-		helper.tearDown();
-	}
+    @After
+    public void tearDown() {
+        helper.tearDown();
+    }
 
-	@Test
-	public void testRepositoryTwigPersist() {
-        Repository<Route> repo = new Repository<Route>(Route.class);
-		Route route = new Route();
-		route.setDistance(10.5F);
-		route.setLocation("Hamburg DE");
-		route.setName("Kleine Runde");
-		route.setType("Running");
-        repo.save(route);
-		System.out.println(route.getId());
-        Route route1 = repo.load(route.getId());
-		assertEquals("Kleine Runde", route1.getName());
-        repo.delete(route1);
-        assertNull(repo.load(route.getId()));
-	}
+    @Test
+    public void testRepositoryObjectify() {
+        Route route = new Route();
+        route.setDistance(10.5F);
+        route.setLocation("Hamburg DE");
+        route.setName("Kleine Runde");
+        route.setType("Running");
+
+        Repository<Route> repository = new Repository<Route>(Route.class);
+        repository.put(route);
+        assertNotNull(route.getId());
+        Route route1 = repository.find(route.getId());
+        assertEquals(route.getName(), route1.getName());
+        repository.delete(route1.getId());
+        assertNull(repository.find(route.getId()));
+    }
 }

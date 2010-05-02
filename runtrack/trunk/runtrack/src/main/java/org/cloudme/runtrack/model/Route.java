@@ -1,9 +1,12 @@
 package org.cloudme.runtrack.model;
 
+import javax.persistence.Id;
+
 import com.vercer.engine.persist.annotation.Key;
 
 public class Route {
-	@Key
+    @Key
+    @Id
 	private Long id;
 	private String name;
 	private float distance;
