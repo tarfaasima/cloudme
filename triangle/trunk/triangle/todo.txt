@@ -1,0 +1,16 @@
+TODO
+====
+
+Open
+----
+
+- Label and other texts should be configurable and externalizable in a properties file:
+	- If Label annotation exists, check the properties file for a localized translation with key = Label.value()
+	- If no Label annotation exists, check the properties file for a localized translation with the following keys:
+		- for label: (label.)(<classname>.)<fieldname>
+		- for validation: validation.(<validator>.)(<classname>.)<fieldname>
+		- if no property found, use label = <fieldname>, validation = generic message for fieldname
+	- Similar approach can be done for help texts, descriptions, table columns etc.
+
+Closed
+------
