@@ -33,11 +33,26 @@ public class TriangleControllerTest {
         assertTrue(entity.isMainEntity());
         assertEquals(entity, controller.getMainEntity());
         final Collection<Attribute> attributes = entity.getAttributes();
-        assertEquals(1, attributes.size());
+        assertEquals(2, attributes.size());
         assertEquals("Name", attributes.iterator().next().getLabel());
 
         try {
             entity.validate(new TestEntity());
+            fail();
+        } catch (final ValidationException e) {
+            // expected
+        } catch (final RuntimeException e) {
+            throw e;
+        }
+
+        final TestEntity testEntity = new TestEntity();
+        testEntity.setName("Max");
+        testEntity.setNoX("abc");
+        entity.validate(testEntity);
+
+        testEntity.setNoX("abxc");
+        try {
+            entity.validate(testEntity);
             fail();
         } catch (final ValidationException e) {
             // expected

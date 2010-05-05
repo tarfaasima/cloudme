@@ -1,19 +1,23 @@
 package org.cloudme.triangle;
 
-import org.cloudme.triangle.annotations.Label;
-import org.cloudme.triangle.annotations.MainEntity;
-import org.cloudme.triangle.annotations.Max;
-import org.cloudme.triangle.annotations.Min;
-import org.cloudme.triangle.annotations.Required;
+import org.cloudme.triangle.annotation.Label;
+import org.cloudme.triangle.annotation.MainEntity;
+import org.cloudme.triangle.annotation.Mask;
+import org.cloudme.triangle.annotation.Max;
+import org.cloudme.triangle.annotation.Min;
+import org.cloudme.triangle.annotation.Required;
 
-@Label("Test")
+@Label( "Test" )
 @MainEntity
 public class TestEntity {
-    @Label("Name")
+    @Label( "Name" )
     @Required
-    @Max(10)
-    @Min(3)
+    @Max( 10 )
+    @Min( 3 )
     private String name;
+
+    @Mask( "[^x]*" )
+    private String noX;
 
     public void setName(String name) {
         this.name = name;
@@ -21,5 +25,13 @@ public class TestEntity {
 
     public String getName() {
         return name;
+    }
+
+    public void setNoX(String noX) {
+        this.noX = noX;
+    }
+
+    public String getNoX() {
+        return noX;
     }
 }
