@@ -1,7 +1,7 @@
 package org.cloudme.triangle.validation;
 
 /**
- * Validates a string based on the given configuration.
+ * Validates a {@link String} based on the given configuration.
  * 
  * @author Moritz Petersen
  */

@@ -3,8 +3,6 @@ package org.cloudme.triangle;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.cloudme.triangle.annotation.AnnotationHelper;
 import org.cloudme.triangle.annotation.Label;
@@ -13,6 +11,7 @@ import org.cloudme.triangle.annotation.Max;
 import org.cloudme.triangle.annotation.Min;
 import org.cloudme.triangle.annotation.Required;
 import org.cloudme.triangle.annotation.ValidatorType;
+import org.cloudme.triangle.validation.NumberValidator;
 import org.cloudme.triangle.validation.RequiredValidator;
 import org.cloudme.triangle.validation.StringValidator;
 import org.cloudme.triangle.validation.Validator;
@@ -23,16 +22,6 @@ import org.cloudme.triangle.validation.Validator;
  * @author Moritz Petersen
  */
 public class Attribute {
-    /**
-     * Contains the default {@link Validator} types.
-     */
-    private static final Map<Class<?>, Class<? extends Validator>> VALIDATOR_TYPES;
-
-    static {
-        VALIDATOR_TYPES = new HashMap<Class<?>, Class<? extends Validator>>();
-        VALIDATOR_TYPES.put(String.class, StringValidator.class);
-    }
-
     /**
      * The technical name of the {@link Attribute}.
      */
@@ -76,32 +65,44 @@ public class Attribute {
             validators.add(new RequiredValidator());
         }
 
+        Validator validator = null;
         try {
             final Class<? extends Validator> validatorType = new AnnotationHelper<Class<? extends Validator>>(field,
-                    ValidatorType.class,
-                    VALIDATOR_TYPES.get(field.getType())).value();
+                    ValidatorType.class).value();
             if (validatorType != null) {
-                final Validator validator = validatorType.newInstance();
-                final Max max = field.getAnnotation(Max.class);
-                if (max != null) {
-                    validator.setMax(max.value());
-                }
-                final Min min = field.getAnnotation(Min.class);
-                if (min != null) {
-                    validator.setMin(min.value());
-                }
-                final Mask mask = field.getAnnotation(Mask.class);
-                if (mask != null) {
-                    validator.setMask(mask.value());
-                }
-                validators.add(validator);
+                validator = validatorType.newInstance();
             }
-        } catch (final InstantiationException e) {
+        }
+        catch (final InstantiationException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (final IllegalAccessException e) {
+        }
+        catch (final IllegalAccessException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+        if (validator == null) {
+            if (String.class.isAssignableFrom(field.getType())) {
+                validator = new StringValidator();
+            }
+            else if (Number.class.isAssignableFrom(field.getType())) {
+                validator = new NumberValidator();
+            }
+        }
+        if (validator != null) {
+            final Max max = field.getAnnotation(Max.class);
+            if (max != null) {
+                validator.setMax(max.value());
+            }
+            final Min min = field.getAnnotation(Min.class);
+            if (min != null) {
+                validator.setMin(min.value());
+            }
+            final Mask mask = field.getAnnotation(Mask.class);
+            if (mask != null) {
+                validator.setMask(mask.value());
+            }
+            validators.add(validator);
         }
     }
 
@@ -149,16 +150,19 @@ public class Attribute {
      *            The attribute of the given object is validated.
      */
     void validate(Object object) {
-        for (final Validator validator : validators) {
-            try {
-                validator.validate(field.get(object));
-            } catch (final IllegalArgumentException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (final IllegalAccessException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+        try {
+            final Object value = field.get(object);
+            for (final Validator validator : validators) {
+                validator.validate(value);
             }
+        }
+        catch (final IllegalArgumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (final IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 }
