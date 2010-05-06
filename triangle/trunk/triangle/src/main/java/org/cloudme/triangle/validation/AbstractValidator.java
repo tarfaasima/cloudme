@@ -8,16 +8,31 @@ package org.cloudme.triangle.validation;
  * @author Moritz Petersen
  */
 public abstract class AbstractValidator implements Validator {
+    /**
+     * Empty implementation.
+     * 
+     * @throws UnsupportedOperationException
+     */
     @Override
     public void setMask(String mask) {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Empty implementation.
+     * 
+     * @throws UnsupportedOperationException
+     */
     @Override
     public void setMax(double max) {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Empty implementation.
+     * 
+     * @throws UnsupportedOperationException
+     */
     @Override
     public void setMin(double min) {
         throw new UnsupportedOperationException();

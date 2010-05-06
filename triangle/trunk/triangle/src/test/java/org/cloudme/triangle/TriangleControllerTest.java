@@ -33,31 +33,38 @@ public class TriangleControllerTest {
         assertTrue(entity.isMainEntity());
         assertEquals(entity, controller.getMainEntity());
         final Collection<Attribute> attributes = entity.getAttributes();
-        assertEquals(2, attributes.size());
+        assertEquals(5, attributes.size());
         assertEquals("Name", attributes.iterator().next().getLabel());
 
-        try {
-            entity.validate(new TestEntity());
-            fail();
-        } catch (final ValidationException e) {
-            // expected
-        } catch (final RuntimeException e) {
-            throw e;
-        }
+        assertValidationFailure(entity, new TestEntity());
 
         final TestEntity testEntity = new TestEntity();
         testEntity.setName("Max");
         testEntity.setNoX("abc");
+        testEntity.setAge(32);
+        testEntity.setActive(true);
         entity.validate(testEntity);
 
         testEntity.setNoX("abxc");
+        assertValidationFailure(entity, testEntity);
+
+        testEntity.setNoX("abc");
+        testEntity.setAge(5);
+        assertValidationFailure(entity, testEntity);
+
+        testEntity.setAge(32);
+        testEntity.setActive(false);
+        assertValidationFailure(entity, testEntity);
+
+        testEntity.setActive(true);
+    }
+
+    private static void assertValidationFailure(final Entity entity, final Object object) {
         try {
-            entity.validate(testEntity);
+            entity.validate(object);
             fail();
         } catch (final ValidationException e) {
             // expected
-        } catch (final RuntimeException e) {
-            throw e;
         }
     }
 }

@@ -6,10 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.cloudme.triangle.Attribute;
+import org.cloudme.triangle.validation.RequiredValidator;
 
 /**
  * Defines if the {@link Attribute} is required.
  * 
+ * @see RequiredValidator
  * @author Moritz Petersen
  */
 @Retention( RetentionPolicy.RUNTIME )

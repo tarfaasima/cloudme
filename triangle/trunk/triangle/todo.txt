@@ -11,6 +11,8 @@ Open
 		- for validation: validation.(<validator>.)(<classname>.)<fieldname>
 		- if no property found, use label = <fieldname>, validation = generic message for fieldname
 	- Similar approach can be done for help texts, descriptions, table columns etc.
+- Annotation for display order
+- Converter / Formatter
 
 Closed
 ------

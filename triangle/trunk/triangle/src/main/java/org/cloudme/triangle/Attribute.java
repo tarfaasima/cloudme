@@ -11,10 +11,9 @@ import org.cloudme.triangle.annotation.Max;
 import org.cloudme.triangle.annotation.Min;
 import org.cloudme.triangle.annotation.Required;
 import org.cloudme.triangle.annotation.ValidatorType;
-import org.cloudme.triangle.validation.NumberValidator;
 import org.cloudme.triangle.validation.RequiredValidator;
-import org.cloudme.triangle.validation.StringValidator;
 import org.cloudme.triangle.validation.Validator;
+import org.cloudme.triangle.validation.ValidatorFactory;
 
 /**
  * Provides metadata of a field based on annotations, and provides validation.
@@ -65,30 +64,9 @@ public class Attribute {
             validators.add(new RequiredValidator());
         }
 
-        Validator validator = null;
-        try {
-            final Class<? extends Validator> validatorType = new AnnotationHelper<Class<? extends Validator>>(field,
-                    ValidatorType.class).value();
-            if (validatorType != null) {
-                validator = validatorType.newInstance();
-            }
-        }
-        catch (final InstantiationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (final IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        if (validator == null) {
-            if (String.class.isAssignableFrom(field.getType())) {
-                validator = new StringValidator();
-            }
-            else if (Number.class.isAssignableFrom(field.getType())) {
-                validator = new NumberValidator();
-            }
-        }
+        final Class<? extends Validator> validatorType = new AnnotationHelper<Class<? extends Validator>>(field,
+                ValidatorType.class).value();
+        final Validator validator = ValidatorFactory.newInstanceFor(validatorType, field.getType());
         if (validator != null) {
             final Max max = field.getAnnotation(Max.class);
             if (max != null) {
@@ -152,8 +130,10 @@ public class Attribute {
     void validate(Object object) {
         try {
             final Object value = field.get(object);
-            for (final Validator validator : validators) {
-                validator.validate(value);
+            if (isRequired || value != null) {
+                for (final Validator validator : validators) {
+                    validator.validate(value);
+                }
             }
         }
         catch (final IllegalArgumentException e) {
