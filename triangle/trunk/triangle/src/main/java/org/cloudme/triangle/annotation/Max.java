@@ -10,7 +10,7 @@ import org.cloudme.triangle.validation.Validator;
 
 /**
  * Defines the max value for validation. This value will be passed to the
- * {@link Attribute}s {@link Validator#setMin(double)} method in order to
+ * {@link Attribute}s {@link Validator#setMin(Double)} method in order to
  * perform specific validation.
  * 
  * @author Moritz Petersen

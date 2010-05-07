@@ -6,7 +6,7 @@ package org.cloudme.triangle.validation;
  * 
  * @author Moritz Petersen
  */
-public class RequiredValidator extends AbstractValidator {
+public class RequiredValidator extends AbstractValidator<Object> {
     /**
      * Checks if the value is not null. For a boolean it also checks if the
      * value is true.

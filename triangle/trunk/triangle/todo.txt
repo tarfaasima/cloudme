@@ -12,7 +12,9 @@ Open
 		- if no property found, use label = <fieldname>, validation = generic message for fieldname
 	- Similar approach can be done for help texts, descriptions, table columns etc.
 - Annotation for display order
-- Converter / Formatter
+- Conversion, especially of numeric values seems to be a bit strange. Try a better implementation.
+- Use generics more consequently (e.g. Entity<E>, Attribute<E, A> (E for the Entity type, A for the Attribute type)
 
 Closed
 ------
+- Converter / Formatter

@@ -9,11 +9,17 @@ import org.cloudme.triangle.annotation.Label;
 import org.cloudme.triangle.annotation.Mask;
 import org.cloudme.triangle.annotation.Max;
 import org.cloudme.triangle.annotation.Min;
+import org.cloudme.triangle.annotation.Pattern;
 import org.cloudme.triangle.annotation.Required;
 import org.cloudme.triangle.annotation.ValidatorType;
+import org.cloudme.triangle.convert.Converter;
+import org.cloudme.triangle.convert.ConverterFactory;
+import org.cloudme.triangle.format.Formatter;
+import org.cloudme.triangle.format.FormatterFactory;
 import org.cloudme.triangle.validation.RequiredValidator;
 import org.cloudme.triangle.validation.Validator;
 import org.cloudme.triangle.validation.ValidatorFactory;
+import org.cloudme.util.ClassUtils;
 
 /**
  * Provides metadata of a field based on annotations, and provides validation.
@@ -38,7 +44,17 @@ public class Attribute {
     /**
      * The {@link Validator}s based on the annotations.
      */
-    private final Collection<Validator> validators = new ArrayList<Validator>();
+    private final Collection<Validator<?>> validators = new ArrayList<Validator<?>>();
+    /**
+     * The {@link Formatter} based on the annotations.
+     */
+    @SuppressWarnings( "unchecked" )
+    private Formatter formatter;
+    /**
+     * The {@link Converter} based on the annotations.
+     */
+    @SuppressWarnings( "unchecked" )
+    private Converter converter;
     /**
      * The {@link Field} corresponding to this {@link Attribute}.
      */
@@ -64,23 +80,27 @@ public class Attribute {
             validators.add(new RequiredValidator());
         }
 
-        final Class<? extends Validator> validatorType = new AnnotationHelper<Class<? extends Validator>>(field,
+        final Class<? extends Validator<?>> validatorType = new AnnotationHelper<Class<? extends Validator<?>>>(field,
                 ValidatorType.class).value();
-        final Validator validator = ValidatorFactory.newInstanceFor(validatorType, field.getType());
+        final Validator<?> validator = ValidatorFactory.newInstanceFor(validatorType, field.getType());
         if (validator != null) {
-            final Max max = field.getAnnotation(Max.class);
-            if (max != null) {
-                validator.setMax(max.value());
-            }
-            final Min min = field.getAnnotation(Min.class);
-            if (min != null) {
-                validator.setMin(min.value());
-            }
-            final Mask mask = field.getAnnotation(Mask.class);
-            if (mask != null) {
-                validator.setMask(mask.value());
-            }
+            validator.setMask(new AnnotationHelper<String>(field, Mask.class).value());
+            validator.setMax(new AnnotationHelper<Double>(field, Max.class).value());
+            validator.setMin(new AnnotationHelper<Double>(field, Min.class).value());
             validators.add(validator);
+        }
+
+        final String pattern = new AnnotationHelper<String>(field, Pattern.class).value();
+        if (pattern != null) {
+            formatter = FormatterFactory.newInstanceFor(field.getType());
+            if (formatter != null) {
+                formatter.setPattern(pattern);
+            }
+
+            converter = ConverterFactory.newInstanceFor(field.getType());
+            if (converter != null) {
+                converter.setPattern(pattern);
+            }
         }
     }
 
@@ -127,14 +147,75 @@ public class Attribute {
      * @param object
      *            The attribute of the given object is validated.
      */
+    @SuppressWarnings( "unchecked" )
     void validate(Object object) {
-        try {
-            final Object value = field.get(object);
-            if (isRequired || value != null) {
-                for (final Validator validator : validators) {
-                    validator.validate(value);
-                }
+        final Object value = getValue(object);
+        if (isRequired || value != null) {
+            for (final Validator validator : validators) {
+                validator.validate(value);
             }
+        }
+    }
+
+    /**
+     * Reads the {@link Attribute}'s value from the given object using
+     * reflection.
+     * 
+     * @param object
+     *            The object containing the attribute.
+     * @return the {@link Attribute}'s value.
+     */
+    private Object getValue(Object object) {
+        try {
+            return field.get(object);
+        }
+        catch (final IllegalArgumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (final IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Formats the {@link Attribute}'s value of the given object.
+     * 
+     * @param object
+     *            The object containing the attribute.
+     * @return the formatted value.
+     */
+    @SuppressWarnings( "unchecked" )
+    String format(Object object) {
+        return object == null ? "" : formatter == null ? object.toString() : formatter.format(getValue(object));
+    }
+
+    /**
+     * Converts the given {@link String} into a raw value and sets it in the
+     * given {@link Object}.
+     * 
+     * @param object
+     *            The {@link Object} which will receive the converted value.
+     * @param str
+     *            The {@link String} which will be converted.
+     */
+    void convert(Object object, String str) {
+        setValue(object, str == null ? null : converter == null ? str : converter.convert(str));
+    }
+
+    /**
+     * Sets the value into the object using reflection.
+     * 
+     * @param object
+     *            The object receiving the value.
+     * @param value
+     *            The value that is set.
+     */
+    private void setValue(Object object, Object value) {
+        try {
+            field.set(object, ClassUtils.convert(field.getType(), value));
         }
         catch (final IllegalArgumentException e) {
             // TODO Auto-generated catch block

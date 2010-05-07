@@ -1,8 +1,9 @@
 package org.cloudme.triangle;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.cloudme.triangle.annotation.AnnotationHelper;
 import org.cloudme.triangle.annotation.Label;
@@ -35,7 +36,7 @@ public class Entity {
     /**
      * The {@link Attribute}s of this {@link Entity}.
      */
-    private final Collection<Attribute> attributes = new ArrayList<Attribute>();
+    private final Map<String, Attribute> attributes = new HashMap<String, Attribute>();
 
     /**
      * Reads the metadata of the given type based on annotations.
@@ -50,7 +51,8 @@ public class Entity {
         label = new AnnotationHelper<String>(type, Label.class, name).value();
         isMainEntity = new AnnotationHelper<Boolean>(type, MainEntity.class, false).value();
         for (final Field field : type.getDeclaredFields()) {
-            attributes.add(new Attribute(this, field));
+            final Attribute attribute = new Attribute(this, field);
+            attributes.put(attribute.getName(), attribute);
         }
     }
 
@@ -100,7 +102,18 @@ public class Entity {
      * @return The {@link Attribute}s of this {@link Entity}.
      */
     public Collection<Attribute> getAttributes() {
-        return attributes;
+        return attributes.values();
+    }
+
+    /**
+     * The {@link Attribute} with the given technical name.
+     * 
+     * @param name
+     *            The name of the {@link Attribute}.
+     * @return The {@link Attribute} with the given technical name.
+     */
+    public Attribute getAttribute(String name) {
+        return attributes.get(name);
     }
 
     /**
@@ -111,7 +124,7 @@ public class Entity {
      *            The object that is validated.
      */
     public void validate(Object object) {
-        for (final Attribute attribute : attributes) {
+        for (final Attribute attribute : attributes.values()) {
             attribute.validate(object);
         }
     }

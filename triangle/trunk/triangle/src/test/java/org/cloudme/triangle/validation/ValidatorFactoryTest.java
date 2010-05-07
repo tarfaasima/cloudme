@@ -28,10 +28,10 @@ public class ValidatorFactoryTest {
         assertValidator(null, Float.class, NumberValidator.class);
     }
 
-    private static void assertValidator(Class<? extends Validator> validatorType,
+    private static void assertValidator(Class<? extends Validator<?>> validatorType,
             Class<?> type,
-            Class<? extends Validator> expected) {
-        final Validator validator = ValidatorFactory.newInstanceFor(validatorType, type);
+            Class<? extends Validator<?>> expected) {
+        final Validator<?> validator = ValidatorFactory.newInstanceFor(validatorType, type);
         if (expected == null) {
             assertNull(validator);
         }

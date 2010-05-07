@@ -1,5 +1,6 @@
 package org.cloudme.triangle;
 
+import org.cloudme.triangle.annotation.Pattern;
 import org.cloudme.triangle.annotation.Label;
 import org.cloudme.triangle.annotation.MainEntity;
 import org.cloudme.triangle.annotation.Mask;
@@ -26,6 +27,9 @@ public class TestEntity {
 
     @Required
     private boolean active;
+    
+    @Pattern( "0.0" )
+    private float weight;
 
     @ValidatorType( EmailValidator.class )
     private String email;
@@ -68,5 +72,13 @@ public class TestEntity {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    public float getWeight() {
+        return weight;
     }
 }

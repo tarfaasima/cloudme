@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Locale;
 
 import org.cloudme.triangle.validation.ValidationException;
 import org.junit.Test;
@@ -22,6 +23,7 @@ public class TriangleControllerTest {
 
     @Test
     public void testInit() {
+        Locale.setDefault(Locale.GERMANY);
         final TriangleController controller = new TriangleController();
         final TestEntityResolver resolver = new TestEntityResolver();
         controller.setEntityResolver(resolver);
@@ -33,8 +35,8 @@ public class TriangleControllerTest {
         assertTrue(entity.isMainEntity());
         assertEquals(entity, controller.getMainEntity());
         final Collection<Attribute> attributes = entity.getAttributes();
-        assertEquals(5, attributes.size());
-        assertEquals("Name", attributes.iterator().next().getLabel());
+        assertEquals(6, attributes.size());
+        assertEquals("Name", entity.getAttribute("name").getLabel());
 
         assertValidationFailure(entity, new TestEntity());
 
@@ -57,6 +59,12 @@ public class TriangleControllerTest {
         assertValidationFailure(entity, testEntity);
 
         testEntity.setActive(true);
+
+        testEntity.setWeight(82F);
+        assertEquals("82,0", entity.getAttribute("weight").format(testEntity));
+        
+        entity.getAttribute("weight").convert(testEntity, "94,3");
+        assertEquals(94.3F, testEntity.getWeight(), 0.0001D);
     }
 
     private static void assertValidationFailure(final Entity entity, final Object object) {

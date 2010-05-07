@@ -5,56 +5,46 @@ package org.cloudme.triangle.validation;
  * 
  * @author Moritz Petersen
  */
-public class StringValidator implements Validator {
-    private String mask;
-    private Integer max;
-    private Integer min;
-
+public class StringValidator extends AbstractValidator<String> {
     /**
      * Regular expression that must be matched by the given {@link String}.
      */
     @Override
-    public void setMask(String mask) {
-        this.mask = mask;
+    public void setMask(final String mask) {
+        if (mask != null) {
+            addCheck(new Check<String>() {
+                public boolean perform(String value) {
+                    return value.matches(mask);
+                }
+            });
+        }
     }
 
     /**
      * Maximum (inclusive) length of the {@link String}
      */
     @Override
-    public void setMax(double max) {
-        this.max = ((Double) max).intValue();
+    public void setMax(final Double max) {
+        if (max != null) {
+            addCheck(new Check<String>() {
+                public boolean perform(String value) {
+                    return value.length() <= max;
+                }
+            });
+        }
     }
 
     /**
      * Minimum (inclusive) length of the {@link String}.
      */
     @Override
-    public void setMin(double min) {
-        this.min = ((Double) min).intValue();
-    }
-
-    /**
-     * Validates the {@link String}. Validation of length and matching pattern
-     * is performed only if defined.
-     */
-    @Override
-    public void validate(Object value) {
-        final String str = (String) value;
-        if (mask != null) {
-            if (!str.matches(mask)) {
-                throw new ValidationException();
-            }
-        }
-        if (max != null) {
-            if (str.length() > max) {
-                throw new ValidationException();
-            }
-        }
+    public void setMin(final Double min) {
         if (min != null) {
-            if (str.length() < min) {
-                throw new ValidationException();
-            }
+            addCheck(new Check<String>() {
+                public boolean perform(String value) {
+                    return value.length() >= min;
+                }
+            });
         }
     }
 }

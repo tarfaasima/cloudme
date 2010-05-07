@@ -5,21 +5,21 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
-public abstract class ValidatorTest {
-    protected Validator validator;
+public abstract class ValidatorTest<T> {
+    protected Validator<T> validator;
+    private final String mask;
     private final Double max;
     private final Double min;
-    private final Object invalidMax;
-    private final Object invalidMin;
-    private final Object valid;
-    private final String mask;
-    private final Object invalidMask;
+    private final T invalidMax;
+    private final T invalidMin;
+    private final T valid;
+    private final T invalidMask;
 
     public ValidatorTest() {
         this(null, null, null, null, null, null, null);
     }
 
-    public ValidatorTest(String mask, Double max, Double min, Object invalidMask, Object invalidMax, Object invalidMin, Object valid) {
+    public ValidatorTest(String mask, Double max, Double min, T invalidMask, T invalidMax, T invalidMin, T valid) {
         this.mask = mask;
         this.max = max;
         this.min = min;
@@ -30,7 +30,7 @@ public abstract class ValidatorTest {
 
     }
 
-    protected abstract Validator createValidator();
+    protected abstract Validator<T> createValidator();
 
     @Before
     public void setUp() {
@@ -83,11 +83,11 @@ public abstract class ValidatorTest {
         assertValid(valid);
     }
 
-    void assertValid(Object value) {
+    void assertValid(T value) {
         validator.validate(value);
     }
 
-    void assertNotValid(Object value) {
+    void assertNotValid(T value) {
         try {
             validator.validate(value);
             fail();

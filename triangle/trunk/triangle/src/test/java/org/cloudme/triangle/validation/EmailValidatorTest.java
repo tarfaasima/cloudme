@@ -2,7 +2,7 @@ package org.cloudme.triangle.validation;
 
 import org.junit.Test;
 
-public class EmailValidatorTest extends ValidatorTest {
+public class EmailValidatorTest extends ValidatorTest<String> {
     @Test
     public void testValidate() {
         assertValid("test@example.com");
@@ -10,7 +10,7 @@ public class EmailValidatorTest extends ValidatorTest {
     }
 
     @Override
-    protected Validator createValidator() {
+    protected Validator<String> createValidator() {
         return new EmailValidator();
     }
 }

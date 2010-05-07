@@ -6,7 +6,7 @@ package org.cloudme.triangle.validation;
  * 
  * @author Moritz Petersen
  */
-public interface Validator {
+public interface Validator<T> {
     /**
      * A mask that must be matched by the given value. Optional.
      * 
@@ -21,7 +21,7 @@ public interface Validator {
      * @param max
      *            The maximum value of the given value. Optional.
      */
-    void setMax(double max);
+    void setMax(Double max);
 
     /**
      * The minimum value of the given value. Optional.
@@ -29,7 +29,7 @@ public interface Validator {
      * @param min
      *            The minimum value of the given value. Optional.
      */
-    void setMin(double min);
+    void setMin(Double min);
 
     /**
      * Validates the value.
@@ -39,5 +39,5 @@ public interface Validator {
      * @throws ValidationException
      *             on error.
      */
-    void validate(Object value);
+    void validate(T value);
 }

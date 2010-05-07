@@ -24,7 +24,7 @@ public class ValidatorFactory {
      * @return A new {@link Validator} or null if instantiation was not
      *         possible.
      */
-    public static Validator newInstanceFor(Class<? extends Validator> validatorType, Class<?> type) {
+    public static Validator<?> newInstanceFor(Class<? extends Validator<?>> validatorType, Class<?> type) {
         if (validatorType != null) {
             try {
                 return validatorType.newInstance();

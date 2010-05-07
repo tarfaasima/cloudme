@@ -6,47 +6,32 @@ package org.cloudme.triangle.validation;
  * 
  * @author Moritz Petersen
  */
-public class NumberValidator extends AbstractValidator {
-    /**
-     * The maximum number (inclusive). Optional.
-     */
-    private Double max;
-    /**
-     * The minimum number (inclusive). Optional.
-     */
-    private Double min;
-
+public class NumberValidator extends AbstractValidator<Number> {
     /**
      * The maximum number (inclusive). Optional.
      */
     @Override
-    public void setMax(double max) {
-        this.max = max;
-    }
-
-    /**
-     * The minimum number (inclusive). Optional.
-     */
-    @Override
-    public void setMin(double min) {
-        this.min = min;
-    }
-
-    /**
-     * Validates the value.
-     */
-    @Override
-    public void validate(Object value) {
-        final Number num = (Number) value;
+    public void setMax(final Double max) {
         if (max != null) {
-            if (num.doubleValue() > max) {
-                throw new ValidationException();
-            }
+            addCheck(new Check<Number>() {
+                public boolean perform(Number value) {
+                    return value.doubleValue() <= max;
+                }
+            });
         }
+    }
+
+    /**
+     * The minimum number (inclusive). Optional.
+     */
+    @Override
+    public void setMin(final Double min) {
         if (min != null) {
-            if (num.doubleValue() < min) {
-                throw new ValidationException();
-            }
+            addCheck(new Check<Number>() {
+                public boolean perform(Number value) {
+                    return value.doubleValue() >= min;
+                }
+            });
         }
     }
 }

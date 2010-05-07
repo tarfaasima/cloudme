@@ -3,9 +3,9 @@ package org.cloudme.triangle.validation;
 import org.junit.Test;
 
 
-public class RequiredValidatorTest extends ValidatorTest {
+public class RequiredValidatorTest extends ValidatorTest<Object> {
     @Override
-    protected Validator createValidator() {
+    protected Validator<Object> createValidator() {
         return new RequiredValidator();
     }
 

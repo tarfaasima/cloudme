@@ -6,20 +6,19 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.cloudme.triangle.Attribute;
-import org.cloudme.triangle.validation.Validator;
 
 /**
- * Defines the custom {@link Validator} type for an {@link Attribute}.
+ * Defines the format pattern of the {@link Attribute}.
  * 
  * @author Moritz Petersen
  */
 @Retention( RetentionPolicy.RUNTIME )
 @Target( ElementType.FIELD )
-public @interface ValidatorType {
+public @interface Pattern {
     /**
      * The value of the annotation.
      * 
      * @return The value of the annotation.
      */
-    Class<? extends Validator<?>> value();
+    String value();
 }
