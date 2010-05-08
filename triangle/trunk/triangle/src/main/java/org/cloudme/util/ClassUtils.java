@@ -15,6 +15,7 @@ package org.cloudme.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 
 /**
  * Utility methods when working with {@link Class}es.
@@ -50,6 +51,17 @@ public class ClassUtils {
     }
 
     /**
+     * Checks if the given type is a {@link Date}.
+     * 
+     * @param type
+     *            The type that is checked.
+     * @return True if the type is a {@link Date}.
+     */
+    public static boolean isDate(Class<?> type) {
+        return Date.class.isAssignableFrom(type);
+    }
+
+    /**
      * Performs a type conversion of the given value into the given type if both
      * parameters are numeric types. Non numeric types will not be converted and
      * returned unchanged.
@@ -67,7 +79,7 @@ public class ClassUtils {
         }
         if (isString(type)) {
             if (value instanceof String) {
-                return (String) value;
+                return value;
             }
             return value.toString();
         }

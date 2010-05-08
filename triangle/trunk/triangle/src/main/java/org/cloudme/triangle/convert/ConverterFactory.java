@@ -13,6 +13,11 @@
 // limitations under the License.
 package org.cloudme.triangle.convert;
 
+import java.text.DecimalFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.cloudme.triangle.Attribute;
 import org.cloudme.util.ClassUtils;
 
@@ -33,7 +38,20 @@ public class ConverterFactory {
      */
     public static Converter<?> newInstanceFor(Class<?> type) {
         if (ClassUtils.isNumber(type)) {
-            return new NumberConverter();
+            return new AbstractConverter<Number>() {
+                @Override
+                protected Format createFormat(String pattern) {
+                    return new DecimalFormat(pattern);
+                }
+            };
+        }
+        if (ClassUtils.isDate(type)) {
+            return new AbstractConverter<Date>() {
+                @Override
+                protected Format createFormat(String pattern) {
+                    return new SimpleDateFormat(pattern);
+                }
+            };
         }
         return null;
     }

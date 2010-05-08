@@ -48,7 +48,7 @@ public class TriangleControllerTest {
         assertTrue(entity.isMainEntity());
         assertEquals(entity, controller.getMainEntity());
         final Collection<Attribute> attributes = entity.getAttributes();
-        assertEquals(6, attributes.size());
+        assertEquals(7, attributes.size());
         assertEquals("Name", entity.getAttribute("name").getLabel());
 
         assertValidationFailure(entity, new TestEntity());
@@ -78,6 +78,15 @@ public class TriangleControllerTest {
         
         entity.getAttribute("weight").convert(testEntity, "94,3");
         assertEquals(94.3F, testEntity.getWeight(), 0.0001D);
+
+        testEntity.setEmail("mail@example com");
+        assertValidationFailure(entity, testEntity);
+
+        testEntity.setEmail("mail@example.com");
+        entity.validate(testEntity);
+
+        entity.getAttribute("entryDate").convert(testEntity, "15.8.2007");
+        assertEquals("15.08.2007", entity.getAttribute("entryDate").format(testEntity));
     }
 
     private static void assertValidationFailure(final Entity entity, final Object object) {

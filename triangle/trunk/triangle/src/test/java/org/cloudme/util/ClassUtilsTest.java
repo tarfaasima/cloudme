@@ -15,6 +15,8 @@ package org.cloudme.util;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.Date;
+
 import org.junit.Test;
 
 public class ClassUtilsTest {
@@ -26,5 +28,10 @@ public class ClassUtilsTest {
     @Test
     public void testIsNumber() {
         assertTrue(ClassUtils.isNumber(int.class));
+    }
+
+    @Test
+    public void testIsDate() {
+        assertTrue(ClassUtils.isDate(Date.class));
     }
 }

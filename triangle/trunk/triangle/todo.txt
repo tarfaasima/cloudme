@@ -14,6 +14,25 @@ Open
 - Annotation for display order
 - Conversion, especially of numeric values seems to be a bit strange. Try a better implementation.
 - Use generics more consequently (e.g. Entity<E>, Attribute<E, A> (E for the Entity type, A for the Attribute type)
+- Persistence layer with basic CRUD, sort and filter functionality.
+    - Pluggable
+    - GAE / Objectify implementation
+    - Hibernate / JPA implementation
+- Permissions for each CRUD function with user roles
+- Pluggable UI options (Stripes based, Basic UI components e.g. List, Form - customizable)
+- UI flow
+- Pluggable user system
+- Establish request lifecycle: 
+    1) submit 
+    2) convert 
+    3) validate 
+    4) business logic 
+    5) persist 
+    6) business logic 
+    7) load 
+    8) format 
+    9) display
+- errors during 2) convert to be similarly treated as 3) validate errors.
 
 Closed
 ------

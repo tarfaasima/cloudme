@@ -13,6 +13,8 @@
 // limitations under the License.
 package org.cloudme.triangle;
 
+import java.util.Date;
+
 import org.cloudme.triangle.annotation.Label;
 import org.cloudme.triangle.annotation.MainEntity;
 import org.cloudme.triangle.annotation.Mask;
@@ -40,12 +42,15 @@ public class TestEntity {
 
     @Required
     private boolean active;
-    
+
     @Pattern( "0.0" )
     private float weight;
 
     @ValidatorType( EmailValidator.class )
     private String email;
+
+    @Pattern( "dd.MM.yyyy" )
+    private Date entryDate;
 
     public void setName(String name) {
         this.name = name;
@@ -93,5 +98,13 @@ public class TestEntity {
 
     public float getWeight() {
         return weight;
+    }
+
+    public void setEntryDate(Date entryDate) {
+        this.entryDate = entryDate;
+    }
+
+    public Date getEntryDate() {
+        return entryDate;
     }
 }

@@ -19,11 +19,12 @@ import java.util.Locale;
 
 import org.junit.Test;
 
-public class NumberFormatterTest {
+public class FormatterFactoryTest {
     @Test
-    public void testFormat() {
+    @SuppressWarnings( "unchecked" )
+    public void testFormatNumber() {
         Locale.setDefault(Locale.US);
-        final NumberFormatter formatter = new NumberFormatter();
+        final Formatter<Number> formatter = (Formatter<Number>) FormatterFactory.newInstanceFor(Double.class);
         formatter.setPattern("00.0");
         assertEquals("82.0", formatter.format(82));
     }
