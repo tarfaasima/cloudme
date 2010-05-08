@@ -62,6 +62,15 @@ public class ClassUtils {
      *         otherwise the input value unchanged.
      */
     public static Object convert(Class<?> type, Object value) {
+        if (value == null) {
+            return null;
+        }
+        if (isString(type)) {
+            if (value instanceof String) {
+                return (String) value;
+            }
+            return value.toString();
+        }
         if (isNumber(type) && isNumber(value.getClass())) {
             final Number number = (Number) value;
             if (byte.class == type) {
