@@ -63,14 +63,14 @@ public abstract class AbstractValidator<T> implements Validator<T> {
      * Empty implementation.
      */
     @Override
-    public void setMax(Double max) {
+    public void setMax(double max) {
     }
 
     /**
      * Empty implementation.
      */
     @Override
-    public void setMin(Double min) {
+    public void setMin(double min) {
     }
 
     /**
@@ -80,7 +80,7 @@ public abstract class AbstractValidator<T> implements Validator<T> {
     public void validate(T value) {
         for (final Check<T> check : checks) {
             if (!check.perform(value)) {
-                throw new ValidationException();
+                throw new ValidationException(this, value);
             }
         }
     }

@@ -20,5 +20,18 @@ package org.cloudme.triangle.validation;
  */
 @SuppressWarnings( "serial" )
 public class ValidationException extends RuntimeException {
-
+    /**
+     * Creates a new instance with a message constructed from the source and
+     * value.
+     * 
+     * @param source
+     *            The source of the exception.
+     * @param value
+     *            The value of the validation.
+     */
+    public ValidationException(Object source, Object value) {
+        super(source.getClass().getSimpleName()
+                + " unable to validate "
+                + value);
+    }
 }

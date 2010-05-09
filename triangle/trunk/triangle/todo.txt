@@ -12,7 +12,9 @@ Open
 		- if no property found, use label = <fieldname>, validation = generic message for fieldname
 	- Similar approach can be done for help texts, descriptions, table columns etc.
 - Annotation for display order
+- Single annotation for converter, similar to @Validate
 - Conversion, especially of numeric values seems to be a bit strange. Try a better implementation.
+- Custom ConverterType and FormatterType
 - Use generics more consequently (e.g. Entity<E>, Attribute<E, A> (E for the Entity type, A for the Attribute type)
 - Persistence layer with basic CRUD, sort and filter functionality.
     - Pluggable
@@ -36,4 +38,5 @@ Open
 
 Closed
 ------
+- Single class for Converter and Formatter --> Converter (done)
 - Converter / Formatter

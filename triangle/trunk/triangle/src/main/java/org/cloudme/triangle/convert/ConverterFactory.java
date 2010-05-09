@@ -36,7 +36,7 @@ public class ConverterFactory {
      * @return The {@link Converter} instance or null if no {@link Converter}
      *         exists for the given type.
      */
-    public static Converter<?> newInstanceFor(Class<?> type) {
+    public static Converter<?> newInstance(Class<?> type) {
         if (ClassUtils.isNumber(type)) {
             return new AbstractConverter<Number>() {
                 @Override

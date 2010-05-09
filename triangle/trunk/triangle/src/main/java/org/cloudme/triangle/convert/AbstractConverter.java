@@ -45,6 +45,11 @@ public abstract class AbstractConverter<T> implements Converter<T> {
     }
 
     @Override
+    public String format(T value) {
+        return format.format(value);
+    };
+
+    @Override
     public void setPattern(String pattern) {
         format = createFormat(pattern);
     }

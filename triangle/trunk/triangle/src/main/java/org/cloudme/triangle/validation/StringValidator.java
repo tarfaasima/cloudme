@@ -37,27 +37,23 @@ public class StringValidator extends AbstractValidator<String> {
      * Maximum (inclusive) length of the {@link String}
      */
     @Override
-    public void setMax(final Double max) {
-        if (max != null) {
-            addCheck(new Check<String>() {
-                public boolean perform(String value) {
-                    return value.length() <= max;
-                }
-            });
-        }
+    public void setMax(final double max) {
+        addCheck(new Check<String>() {
+            public boolean perform(String value) {
+                return value.length() <= max;
+            }
+        });
     }
 
     /**
      * Minimum (inclusive) length of the {@link String}.
      */
     @Override
-    public void setMin(final Double min) {
-        if (min != null) {
-            addCheck(new Check<String>() {
-                public boolean perform(String value) {
-                    return value.length() >= min;
-                }
-            });
-        }
+    public void setMin(final double min) {
+        addCheck(new Check<String>() {
+            public boolean perform(String value) {
+                return value.length() >= min;
+            }
+        });
     }
 }

@@ -42,7 +42,8 @@ public class ClassUtils {
      * @return True if the type is a {@link Number} or a primitive numeric type.
      */
     public static boolean isNumber(Class<?> type) {
-        return Number.class.isAssignableFrom(type) || byte.class == type
+        return Number.class.isAssignableFrom(type)
+                || byte.class == type
                 || short.class == type
                 || int.class == type
                 || long.class == type
@@ -59,6 +60,17 @@ public class ClassUtils {
      */
     public static boolean isDate(Class<?> type) {
         return Date.class.isAssignableFrom(type);
+    }
+
+    /**
+     * Checks if the given type is a {@link Boolean} or primitive boolean.
+     * 
+     * @param type
+     *            The type that is checked.
+     * @return True if the type is a {@link Boolean} or primitive boolean.
+     */
+    public static boolean isBoolean(Class<?> type) {
+        return Boolean.class.isAssignableFrom(type) || boolean.class == type;
     }
 
     /**
@@ -104,7 +116,8 @@ public class ClassUtils {
                 return number.doubleValue();
             }
             try {
-                return ((Constructor<?>) type.getConstructor(value.getClass())).newInstance(value);
+                return ((Constructor<?>) type.getConstructor(value.getClass()))
+                        .newInstance(value);
             }
             catch (final SecurityException e) {
                 // TODO Auto-generated catch block

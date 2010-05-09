@@ -13,6 +13,7 @@
 // limitations under the License.
 package org.cloudme.triangle.validation;
 
+
 /**
  * Interface for {@link Validator}s. See the specific {@link Validator}
  * implementations for further information.
@@ -20,6 +21,15 @@ package org.cloudme.triangle.validation;
  * @author Moritz Petersen
  */
 public interface Validator<T> {
+    /**
+     * Undefined value for {@link #setMax(Double)} and {@link #setMin(Double)}.
+     */
+    final double NO_VALUE = Double.NEGATIVE_INFINITY;
+    /**
+     * Undefined value for {@link #setMask(String)}.
+     */
+    final String NO_MASK = "";
+
     /**
      * A mask that must be matched by the given value. Optional.
      * 
@@ -34,7 +44,7 @@ public interface Validator<T> {
      * @param max
      *            The maximum value of the given value. Optional.
      */
-    void setMax(Double max);
+    void setMax(double max);
 
     /**
      * The minimum value of the given value. Optional.
@@ -42,7 +52,7 @@ public interface Validator<T> {
      * @param min
      *            The minimum value of the given value. Optional.
      */
-    void setMin(Double min);
+    void setMin(double min);
 
     /**
      * Validates the value.

@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package org.cloudme.triangle.format;
+package org.cloudme.triangle.convert;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,13 +19,14 @@ import java.util.Locale;
 
 import org.junit.Test;
 
-public class FormatterFactoryTest {
+public class ConverterFactoryTest {
     @Test
     @SuppressWarnings( "unchecked" )
     public void testFormatNumber() {
         Locale.setDefault(Locale.US);
-        final Formatter<Number> formatter = (Formatter<Number>) FormatterFactory.newInstanceFor(Double.class);
-        formatter.setPattern("00.0");
-        assertEquals("82.0", formatter.format(82));
+        final Converter<Number> Converter = (Converter<Number>) ConverterFactory
+                .newInstance(Double.class);
+        Converter.setPattern("00.0");
+        assertEquals("82.0", Converter.format(82));
     }
 }

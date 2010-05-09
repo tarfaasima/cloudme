@@ -13,9 +13,8 @@
 // limitations under the License.
 package org.cloudme.triangle.convert;
 
-
 /**
- * Converts a {@link String} to a raw value.
+ * Converts a {@link String} to a raw value and vice versa.
  * 
  * @see ConverterFactory
  * @author Moritz Petersen
@@ -39,4 +38,13 @@ public interface Converter<T> {
      * @return The raw value.
      */
     T convert(String str);
+
+    /**
+     * Formats a raw value to a {@link String}.
+     * 
+     * @param value
+     *            The raw value.
+     * @return The formatted {@link String}.
+     */
+    String format(T value);
 }

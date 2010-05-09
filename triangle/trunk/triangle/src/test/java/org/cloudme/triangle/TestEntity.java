@@ -17,12 +17,9 @@ import java.util.Date;
 
 import org.cloudme.triangle.annotation.Label;
 import org.cloudme.triangle.annotation.MainEntity;
-import org.cloudme.triangle.annotation.Mask;
-import org.cloudme.triangle.annotation.Max;
-import org.cloudme.triangle.annotation.Min;
 import org.cloudme.triangle.annotation.Pattern;
 import org.cloudme.triangle.annotation.Required;
-import org.cloudme.triangle.annotation.ValidatorType;
+import org.cloudme.triangle.annotation.Validate;
 import org.cloudme.triangle.validation.EmailValidator;
 
 @Label( "Test" )
@@ -30,23 +27,23 @@ import org.cloudme.triangle.validation.EmailValidator;
 public class TestEntity {
     @Label( "Name" )
     @Required
-    @Max( 10 )
-    @Min( 3 )
+    @Validate( max = 10, min = 3 )
     private String name;
 
-    @Mask( "[^x]*" )
+    @Validate( mask = "[^x]*" )
     private String noX;
 
-    @Min( 18 )
+    @Validate( min = 18 )
     private int age;
 
     @Required
+    @Validate
     private boolean active;
 
     @Pattern( "0.0" )
     private float weight;
 
-    @ValidatorType( EmailValidator.class )
+    @Validate( type = EmailValidator.class )
     private String email;
 
     @Pattern( "dd.MM.yyyy" )

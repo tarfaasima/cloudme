@@ -14,24 +14,16 @@
 package org.cloudme.triangle;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import org.cloudme.triangle.annotation.AnnotationHelper;
 import org.cloudme.triangle.annotation.Label;
-import org.cloudme.triangle.annotation.Mask;
-import org.cloudme.triangle.annotation.Max;
-import org.cloudme.triangle.annotation.Min;
 import org.cloudme.triangle.annotation.Pattern;
 import org.cloudme.triangle.annotation.Required;
-import org.cloudme.triangle.annotation.ValidatorType;
+import org.cloudme.triangle.annotation.Validate;
 import org.cloudme.triangle.convert.Converter;
 import org.cloudme.triangle.convert.ConverterFactory;
-import org.cloudme.triangle.format.Formatter;
-import org.cloudme.triangle.format.FormatterFactory;
-import org.cloudme.triangle.validation.RequiredValidator;
+import org.cloudme.triangle.validation.ValidationException;
 import org.cloudme.triangle.validation.Validator;
-import org.cloudme.triangle.validation.ValidatorFactory;
 import org.cloudme.util.ClassUtils;
 
 /**
@@ -55,14 +47,10 @@ public class Attribute {
      */
     private final boolean isRequired;
     /**
-     * The {@link Validator}s based on the annotations.
-     */
-    private final Collection<Validator<?>> validators = new ArrayList<Validator<?>>();
-    /**
-     * The {@link Formatter} based on the annotations.
+     * The {@link Validator} based on the annotations.
      */
     @SuppressWarnings( "unchecked" )
-    private Formatter formatter;
+    private final Validator validator;
     /**
      * The {@link Converter} based on the annotations.
      */
@@ -88,29 +76,15 @@ public class Attribute {
 
         name = field.getName();
         label = new AnnotationHelper<String>(field, Label.class, name).value();
-        isRequired = new AnnotationHelper<Boolean>(field, Required.class, false).value();
-        if (isRequired) {
-            validators.add(new RequiredValidator());
-        }
+        isRequired = new AnnotationHelper<Boolean>(field, Required.class, false)
+                .value();
 
-        final Class<? extends Validator<?>> validatorType = new AnnotationHelper<Class<? extends Validator<?>>>(field,
-                ValidatorType.class).value();
-        final Validator<?> validator = ValidatorFactory.newInstanceFor(validatorType, field.getType());
-        if (validator != null) {
-            validator.setMask(new AnnotationHelper<String>(field, Mask.class).value());
-            validator.setMax(new AnnotationHelper<Double>(field, Max.class).value());
-            validator.setMin(new AnnotationHelper<Double>(field, Min.class).value());
-            validators.add(validator);
-        }
+        validator = Validate.Factory.newInstance(field);
 
-        final String pattern = new AnnotationHelper<String>(field, Pattern.class).value();
+        final String pattern = new AnnotationHelper<String>(field,
+                Pattern.class).value();
         if (pattern != null) {
-            formatter = FormatterFactory.newInstanceFor(field.getType());
-            if (formatter != null) {
-                formatter.setPattern(pattern);
-            }
-
-            converter = ConverterFactory.newInstanceFor(field.getType());
+            converter = ConverterFactory.newInstance(field.getType());
             if (converter != null) {
                 converter.setPattern(pattern);
             }
@@ -156,6 +130,7 @@ public class Attribute {
     /**
      * Performs validation of the attribute on the given {@link Object}. The
      * object must be of the same type as the corresponding {@link Entity} type.
+     * Also considers the {@link #isRequired()} attribute.
      * 
      * @param object
      *            The attribute of the given object is validated.
@@ -163,10 +138,13 @@ public class Attribute {
     @SuppressWarnings( "unchecked" )
     void validate(Object object) {
         final Object value = getValue(object);
-        if (isRequired || value != null) {
-            for (final Validator validator : validators) {
-                validator.validate(value);
+        if (isRequired) {
+            if (value == null) {
+                throw new ValidationException(this, value);
             }
+        }
+        if (validator != null && value != null) {
+            validator.validate(value);
         }
     }
 
@@ -202,7 +180,9 @@ public class Attribute {
      */
     @SuppressWarnings( "unchecked" )
     String format(Object object) {
-        return object == null ? "" : formatter == null ? object.toString() : formatter.format(getValue(object));
+        return object == null ? "" : converter == null
+                ? object.toString()
+                : converter.format(getValue(object));
     }
 
     /**
@@ -215,7 +195,9 @@ public class Attribute {
      *            The {@link String} which will be converted.
      */
     void convert(Object object, String str) {
-        setValue(object, str == null ? null : converter == null ? str : converter.convert(str));
+        setValue(object, str == null ? null : converter == null
+                ? str
+                : converter.convert(str));
     }
 
     /**

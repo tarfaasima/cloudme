@@ -44,7 +44,8 @@ public class ValidatorFactoryTest {
     private static void assertValidator(Class<? extends Validator<?>> validatorType,
             Class<?> type,
             Class<? extends Validator<?>> expected) {
-        final Validator<?> validator = ValidatorFactory.newInstanceFor(validatorType, type);
+        final Validator<?> validator = ValidatorFactory
+                .newInstance(validatorType, type);
         if (expected == null) {
             assertNull(validator);
         }

@@ -24,27 +24,23 @@ public class NumberValidator extends AbstractValidator<Number> {
      * The maximum number (inclusive). Optional.
      */
     @Override
-    public void setMax(final Double max) {
-        if (max != null) {
-            addCheck(new Check<Number>() {
-                public boolean perform(Number value) {
-                    return value.doubleValue() <= max;
-                }
-            });
-        }
+    public void setMax(final double max) {
+        addCheck(new Check<Number>() {
+            public boolean perform(Number value) {
+                return value.doubleValue() <= max;
+            }
+        });
     }
 
     /**
      * The minimum number (inclusive). Optional.
      */
     @Override
-    public void setMin(final Double min) {
-        if (min != null) {
-            addCheck(new Check<Number>() {
-                public boolean perform(Number value) {
-                    return value.doubleValue() >= min;
-                }
-            });
-        }
+    public void setMin(final double min) {
+        addCheck(new Check<Number>() {
+            public boolean perform(Number value) {
+                return value.doubleValue() >= min;
+            }
+        });
     }
 }
