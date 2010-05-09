@@ -31,24 +31,25 @@ import org.cloudme.util.ClassUtils;
 public class ConverterFactory {
     /**
      * Creates a new {@link Converter} instance for the given type.
-     * 
-     * @param type
+     * @param type TODO
+     * @param fieldType
      *            The type for which the {@link Converter} will be created.
      * @param pattern
      *            The pattern that is used to convert the raw type.
+     * 
      * @return The {@link Converter} instance or null if no {@link Converter}
      *         exists for the given type.
      */
-    public static Converter<?> newInstance(Class<?> type, String pattern) {
-        if (ClassUtils.isNumber(type)) {
+    public static Converter<?> newInstance(Class<? extends Converter<?>> type, Class<?> fieldType, String pattern) {
+        if (ClassUtils.isNumber(fieldType)) {
             return new FormatConverter<Number>(pattern == null ? NumberFormat
                     .getNumberInstance() : new DecimalFormat(pattern));
         }
-        if (ClassUtils.isDate(type)) {
+        if (ClassUtils.isDate(fieldType)) {
             return new FormatConverter<Date>(pattern == null ? DateFormat
                     .getDateInstance() : new SimpleDateFormat(pattern));
         }
-        if (ClassUtils.isBoolean(type)) {
+        if (ClassUtils.isBoolean(fieldType)) {
             return new ToStringConverter() {
                 @Override
                 public Boolean convert(String str) {

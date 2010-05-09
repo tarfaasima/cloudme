@@ -13,7 +13,6 @@
 // limitations under the License.
 package org.cloudme.triangle.validation;
 
-import org.cloudme.triangle.annotation.Validate.NoValidator;
 import org.cloudme.util.ClassUtils;
 
 /**
@@ -48,11 +47,9 @@ public class ValidatorFactory {
      * @return A new {@link Validator} or null if instantiation was not
      *         possible.
      */
-    public static Validator<?> newInstance(Class<? extends Validator<?>> validatorType,
-            Class<?> fieldType,
-            String mask,
-            double max,
-            double min) {
+    public static Validator<?> newInstance(
+            Class<? extends Validator<?>> validatorType, Class<?> fieldType,
+            String mask, double max, double min) {
         Validator<?> validator = newInstance(validatorType, fieldType);
         if (validator != null) {
             if (mask != null && !Validator.NO_MASK.equals(mask)) {
@@ -83,9 +80,9 @@ public class ValidatorFactory {
      * @return A new {@link Validator} or null if instantiation was not
      *         possible.
      */
-    static Validator<?> newInstance(Class<? extends Validator<?>> validatorType,
-            Class<?> fieldType) {
-        if (validatorType != null && !NoValidator.class.equals(validatorType)) {
+    static Validator<?> newInstance(
+            Class<? extends Validator<?>> validatorType, Class<?> fieldType) {
+        if (validatorType != null) {
             try {
                 return validatorType.newInstance();
             }

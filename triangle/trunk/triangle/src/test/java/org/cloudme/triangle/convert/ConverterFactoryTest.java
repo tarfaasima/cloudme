@@ -25,7 +25,7 @@ public class ConverterFactoryTest {
     public void testFormatNumber() {
         Locale.setDefault(Locale.US);
         final Converter<Number> Converter = (Converter<Number>) ConverterFactory
-                .newInstance(Double.class, "0.0");
+                .newInstance(null, Double.class, "0.0");
         assertEquals("82.0", Converter.format(82));
     }
 }

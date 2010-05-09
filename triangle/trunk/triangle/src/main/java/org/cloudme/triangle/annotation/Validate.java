@@ -7,8 +7,10 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 
 import org.cloudme.triangle.Attribute;
+import org.cloudme.triangle.annotation.Validate.Factory.NoValidator;
 import org.cloudme.triangle.validation.Validator;
 import org.cloudme.triangle.validation.ValidatorFactory;
+import org.cloudme.util.ObjectUtils;
 
 /**
  * Defines validation options of an {@link Attribute}. Use
@@ -20,16 +22,6 @@ import org.cloudme.triangle.validation.ValidatorFactory;
 @Retention( RetentionPolicy.RUNTIME )
 @Target( ElementType.FIELD )
 public @interface Validate {
-    /**
-     * Represents a {@link Validator} type that does not validate. Used to tag
-     * {@link Validate#type()} if no {@link Validator} should be used.
-     * 
-     * @author Moritz Petersen
-     */
-    abstract class NoValidator implements Validator<Object> {
-        private NoValidator() {
-        }
-    }
 
     /**
      * Creates {@link Validator} instances with the given annotation
@@ -38,6 +30,15 @@ public @interface Validate {
      * @author Moritz Petersen
      */
     static class Factory {
+        /**
+         * Represents a {@link Validator} type that does not validate. Used to
+         * tag {@link Validate#type()} if no {@link Validator} should be used.
+         * 
+         * @author Moritz Petersen
+         */
+        static abstract class NoValidator implements Validator<Object> {
+        }
+
         /**
          * Creates a new instance. If the field doesn't have a {@link Validate}
          * annotation, or if the field is of a type that doesn't have a default
@@ -53,25 +54,15 @@ public @interface Validate {
         public static Validator<?> newInstance(Field field) {
             Validate annotation = field.getAnnotation(Validate.class);
             if (annotation != null) {
-                return ValidatorFactory.newInstance(getType(annotation), field
-                        .getType(), annotation.mask(), annotation.max(),
+                Class<? extends Validator<?>> type = ObjectUtils
+                        .checkNullOr(NoValidator.class, annotation.type());
+                return ValidatorFactory.newInstance(type,
+                        field.getType(),
+                        annotation.mask(),
+                        annotation.max(),
                         annotation.min());
             }
             return null;
-        }
-
-        /**
-         * Returns the type of the {@link Validator} that is defined in the
-         * annotation. If the type is {@link NoValidator}, then
-         * <code>null</code> is returned.
-         * 
-         * @param annotation
-         *            The annotation.
-         * @return The {@link Validator} or <code>null</code>.
-         */
-        private static Class<? extends Validator<?>> getType(Validate annotation) {
-            return annotation.type() == NoValidator.class ? null : annotation
-                    .type();
         }
     }
 

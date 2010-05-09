@@ -20,8 +20,10 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 
 import org.cloudme.triangle.Attribute;
+import org.cloudme.triangle.annotation.Convert.Factory.NoConverter;
 import org.cloudme.triangle.convert.Converter;
 import org.cloudme.triangle.convert.ConverterFactory;
+import org.cloudme.util.ObjectUtils;
 
 /**
  * Defines conversion options of an {@link Attribute}. Use
@@ -40,6 +42,9 @@ public @interface Convert {
      * @author Moritz Petersen
      */
     static class Factory {
+        static abstract class NoConverter implements Converter<Object> {
+        }
+
         /**
          * Creates a new instance. If the field doesn't have a {@link Convert}
          * annotation, or if the pattern is not provided, a default
@@ -54,20 +59,16 @@ public @interface Convert {
          */
         public static Converter<?> newInstance(Field field) {
             Convert annotation = field.getAnnotation(Convert.class);
-            String pattern = getPattern(annotation);
-            Class<?> type = field.getType();
-            return ConverterFactory.newInstance(type, pattern);
-        }
-
-        private static String getPattern(Convert annotation) {
-            if (annotation == null) {
-                return null;
+            String pattern = null;
+            Class<? extends Converter<?>> type = null;
+            if (annotation != null) {
+                pattern = ObjectUtils.checkNullOr(Converter.NO_PATTERN,
+                        annotation.pattern());
+                type = ObjectUtils.checkNullOr(NoConverter.class, annotation
+                        .type());
             }
-            String pattern = annotation.pattern();
-            if (pattern == null || Converter.NO_PATTERN.equals(pattern)) {
-                return null;
-            }
-            return pattern;
+            Class<?> fieldType = field.getType();
+            return ConverterFactory.newInstance(type, fieldType, pattern);
         }
     }
 
@@ -77,4 +78,11 @@ public @interface Convert {
      * @return The pattern used for conversion.
      */
     String pattern() default Converter.NO_PATTERN;
+
+    /**
+     * The custom converter type.
+     * 
+     * @return The custom converter type.
+     */
+    Class<? extends Converter<?>> type() default NoConverter.class;
 }
