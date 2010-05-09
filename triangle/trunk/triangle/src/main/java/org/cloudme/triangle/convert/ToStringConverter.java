@@ -11,27 +11,17 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package org.cloudme.triangle.annotation;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-import org.cloudme.triangle.Attribute;
+package org.cloudme.triangle.convert;
 
 /**
- * Defines the format pattern of the {@link Attribute}.
+ * Base class that simplifies a converter where the format is simply done by
+ * calling the toString method.
  * 
  * @author Moritz Petersen
  */
-@Retention( RetentionPolicy.RUNTIME )
-@Target( ElementType.FIELD )
-public @interface Pattern {
-    /**
-     * The value of the annotation.
-     * 
-     * @return The value of the annotation.
-     */
-    String value();
+public abstract class ToStringConverter implements Converter<Boolean> {
+    @Override
+    public String format(Boolean value) {
+        return value.toString();
+    }
 }

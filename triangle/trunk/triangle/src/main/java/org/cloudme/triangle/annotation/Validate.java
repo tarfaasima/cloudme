@@ -51,16 +51,13 @@ public @interface Validate {
          *         instance could be determine.
          */
         public static Validator<?> newInstance(Field field) {
-            Validator<?> validator = null;
             Validate annotation = field.getAnnotation(Validate.class);
             if (annotation != null) {
-                validator = ValidatorFactory.newInstance(getType(annotation),
-                        field.getType(),
-                        annotation.mask(),
-                        annotation.max(),
+                return ValidatorFactory.newInstance(getType(annotation), field
+                        .getType(), annotation.mask(), annotation.max(),
                         annotation.min());
             }
-            return validator;
+            return null;
         }
 
         /**

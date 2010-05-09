@@ -15,15 +15,14 @@ package org.cloudme.triangle;
 
 import java.lang.reflect.Field;
 
-import org.cloudme.triangle.annotation.AnnotationHelper;
+import org.cloudme.triangle.annotation.Convert;
 import org.cloudme.triangle.annotation.Label;
-import org.cloudme.triangle.annotation.Pattern;
 import org.cloudme.triangle.annotation.Required;
 import org.cloudme.triangle.annotation.Validate;
 import org.cloudme.triangle.convert.Converter;
-import org.cloudme.triangle.convert.ConverterFactory;
 import org.cloudme.triangle.validation.ValidationException;
 import org.cloudme.triangle.validation.Validator;
+import org.cloudme.util.AnnotationUtils;
 import org.cloudme.util.ClassUtils;
 
 /**
@@ -75,20 +74,12 @@ public class Attribute {
         field.setAccessible(true);
 
         name = field.getName();
-        label = new AnnotationHelper<String>(field, Label.class, name).value();
-        isRequired = new AnnotationHelper<Boolean>(field, Required.class, false)
-                .value();
+        label = AnnotationUtils.value(field, Label.class, name);
+        isRequired = AnnotationUtils.value(field, Required.class, false);
 
         validator = Validate.Factory.newInstance(field);
 
-        final String pattern = new AnnotationHelper<String>(field,
-                Pattern.class).value();
-        if (pattern != null) {
-            converter = ConverterFactory.newInstance(field.getType());
-            if (converter != null) {
-                converter.setPattern(pattern);
-            }
-        }
+        converter = Convert.Factory.newInstance(field);
     }
 
     /**
@@ -159,12 +150,10 @@ public class Attribute {
     private Object getValue(Object object) {
         try {
             return field.get(object);
-        }
-        catch (final IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
-        catch (final IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -180,8 +169,7 @@ public class Attribute {
      */
     @SuppressWarnings( "unchecked" )
     String format(Object object) {
-        return object == null ? "" : converter == null
-                ? object.toString()
+        return object == null ? "" : converter == null ? object.toString()
                 : converter.format(getValue(object));
     }
 
@@ -195,8 +183,7 @@ public class Attribute {
      *            The {@link String} which will be converted.
      */
     void convert(Object object, String str) {
-        setValue(object, str == null ? null : converter == null
-                ? str
+        setValue(object, str == null ? null : converter == null ? str
                 : converter.convert(str));
     }
 
@@ -211,12 +198,10 @@ public class Attribute {
     private void setValue(Object object, Object value) {
         try {
             field.set(object, ClassUtils.convert(field.getType(), value));
-        }
-        catch (final IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
-        catch (final IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

@@ -15,9 +15,9 @@ package org.cloudme.triangle;
 
 import java.util.Date;
 
+import org.cloudme.triangle.annotation.Convert;
 import org.cloudme.triangle.annotation.Label;
 import org.cloudme.triangle.annotation.MainEntity;
-import org.cloudme.triangle.annotation.Pattern;
 import org.cloudme.triangle.annotation.Required;
 import org.cloudme.triangle.annotation.Validate;
 import org.cloudme.triangle.validation.EmailValidator;
@@ -40,13 +40,13 @@ public class TestEntity {
     @Validate
     private boolean active;
 
-    @Pattern( "0.0" )
+    @Convert( pattern = "0.0" )
     private float weight;
 
     @Validate( type = EmailValidator.class )
     private String email;
 
-    @Pattern( "dd.MM.yyyy" )
+    @Convert( pattern = "dd.MM.yyyy" )
     private Date entryDate;
 
     public void setName(String name) {

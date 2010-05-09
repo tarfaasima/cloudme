@@ -17,19 +17,29 @@ import java.text.Format;
 import java.text.ParseException;
 
 /**
- * Abstract base class to simplify implementation of custom {@link Converter}s
- * based on {@link Format}.
+ * Base class to simplify implementation of custom {@link Converter}s based on
+ * {@link Format}.
  * 
  * @author Moritz Petersen
  * 
  * @param <T>
  *            Type of the converted value.
  */
-public abstract class AbstractConverter<T> implements Converter<T> {
+public class FormatConverter<T> implements Converter<T> {
     /**
      * {@link Format} used to convert.
      */
-    private Format format;
+    private final Format format;
+
+    /**
+     * Creates a new instance based on the given {@link Format}.
+     * 
+     * @param format
+     *            The {@link Format} used to convert and format.
+     */
+    public FormatConverter(Format format) {
+        this.format = format;
+    }
 
     @Override
     @SuppressWarnings( "unchecked" )
@@ -48,18 +58,4 @@ public abstract class AbstractConverter<T> implements Converter<T> {
     public String format(T value) {
         return format.format(value);
     };
-
-    @Override
-    public void setPattern(String pattern) {
-        format = createFormat(pattern);
-    }
-
-    /**
-     * Creates the {@link Format} instance for this {@link Converter}.
-     * 
-     * @param pattern
-     *            The pattern which is used to initialize the {@link Format};
-     * @return The {@link Converter} instance.
-     */
-    protected abstract Format createFormat(String pattern);
 }

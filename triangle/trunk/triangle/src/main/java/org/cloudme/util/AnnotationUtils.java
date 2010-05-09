@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package org.cloudme.triangle.annotation;
+package org.cloudme.util;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
@@ -29,12 +29,7 @@ import java.lang.reflect.Method;
  *            The type of the value that is read from the annotation using this
  *            utility class.
  */
-public class AnnotationHelper<T> {
-    /**
-     * The value of this annotation.
-     */
-    private final T value;
-
+public class AnnotationUtils {
     /**
      * Creates a new instance without default value.
      * 
@@ -43,8 +38,9 @@ public class AnnotationHelper<T> {
      * @param annotationClass
      *            The type of the annotation.
      */
-    public AnnotationHelper(AnnotatedElement element, Class<? extends Annotation> annotationClass) {
-        value = invokeValue(element, annotationClass);
+    public static <T> T value(AnnotatedElement element,
+            Class<? extends Annotation> annotationClass) {
+        return invokeValue(element, annotationClass);
     }
 
     /**
@@ -58,9 +54,10 @@ public class AnnotationHelper<T> {
      * @param defaultValue
      *            The default value if the annotation is not applied.
      */
-    public AnnotationHelper(AnnotatedElement element, Class<? extends Annotation> annotationClass, T defaultValue) {
-        final T invokedValue = invokeValue(element, annotationClass);
-        value = invokedValue == null ? defaultValue : invokedValue;
+    public static <T> T value(AnnotatedElement element,
+            Class<? extends Annotation> annotationClass, T defaultValue) {
+        T value = invokeValue(element, annotationClass);
+        return value == null ? defaultValue : value;
     }
 
     /**
@@ -74,7 +71,8 @@ public class AnnotationHelper<T> {
      *         applied.
      */
     @SuppressWarnings("unchecked")
-    private T invokeValue(AnnotatedElement element, Class<? extends Annotation> annotationClass) {
+    private static <T> T invokeValue(AnnotatedElement element,
+            Class<? extends Annotation> annotationClass) {
         try {
             final Annotation annotation = element.getAnnotation(annotationClass);
             if (annotation != null) {
@@ -98,14 +96,5 @@ public class AnnotationHelper<T> {
             e.printStackTrace();
         }
         return null;
-    }
-
-    /**
-     * The value of the annotation.
-     * 
-     * @return The value of the annotation.
-     */
-    public T value() {
-        return value;
     }
 }

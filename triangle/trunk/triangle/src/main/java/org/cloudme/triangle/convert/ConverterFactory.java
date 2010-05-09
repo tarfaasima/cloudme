@@ -13,8 +13,9 @@
 // limitations under the License.
 package org.cloudme.triangle.convert;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.Format;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -33,27 +34,28 @@ public class ConverterFactory {
      * 
      * @param type
      *            The type for which the {@link Converter} will be created.
+     * @param pattern
+     *            The pattern that is used to convert the raw type.
      * @return The {@link Converter} instance or null if no {@link Converter}
      *         exists for the given type.
      */
-    public static Converter<?> newInstance(Class<?> type) {
+    public static Converter<?> newInstance(Class<?> type, String pattern) {
         if (ClassUtils.isNumber(type)) {
-            return new AbstractConverter<Number>() {
-                @Override
-                protected Format createFormat(String pattern) {
-                    return new DecimalFormat(pattern);
-                }
-            };
+            return new FormatConverter<Number>(pattern == null ? NumberFormat
+                    .getNumberInstance() : new DecimalFormat(pattern));
         }
         if (ClassUtils.isDate(type)) {
-            return new AbstractConverter<Date>() {
+            return new FormatConverter<Date>(pattern == null ? DateFormat
+                    .getDateInstance() : new SimpleDateFormat(pattern));
+        }
+        if (ClassUtils.isBoolean(type)) {
+            return new ToStringConverter() {
                 @Override
-                protected Format createFormat(String pattern) {
-                    return new SimpleDateFormat(pattern);
+                public Boolean convert(String str) {
+                    return Boolean.valueOf(str);
                 }
             };
         }
         return null;
     }
-
 }

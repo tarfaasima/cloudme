@@ -23,12 +23,9 @@ package org.cloudme.triangle.convert;
  */
 public interface Converter<T> {
     /**
-     * The pattern that is used to parse the {@link String}.
-     * 
-     * @param pattern
-     *            The pattern that is used to parse the {@link String}.
+     * Identifies that no pattern will be used.
      */
-    void setPattern(String pattern);
+    String NO_PATTERN = "";
 
     /**
      * Converts a {@link String} to a raw value.

@@ -18,9 +18,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.cloudme.triangle.annotation.AnnotationHelper;
 import org.cloudme.triangle.annotation.Label;
 import org.cloudme.triangle.annotation.MainEntity;
+import org.cloudme.util.AnnotationUtils;
 
 /**
  * The metadata of an annotated class, including validation.
@@ -61,8 +61,8 @@ public class Entity {
         this.type = type;
 
         name = type.getSimpleName();
-        label = new AnnotationHelper<String>(type, Label.class, name).value();
-        isMainEntity = new AnnotationHelper<Boolean>(type, MainEntity.class, false).value();
+        label = AnnotationUtils.value(type, Label.class, name);
+        isMainEntity = AnnotationUtils.value(type, MainEntity.class, false);
         for (final Field field : type.getDeclaredFields()) {
             final Attribute attribute = new Attribute(this, field);
             attributes.put(attribute.getName(), attribute);

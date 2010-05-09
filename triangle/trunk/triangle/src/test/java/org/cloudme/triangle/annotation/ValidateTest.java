@@ -2,29 +2,15 @@ package org.cloudme.triangle.annotation;
 
 import static org.junit.Assert.fail;
 
-import org.cloudme.triangle.Entity;
-import org.cloudme.triangle.EntityResolver;
-import org.cloudme.triangle.TriangleController;
+import java.lang.reflect.Field;
+
+import junit.framework.AssertionFailedError;
+
 import org.cloudme.triangle.validation.ValidationException;
-import org.junit.Before;
+import org.cloudme.triangle.validation.Validator;
 import org.junit.Test;
 
-
 public class ValidateTest {
-    private TriangleController controller;
-    private Entity entity;
-
-    @Before
-    public void setUp() {
-        controller = new TriangleController();
-        controller.setEntityResolver(new EntityResolver() {
-            @Override
-            public void addEntity(Entity entity) {
-                ValidateTest.this.entity = entity;
-            }
-        });
-    }
-
     @Test
     public void testValidateStringWithMask() {
         class TestClass {
@@ -32,26 +18,9 @@ public class ValidateTest {
             @Validate( mask = "[abc]*" )
             String value;
         }
-        controller.addEntity(TestClass.class);
-
         TestClass testClass = new TestClass();
         testClass.value = "abc";
-        entity.validate(testClass);
-    }
-
-    @Test
-    public void testValidateStringWithoutValidateAnnotation() {
-        class TestClass {
-            @SuppressWarnings( "unused" )
-            String value;
-        }
-        controller.addEntity(TestClass.class);
-
-        TestClass testClass = new TestClass();
-        entity.validate(testClass);
-
-        testClass.value = "abc";
-        entity.validate(testClass);
+        assertValid(testClass);
     }
 
     @Test
@@ -61,18 +30,56 @@ public class ValidateTest {
             @Validate
             boolean value;
         }
-        controller.addEntity(TestClass.class);
-
         TestClass testClass = new TestClass();
-        try {
-            entity.validate(testClass);
-            fail();
-        }
-        catch (ValidationException e) {
-            // expected
-        }
+        assertNotValid(testClass);
 
         testClass.value = true;
-        entity.validate(testClass);
+        assertValid(testClass);
+    }
+
+    @Test
+    public void testValidateNumberWithMinMax() {
+        class TestClass {
+            @SuppressWarnings( "unused" )
+            @Validate( min = 3, max = 10 )
+            double value;
+        }
+        TestClass testClass = new TestClass();
+        assertNotValid(testClass);
+
+        testClass.value = 11;
+        assertNotValid(testClass);
+
+        testClass.value = 1;
+        assertNotValid(testClass);
+
+        testClass.value = 10;
+        assertValid(testClass);
+    }
+
+    private void assertNotValid(Object obj) {
+        try {
+            assertValid(obj);
+            fail();
+        } catch (ValidationException e) {
+            // expected
+        }
+    }
+
+    @SuppressWarnings( "unchecked" )
+    private void assertValid(Object obj) {
+        try {
+            Field field = obj.getClass().getDeclaredField("value");
+            Validator validator = Validate.Factory.newInstance(field);
+            validator.validate(field.get(obj));
+        } catch (SecurityException e) {
+            throw new AssertionFailedError(e.getMessage());
+        } catch (NoSuchFieldException e) {
+            throw new AssertionFailedError(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            throw new AssertionFailedError(e.getMessage());
+        } catch (IllegalAccessException e) {
+            throw new AssertionFailedError(e.getMessage());
+        }
     }
 }
