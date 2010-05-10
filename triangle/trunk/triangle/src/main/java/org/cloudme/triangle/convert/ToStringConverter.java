@@ -21,6 +21,10 @@ package org.cloudme.triangle.convert;
  */
 public abstract class ToStringConverter implements Converter<Boolean> {
     @Override
+    public void setPattern(String pattern) {
+    }
+
+    @Override
     public String format(Boolean value) {
         return value.toString();
     }

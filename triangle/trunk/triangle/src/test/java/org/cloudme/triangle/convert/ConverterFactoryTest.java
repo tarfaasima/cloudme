@@ -20,12 +20,36 @@ import java.util.Locale;
 import org.junit.Test;
 
 public class ConverterFactoryTest {
+    public static class UpperCaseConverter implements Converter<String> {
+        @Override
+        public String convert(String str) {
+            return str.toLowerCase();
+        }
+
+        @Override
+        public String format(String value) {
+            return value.toUpperCase();
+        }
+
+        @Override
+        public void setPattern(String pattern) {
+        }
+    }
     @Test
     @SuppressWarnings( "unchecked" )
     public void testFormatNumber() {
         Locale.setDefault(Locale.US);
-        final Converter<Number> Converter = (Converter<Number>) ConverterFactory
+        final Converter<Number> converter = (Converter<Number>) ConverterFactory
                 .newInstance(null, Double.class, "0.0");
-        assertEquals("82.0", Converter.format(82));
+        assertEquals("82.0", converter.format(82));
+    }
+
+    @Test
+    @SuppressWarnings( "unchecked" )
+    public void testFormatUpperCase() {
+        final Converter<String> converter = (Converter<String>) ConverterFactory.newInstance(UpperCaseConverter.class,
+                String.class,
+                "");
+        assertEquals("HELLO", converter.format("hello"));
     }
 }

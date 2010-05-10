@@ -25,21 +25,11 @@ import java.text.ParseException;
  * @param <T>
  *            Type of the converted value.
  */
-public class FormatConverter<T> implements Converter<T> {
+public abstract class FormatConverter<T> implements Converter<T> {
     /**
      * {@link Format} used to convert.
      */
-    private final Format format;
-
-    /**
-     * Creates a new instance based on the given {@link Format}.
-     * 
-     * @param format
-     *            The {@link Format} used to convert and format.
-     */
-    public FormatConverter(Format format) {
-        this.format = format;
-    }
+    private Format format;
 
     @Override
     @SuppressWarnings( "unchecked" )
@@ -47,7 +37,7 @@ public class FormatConverter<T> implements Converter<T> {
         try {
             return (T) format.parseObject(str);
         }
-        catch (ParseException e) {
+        catch (final ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -57,5 +47,12 @@ public class FormatConverter<T> implements Converter<T> {
     @Override
     public String format(T value) {
         return format.format(value);
-    };
+    }
+
+    @Override
+    public void setPattern(String pattern) {
+        format = initFormat(pattern);
+    }
+
+    protected abstract Format initFormat(String pattern);;
 }

@@ -15,6 +15,7 @@ package org.cloudme.triangle.convert;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.Format;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,7 +32,9 @@ import org.cloudme.util.ClassUtils;
 public class ConverterFactory {
     /**
      * Creates a new {@link Converter} instance for the given type.
-     * @param type TODO
+     * 
+     * @param type
+     *            TODO
      * @param fieldType
      *            The type for which the {@link Converter} will be created.
      * @param pattern
@@ -40,23 +43,42 @@ public class ConverterFactory {
      * @return The {@link Converter} instance or null if no {@link Converter}
      *         exists for the given type.
      */
-    public static Converter<?> newInstance(Class<? extends Converter<?>> type, Class<?> fieldType, String pattern) {
-        if (ClassUtils.isNumber(fieldType)) {
-            return new FormatConverter<Number>(pattern == null ? NumberFormat
-                    .getNumberInstance() : new DecimalFormat(pattern));
+    public static Converter<?> newInstance(Class<? extends Converter<?>> converterType,
+            Class<?> fieldType,
+            String pattern) {
+        Converter<?> converter = null;
+        if (converterType != null) {
+            converter = ClassUtils.instantiate(converterType);
         }
-        if (ClassUtils.isDate(fieldType)) {
-            return new FormatConverter<Date>(pattern == null ? DateFormat
-                    .getDateInstance() : new SimpleDateFormat(pattern));
+        if (converter == null) {
+            if (ClassUtils.isNumber(fieldType)) {
+                converter = new FormatConverter<Number>() {
+                    @Override
+                    protected Format initFormat(String pattern) {
+                        return pattern == null ? NumberFormat.getNumberInstance() : new DecimalFormat(pattern);
+                    }
+                };
+            }
+            else if (ClassUtils.isDate(fieldType)) {
+                converter = new FormatConverter<Date>() {
+                    @Override
+                    protected Format initFormat(String pattern) {
+                        return pattern == null ? DateFormat.getDateInstance() : new SimpleDateFormat(pattern);
+                    }
+                };
+            }
+            else if (ClassUtils.isBoolean(fieldType)) {
+                converter = new ToStringConverter() {
+                    @Override
+                    public Boolean convert(String str) {
+                        return Boolean.valueOf(str);
+                    }
+                };
+            }
         }
-        if (ClassUtils.isBoolean(fieldType)) {
-            return new ToStringConverter() {
-                @Override
-                public Boolean convert(String str) {
-                    return Boolean.valueOf(str);
-                }
-            };
+        if (converter != null) {
+            converter.setPattern(pattern);
         }
-        return null;
+        return converter;
     }
 }

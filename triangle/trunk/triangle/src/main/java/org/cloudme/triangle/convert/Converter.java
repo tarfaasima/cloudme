@@ -28,6 +28,14 @@ public interface Converter<T> {
     String NO_PATTERN = "";
 
     /**
+     * The pattern that is used to parse the {@link String}.
+     * 
+     * @param pattern
+     *            The pattern that is used to parse the {@link String}.
+     */
+    void setPattern(String pattern);
+
+    /**
      * Converts a {@link String} to a raw value.
      * 
      * @param str

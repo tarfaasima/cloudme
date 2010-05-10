@@ -146,4 +146,19 @@ public class ClassUtils {
         }
         return value;
     }
+
+    public static <T> T instantiate(Class<T> type) {
+        try {
+            return type.newInstance();
+        }
+        catch (final InstantiationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (final IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
