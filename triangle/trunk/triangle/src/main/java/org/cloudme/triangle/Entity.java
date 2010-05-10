@@ -27,7 +27,7 @@ import org.cloudme.util.AnnotationUtils;
  * 
  * @author Moritz Petersen
  */
-public class Entity {
+public class Entity<E> {
     /**
      * The type of the {@link Entity} class.
      */
@@ -49,7 +49,7 @@ public class Entity {
     /**
      * The {@link Attribute}s of this {@link Entity}.
      */
-    private final Map<String, Attribute> attributes = new HashMap<String, Attribute>();
+    private final Map<String, Attribute<E, ?>> attributes = new HashMap<String, Attribute<E, ?>>();
 
     /**
      * Reads the metadata of the given type based on annotations.
@@ -57,14 +57,15 @@ public class Entity {
      * @param type
      *            The type of this {@link Entity}.
      */
-    Entity(Class<?> type) {
+    @SuppressWarnings( "unchecked" )
+    Entity(Class<E> type) {
         this.type = type;
 
         name = type.getSimpleName();
         label = AnnotationUtils.value(type, Label.class, name);
         isMainEntity = AnnotationUtils.value(type, MainEntity.class, false);
         for (final Field field : type.getDeclaredFields()) {
-            final Attribute attribute = new Attribute(this, field);
+            final Attribute<E, ?> attribute = new Attribute(this, field);
             attributes.put(attribute.getName(), attribute);
         }
     }
@@ -114,7 +115,7 @@ public class Entity {
      * 
      * @return The {@link Attribute}s of this {@link Entity}.
      */
-    public Collection<Attribute> getAttributes() {
+    public Collection<Attribute<E, ?>> getAttributes() {
         return attributes.values();
     }
 
@@ -125,7 +126,7 @@ public class Entity {
      *            The name of the {@link Attribute}.
      * @return The {@link Attribute} with the given technical name.
      */
-    public Attribute getAttribute(String name) {
+    public Attribute<E, ?> getAttribute(String name) {
         return attributes.get(name);
     }
 
@@ -136,8 +137,8 @@ public class Entity {
      * @param object
      *            The object that is validated.
      */
-    public void validate(Object object) {
-        for (final Attribute attribute : attributes.values()) {
+    public void validate(E object) {
+        for (final Attribute<E, ?> attribute : attributes.values()) {
             attribute.validate(object);
         }
     }

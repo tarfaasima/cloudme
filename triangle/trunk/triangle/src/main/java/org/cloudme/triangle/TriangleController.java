@@ -27,7 +27,7 @@ public class TriangleController {
     /**
      * The main {@link Entity}, usually the starting point of an application.
      */
-    private Entity mainEntity;
+    private Entity<?> mainEntity;
 
     /**
      * Adds {@link Entity} types to this {@link TriangleController}, which get
@@ -36,9 +36,10 @@ public class TriangleController {
      * @param types
      *            The classes of the {@link Entity}s.
      */
+    @SuppressWarnings( "unchecked" )
     public void addEntity(Class<?>... types) {
         for (final Class<?> entityClass : types) {
-            final Entity entity = new Entity(entityClass);
+            final Entity<?> entity = new Entity(entityClass);
             entityResolver.addEntity(entity);
             if (entity.isMainEntity()) {
                 if (mainEntity != null) {
@@ -56,7 +57,7 @@ public class TriangleController {
      * @return The main {@link Entity}, usually the starting point of an
      *         application.
      */
-    public Entity getMainEntity() {
+    public Entity<?> getMainEntity() {
         return mainEntity;
     }
 

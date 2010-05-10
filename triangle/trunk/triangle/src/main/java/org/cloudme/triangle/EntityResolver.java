@@ -28,5 +28,5 @@ public interface EntityResolver {
      * @param entity
      *            The {@link Entity} declaration.
      */
-    void addEntity(Entity entity);
+    void addEntity(Entity<?> entity);
 }

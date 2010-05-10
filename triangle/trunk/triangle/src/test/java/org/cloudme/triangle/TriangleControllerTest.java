@@ -26,14 +26,15 @@ import org.junit.Test;
 
 public class TriangleControllerTest {
     public class TestEntityResolver implements EntityResolver {
-        private final Collection<Entity> entities = new ArrayList<Entity>();
+        private final Collection<Entity<?>> entities = new ArrayList<Entity<?>>();
 
         @Override
-        public void addEntity(Entity entity) {
+        public void addEntity(Entity<?> entity) {
             entities.add(entity);
         }
     }
 
+    @SuppressWarnings( "unchecked" )
     @Test
     public void testInit() {
         Locale.setDefault(Locale.GERMANY);
@@ -41,13 +42,15 @@ public class TriangleControllerTest {
         final TestEntityResolver resolver = new TestEntityResolver();
         controller.setEntityResolver(resolver);
         controller.addEntity(TestEntity.class);
-        final Entity entity = resolver.entities.iterator().next();
+        final Entity<TestEntity> entity = (Entity<TestEntity>) resolver.entities
+                .iterator().next();
         assertEquals("TestEntity", entity.getName());
         assertEquals(TestEntity.class, entity.getType());
         assertEquals("Test", entity.getLabel());
         assertTrue(entity.isMainEntity());
         assertEquals(entity, controller.getMainEntity());
-        final Collection<Attribute> attributes = entity.getAttributes();
+        final Collection<Attribute<TestEntity, ?>> attributes = entity
+                .getAttributes();
         assertEquals(7, attributes.size());
         assertEquals("Name", entity.getAttribute("name").getLabel());
 
@@ -89,7 +92,8 @@ public class TriangleControllerTest {
         assertEquals("15.08.2007", entity.getAttribute("entryDate").format(testEntity));
     }
 
-    private static void assertValidationFailure(final Entity entity, final Object object) {
+    private static void assertValidationFailure(final Entity<TestEntity> entity,
+            final TestEntity object) {
         try {
             entity.validate(object);
             fail();

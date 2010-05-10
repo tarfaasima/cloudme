@@ -30,7 +30,7 @@ import org.cloudme.util.ClassUtils;
  * 
  * @author Moritz Petersen
  */
-public class Attribute {
+public class Attribute<E, A> {
     /**
      * The technical name of the {@link Attribute}.
      */
@@ -48,13 +48,11 @@ public class Attribute {
     /**
      * The {@link Validator} based on the annotations.
      */
-    @SuppressWarnings( "unchecked" )
-    private final Validator validator;
+    private final Validator<A> validator;
     /**
      * The {@link Converter} based on the annotations.
      */
-    @SuppressWarnings( "unchecked" )
-    private Converter converter;
+    private final Converter<A> converter;
     /**
      * The {@link Field} corresponding to this {@link Attribute}.
      */
@@ -69,7 +67,8 @@ public class Attribute {
      * @param field
      *            The field corresponding to this {@link Attribute}
      */
-    Attribute(Entity entity, Field field) {
+    @SuppressWarnings( "unchecked" )
+    Attribute(Entity<E> entity, Field field) {
         this.field = field;
         field.setAccessible(true);
 
@@ -77,9 +76,9 @@ public class Attribute {
         label = AnnotationUtils.value(field, Label.class, name);
         isRequired = AnnotationUtils.value(field, Required.class, false);
 
-        validator = Validate.Factory.newInstance(field);
+        validator = (Validator<A>) Validate.Factory.newInstance(field);
 
-        converter = Convert.Factory.newInstance(field);
+        converter = (Converter<A>) Convert.Factory.newInstance(field);
     }
 
     /**
@@ -126,9 +125,8 @@ public class Attribute {
      * @param object
      *            The attribute of the given object is validated.
      */
-    @SuppressWarnings( "unchecked" )
-    void validate(Object object) {
-        final Object value = getValue(object);
+    void validate(E object) {
+        final A value = getValue(object);
         if (isRequired) {
             if (value == null) {
                 throw new ValidationException(this, value);
@@ -147,9 +145,10 @@ public class Attribute {
      *            The object containing the attribute.
      * @return the {@link Attribute}'s value.
      */
-    private Object getValue(Object object) {
+    @SuppressWarnings( "unchecked" )
+    private A getValue(E object) {
         try {
-            return field.get(object);
+            return (A) field.get(object);
         } catch (final IllegalArgumentException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -167,8 +166,7 @@ public class Attribute {
      *            The object containing the attribute.
      * @return the formatted value.
      */
-    @SuppressWarnings( "unchecked" )
-    String format(Object object) {
+    String format(E object) {
         return object == null ? "" : converter == null ? object.toString()
                 : converter.format(getValue(object));
     }
@@ -182,9 +180,11 @@ public class Attribute {
      * @param str
      *            The {@link String} which will be converted.
      */
-    void convert(Object object, String str) {
-        setValue(object, str == null ? null : converter == null ? str
-                : converter.convert(str));
+    @SuppressWarnings( "unchecked" )
+    void convert(E object, String str) {
+        setValue(object, (A) (str == null ? null : converter == null
+                ? str
+                : converter.convert(str)));
     }
 
     /**
@@ -195,7 +195,7 @@ public class Attribute {
      * @param value
      *            The value that is set.
      */
-    private void setValue(Object object, Object value) {
+    private void setValue(E object, A value) {
         try {
             field.set(object, ClassUtils.convert(field.getType(), value));
         } catch (final IllegalArgumentException e) {
