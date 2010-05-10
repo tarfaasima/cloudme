@@ -20,6 +20,9 @@ package org.cloudme.triangle.convert;
  * @author Moritz Petersen
  */
 public abstract class ToStringConverter implements Converter<Boolean> {
+    /**
+     * Ignored in this {@link Converter}.
+     */
     @Override
     public void setPattern(String pattern) {
     }

@@ -54,5 +54,12 @@ public abstract class FormatConverter<T> implements Converter<T> {
         format = initFormat(pattern);
     }
 
-    protected abstract Format initFormat(String pattern);;
+    /**
+     * Initializes the {@link Format} based on the given pattern.
+     * 
+     * @param pattern
+     *            Pattern used to initialize the {@link Format}.
+     * @return The {@link Format} used in the {@link Converter}.
+     */
+    protected abstract Format initFormat(String pattern);
 }

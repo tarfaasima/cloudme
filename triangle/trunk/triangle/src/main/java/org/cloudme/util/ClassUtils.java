@@ -42,8 +42,7 @@ public class ClassUtils {
      * @return True if the type is a {@link Number} or a primitive numeric type.
      */
     public static boolean isNumber(Class<?> type) {
-        return Number.class.isAssignableFrom(type)
-                || byte.class == type
+        return Number.class.isAssignableFrom(type) || byte.class == type
                 || short.class == type
                 || int.class == type
                 || long.class == type
@@ -116,8 +115,7 @@ public class ClassUtils {
                 return number.doubleValue();
             }
             try {
-                return ((Constructor<?>) type.getConstructor(value.getClass()))
-                        .newInstance(value);
+                return ((Constructor<?>) type.getConstructor(value.getClass())).newInstance(value);
             }
             catch (final SecurityException e) {
                 // TODO Auto-generated catch block
@@ -147,6 +145,15 @@ public class ClassUtils {
         return value;
     }
 
+    /**
+     * Instatiates a given {@link Class}.
+     * 
+     * @param <T>
+     *            The type of {@link Class}.
+     * @param type
+     *            The {@link Class} that is instatiated.
+     * @return The instantiated {@link Class}.
+     */
     public static <T> T instantiate(Class<T> type) {
         try {
             return type.newInstance();
