@@ -3,6 +3,7 @@ package org.cloudme.triangle.objectify;
 import org.cloudme.triangle.Entity;
 import org.cloudme.triangle.EntityResolver;
 
+import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 
 public class ObjectifyEntityResolver implements EntityResolver {
@@ -15,7 +16,8 @@ public class ObjectifyEntityResolver implements EntityResolver {
 
     @Override
     public void put(Object obj) {
-        // TODO Auto-generated method stub
-
+        Objectify ofy = factory.beginTransaction();
+        ofy.put(obj);
+        ofy.getTxn().commit();
     }
 }
