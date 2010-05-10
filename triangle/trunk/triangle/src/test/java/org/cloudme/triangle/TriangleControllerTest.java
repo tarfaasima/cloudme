@@ -32,6 +32,10 @@ public class TriangleControllerTest {
         public void addEntity(Entity<?> entity) {
             entities.add(entity);
         }
+
+        @Override
+        public void put(Object obj) {
+        }
     }
 
     @SuppressWarnings( "unchecked" )

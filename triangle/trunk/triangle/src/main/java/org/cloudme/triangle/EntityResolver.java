@@ -29,4 +29,6 @@ public interface EntityResolver {
      *            The {@link Entity} declaration.
      */
     void addEntity(Entity<?> entity);
+
+    void put(Object obj);
 }
