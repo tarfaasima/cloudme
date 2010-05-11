@@ -36,6 +36,20 @@ public class TriangleControllerTest {
         @Override
         public void put(Object obj) {
         }
+
+        @Override
+        public <T> T get(Entity<?> entity, long id) {
+            return null;
+        }
+
+        @Override
+        public <T> Collection<T> findAll(Entity<T> entity) {
+            return null;
+        }
+
+        @Override
+        public <T> void delete(Entity<T> entity, long id) {
+        }
     }
 
     @SuppressWarnings( "unchecked" )

@@ -13,6 +13,9 @@
 // limitations under the License.
 package org.cloudme.triangle;
 
+import java.util.Collection;
+
+
 /**
  * An {@link EntityResolver} provides methods to the {@link TriangleController}
  * to resolve entities from the persistence facility. It is replaceable to allow
@@ -31,4 +34,10 @@ public interface EntityResolver {
     void addEntity(Entity<?> entity);
 
     void put(Object obj);
+
+    <T> T get(Entity<?> entity, long id);
+
+    <T> Collection<T> findAll(Entity<T> entity);
+
+    <T> void delete(Entity<T> entity, long id);
 }
