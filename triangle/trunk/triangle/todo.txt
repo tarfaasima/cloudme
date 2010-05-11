@@ -31,7 +31,21 @@ Open
     7) load 
     8) format 
     9) display
+- Standard application pages for each type:
+    - List (with options: sort, filter, delete, create; link to: edit, detail = edit readonly) 
+    - Edit
+    - Detail (= Edit readonly)
+- Establish application lifecycle:
+    1) Start page is either List of main entity (if defined) or overview of all entities.
+    2) List page
+    3) Detail page
 - errors during 2) convert to be similarly treated as 3) validate errors.
+- Improve validate error handling:
+    - Logging must be very clear (entity type, instance, field validator type)
+    - Replace ValidationException with error class containing all information
+- Datamodel should include:
+    - Relations to other entities (reference n:m, like: select list)
+    - Child entities (reference 1:n, can be created from within parent entity detail page)
 
 Closed
 ------
