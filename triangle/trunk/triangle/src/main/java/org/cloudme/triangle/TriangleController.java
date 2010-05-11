@@ -47,12 +47,13 @@ public class TriangleController {
         for (final Class<?> entityClass : types) {
             final Entity<?> entity = new Entity(entityClass);
             entities.put(entity, entity.getName(), entity.getType());
-            entityResolver.addEntity(entity);
+            if (entityResolver != null) {
+                entityResolver.addEntity(entity);
+            }
             if (entity.isMainEntity()) {
                 if (mainEntity != null) {
-                    throw new IllegalStateException("Main entity already exists (" + mainEntity.getName()
-                            + "): "
-                            + entity.getName());
+                    throw new IllegalStateException("Main entity already exists ("
+                            + mainEntity.getName() + "): " + entity.getName());
                 }
                 mainEntity = entity;
             }
