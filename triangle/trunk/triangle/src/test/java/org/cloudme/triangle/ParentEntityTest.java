@@ -8,7 +8,7 @@ public class ParentEntityTest {
     @Test
     public void testParentChildEntity() {
         TriangleController controller = new TriangleController();
-        controller.addEntity(TestEntity.class, TestChildEntity.class);
+        controller.register(TestEntity.class, TestChildEntity.class);
         @SuppressWarnings( "unused" )
         Entity<TestEntity> entity = controller.getMainEntity();
         fail("not yet implemented.");

@@ -59,7 +59,7 @@ public class TriangleControllerTest {
         final TriangleController controller = new TriangleController();
         final TestEntityResolver resolver = new TestEntityResolver();
         controller.setEntityResolver(resolver);
-        controller.addEntity(TestEntity.class);
+        controller.register(TestEntity.class);
         final Entity<TestEntity> entity = (Entity<TestEntity>) resolver.entities
                 .iterator().next();
         assertEquals("TestEntity", entity.getName());

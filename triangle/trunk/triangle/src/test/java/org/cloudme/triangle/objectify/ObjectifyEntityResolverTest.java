@@ -58,7 +58,7 @@ public class ObjectifyEntityResolverTest {
         final EntityResolver resolver = new ObjectifyEntityResolver();
         final TriangleController controller = new TriangleController();
         controller.setEntityResolver(resolver);
-        controller.addEntity(TestEntity.class);
+        controller.register(TestEntity.class);
         final Entity<TestEntity> entity = controller.getEntity("TestEntity");
 
         final TestEntity testEntity = new TestEntity();

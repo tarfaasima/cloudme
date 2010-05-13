@@ -43,7 +43,7 @@ public class TriangleController {
      *            The classes of the {@link Entity}s.
      */
     @SuppressWarnings( "unchecked" )
-    public void addEntity(Class<?>... types) {
+    public void register(Class<?>... types) {
         for (final Class<?> entityClass : types) {
             final Entity<?> entity = new Entity(entityClass);
             entities.put(entity, entity.getName(), entity.getType());
