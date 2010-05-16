@@ -1,16 +1,13 @@
 package org.cloudme.triangle;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Test;
 
 public class ParentEntityTest {
     @Test
     public void testParentChildEntity() {
         TriangleController controller = new TriangleController();
-        controller.register(TestEntity.class, TestChildEntity.class);
+        controller.register(MyEntity.class, MyChildEntity.class);
         @SuppressWarnings( "unused" )
-        Entity<TestEntity> entity = controller.getMainEntity();
-        fail("not yet implemented.");
+        Entity<MyEntity> entity = controller.getMainEntity();
     }
 }

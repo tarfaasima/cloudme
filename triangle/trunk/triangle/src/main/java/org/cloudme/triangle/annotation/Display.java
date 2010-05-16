@@ -22,17 +22,17 @@ import org.cloudme.triangle.Attribute;
 import org.cloudme.triangle.Entity;
 
 /**
- * Defines the human readable label of the {@link Entity} or {@link Attribute}.
+ * Defines display properties for the {@link Entity} or {@link Attribute}.
  * 
  * @author Moritz Petersen
  */
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.TYPE } )
-public @interface Label {
+public @interface Display {
     /**
-     * The value of the annotation.
+     * The label.
      * 
-     * @return The value of the annotation.
+     * @return The label.
      */
-    String value();
+    String label() default "";
 }

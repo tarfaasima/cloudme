@@ -32,8 +32,9 @@ public class AnnotationUtils {
      * @param annotationClass
      *            The type of the annotation.
      */
+    @SuppressWarnings( "unchecked" )
     public static <T> T value(AnnotatedElement element, Class<? extends Annotation> annotationClass) {
-        return invokeValue(element, annotationClass);
+        return (T) invokeValue(element, annotationClass);
     }
 
     /**
@@ -47,8 +48,9 @@ public class AnnotationUtils {
      * @param defaultValue
      *            The default value if the annotation is not applied.
      */
+    @SuppressWarnings( "unchecked" )
     public static <T> T value(AnnotatedElement element, Class<? extends Annotation> annotationClass, T defaultValue) {
-        final T value = invokeValue(element, annotationClass);
+        final T value = (T) invokeValue(element, annotationClass);
         return value == null ? defaultValue : value;
     }
 
@@ -62,13 +64,13 @@ public class AnnotationUtils {
      * @return The value of the annotation or null if the annotation is not
      *         applied.
      */
-    @SuppressWarnings( "unchecked" )
-    private static <T> T invokeValue(AnnotatedElement element, Class<? extends Annotation> annotationClass) {
+    private static <T> Object invokeValue(AnnotatedElement element,
+            Class<? extends Annotation> annotationClass) {
         try {
             final Annotation annotation = element.getAnnotation(annotationClass);
             if (annotation != null) {
                 final Method valueMethod = annotationClass.getDeclaredMethod("value");
-                return (T) valueMethod.invoke(annotation);
+                return valueMethod.invoke(annotation);
             }
         }
         catch (final SecurityException e) {

@@ -4,13 +4,13 @@ import javax.persistence.Id;
 
 import org.cloudme.triangle.annotation.ParentEntity;
 
-public class TestChildEntity {
+public class MyChildEntity {
     @Id
     private Long id;
 
     private String name;
 
-    @ParentEntity( type = TestEntity.class )
+    @ParentEntity( type = MyEntity.class )
     private Long parentId;
 
     public Long getId() {

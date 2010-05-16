@@ -59,22 +59,22 @@ public class TriangleControllerTest {
         final TriangleController controller = new TriangleController();
         final TestEntityResolver resolver = new TestEntityResolver();
         controller.setEntityResolver(resolver);
-        controller.register(TestEntity.class);
-        final Entity<TestEntity> entity = (Entity<TestEntity>) resolver.entities
+        controller.register(MyEntity.class);
+        final Entity<MyEntity> entity = (Entity<MyEntity>) resolver.entities
                 .iterator().next();
-        assertEquals("TestEntity", entity.getName());
-        assertEquals(TestEntity.class, entity.getType());
+        assertEquals("MyEntity", entity.getName());
+        assertEquals(MyEntity.class, entity.getType());
         assertEquals("Test", entity.getLabel());
         assertTrue(entity.isMainEntity());
         assertEquals(entity, controller.getMainEntity());
-        final Collection<Attribute<TestEntity, ?>> attributes = entity
+        final Collection<Attribute<MyEntity, ?>> attributes = entity
                 .getAttributes();
         assertEquals(7, attributes.size());
         assertEquals("Name", entity.getAttribute("name").getLabel());
 
-        assertValidationFailure(entity, new TestEntity());
+        assertValidationFailure(entity, new MyEntity());
 
-        final TestEntity testEntity = new TestEntity();
+        final MyEntity testEntity = new MyEntity();
         testEntity.setName("Max");
         testEntity.setNoX("abc");
         testEntity.setAge(32);
@@ -110,8 +110,8 @@ public class TriangleControllerTest {
         assertEquals("15.08.2007", entity.getAttribute("entryDate").format(testEntity));
     }
 
-    private static void assertValidationFailure(final Entity<TestEntity> entity,
-            final TestEntity object) {
+    private static void assertValidationFailure(final Entity<MyEntity> entity,
+            final MyEntity object) {
         try {
             entity.validate(object);
             fail();

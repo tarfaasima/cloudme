@@ -16,16 +16,16 @@ package org.cloudme.triangle;
 import java.util.Date;
 
 import org.cloudme.triangle.annotation.Convert;
-import org.cloudme.triangle.annotation.Label;
+import org.cloudme.triangle.annotation.Display;
 import org.cloudme.triangle.annotation.MainEntity;
 import org.cloudme.triangle.annotation.Required;
 import org.cloudme.triangle.annotation.Validate;
 import org.cloudme.triangle.validation.EmailValidator;
 
-@Label( "Test" )
+@Display( label = "Test" )
 @MainEntity
-public class TestEntity {
-    @Label( "Name" )
+public class MyEntity {
+    @Display( label = "Name" )
     @Required
     @Validate( max = 10, min = 3 )
     private String name;

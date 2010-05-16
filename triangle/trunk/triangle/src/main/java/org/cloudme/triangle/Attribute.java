@@ -16,7 +16,7 @@ package org.cloudme.triangle;
 import java.lang.reflect.Field;
 
 import org.cloudme.triangle.annotation.Convert;
-import org.cloudme.triangle.annotation.Label;
+import org.cloudme.triangle.annotation.Display;
 import org.cloudme.triangle.annotation.Required;
 import org.cloudme.triangle.annotation.Validate;
 import org.cloudme.triangle.convert.Converter;
@@ -37,7 +37,7 @@ public class Attribute<E, A> {
     private final String name;
     /**
      * The human readable label of the {@link Attribute}, based on the
-     * annotation {@link Label}.
+     * annotation {@link Display}.
      */
     private final String label;
     /**
@@ -62,18 +62,22 @@ public class Attribute<E, A> {
      * Reads the metadata from annotations of the field and initializes the
      * {@link Validator}s.
      * 
-     * @param entity
-     *            The entity corresponding to this {@link Attribute}.
      * @param field
      *            The field corresponding to this {@link Attribute}
      */
     @SuppressWarnings( "unchecked" )
-    Attribute(Entity<E> entity, Field field) {
+    Attribute(Field field) {
         this.field = field;
         field.setAccessible(true);
 
         name = field.getName();
-        label = AnnotationUtils.value(field, Label.class, name);
+        Display display = field.getAnnotation(Display.class);
+        if (display != null) {
+            label = display.label();
+        }
+        else {
+            label = name;
+        }
         isRequired = AnnotationUtils.value(field, Required.class, false);
 
         validator = (Validator<A>) Validate.Factory.newInstance(field);
@@ -92,10 +96,10 @@ public class Attribute<E, A> {
 
     /**
      * The human readable label of the {@link Attribute}, based on the
-     * annotation {@link Label}.
+     * annotation {@link Display}.
      * 
      * @return The human readable label of the {@link Attribute}, based on the
-     *         annotation {@link Label}.
+     *         annotation {@link Display}.
      */
     public String getLabel() {
         return label;
@@ -127,10 +131,8 @@ public class Attribute<E, A> {
      */
     void validate(E object) {
         final A value = getValue(object);
-        if (isRequired) {
-            if (value == null) {
-                throw new ValidationException(this, value);
-            }
+        if (isRequired && value == null) {
+            throw new ValidationException(this, null);
         }
         if (validator != null && value != null) {
             validator.validate(value);
@@ -149,10 +151,12 @@ public class Attribute<E, A> {
     private A getValue(E object) {
         try {
             return (A) field.get(object);
-        } catch (final IllegalArgumentException e) {
+        }
+        catch (final IllegalArgumentException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (final IllegalAccessException e) {
+        }
+        catch (final IllegalAccessException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -167,7 +171,8 @@ public class Attribute<E, A> {
      * @return the formatted value.
      */
     String format(E object) {
-        return object == null ? "" : converter == null ? object.toString()
+        return object == null ? "" : converter == null
+                ? object.toString()
                 : converter.format(getValue(object));
     }
 
@@ -198,10 +203,12 @@ public class Attribute<E, A> {
     private void setValue(E object, A value) {
         try {
             field.set(object, ClassUtils.convert(field.getType(), value));
-        } catch (final IllegalArgumentException e) {
+        }
+        catch (final IllegalArgumentException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (final IllegalAccessException e) {
+        }
+        catch (final IllegalAccessException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

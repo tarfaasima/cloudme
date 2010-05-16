@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.cloudme.triangle.annotation.Label;
+import org.cloudme.triangle.annotation.Display;
 import org.cloudme.triangle.annotation.MainEntity;
 import org.cloudme.util.AnnotationUtils;
 
@@ -37,8 +37,8 @@ public class Entity<E> {
      */
     private final String name;
     /**
-     * The human readable name of the {@link Entity}, based on the {@link Label}
-     * annotation.
+     * The human readable name of the {@link Entity}, based on the
+     * {@link Display} annotation.
      */
     private final String label;
     /**
@@ -62,10 +62,16 @@ public class Entity<E> {
         this.type = type;
 
         name = type.getSimpleName();
-        label = AnnotationUtils.value(type, Label.class, name);
+        Display display = type.getAnnotation(Display.class);
+        if (display != null) {
+            label = display.label();
+        }
+        else {
+            label = name;
+        }
         isMainEntity = AnnotationUtils.value(type, MainEntity.class, false);
         for (final Field field : type.getDeclaredFields()) {
-            final Attribute<E, ?> attribute = new Attribute(this, field);
+            final Attribute<E, ?> attribute = new Attribute(field);
             attributes.put(attribute.getName(), attribute);
         }
     }
@@ -89,11 +95,11 @@ public class Entity<E> {
     }
 
     /**
-     * The human readable name of the {@link Entity}, based on the {@link Label}
-     * annotation.
+     * The human readable name of the {@link Entity}, based on the
+     * {@link Display} annotation.
      * 
      * @return The human readable name of the {@link Entity}, based on the
-     *         {@link Label} annotation.
+     *         {@link Display} annotation.
      */
     public String getLabel() {
         return label;
