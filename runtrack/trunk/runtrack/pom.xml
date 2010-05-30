@@ -11,7 +11,9 @@
   <name>Runtrack</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <gae.version>1.3.3.1</gae.version>
+    <gae.version>1.3.4</gae.version>
+    <stripes.version>1.5.2</stripes.version>
+    <objectify.version>2.2</objectify.version>
   </properties>
   <developers>
     <developer>
@@ -113,10 +115,6 @@
       <url>http://maven-gae-plugin.googlecode.com/svn/repository</url>
     </repository>
     <repository>
-      <id>twig</id>
-      <url>http://mvn.twig-persist.googlecode.com/hg</url>
-    </repository>
-    <repository>
     	<id>objectify-appengine</id>
     	<url>http://objectify-appengine.googlecode.com/svn/maven</url>
     </repository>
@@ -181,7 +179,7 @@
     <dependency>
       <groupId>net.sourceforge.stripes</groupId>
       <artifactId>stripes</artifactId>
-      <version>1.5.2</version>
+      <version>${stripes.version}</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
@@ -195,7 +193,7 @@
     <dependency>
     	<groupId>com.googlecode.objectify</groupId>
     	<artifactId>objectify</artifactId>
-    	<version>2.2</version>
+    	<version>${objectify.version}</version>
     </dependency>
     <dependency>
     	<groupId>javax.persistence</groupId>
