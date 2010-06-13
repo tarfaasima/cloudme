@@ -71,11 +71,11 @@
             <scope>runtime</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.google.appengine</groupId>
-            <artifactId>appengine-testing</artifactId>
-            <version>${gae.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.google.appengine</groupId>-->
+<!--            <artifactId>appengine-testing</artifactId>-->
+<!--            <version>${gae.version}</version>-->
+<!--        </dependency>-->
 
         <!--
             J2EE Servlet API. We need it to compile IndexServlet class.
@@ -107,24 +107,52 @@
             <version>4.5</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.google.appengine</groupId>
-            <artifactId>appengine-api-labs</artifactId>
-            <version>${gae.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.appengine</groupId>
-            <artifactId>appengine-api-stubs</artifactId>
-            <version>${gae.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.appengine</groupId>
-            <artifactId>appengine-local-runtime</artifactId>
-            <version>${gae.version}</version>
-            <scope>test</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.google.appengine</groupId>-->
+<!--            <artifactId>appengine-api-labs</artifactId>-->
+<!--            <version>${gae.version}</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.google.appengine</groupId>-->
+<!--            <artifactId>appengine-api-stubs</artifactId>-->
+<!--            <version>${gae.version}</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.google.appengine</groupId>-->
+<!--            <artifactId>appengine-local-runtime</artifactId>-->
+<!--            <version>${gae.version}</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-api-1.0-sdk</artifactId>
+      <version>${gae.version}</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-api-labs</artifactId>
+      <version>${gae.version}</version>
+      <type>jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-api-stubs</artifactId>
+      <version>${gae.version}</version>
+      <type>jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-testing</artifactId>
+      <version>${gae.version}</version>
+      <type>jar</type>
+      <scope>test</scope>
+    </dependency>
         <dependency>
         	<groupId>org.apache.james</groupId>
         	<artifactId>apache-mime4j</artifactId>
@@ -293,20 +321,20 @@
         	<type>jar</type>
         	<scope>compile</scope>
         </dependency>
-        <dependency>
-        	<groupId>com.google.appengine</groupId>
-        	<artifactId>appengine-tools-sdk</artifactId>
-        	<version>${gae.version}</version>
-        	<type>jar</type>
-        	<scope>test</scope>
-        </dependency>
-        <dependency>
-        	<groupId>com.google.appengine</groupId>
-        	<artifactId>appengine-api-1.0-sdk</artifactId>
-        	<version>${gae.version}</version>
-        	<type>jar</type>
-        	<scope>compile</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--        	<groupId>com.google.appengine</groupId>-->
+<!--        	<artifactId>appengine-tools-sdk</artifactId>-->
+<!--        	<version>${gae.version}</version>-->
+<!--        	<type>jar</type>-->
+<!--        	<scope>test</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--        	<groupId>com.google.appengine</groupId>-->
+<!--        	<artifactId>appengine-api-1.0-sdk</artifactId>-->
+<!--        	<version>${gae.version}</version>-->
+<!--        	<type>jar</type>-->
+<!--        	<scope>compile</scope>-->
+<!--        </dependency>-->
 
         <!-- Test scope -->
 
