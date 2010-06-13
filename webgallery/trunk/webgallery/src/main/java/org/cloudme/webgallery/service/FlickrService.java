@@ -9,6 +9,7 @@ import org.cloudme.webgallery.flickr.FlickrRequest;
 import org.cloudme.webgallery.flickr.FlickrResponse;
 import org.cloudme.webgallery.flickr.FlickrRequest.FlickrUrl;
 import org.cloudme.webgallery.image.ContentType;
+import org.cloudme.webgallery.image.ImageServiceException;
 import org.cloudme.webgallery.image.SimpleImageFormat;
 import org.cloudme.webgallery.message.Message;
 import org.cloudme.webgallery.model.FlickrMetaData;
@@ -151,14 +152,24 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         request.add("safety_level", 1);
         request.add("content_type", 1);
         request.add("async", 1);
-        byte[] data = photoDataService.getPhotoData(photoId, new SimpleImageFormat(500, 500, false), ContentType.JPEG);
-        request.addFile(ContentType.JPEG.toString(), photo.getFileName(), data);
-        FlickrResponse response = request.execute();
-        if (response.isOk()) {
-            return new Message("Upload successful");
+        try {
+            byte[] data = photoDataService.getPhotoData(photoId,
+                    new SimpleImageFormat(500, 500, false),
+                    ContentType.JPEG);
+            request.addFile(ContentType.JPEG.toString(),
+                    photo.getFileName(),
+                    data);
+            FlickrResponse response = request.execute();
+            if (response.isOk()) {
+                return new Message("Upload successful");
+            }
+            else {
+                return new FlickrErrorMessage(response);
+            }
         }
-        else {
-            return new FlickrErrorMessage(response);
+        catch (ImageServiceException e) {
+            return new Message("No photo data available for {0}. Please try again later.",
+                    photoId);
         }
     }
 }

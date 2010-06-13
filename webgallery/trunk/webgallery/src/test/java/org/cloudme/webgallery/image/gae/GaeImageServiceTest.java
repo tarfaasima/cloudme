@@ -38,7 +38,10 @@ public class GaeImageServiceTest  {
 
     @Test
     public void testProcess() throws IOException {
-        assertProcess(loadPhoto(), DefaultImageFormat.MEDIUM, DefaultImageFormat.MEDIUM.getWidth(), DefaultImageFormat.MEDIUM.getHeight());
+        assertProcess(loadPhoto(),
+                DefaultImageFormat.MEDIUM,
+                DefaultImageFormat.MEDIUM.getWidth(),
+                DefaultImageFormat.MEDIUM.getHeight());
     }
 
 	private void assertProcess(PhotoData photo, DefaultImageFormat format, int width, int height) {

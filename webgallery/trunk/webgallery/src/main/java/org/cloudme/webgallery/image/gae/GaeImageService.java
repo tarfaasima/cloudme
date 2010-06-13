@@ -15,7 +15,10 @@ import com.google.apphosting.api.ApiProxy.OverQuotaException;
 
 @Component
 public class GaeImageService implements ImageService {
-    public byte[] process(byte[] data, ImageFormat format, ContentType type, float balance) {
+    public byte[] process(byte[] data,
+            ImageFormat format,
+            ContentType type,
+            float balance) {
         Image image = ImagesServiceFactory.makeImage(data);
         CompositeTransform tx = ImagesServiceFactory.makeCompositeTransform();
         if (format.isCrop()) {
@@ -24,16 +27,20 @@ public class GaeImageService implements ImageService {
             float w2 = format.getWidth();
             float h2 = format.getHeight();
             Crop c = new Crop(w1, h1, w2, h2, balance);
-            tx.concatenate(ImagesServiceFactory.makeCrop(c.x, c.y, c.x + c.width, c.y + c.height));
+            tx.concatenate(ImagesServiceFactory.makeCrop(c.x, c.y, c.x
+                    + c.width, c.y + c.height));
         }
-        tx.concatenate(ImagesServiceFactory.makeResize(format.getWidth(), format.getHeight()));
-        ImagesService imagesService = ImagesServiceFactory.getImagesService();
-        OutputEncoding outputEncoding = OutputEncoding.valueOf(type.name());
+        tx.concatenate(ImagesServiceFactory.makeResize(format.getWidth(),
+                format.getHeight()));
         try {
-            return imagesService.applyTransform(tx, image, outputEncoding).getImageData();
+            ImagesService imagesService = ImagesServiceFactory
+                    .getImagesService();
+            OutputEncoding outputEncoding = OutputEncoding.valueOf(type.name());
+            return imagesService.applyTransform(tx, image, outputEncoding)
+                    .getImageData();
         }
         catch (OverQuotaException e) {
-            throw new ImageServiceException(format, e);
+            throw new ImageServiceException(e);
         }
     }
 }

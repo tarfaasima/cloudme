@@ -1,6 +1,7 @@
 package org.cloudme.webgallery.stripes.action;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -13,25 +14,41 @@ import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.image.ContentTypeFactory;
 import org.cloudme.webgallery.image.ImageFormat;
 import org.cloudme.webgallery.image.ImageFormatFactory;
+import org.cloudme.webgallery.image.ImageServiceException;
+import org.cloudme.webgallery.image.OverQuotaImageLoader;
 import org.cloudme.webgallery.service.PhotoDataService;
 
-@UrlBinding("/gallery/photo/{photoId}_{format}.{type}")
+@UrlBinding( "/gallery/photo/{photoId}_{format}.{type}" )
 public class PhotoActionBean extends AbstractActionBean {
-	private Long photoId;
+    private Long photoId;
     private ImageFormat format;
     private ContentType type;
     @SpringBean
-	private PhotoDataService service;
-    
+    private PhotoDataService service;
+
     @DefaultHandler
     public void show() throws IOException {
         HttpServletResponse response = getContext().getResponse();
         response.setContentType(type.toString());
         ServletOutputStream out = response.getOutputStream();
-        out.write(service.getPhotoData(photoId, format, type));
+        byte[] data;
+        try {
+            data = service.getPhotoData(photoId, format, type);
+        }
+        catch (ImageServiceException e) {
+            OverQuotaImageLoader loader = new OverQuotaImageLoader() {
+                @Override
+                protected InputStream loadResource(String fileName) {
+                    return getContext().getServletContext()
+                            .getResourceAsStream("/images/" + fileName);
+                }
+            };
+            data = loader.load(format);
+        }
+        out.write(data);
     }
 
-	public void setPhotoId(Long photoId) {
+    public void setPhotoId(Long photoId) {
         this.photoId = photoId;
     }
 

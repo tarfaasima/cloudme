@@ -5,7 +5,6 @@ import org.cloudme.webgallery.cache.CacheService;
 import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.image.ImageFormat;
 import org.cloudme.webgallery.image.ImageService;
-import org.cloudme.webgallery.image.ImageServiceException;
 import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.model.PhotoData;
 import org.cloudme.webgallery.persistence.PhotoDataRepository;
@@ -35,22 +34,19 @@ public class PhotoDataService {
      *            The {@link ImageFormat} - dimensions of the scaled photo.
      * @param type
      *            The {@link ContentType} of the image data.
-     * @return The scaled image data.
+     * @return The scaled image data, or <code>null</code> if any error occured.
      */
-    public byte[] getPhotoData(final Long photoId, final ImageFormat format, final ContentType type) {
-        try {
-            return cacheService.cache(new CacheProducer<byte[]>() {
-                public byte[] produce() {
-                    float balance = photoService.find(photoId).getCropBalance();
-                    PhotoData photoData = photoDataRepository.find(photoId);
-                    byte[] input = photoData.getDataAsArray();
-                    return imageService.process(input, format, type, balance);
-                }
-            }, photoId, format, type);
-        }
-        catch (ImageServiceException e) {
-            return e.getImageData();
-        }
+    public byte[] getPhotoData(final Long photoId,
+            final ImageFormat format,
+            final ContentType type) {
+        return cacheService.cache(new CacheProducer<byte[]>() {
+            public byte[] produce() {
+                float balance = photoService.find(photoId).getCropBalance();
+                PhotoData photoData = photoDataRepository.find(photoId);
+                byte[] input = photoData.getDataAsArray();
+                return imageService.process(input, format, type, balance);
+            }
+        }, photoId, format, type);
     }
 
     public void save(PhotoData photoData) {
