@@ -6,6 +6,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+@SuppressWarnings( "serial" )
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class FlickrMetaData implements IdObject<Long> {
     @PrimaryKey
