@@ -21,6 +21,8 @@ public class PhotoService extends AbstractService<Long, Photo> {
     private PhotoDataService photoDataService;
     @Autowired
     private AlbumService albumService;
+    @Autowired
+    private ScaledPhotoDataService scaledPhotoDataService;
     private static final Logger LOG = Logger.getLogger(PhotoService.class);
 
     @Autowired
@@ -83,6 +85,7 @@ public class PhotoService extends AbstractService<Long, Photo> {
     @Override
     public void delete(Long id) {
         photoDataService.delete(id);
+        scaledPhotoDataService.deleteByPhotoId(id);
         super.delete(id);
     }
 

@@ -34,4 +34,9 @@ public enum DefaultImageFormat implements ImageFormat {
     public int getWidth() {
         return width;
     }
+
+    @Override
+    public String toString() {
+        return id;
+    }
 }

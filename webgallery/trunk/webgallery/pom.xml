@@ -137,7 +137,6 @@
       <artifactId>appengine-api-labs</artifactId>
       <version>${gae.version}</version>
       <type>jar</type>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.appengine</groupId>
@@ -538,7 +537,7 @@
             Upload to http://0.latest.<applicationName>.appspot.com by
             default
         -->
-        <gae.application.version>37</gae.application.version>
+        <gae.application.version>38</gae.application.version>
 
         <!-- port defaults to 8080 -->
         <gae.port>8888</gae.port>
