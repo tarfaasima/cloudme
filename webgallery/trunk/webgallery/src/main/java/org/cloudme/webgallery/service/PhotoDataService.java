@@ -2,52 +2,32 @@ package org.cloudme.webgallery.service;
 
 import org.cloudme.webgallery.cache.CacheProducer;
 import org.cloudme.webgallery.cache.CacheService;
+import org.cloudme.webgallery.cache.gae.GaeCacheService;
 import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.image.DefaultImageFormat;
 import org.cloudme.webgallery.image.ImageFormat;
 import org.cloudme.webgallery.image.ImageService;
+import org.cloudme.webgallery.image.gae.GaeImageService;
 import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.model.PhotoData;
 import org.cloudme.webgallery.model.ScaledPhotoData;
 import org.cloudme.webgallery.persistence.PhotoDataRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.cloudme.webgallery.persistence.objectify.ObjectifyPhotoDataRepository;
 
 import com.google.appengine.api.labs.taskqueue.Queue;
 import com.google.appengine.api.labs.taskqueue.QueueFactory;
 import com.google.appengine.api.labs.taskqueue.TaskOptions;
 
-@Service
-public class PhotoDataService {
-    @Autowired
-    private CacheService cacheService;
-    @Autowired
-    private ImageService imageService;
-    @Autowired
-    private PhotoDataRepository photoDataRepository;
-    @Autowired
-    private PhotoService photoService;
-    @Autowired
-    private ScaledPhotoDataService scaledPhotoDataService;
+public class PhotoDataService extends
+        AbstractService<Long, PhotoData, PhotoDataRepository> {
+    private final CacheService cacheService = new GaeCacheService();
+    private final ImageService imageService = new GaeImageService();
+    private final PhotoService photoService = new PhotoService();
+    private final ScaledPhotoDataService scaledPhotoDataService = new ScaledPhotoDataService();
+    private final PhotoDataRepository photoDataRepository = new ObjectifyPhotoDataRepository();
 
-    public void setCacheService(CacheService cacheService) {
-        this.cacheService = cacheService;
-    }
-
-    public void setImageService(ImageService imageService) {
-        this.imageService = imageService;
-    }
-
-    public void setPhotoDataRepository(PhotoDataRepository photoDataRepository) {
-        this.photoDataRepository = photoDataRepository;
-    }
-
-    public void setPhotoService(PhotoService photoService) {
-        this.photoService = photoService;
-    }
-
-    public void setScaledPhotoDataService(ScaledPhotoDataService scaledPhotoDataService) {
-        this.scaledPhotoDataService = scaledPhotoDataService;
+    protected PhotoDataService() {
+        super(new ObjectifyPhotoDataRepository());
     }
 
     /**
@@ -86,6 +66,7 @@ public class PhotoDataService {
         }, photoId, format, type);
     }
 
+    @Override
     public void save(PhotoData photoData) {
         photoDataRepository.save(photoData);
         addToQueue(photoData.getId());
@@ -96,6 +77,7 @@ public class PhotoDataService {
         queue.add(TaskOptions.Builder.url("/organize/generate/" + id));
     }
 
+    @Override
     public void delete(Long id) {
         photoDataRepository.delete(id);
     }

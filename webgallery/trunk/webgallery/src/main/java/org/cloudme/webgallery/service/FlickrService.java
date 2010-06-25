@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import org.cloudme.webgallery.cache.CacheProducer;
 import org.cloudme.webgallery.cache.CacheService;
+import org.cloudme.webgallery.cache.gae.GaeCacheService;
 import org.cloudme.webgallery.flickr.FlickrRequest;
 import org.cloudme.webgallery.flickr.FlickrResponse;
 import org.cloudme.webgallery.flickr.FlickrRequest.FlickrUrl;
@@ -15,18 +16,14 @@ import org.cloudme.webgallery.message.Message;
 import org.cloudme.webgallery.model.FlickrMetaData;
 import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.persistence.FlickrMetaDataRepository;
+import org.cloudme.webgallery.persistence.objectify.ObjectifyFlickrMetaDataRepository;
 import org.cloudme.webgallery.util.UrlUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
-public class FlickrService extends AbstractService<Long, FlickrMetaData> {
-    @Autowired
-    protected CacheService cacheService;
-    @Autowired
-    private PhotoService photoService;
-    @Autowired
-    private PhotoDataService photoDataService;
+public class FlickrService extends
+        AbstractService<Long, FlickrMetaData, FlickrMetaDataRepository> {
+    protected CacheService cacheService = new GaeCacheService();
+    private final PhotoService photoService = new PhotoService();
+    private final PhotoDataService photoDataService = new PhotoDataService();
 
     public enum Perms {
         READ, WRITE, DELETE;
@@ -44,9 +41,8 @@ public class FlickrService extends AbstractService<Long, FlickrMetaData> {
         }
     }
 
-    @Autowired
-    protected FlickrService(FlickrMetaDataRepository repository) {
-        super(repository);
+    protected FlickrService() {
+        super(new ObjectifyFlickrMetaDataRepository());
     }
 
     /**

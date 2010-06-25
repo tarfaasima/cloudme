@@ -16,22 +16,22 @@
             dependencies, as described here in "Copying JARs" section:
             http://code.google.com/appengine/docs/java/tools/ant.html
         -->
-        <dependency>
-            <groupId>javax.jdo</groupId>
-            <artifactId>jdo2-api</artifactId>
-            <version>2.3-eb</version>
-            <exclusions>
-                <!--
-                    exclude the legacy javax.transaction:transaction-api
-                    and replace it with javax.transaction:jta (it
-                    appears to be the same thing)
-                -->
-                <exclusion>
-                    <groupId>javax.transaction</groupId>
-                    <artifactId>transaction-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>javax.jdo</groupId>-->
+<!--            <artifactId>jdo2-api</artifactId>-->
+<!--            <version>2.3-eb</version>-->
+<!--            <exclusions>-->
+<!--                -->
+<!--                    exclude the legacy javax.transaction:transaction-api-->
+<!--                    and replace it with javax.transaction:jta (it-->
+<!--                    appears to be the same thing)-->
+<!--                -->
+<!--                <exclusion>-->
+<!--                    <groupId>javax.transaction</groupId>-->
+<!--                    <artifactId>transaction-api</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>javax.transaction</groupId>
@@ -39,37 +39,37 @@
             <version>1.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.google.appengine.orm</groupId>
-            <artifactId>datanucleus-appengine</artifactId>
-            <version>1.0.4.1</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.google.appengine.orm</groupId>-->
+<!--            <artifactId>datanucleus-appengine</artifactId>-->
+<!--            <version>1.0.4.1</version>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>org.datanucleus</groupId>
-            <artifactId>datanucleus-core</artifactId>
-            <version>1.1.5</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.transaction</groupId>
-                    <artifactId>transaction-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.datanucleus</groupId>-->
+<!--            <artifactId>datanucleus-core</artifactId>-->
+<!--            <version>1.1.5</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>javax.transaction</groupId>-->
+<!--                    <artifactId>transaction-api</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>com.google.appengine</groupId>
-            <artifactId>datanucleus-jpa</artifactId>
-            <version>1.1.5</version>
-            <scope>runtime</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.google.appengine</groupId>-->
+<!--            <artifactId>datanucleus-jpa</artifactId>-->
+<!--            <version>1.1.5</version>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>com.google.appengine</groupId>
-            <artifactId>geronimo-jpa_3.0_spec</artifactId>
-            <version>1.1.1</version>
-            <scope>runtime</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.google.appengine</groupId>-->
+<!--            <artifactId>geronimo-jpa_3.0_spec</artifactId>-->
+<!--            <version>1.1.1</version>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
 
 <!--        <dependency>-->
 <!--            <groupId>com.google.appengine</groupId>-->
@@ -243,76 +243,76 @@
         	<type>jar</type>
         	<scope>compile</scope>
         </dependency>
-        <dependency>
-        	<groupId>org.springframework</groupId>
-        	<artifactId>spring-aop</artifactId>
-        	<version>${spring.version}</version>
-        	<type>jar</type>
-        	<scope>compile</scope>
-        </dependency>
-        <dependency>
-        	<groupId>org.springframework</groupId>
-        	<artifactId>spring-asm</artifactId>
-        	<version>${spring.version}</version>
-        	<type>jar</type>
-        	<scope>compile</scope>
-        </dependency>
-        <dependency>
-        	<groupId>org.springframework</groupId>
-        	<artifactId>spring-beans</artifactId>
-        	<version>${spring.version}</version>
-        	<type>jar</type>
-        	<scope>compile</scope>
-        </dependency>
-        <dependency>
-        	<groupId>org.springframework</groupId>
-        	<artifactId>spring-context</artifactId>
-        	<version>${spring.version}</version>
-        	<type>jar</type>
-        	<scope>compile</scope>
-        </dependency>
-        <dependency>
-        	<groupId>org.springframework</groupId>
-        	<artifactId>spring-core</artifactId>
-        	<version>${spring.version}</version>
-        	<type>jar</type>
-        	<scope>compile</scope>
-        </dependency>
-        <dependency>
-        	<groupId>org.springframework</groupId>
-        	<artifactId>spring-expression</artifactId>
-        	<version>${spring.version}</version>
-        	<type>jar</type>
-        	<scope>compile</scope>
-        </dependency>
-        <dependency>
-        	<groupId>org.springframework</groupId>
-        	<artifactId>spring-jdbc</artifactId>
-        	<version>${spring.version}</version>
-        	<type>jar</type>
-        	<scope>compile</scope>
-        </dependency>
-        <dependency>
-        	<groupId>org.springframework</groupId>
-        	<artifactId>spring-orm</artifactId>
-        	<version>${spring.version}</version>
-        	<type>jar</type>
-        	<scope>compile</scope>
-        </dependency>
-        <dependency>
-        	<groupId>org.springframework</groupId>
-        	<artifactId>spring-tx</artifactId>
-        	<version>${spring.version}</version>
-        	<type>jar</type>
-        	<scope>compile</scope>
-        </dependency>
-        <dependency>
-        	<groupId>org.springframework</groupId>
-        	<artifactId>spring-web</artifactId>
-        	<version>${spring.version}</version>
-        	<type>jar</type>
-        	<scope>compile</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--        	<groupId>org.springframework</groupId>-->
+<!--        	<artifactId>spring-aop</artifactId>-->
+<!--        	<version>${spring.version}</version>-->
+<!--        	<type>jar</type>-->
+<!--        	<scope>compile</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--        	<groupId>org.springframework</groupId>-->
+<!--        	<artifactId>spring-asm</artifactId>-->
+<!--        	<version>${spring.version}</version>-->
+<!--        	<type>jar</type>-->
+<!--        	<scope>compile</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--        	<groupId>org.springframework</groupId>-->
+<!--        	<artifactId>spring-beans</artifactId>-->
+<!--        	<version>${spring.version}</version>-->
+<!--        	<type>jar</type>-->
+<!--        	<scope>compile</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--        	<groupId>org.springframework</groupId>-->
+<!--        	<artifactId>spring-context</artifactId>-->
+<!--        	<version>${spring.version}</version>-->
+<!--        	<type>jar</type>-->
+<!--        	<scope>compile</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--        	<groupId>org.springframework</groupId>-->
+<!--        	<artifactId>spring-core</artifactId>-->
+<!--        	<version>${spring.version}</version>-->
+<!--        	<type>jar</type>-->
+<!--        	<scope>compile</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--        	<groupId>org.springframework</groupId>-->
+<!--        	<artifactId>spring-expression</artifactId>-->
+<!--        	<version>${spring.version}</version>-->
+<!--        	<type>jar</type>-->
+<!--        	<scope>compile</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--        	<groupId>org.springframework</groupId>-->
+<!--        	<artifactId>spring-jdbc</artifactId>-->
+<!--        	<version>${spring.version}</version>-->
+<!--        	<type>jar</type>-->
+<!--        	<scope>compile</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--        	<groupId>org.springframework</groupId>-->
+<!--        	<artifactId>spring-orm</artifactId>-->
+<!--        	<version>${spring.version}</version>-->
+<!--        	<type>jar</type>-->
+<!--        	<scope>compile</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--        	<groupId>org.springframework</groupId>-->
+<!--        	<artifactId>spring-tx</artifactId>-->
+<!--        	<version>${spring.version}</version>-->
+<!--        	<type>jar</type>-->
+<!--        	<scope>compile</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--        	<groupId>org.springframework</groupId>-->
+<!--        	<artifactId>spring-web</artifactId>-->
+<!--        	<version>${spring.version}</version>-->
+<!--        	<type>jar</type>-->
+<!--        	<scope>compile</scope>-->
+<!--        </dependency>-->
 <!--        <dependency>-->
 <!--        	<groupId>taglibs</groupId>-->
 <!--        	<artifactId>standard</artifactId>-->
@@ -341,6 +341,38 @@
             GAE libraries for local testing as described here:
             http://code.google.com/appengine/docs/java/howto/unittesting.html
         -->
+        <dependency>
+        	<groupId>com.googlecode.objectify</groupId>
+        	<artifactId>objectify</artifactId>
+        	<version>2.2</version>
+        	<scope>compile</scope>
+        </dependency>
+        <dependency>
+        	<groupId>javax.persistence</groupId>
+        	<artifactId>persistence-api</artifactId>
+        	<version>1.0</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
+        <dependency>
+        	<groupId>com.google.inject</groupId>
+        	<artifactId>guice</artifactId>
+        	<version>2.0</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
+        <dependency>
+        	<groupId>com.google.inject.extensions</groupId>
+        	<artifactId>guice-servlet</artifactId>
+        	<version>2.0</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
+        <dependency>
+        	<groupId>com.google.code</groupId>
+        	<artifactId>stripes-guicer</artifactId>
+        	<version>0.2</version>
+        </dependency>
     </dependencies>
     <description>My personal photo webgallery.</description>
     <url>http://cloudme.org/p/webgallery</url>
@@ -371,52 +403,6 @@
                 This plug-in "enhances" your domain model objects (i.e.
                 makes them persistent for datanucleus)
             -->
-            <plugin>
-                <groupId>org.datanucleus</groupId>
-                <artifactId>maven-datanucleus-plugin</artifactId>
-                <version>1.1.4</version>
-                <configuration>
-                    <!--
-                        Make sure this path contains your persistent
-                        classes!
-                    -->
-                    <mappingIncludes>**/model/*.class</mappingIncludes>
-                    <verbose>true</verbose>
-                    <enhancerName>ASM</enhancerName>
-                    <api>JDO</api>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>enhance</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.datanucleus</groupId>
-                        <artifactId>datanucleus-core</artifactId>
-                        <version>1.1.5</version>
-                        <exclusions>
-                            <exclusion>
-                                <groupId>javax.transaction</groupId>
-                                <artifactId>transaction-api</artifactId>
-                            </exclusion>
-                        </exclusions>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.datanucleus</groupId>
-                        <artifactId>datanucleus-rdbms</artifactId>
-                        <version>1.1.5</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.datanucleus</groupId>
-                        <artifactId>datanucleus-enhancer</artifactId>
-                        <version>1.1.4</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -617,24 +603,19 @@
             </snapshots>
 	    </repository>
         <repository>
-            <id>DataNucleus_Repos2</id>
-            <name>DataNucleus Repository</name>
-            <url>http://www.datanucleus.org/downloads/maven2</url>
-        </repository>
-        <repository>
             <id>maven-gae-plugin-repo</id>
             <name>maven-gae-plugin repository</name>
             <url>
                 http://maven-gae-plugin.googlecode.com/svn/repository
             </url>
         </repository>
+        <repository>
+        	<id>cloudme</id>
+        	<url>http://cloudme.googlecode.com/svn/maven/</url>
+        </repository>
     </repositories>
 
     <pluginRepositories>
-        <pluginRepository>
-            <id>DataNucleus_2</id>
-            <url>http://www.datanucleus.org/downloads/maven2/</url>
-        </pluginRepository>
         <pluginRepository>
             <id>maven-gae-plugin-repo</id>
             <name>maven-gae-plugin repository</name>

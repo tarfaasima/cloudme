@@ -1,32 +1,29 @@
 package org.cloudme.webgallery.model;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import com.googlecode.objectify.annotation.Indexed;
+import com.googlecode.objectify.annotation.Unindexed;
 
 
 @SuppressWarnings( "serial" )
-@PersistenceCapable(identityType = IdentityType.APPLICATION)
+@Indexed
 public class Photo implements IdObject<Long> {
-	@Persistent
+    @Unindexed
 	private String contentType;
-	@Persistent
+    @Unindexed
 	private String fileName;
-	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    @Id
 	private Long id;
-	@Persistent
+    @Unindexed
 	private String name;
-	@Persistent
+    @Unindexed
 	private long size;
-	@Persistent
 	private Long albumId;
-	@Persistent
+    @Unindexed
 	private Float cropBalance = 0.5f;
-	@NotPersistent
+    @Transient
 	private PhotoData photoData;
 
 	public String getContentType() {

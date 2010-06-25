@@ -10,16 +10,20 @@ import javax.cache.CacheManager;
 
 import org.cloudme.webgallery.cache.CacheProducer;
 import org.cloudme.webgallery.cache.CacheService;
-import org.springframework.stereotype.Component;
 
-@Component
 public class GaeCacheService implements CacheService {
     private final Cache cache;
 
-    public GaeCacheService() throws CacheException {
+    public GaeCacheService() {
         CacheManager cacheManager = CacheManager.getInstance();
-        CacheFactory cacheFactory = cacheManager.getCacheFactory();
-        cache = cacheFactory.createCache(Collections.EMPTY_MAP);
+        CacheFactory cacheFactory;
+        try {
+            cacheFactory = cacheManager.getCacheFactory();
+            cache = cacheFactory.createCache(Collections.EMPTY_MAP);
+        }
+        catch (CacheException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void invalidate() {

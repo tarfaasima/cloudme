@@ -4,18 +4,16 @@ import java.util.Collection;
 
 import org.cloudme.webgallery.model.IdObject;
 import org.cloudme.webgallery.persistence.Repository;
-import org.springframework.stereotype.Service;
 
-@Service
-public abstract class AbstractService<K, T extends IdObject<K>> {
-	private final Repository<K, T> repository;
+public abstract class AbstractService<K, T extends IdObject<K>, R extends Repository<K, T>> {
+    protected R repository;
     
-    protected AbstractService(Repository<K, T> repository) {
+    protected AbstractService(R repository) {
         this.repository = repository;
     }
 
-    protected Repository<K, T> getRepository() {
-        return repository;
+    public void setRepository(R repository) {
+        this.repository = repository;
     }
 
     public Collection<T> findAll() {

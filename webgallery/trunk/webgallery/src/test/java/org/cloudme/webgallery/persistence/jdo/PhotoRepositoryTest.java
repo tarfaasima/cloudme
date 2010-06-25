@@ -6,23 +6,24 @@ import java.util.Collection;
 
 import org.cloudme.webgallery.model.Album;
 import org.cloudme.webgallery.model.Photo;
+import org.cloudme.webgallery.persistence.AlbumRepository;
+import org.cloudme.webgallery.persistence.PhotoRepository;
+import org.cloudme.webgallery.persistence.Repository;
+import org.cloudme.webgallery.persistence.objectify.ObjectifyAlbumRepository;
+import org.cloudme.webgallery.persistence.objectify.ObjectifyPhotoRepository;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.orm.jdo.support.JdoDaoSupport;
 
-import com.google.appengine.tools.development.PMF;
-
-public class JdoPhotoRepositoryTest extends AbstractJdoTestCase<Long, Photo> {
-    private JdoAlbumRepository albumRepository;
-    private JdoPhotoRepository photoRepository;
+public class PhotoRepositoryTest extends AbstractDatastoreTestCase<Long, Photo> {
+    private AlbumRepository albumRepository;
+    private PhotoRepository photoRepository;
 
     @Override
     @Before
     public void setUp() {
         super.setUp();
-        albumRepository = new JdoAlbumRepository();
-        photoRepository = new JdoPhotoRepository();
-        setPMF(albumRepository, photoRepository);
+        albumRepository = new ObjectifyAlbumRepository();
+        photoRepository = new ObjectifyPhotoRepository();
     }
 
     @Test
@@ -60,19 +61,13 @@ public class JdoPhotoRepositoryTest extends AbstractJdoTestCase<Long, Photo> {
         }
     }
 
-    private void setPMF(JdoDaoSupport... jdoDaoSupports) {
-        for (JdoDaoSupport jdoDaoSupport : jdoDaoSupports) {
-            jdoDaoSupport.setPersistenceManagerFactory(PMF.get());
-        }
-    }
-
     @Override
     public Photo createEntity() {
         return new Photo();
     }
 
     @Override
-    public AbstractJdoRepository<Long, Photo> createRepository() {
-        return new JdoPhotoRepository();
+    public Repository<Long, Photo> createRepository() {
+        return new ObjectifyPhotoRepository();
     }
 }

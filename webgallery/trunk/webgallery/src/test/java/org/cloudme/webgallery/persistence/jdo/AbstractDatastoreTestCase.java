@@ -5,27 +5,26 @@ import static org.junit.Assert.assertNotNull;
 import net.sourceforge.stripes.action.After;
 
 import org.cloudme.webgallery.model.IdObject;
+import org.cloudme.webgallery.persistence.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.appengine.tools.development.PMF;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
-public abstract class AbstractJdoTestCase<K, T extends IdObject<K>> {
+public abstract class AbstractDatastoreTestCase<K, T extends IdObject<K>> {
     private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
-    protected AbstractJdoRepository<K, T> repo;
+    protected Repository<K, T> repo;
 
     public abstract T createEntity();
 
-    public abstract AbstractJdoRepository<K, T> createRepository();
+    public abstract Repository<K, T> createRepository();
 
     @Before
     public void setUp() {
         helper.setUp();
         repo = createRepository();
-        repo.setPersistenceManagerFactory(PMF.get());
         assertRepoSize(0);
     }
     

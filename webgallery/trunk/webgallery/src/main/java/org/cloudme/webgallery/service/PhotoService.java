@@ -2,33 +2,23 @@ package org.cloudme.webgallery.service;
 
 import java.util.Collection;
 
-import javax.cache.CacheException;
-
 import org.apache.log4j.Logger;
 import org.cloudme.webgallery.model.Album;
 import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.model.PhotoData;
 import org.cloudme.webgallery.persistence.PhotoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.cloudme.webgallery.persistence.objectify.ObjectifyPhotoRepository;
 
 import com.google.apphosting.api.ApiProxy.RequestTooLargeException;
 
-@Service
-public class PhotoService extends AbstractService<Long, Photo> {
-    private final PhotoRepository photoRepository;
-    @Autowired
-    private PhotoDataService photoDataService;
-    @Autowired
-    private AlbumService albumService;
-    @Autowired
-    private ScaledPhotoDataService scaledPhotoDataService;
+public class PhotoService extends AbstractService<Long, Photo, PhotoRepository> {
+    private final PhotoDataService photoDataService = new PhotoDataService();
+    private final AlbumService albumService = new AlbumService();
+    private final ScaledPhotoDataService scaledPhotoDataService = new ScaledPhotoDataService();
     private static final Logger LOG = Logger.getLogger(PhotoService.class);
 
-    @Autowired
-    protected PhotoService(PhotoRepository repository) throws CacheException {
-        super(repository);
-        photoRepository = repository;
+    public PhotoService() {
+        super(new ObjectifyPhotoRepository());
     }
 
     /**
@@ -39,7 +29,7 @@ public class PhotoService extends AbstractService<Long, Photo> {
      * @return The {@link Photo}s, that are associated with the {@link Album}.
      */
     public Collection<Photo> findByAlbumId(Long albumId) {
-        return photoRepository.findByAlbumId(albumId);
+        return repository.findByAlbumId(albumId);
     }
 
     /**
@@ -73,7 +63,7 @@ public class PhotoService extends AbstractService<Long, Photo> {
     }
     
     private void updatePhotoCount(Long albumId) {
-        int count = photoRepository.countPhotosByAlbumId(albumId);
+        int count = repository.countPhotosByAlbumId(albumId);
         albumService.updatePhotoCount(albumId, count);
     }
     

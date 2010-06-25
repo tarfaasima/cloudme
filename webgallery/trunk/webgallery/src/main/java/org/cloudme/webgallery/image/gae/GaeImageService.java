@@ -4,7 +4,6 @@ import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.image.ImageFormat;
 import org.cloudme.webgallery.image.ImageService;
 import org.cloudme.webgallery.image.ImageServiceException;
-import org.springframework.stereotype.Component;
 
 import com.google.appengine.api.images.CompositeTransform;
 import com.google.appengine.api.images.Image;
@@ -13,7 +12,6 @@ import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ImagesService.OutputEncoding;
 import com.google.apphosting.api.ApiProxy.OverQuotaException;
 
-@Component
 public class GaeImageService implements ImageService {
     public byte[] process(byte[] data,
             ImageFormat format,

@@ -1,23 +1,19 @@
 package org.cloudme.webgallery.model;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.persistence.Id;
+
+import com.googlecode.objectify.annotation.Unindexed;
 
 
 @SuppressWarnings( "serial" )
-@PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Album implements IdObject<Long> {
-	@PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    @Id
 	private Long id;
-	@Persistent
+    @Unindexed
 	private String name;
-	@Persistent
+    @Unindexed
 	private String description;
-	@Persistent
+    @Unindexed
 	private int photoCount = 0;
 
 	public Long getId() {

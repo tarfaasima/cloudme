@@ -1,30 +1,22 @@
 package org.cloudme.webgallery.model;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.persistence.Id;
+
+import com.googlecode.objectify.annotation.Indexed;
+import com.googlecode.objectify.annotation.Unindexed;
 
 @SuppressWarnings( "serial" )
-@PersistenceCapable(identityType = IdentityType.APPLICATION)
+@Unindexed
 public class FlickrMetaData implements IdObject<Long> {
-    @PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    @Id
+    @Indexed
     private Long id;
-    @Persistent
     private String key;
-    @Persistent
     private String secret;
-    @Persistent
     private String nsid;
-    @Persistent
     private String perms;
-    @Persistent
     private String fullname;
-    @Persistent
     private String token;
-    @Persistent
     private String username;
 
     public Long getId() {

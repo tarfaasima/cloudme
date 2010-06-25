@@ -6,22 +6,19 @@ import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.image.ImageFormat;
 import org.cloudme.webgallery.model.ScaledPhotoData;
 import org.cloudme.webgallery.persistence.ScaledPhotoDataRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.cloudme.webgallery.persistence.objectify.ObjectifyScaledPhotoDataRepository;
 
-@Service
 public class ScaledPhotoDataService extends
-        AbstractService<Long, ScaledPhotoData> {
-    private final ScaledPhotoDataRepository scaledPhotoDataRepository;
+        AbstractService<Long, ScaledPhotoData, ScaledPhotoDataRepository> {
 
-    @Autowired
-    public ScaledPhotoDataService(ScaledPhotoDataRepository scaledPhotoDataRepository) {
-        super(scaledPhotoDataRepository);
-        this.scaledPhotoDataRepository = scaledPhotoDataRepository;
+    public ScaledPhotoDataService() {
+        super(new ObjectifyScaledPhotoDataRepository());
     }
 
     public byte[] find(long photoId, ImageFormat format, ContentType type) {
-        Collection<ScaledPhotoData> scaledPhotoDatas = scaledPhotoDataRepository.find(photoId, format.toString(), type
+        Collection<ScaledPhotoData> scaledPhotoDatas = repository.find(photoId,
+                format.toString(),
+                type
                 .toString());
         if (scaledPhotoDatas.isEmpty()) {
             return null;
@@ -30,6 +27,6 @@ public class ScaledPhotoDataService extends
     }
 
     public void deleteByPhotoId(long photoId) {
-        scaledPhotoDataRepository.deleteByPhotoId(photoId);
+        repository.deleteByPhotoId(photoId);
     }
 }

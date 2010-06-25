@@ -1,6 +1,6 @@
 package org.cloudme.webgallery.flickr;
 
-import org.springframework.util.DigestUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 
 class SignatureBuilder {
     private StringBuilder builder;
@@ -22,7 +22,7 @@ class SignatureBuilder {
             return null;
         }
         else {
-            return DigestUtils.md5DigestAsHex(builder.toString().getBytes());
+            return DigestUtils.md5Hex(builder.toString());
         }
     }
 }

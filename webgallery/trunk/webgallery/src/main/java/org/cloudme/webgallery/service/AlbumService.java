@@ -3,19 +3,13 @@ package org.cloudme.webgallery.service;
 import org.cloudme.webgallery.model.Album;
 import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.persistence.AlbumRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.cloudme.webgallery.persistence.objectify.ObjectifyAlbumRepository;
 
-@Service
-public class AlbumService extends AbstractService<Long, Album> {
-	private final AlbumRepository repository;
-	@Autowired
-	private PhotoService photoService;
+public class AlbumService extends AbstractService<Long, Album, AlbumRepository> {
+    private final PhotoService photoService = new PhotoService();
 
-	@Autowired
-	protected AlbumService(AlbumRepository repository) {
-		super(repository);
-		this.repository = repository;
+    protected AlbumService() {
+        super(new ObjectifyAlbumRepository());
 	}
 
 	/**

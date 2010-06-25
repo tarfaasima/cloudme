@@ -1,26 +1,20 @@
 package org.cloudme.webgallery.model;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.persistence.Id;
 
 import com.google.appengine.api.datastore.Blob;
+import com.googlecode.objectify.annotation.Indexed;
+import com.googlecode.objectify.annotation.Unindexed;
 
 @SuppressWarnings( "serial" )
-@PersistenceCapable( identityType = IdentityType.APPLICATION )
+@Indexed
 public class ScaledPhotoData implements IdObject<Long> {
-    @PrimaryKey
-    @Persistent( valueStrategy = IdGeneratorStrategy.IDENTITY )
+    @Id
     private Long id;
-    @Persistent
     private Long photoId;
-    @Persistent
+    @Unindexed
     private Blob data;
-    @Persistent
     private String format;
-    @Persistent
     private String type;
 
     public Long getPhotoId() {
