@@ -95,4 +95,8 @@ public class PhotoService extends AbstractService<Long, Photo, PhotoRepository> 
         delete(photoId);
         updatePhotoCount(albumId);
     }
+
+    public Long getRandomPhotoId() {
+        return repository.getRandomPhotoId();
+    }
 }

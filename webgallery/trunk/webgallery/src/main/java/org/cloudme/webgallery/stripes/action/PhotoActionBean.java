@@ -16,6 +16,7 @@ import org.cloudme.webgallery.image.ImageFormatFactory;
 import org.cloudme.webgallery.image.ImageServiceException;
 import org.cloudme.webgallery.image.OverQuotaImageLoader;
 import org.cloudme.webgallery.service.PhotoDataService;
+import org.cloudme.webgallery.service.PhotoService;
 
 import com.google.inject.Inject;
 
@@ -26,6 +27,8 @@ public class PhotoActionBean extends AbstractActionBean {
     private ContentType type;
     @Inject
     private PhotoDataService service;
+    @Inject
+    private PhotoService photoService;
 
     @DefaultHandler
     public void show() throws IOException {
@@ -49,8 +52,13 @@ public class PhotoActionBean extends AbstractActionBean {
         out.write(data);
     }
 
-    public void setPhotoId(Long photoId) {
-        this.photoId = photoId;
+    public void setPhotoId(String photoId) {
+        try {
+            this.photoId = Long.valueOf(photoId);
+        }
+        catch (NumberFormatException e) {
+            this.photoId = photoService.getRandomPhotoId();
+        }
     }
 
     public void setFormat(String format) {

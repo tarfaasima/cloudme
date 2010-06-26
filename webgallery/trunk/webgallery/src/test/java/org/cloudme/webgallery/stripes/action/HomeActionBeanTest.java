@@ -52,12 +52,6 @@ public class HomeActionBeanTest {
     }
 
     @Test
-    public void testGetRandomPhotoId() {
-        Long randomPhotoId = actionBean.getRandomPhotoId();
-        assertEquals(photo.getId(), randomPhotoId);
-    }
-
-    @Test
     public void testGetAlbums() {
         Collection<Album> albums = actionBean.getAlbums();
         assertEquals(1, albums.size());
