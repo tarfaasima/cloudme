@@ -8,18 +8,19 @@ import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.integration.spring.SpringBean;
 
 import org.cloudme.webgallery.model.Album;
 import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.service.AlbumService;
 import org.cloudme.webgallery.service.PhotoService;
 
+import com.google.inject.Inject;
+
 @UrlBinding("/gallery/home")
 public class HomeActionBean extends AbstractActionBean {
-    @SpringBean
+    @Inject
 	private PhotoService photoService;
-	@SpringBean
+    @Inject
 	private AlbumService albumService;
     
     @DefaultHandler

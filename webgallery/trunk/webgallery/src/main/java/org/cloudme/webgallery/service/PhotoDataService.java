@@ -2,32 +2,36 @@ package org.cloudme.webgallery.service;
 
 import org.cloudme.webgallery.cache.CacheProducer;
 import org.cloudme.webgallery.cache.CacheService;
-import org.cloudme.webgallery.cache.gae.GaeCacheService;
 import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.image.DefaultImageFormat;
 import org.cloudme.webgallery.image.ImageFormat;
 import org.cloudme.webgallery.image.ImageService;
-import org.cloudme.webgallery.image.gae.GaeImageService;
 import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.model.PhotoData;
 import org.cloudme.webgallery.model.ScaledPhotoData;
 import org.cloudme.webgallery.persistence.PhotoDataRepository;
-import org.cloudme.webgallery.persistence.objectify.ObjectifyPhotoDataRepository;
 
 import com.google.appengine.api.labs.taskqueue.Queue;
 import com.google.appengine.api.labs.taskqueue.QueueFactory;
 import com.google.appengine.api.labs.taskqueue.TaskOptions;
+import com.google.inject.Inject;
 
 public class PhotoDataService extends
         AbstractService<Long, PhotoData, PhotoDataRepository> {
-    private final CacheService cacheService = new GaeCacheService();
-    private final ImageService imageService = new GaeImageService();
-    private final PhotoService photoService = new PhotoService();
-    private final ScaledPhotoDataService scaledPhotoDataService = new ScaledPhotoDataService();
-    private final PhotoDataRepository photoDataRepository = new ObjectifyPhotoDataRepository();
+    @Inject
+    private CacheService cacheService;
+    @Inject
+    private ImageService imageService;
+    @Inject
+    private PhotoService photoService;
+    @Inject
+    private ScaledPhotoDataService scaledPhotoDataService;
+    @Inject
+    private PhotoDataRepository photoDataRepository;
 
-    protected PhotoDataService() {
-        super(new ObjectifyPhotoDataRepository());
+    @Inject
+    protected PhotoDataService(PhotoDataRepository repository) {
+        super(repository);
     }
 
     /**

@@ -4,18 +4,18 @@ import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.Validate;
 
 import org.cloudme.webgallery.service.FlickrService;
 import org.cloudme.webgallery.stripes.action.AbstractActionBean;
 
+import com.google.inject.Inject;
+
 @UrlBinding("/organize/flickr/{$event}")
 public class FlickrActionBean extends AbstractActionBean {
     @Validate(required = true)
     private String frob;
-    
-    @SpringBean
+    @Inject
     private FlickrService flickrService;
     
     @DefaultHandler

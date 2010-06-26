@@ -3,13 +3,16 @@ package org.cloudme.webgallery.service;
 import org.cloudme.webgallery.model.Album;
 import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.persistence.AlbumRepository;
-import org.cloudme.webgallery.persistence.objectify.ObjectifyAlbumRepository;
+
+import com.google.inject.Inject;
 
 public class AlbumService extends AbstractService<Long, Album, AlbumRepository> {
-    private final PhotoService photoService = new PhotoService();
+    @Inject
+    private PhotoService photoService;
 
-    protected AlbumService() {
-        super(new ObjectifyAlbumRepository());
+    @Inject
+    protected AlbumService(AlbumRepository repository) {
+        super(repository);
 	}
 
 	/**

@@ -9,7 +9,6 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
@@ -18,12 +17,14 @@ import org.cloudme.webgallery.model.Album;
 import org.cloudme.webgallery.service.AlbumService;
 import org.cloudme.webgallery.stripes.action.AbstractActionBean;
 
+import com.google.inject.Inject;
+
 @UrlBinding("/organize/album/{$event}/{id}")
 public class AlbumActionBean extends AbstractActionBean {
     private Long id;
     @ValidateNestedProperties( { @Validate(field = "name", required = true) })
     private List<Album> items;
-    @SpringBean
+    @Inject
     private AlbumService service;
 
     @DontValidate

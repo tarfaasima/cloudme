@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 import org.cloudme.webgallery.cache.CacheProducer;
 import org.cloudme.webgallery.cache.CacheService;
-import org.cloudme.webgallery.cache.gae.GaeCacheService;
 import org.cloudme.webgallery.flickr.FlickrRequest;
 import org.cloudme.webgallery.flickr.FlickrResponse;
 import org.cloudme.webgallery.flickr.FlickrRequest.FlickrUrl;
@@ -16,14 +15,18 @@ import org.cloudme.webgallery.message.Message;
 import org.cloudme.webgallery.model.FlickrMetaData;
 import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.persistence.FlickrMetaDataRepository;
-import org.cloudme.webgallery.persistence.objectify.ObjectifyFlickrMetaDataRepository;
 import org.cloudme.webgallery.util.UrlUtils;
+
+import com.google.inject.Inject;
 
 public class FlickrService extends
         AbstractService<Long, FlickrMetaData, FlickrMetaDataRepository> {
-    protected CacheService cacheService = new GaeCacheService();
-    private final PhotoService photoService = new PhotoService();
-    private final PhotoDataService photoDataService = new PhotoDataService();
+    @Inject
+    CacheService cacheService;
+    @Inject
+    private PhotoService photoService;
+    @Inject
+    private PhotoDataService photoDataService;
 
     public enum Perms {
         READ, WRITE, DELETE;
@@ -41,8 +44,9 @@ public class FlickrService extends
         }
     }
 
-    protected FlickrService() {
-        super(new ObjectifyFlickrMetaDataRepository());
+    @Inject
+    protected FlickrService(FlickrMetaDataRepository repository) {
+        super(repository);
     }
 
     /**

@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.integration.spring.SpringBean;
 
 import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.image.ContentTypeFactory;
@@ -18,12 +17,14 @@ import org.cloudme.webgallery.image.ImageServiceException;
 import org.cloudme.webgallery.image.OverQuotaImageLoader;
 import org.cloudme.webgallery.service.PhotoDataService;
 
+import com.google.inject.Inject;
+
 @UrlBinding( "/gallery/photo/{photoId}_{format}.{type}" )
 public class PhotoActionBean extends AbstractActionBean {
     private Long photoId;
     private ImageFormat format;
     private ContentType type;
-    @SpringBean
+    @Inject
     private PhotoDataService service;
 
     @DefaultHandler

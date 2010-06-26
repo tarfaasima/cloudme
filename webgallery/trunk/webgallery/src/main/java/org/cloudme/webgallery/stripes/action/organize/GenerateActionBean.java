@@ -6,15 +6,16 @@ import javax.servlet.http.HttpServletResponse;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.integration.spring.SpringBean;
 
 import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.service.PhotoDataService;
 import org.cloudme.webgallery.stripes.action.AbstractActionBean;
 
+import com.google.inject.Inject;
+
 @UrlBinding( "/organize/generate/{id}" )
 public class GenerateActionBean extends AbstractActionBean {
-    @SpringBean
+    @Inject
     private PhotoDataService photoDataService;
     private long id;
 

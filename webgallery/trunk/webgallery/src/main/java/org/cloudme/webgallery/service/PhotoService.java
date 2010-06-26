@@ -7,18 +7,22 @@ import org.cloudme.webgallery.model.Album;
 import org.cloudme.webgallery.model.Photo;
 import org.cloudme.webgallery.model.PhotoData;
 import org.cloudme.webgallery.persistence.PhotoRepository;
-import org.cloudme.webgallery.persistence.objectify.ObjectifyPhotoRepository;
 
 import com.google.apphosting.api.ApiProxy.RequestTooLargeException;
+import com.google.inject.Inject;
 
 public class PhotoService extends AbstractService<Long, Photo, PhotoRepository> {
-    private final PhotoDataService photoDataService = new PhotoDataService();
-    private final AlbumService albumService = new AlbumService();
-    private final ScaledPhotoDataService scaledPhotoDataService = new ScaledPhotoDataService();
+    @Inject
+    private PhotoDataService photoDataService;
+    @Inject
+    private AlbumService albumService;
+    @Inject
+    private ScaledPhotoDataService scaledPhotoDataService;
     private static final Logger LOG = Logger.getLogger(PhotoService.class);
 
-    public PhotoService() {
-        super(new ObjectifyPhotoRepository());
+    @Inject
+    public PhotoService(PhotoRepository repository) {
+        super(repository);
     }
 
     /**

@@ -11,7 +11,6 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.integration.spring.SpringBean;
 
 import org.cloudme.webgallery.message.Message;
 import org.cloudme.webgallery.model.Photo;
@@ -21,11 +20,13 @@ import org.cloudme.webgallery.stripes.action.AbstractActionBean;
 import org.cloudme.webgallery.stripes.action.organize.upload.UploadManager;
 import org.cloudme.webgallery.util.CollectionUtils;
 
+import com.google.inject.Inject;
+
 @UrlBinding("/organize/photo/{albumId}/{$event}/{id}")
 public class PhotoActionBean extends AbstractActionBean {
-    @SpringBean
+    @Inject
     private PhotoService photoService;
-    @SpringBean
+    @Inject
     private FlickrService flickrService;
 	private FileBean photoFile;
 	private Long photoId;

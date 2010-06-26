@@ -5,7 +5,6 @@ import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
@@ -15,9 +14,11 @@ import org.cloudme.webgallery.service.FlickrService;
 import org.cloudme.webgallery.service.FlickrService.Perms;
 import org.cloudme.webgallery.stripes.action.AbstractActionBean;
 
+import com.google.inject.Inject;
+
 @UrlBinding("/organize/settings/{$event}")
 public class SettingsActionBean extends AbstractActionBean {
-    @SpringBean
+    @Inject
     private FlickrService flickrService;
     @ValidateNestedProperties( { 
         @Validate(field = "key", required = true),

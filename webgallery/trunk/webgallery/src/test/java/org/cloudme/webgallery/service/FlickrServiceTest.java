@@ -14,6 +14,7 @@ import java.util.Map;
 import net.sourceforge.stripes.action.After;
 
 import org.cloudme.webgallery.cache.gae.GaeCacheService;
+import org.cloudme.webgallery.guice.WebgalleryModule;
 import org.cloudme.webgallery.model.FlickrMetaData;
 import org.cloudme.webgallery.persistence.FlickrMetaDataRepository;
 import org.cloudme.webgallery.service.FlickrService.Perms;
@@ -23,6 +24,8 @@ import org.junit.Test;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMemcacheServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 public class FlickrServiceTest {
     private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalMemcacheServiceTestConfig(), new LocalDatastoreServiceTestConfig());
@@ -39,7 +42,7 @@ public class FlickrServiceTest {
 
     @Test
     public void testCreateLoginLink() throws Exception {
-        FlickrService service = new FlickrService() {
+        FlickrService service = new FlickrService(null) {
             @Override
             public Collection<FlickrMetaData> findAll() {
                 FlickrMetaData metaData = new FlickrMetaData();
@@ -49,12 +52,15 @@ public class FlickrServiceTest {
             }
         };
 
+        Injector injector = Guice.createInjector(new WebgalleryModule());
+        injector.injectMembers(service);
+
         assertEquals("http://flickr.com/services/auth/?api_key=1234&perms=write&api_sig=54f77b1e0d1f3886c1ce6c61d13a710e", service.createLoginLink(Perms.WRITE));
     }
 
     @Test
     public void testCreateLoginLinkWithoutMetaData() throws Exception {
-        FlickrService service = new FlickrService() {
+        FlickrService service = new FlickrService(null) {
             @Override
             public Collection<FlickrMetaData> findAll() {
                 return Collections.emptyList();
@@ -75,8 +81,7 @@ public class FlickrServiceTest {
             }
         }
         final IdGen idGen = new IdGen();
-        FlickrService service = new FlickrService();
-        service.setRepository(new FlickrMetaDataRepository() {
+        FlickrService service = new FlickrService(new FlickrMetaDataRepository() {
             private final Map<Long, FlickrMetaData> store = new HashMap<Long, FlickrMetaData>();
             
             public void save(FlickrMetaData t) {
@@ -98,7 +103,6 @@ public class FlickrServiceTest {
                 store.remove(id);
             }
         });
-        service = new FlickrService();
         service.cacheService = new GaeCacheService();
         assertNull(service.get());
         FlickrMetaData m1 = new FlickrMetaData();
