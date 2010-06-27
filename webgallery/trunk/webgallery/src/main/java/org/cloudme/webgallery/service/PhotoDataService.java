@@ -18,6 +18,10 @@ import com.google.inject.Inject;
 
 public class PhotoDataService extends
         AbstractService<Long, PhotoData, PhotoDataRepository> {
+    public interface PostProcessor {
+        void process(ImageFormat format, byte[] output);
+    }
+
     @Inject
     private CacheService cacheService;
     @Inject
@@ -52,6 +56,8 @@ public class PhotoDataService extends
             final ImageFormat format,
             final ContentType type) {
         return cacheService.cache(new CacheProducer<byte[]>() {
+            private byte[] data;
+
             public byte[] produce() {
                 if (format instanceof DefaultImageFormat) {
                     byte[] data = scaledPhotoDataService.find(photoId,
@@ -62,10 +68,13 @@ public class PhotoDataService extends
                     }
                     addToQueue(photoId);
                 }
-                float balance = photoService.find(photoId).getCropBalance();
-                PhotoData photoData = photoDataRepository.find(photoId);
-                byte[] input = photoData.getDataAsArray();
-                return imageService.process(input, format, type, balance);
+                processImageData(new PostProcessor() {
+                    @Override
+                    public void process(ImageFormat format, byte[] output) {
+                        data = output;
+                    }
+                }, photoId, type, format);
+                return data;
             }
         }, photoId, format, type);
     }
@@ -86,18 +95,36 @@ public class PhotoDataService extends
         photoDataRepository.delete(id);
     }
 
-    public void generate(long photoId, ContentType type) {
-        DefaultImageFormat[] formats = DefaultImageFormat.values();
-        float balance = photoService.find(photoId).getCropBalance();
-        byte[] input = photoDataRepository.find(photoId).getDataAsArray();
-        for (ImageFormat format : formats) {
-            byte[] output = imageService.process(input, format, type, balance);
-            ScaledPhotoData scaledPhotoData = new ScaledPhotoData();
-            scaledPhotoData.setDataAsArray(output);
-            scaledPhotoData.setFormat(format.toString());
-            scaledPhotoData.setPhotoId(photoId);
-            scaledPhotoData.setType(type.toString());
-            scaledPhotoDataService.save(scaledPhotoData);
+    public void generate(final long photoId, final ContentType type) {
+        processImageData(new PostProcessor() {
+            @Override
+            public void process(ImageFormat format, byte[] output) {
+                ScaledPhotoData scaledPhotoData = new ScaledPhotoData();
+                scaledPhotoData.setDataAsArray(output);
+                scaledPhotoData.setFormat(format.toString());
+                scaledPhotoData.setPhotoId(photoId);
+                scaledPhotoData.setType(type.toString());
+                scaledPhotoDataService.save(scaledPhotoData);
+            }
+        }, photoId, type, DefaultImageFormat.values());
+    }
+
+    private void processImageData(PostProcessor processor,
+            final Long photoId,
+            final ContentType type,
+            final ImageFormat... formats) {
+        Photo photo = photoService.find(photoId);
+        if (photo == null) {
+            return;
+        }
+        float balance = photo.getCropBalance();
+        PhotoData photoData = photoDataRepository.find(photoId);
+        byte[] input = photoData.getDataAsArray();
+        for (int i = 0; i < formats.length; i++) {
+            processor.process(formats[i], imageService.process(input,
+                    formats[i],
+                    type,
+                    balance));
         }
     }
 }

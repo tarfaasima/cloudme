@@ -47,6 +47,9 @@ public class ObjectifyPhotoRepository extends BaseObjectifyRepository<Photo>
             @Override
             protected Long execute(Objectify ofy) {
                 List<Key<Photo>> keys = ofy.query(Photo.class).listKeys();
+                if (keys.isEmpty()) {
+                    return -1L;
+                }
                 int random = (int) (Math.random() * keys.size());
                 return keys.get(random).getId();
             }

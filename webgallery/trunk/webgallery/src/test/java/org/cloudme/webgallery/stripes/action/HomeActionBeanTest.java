@@ -58,4 +58,9 @@ public class HomeActionBeanTest {
         assertEquals(album.getId(), albums.iterator().next().getId());
     }
 
+    @Test
+    public void testGetRandomPhotoId() {
+        assertEquals(photo.getId(), (Long) actionBean.getRandomPhotoId());
+    }
+
 }
