@@ -16,14 +16,6 @@
       <param-name>MultipartWrapper.Class</param-name>
       <param-value>org.cloudme.stripes.controller.multipart.BufferedMultipartWrapper</param-value>
     </init-param>
-<!--    <init-param>-->
-<!--      <param-name>Interceptor.Classes</param-name>-->
-<!--      <param-value>net.sourceforge.stripes.integration.spring.SpringInterceptor</param-value>-->
-<!--    </init-param>-->
-<!--    <init-param>-->
-<!--      <param-name>Interceptor.Classes</param-name>-->
-<!--      <param-value>org.cloudme.webgallery.guice.GuiceInterceptor</param-value>-->
-<!--    </init-param>-->
     <init-param>
       <param-name>Extension.Packages</param-name>
       <param-value>org.cloudme.webgallery.stripes.extensions</param-value>
@@ -57,15 +49,6 @@
     <servlet-name>StripesDispatcher</servlet-name>
     <url-pattern>/logout/*</url-pattern>
   </servlet-mapping>
-
-<!--  <listener>-->
-<!--    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
-<!--  </listener>-->
-
-<!--  <context-param>-->
-<!--    <param-name>contextConfigLocation</param-name>-->
-<!--    <param-value>/WEB-INF/spring-config.xml</param-value>-->
-<!--  </context-param>-->
 
   <security-constraint>
     <web-resource-collection>

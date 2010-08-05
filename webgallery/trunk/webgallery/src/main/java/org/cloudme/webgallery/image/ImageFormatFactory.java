@@ -18,9 +18,6 @@ public class ImageFormatFactory {
             format = new DynamicImageFormat(id);
             imageFormatMap.put(id, format);
         }
-        if (format == null) {
-            throw new IllegalStateException("format is null " + id);
-        }
         return format;
     }
 }

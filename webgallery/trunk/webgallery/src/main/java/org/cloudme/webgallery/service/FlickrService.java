@@ -6,8 +6,8 @@ import java.util.Iterator;
 import org.cloudme.webgallery.cache.CacheProducer;
 import org.cloudme.webgallery.cache.CacheService;
 import org.cloudme.webgallery.flickr.FlickrRequest;
-import org.cloudme.webgallery.flickr.FlickrResponse;
 import org.cloudme.webgallery.flickr.FlickrRequest.FlickrUrl;
+import org.cloudme.webgallery.flickr.FlickrResponse;
 import org.cloudme.webgallery.image.ContentType;
 import org.cloudme.webgallery.image.ImageServiceException;
 import org.cloudme.webgallery.image.SimpleImageFormat;
@@ -142,7 +142,10 @@ public class FlickrService extends
         request.addAuthToken(metaData.getToken());
         Photo photo = photoService.find(photoId);
         request.add("title", photo.getName());
-        request.add("description", "Coypright by Moritz Petersen. View <a href=\"" + UrlUtils.createUrl(host, port, photo) + "\">more</a> photos.");
+        request.add("description",
+                "Copyright by Moritz Petersen. View <a href=\""
+                        + UrlUtils.createUrl(host, port, photo)
+                        + "\">more</a> photos.");
         if (UrlUtils.isLocal(host)) {
             request.add("is_public", 0);
             request.add("is_friend", 0);

@@ -53,10 +53,9 @@ public abstract class BaseObjectifyRepository<T extends IdObject<Long>>
     @Override
     public void delete(final Long id) {
         execute(new Callback<Object>(true) {
-            @SuppressWarnings( "unchecked" )
             @Override
             public Object execute(Objectify ofy) {
-                ofy.delete(new Key(baseClass, id));
+                ofy.delete(new Key<Object>(baseClass, id));
                 return null;
             }
         });
