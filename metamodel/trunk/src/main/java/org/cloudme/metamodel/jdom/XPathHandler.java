@@ -5,6 +5,7 @@ import java.util.List;
 import org.cloudme.metamodel.MetamodelException;
 import org.jdom.Content;
 import org.jdom.Document;
+import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.Namespace;
 import org.jdom.xpath.XPath;
@@ -22,8 +23,8 @@ class XPathHandler {
         xpath.addNamespace(namespace);
     }
     
-    @SuppressWarnings("unchecked")
-    public List selectNodes(Content content) {
+    @SuppressWarnings( "unchecked" )
+    public List<Element> selectNodes(Content content) {
         try {
             return xpath.selectNodes(content);
         }
@@ -32,8 +33,7 @@ class XPathHandler {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public List selectNodes(Document doc) {
+    public List<Element> selectNodes(Document doc) {
         return selectNodes(doc.getRootElement());
     }
 

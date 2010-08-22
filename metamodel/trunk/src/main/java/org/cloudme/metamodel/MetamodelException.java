@@ -5,6 +5,7 @@ package org.cloudme.metamodel;
  * 
  * @author <a href="mailto:moritz@cloudme.org">Moritz Petersen</a>
  */
+@SuppressWarnings( "serial" )
 public class MetamodelException extends RuntimeException {
     /**
      * Creates a new {@link MetamodelException} with the given message.

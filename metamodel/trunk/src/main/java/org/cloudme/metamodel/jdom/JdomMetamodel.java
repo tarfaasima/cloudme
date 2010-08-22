@@ -25,9 +25,8 @@ class JdomMetamodel implements Metamodel {
         xsd = new Document(root);
     }
 
-    @SuppressWarnings("unchecked")
     public Collection<Entity> getEntities() {
-        List nodes = XPATH_GET_ENTITIES.selectNodes(xsd);
+        List<Element> nodes = XPATH_GET_ENTITIES.selectNodes(xsd);
         return new ConvertCollection<Element, Entity>(nodes) {
             @Override
             protected Entity convert(Element element) {

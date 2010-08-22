@@ -39,12 +39,11 @@ class JdomEntity extends AbstractJdomObject implements Entity {
         propertyElement.setAttribute("label", label, NS_EXT);
     }
     
-    @SuppressWarnings("unchecked")
     public Collection<Property> getProperties() {
         String expr = "descendant::xs:element";
         Namespace namespace = element.getNamespace();
         XPathHandler xpath = new XPathHandler(expr, namespace);
-        List nodes = xpath.selectNodes(element);
+        List<Element> nodes = xpath.selectNodes(element);
         return new ConvertCollection<Element, Property>(nodes) {
             @Override
             protected Property convert(Element e) {
