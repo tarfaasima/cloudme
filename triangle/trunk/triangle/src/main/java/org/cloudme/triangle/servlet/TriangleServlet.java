@@ -14,16 +14,15 @@ public abstract class TriangleServlet extends HttpServlet {
     private TriangleController controller;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        resp.getOutputStream().println(controller.getMainEntity().getName());
+    public void init() {
+        controller = new TriangleController();
+        init(controller);
     }
 
     @Override
-    public void init() throws ServletException {
-        System.out.println("init()");
-        controller = new TriangleController();
-        init(controller);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
     }
 
     protected abstract void init(TriangleController controller);
