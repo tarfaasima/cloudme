@@ -1,5 +1,7 @@
 package de.moritzpetersen.homepage.dataimport;
 
-public interface EntryHandler {
+import de.moritzpetersen.homepage.domain.Entry;
 
+public interface EntryHandler {
+    void handle(Entry entry);
 }
