@@ -7,17 +7,35 @@
          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
   version="2.4">
 
+<!--  <servlet>-->
+<!--    <servlet-name>HomepageServlet</servlet-name>-->
+<!--    <servlet-class>de.moritzpetersen.homepage.servlet.HomepageServlet</servlet-class>-->
+<!--  </servlet>-->
+<!---->
+<!--  <servlet-mapping>-->
+<!--    <servlet-name>HomepageServlet</servlet-name>-->
+<!--    <url-pattern>*.php</url-pattern>-->
+<!--  </servlet-mapping>-->
+<!---->
+<!--  <welcome-file-list>-->
+<!--    <welcome-file>index.php</welcome-file>-->
+<!--  </welcome-file-list>-->
+
   <servlet>
-    <servlet-name>HomepageServlet</servlet-name>
-    <servlet-class>de.moritzpetersen.homepage.servlet.HomepageServlet</servlet-class>
+    <servlet-name>MailHandlerServlet</servlet-name>
+    <servlet-class>de.moritzpetersen.homepage.mail.MailHandlerServlet</servlet-class>
   </servlet>
-
   <servlet-mapping>
-    <servlet-name>HomepageServlet</servlet-name>
-    <url-pattern>*.php</url-pattern>
+    <servlet-name>MailHandlerServlet</servlet-name>
+    <url-pattern>/_ah/mail/*</url-pattern>
   </servlet-mapping>
+  <security-constraint>
+    <web-resource-collection>
+      <url-pattern>/_ah/mail/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>admin</role-name>
+    </auth-constraint>
+  </security-constraint>
 
-  <welcome-file-list>
-    <welcome-file>index.php</welcome-file>
-  </welcome-file-list>
 </web-app>
