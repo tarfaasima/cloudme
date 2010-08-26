@@ -7,19 +7,19 @@
          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
   version="2.4">
 
-<!--  <servlet>-->
-<!--    <servlet-name>HomepageServlet</servlet-name>-->
-<!--    <servlet-class>de.moritzpetersen.homepage.servlet.HomepageServlet</servlet-class>-->
-<!--  </servlet>-->
+  <!--  <servlet>-->
+  <!--    <servlet-name>HomepageServlet</servlet-name>-->
+  <!--    <servlet-class>de.moritzpetersen.homepage.servlet.HomepageServlet</servlet-class>-->
+  <!--  </servlet>-->
 <!---->
-<!--  <servlet-mapping>-->
-<!--    <servlet-name>HomepageServlet</servlet-name>-->
-<!--    <url-pattern>*.php</url-pattern>-->
-<!--  </servlet-mapping>-->
+  <!--  <servlet-mapping>-->
+  <!--    <servlet-name>HomepageServlet</servlet-name>-->
+  <!--    <url-pattern>*.php</url-pattern>-->
+  <!--  </servlet-mapping>-->
 <!---->
-<!--  <welcome-file-list>-->
-<!--    <welcome-file>index.php</welcome-file>-->
-<!--  </welcome-file-list>-->
+  <!--  <welcome-file-list>-->
+  <!--    <welcome-file>index.php</welcome-file>-->
+  <!--  </welcome-file-list>-->
 
   <servlet>
     <servlet-name>MailHandlerServlet</servlet-name>
@@ -29,6 +29,22 @@
     <servlet-name>MailHandlerServlet</servlet-name>
     <url-pattern>/_ah/mail/*</url-pattern>
   </servlet-mapping>
+
+  <!-- <filter>-->
+  <!--    <filter-name>GuiceFilter</filter-name>-->
+  <!--    <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>-->
+  <!--  </filter>-->
+<!---->
+  <!--  <filter-mapping>-->
+  <!--    <filter-name>GuiceFilter</filter-name>-->
+  <!--    <url-pattern>/*</url-pattern>-->
+  <!--  </filter-mapping>-->
+<!---->
+  <!--  <listener>-->
+  <!--    <listener-class>de.moritzpetersen.homepage.guice.HomepageGuiceServletContextListener</listener-class>-->
+  <!--  </listener>-->
+
+
   <security-constraint>
     <web-resource-collection>
       <url-pattern>/_ah/mail/*</url-pattern>
