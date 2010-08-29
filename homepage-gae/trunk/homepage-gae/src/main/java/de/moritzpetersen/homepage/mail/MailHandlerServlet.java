@@ -2,66 +2,45 @@ package de.moritzpetersen.homepage.mail;
 
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.mail.BodyPart;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.inject.Guice;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 
-import de.moritzpetersen.homepage.dataimport.DataLoader;
-import de.moritzpetersen.homepage.guice.HomepageModule;
+import de.moritzpetersen.homepage.guice.GuiceServlet;
+import de.moritzpetersen.homepage.util.ObjectUtil;
 
 @SuppressWarnings( "serial" )
-public class MailHandlerServlet extends HttpServlet {
-    private static final Logger LOGGER = Logger
-            .getLogger(MailHandlerServlet.class.getName());
+public class MailHandlerServlet extends GuiceServlet {
+    private static final Logger LOG = Logger.getLogger(MailHandlerServlet.class.getName());
     @Inject
-    private DataLoader dataLoader;
-
-    // public void setDataLoader(DataLoader dataLoader) {
-    // this.dataLoader = dataLoader;
-    // }
+    private MailServiceProvider provider;
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        Injector injector = Guice.createInjector(new HomepageModule());
-        injector.injectMembers(this);
-
-        Session session = Session.getDefaultInstance(new Properties(), null);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
+            Session session = Session.getDefaultInstance(new Properties(), null);
             MimeMessage message = new MimeMessage(session, req.getInputStream());
-            Object content = message.getContent();
-            if (content instanceof Multipart) {
-                readContent((Multipart) content);
+            MailService service = provider.locateService(message.getAllRecipients());
+            if (service != null) {
+                service.execute(message);
             }
             else {
-                LOGGER.warning("Cannot read content.");
+                LOG.warning("No service found for recipient(s) "
+                        + ObjectUtil.toString(message.getAllRecipients())
+                        + " sent by "
+                        + ObjectUtil.toString(message.getFrom()));
             }
         }
         catch (MessagingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    protected void readContent(Multipart content) throws MessagingException,
-            IOException {
-        for (int i = 0, count = content.getCount(); i < count; i++) {
-            BodyPart bodyPart = content.getBodyPart(i);
-            if (bodyPart.isMimeType("text/plain")) {
-                dataLoader.load(bodyPart.getInputStream());
-            }
+            LOG.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 }

@@ -22,7 +22,7 @@ import de.moritzpetersen.homepage.domain.Entry;
 import de.moritzpetersen.homepage.util.DateUtil;
 
 public class DataLoader {
-    private static final Logger LOGGER = Logger.getLogger(DataLoader.class.getName());
+    private static final Logger LOG = Logger.getLogger(DataLoader.class.getName());
     @Inject
     private EntryHandler entryHandler;
     @Inject
@@ -85,24 +85,21 @@ public class DataLoader {
             });
         }
         catch (ParserConfigurationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOG.log(Level.SEVERE, e.getMessage(), e);
         }
         catch (SAXParseException e) {
             if ("Content is not allowed in prolog.".equals(e.getMessage())) {
-                LOGGER.info("Invalid data.");
+                LOG.info("Invalid data.");
             }
             else {
-                LOGGER.log(Level.WARNING, "Error while parsing data.", e);
+                LOG.log(Level.SEVERE, e.getMessage(), e);
             }
         }
         catch (SAXException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOG.log(Level.SEVERE, e.getMessage(), e);
         }
         catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOG.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 }
