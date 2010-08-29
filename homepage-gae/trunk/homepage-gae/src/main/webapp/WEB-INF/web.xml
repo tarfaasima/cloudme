@@ -1,57 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<web-app
-  xmlns="http://java.sun.com/xml/ns/j2ee"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
-         http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
-  version="2.4">
+         http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4">
 
-  <!--  <servlet>-->
-  <!--    <servlet-name>HomepageServlet</servlet-name>-->
-  <!--    <servlet-class>de.moritzpetersen.homepage.servlet.HomepageServlet</servlet-class>-->
-  <!--  </servlet>-->
-<!---->
-  <!--  <servlet-mapping>-->
-  <!--    <servlet-name>HomepageServlet</servlet-name>-->
-  <!--    <url-pattern>*.php</url-pattern>-->
-  <!--  </servlet-mapping>-->
-<!---->
-  <!--  <welcome-file-list>-->
-  <!--    <welcome-file>index.php</welcome-file>-->
-  <!--  </welcome-file-list>-->
+  <filter>
+    <display-name>Stripes Filter</display-name>
+    <filter-name>StripesFilter</filter-name>
+    <filter-class>net.sourceforge.stripes.controller.StripesFilter</filter-class>
+    <init-param>
+      <param-name>ActionResolver.Packages</param-name>
+      <param-value>de.moritzpetersen.homepage.stripes.action</param-value>
+    </init-param>
+    <init-param>
+      <param-name>MultipartWrapper.Class</param-name>
+      <param-value>de.moritzpetersen.stripes.controller.multipart.NullMultipartWrapper</param-value>
+    </init-param>
+<!--    <init-param>-->
+<!--      <param-name>Extension.Packages</param-name>-->
+<!--      <param-value>de.moritzpetersen.homepage.stripes.extensions</param-value>-->
+<!--    </init-param>-->
+  </filter>
+
+  <filter-mapping>
+    <filter-name>StripesFilter</filter-name>
+    <servlet-name>StripesDispatcher</servlet-name>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
 
   <servlet>
-    <servlet-name>MailHandlerServlet</servlet-name>
-    <servlet-class>de.moritzpetersen.homepage.mail.MailHandlerServlet</servlet-class>
+    <servlet-name>StripesDispatcher</servlet-name>
+    <servlet-class>net.sourceforge.stripes.controller.DispatcherServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
+
   <servlet-mapping>
-    <servlet-name>MailHandlerServlet</servlet-name>
-    <url-pattern>/_ah/mail/*</url-pattern>
+    <servlet-name>StripesDispatcher</servlet-name>
+    <url-pattern>*.php</url-pattern>
   </servlet-mapping>
-
-  <!-- <filter>-->
-  <!--    <filter-name>GuiceFilter</filter-name>-->
-  <!--    <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>-->
-  <!--  </filter>-->
-<!---->
-  <!--  <filter-mapping>-->
-  <!--    <filter-name>GuiceFilter</filter-name>-->
-  <!--    <url-pattern>/*</url-pattern>-->
-  <!--  </filter-mapping>-->
-<!---->
-  <!--  <listener>-->
-  <!--    <listener-class>de.moritzpetersen.homepage.guice.HomepageGuiceServletContextListener</listener-class>-->
-  <!--  </listener>-->
-
 
   <security-constraint>
     <web-resource-collection>
-      <url-pattern>/_ah/mail/*</url-pattern>
+      <web-resource-name>Admin pages</web-resource-name>
+      <url-pattern>/admin</url-pattern>
     </web-resource-collection>
     <auth-constraint>
       <role-name>admin</role-name>
     </auth-constraint>
   </security-constraint>
-
 </web-app>

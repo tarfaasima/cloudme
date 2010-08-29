@@ -1,8 +1,22 @@
 package de.moritzpetersen.homepage.domain;
 
 public class MailServiceConfig {
+    public String token;
+    public int serviceId;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public int getServiceId() {
-        // TODO Auto-generated method stub
-        return 0;
+        return serviceId;
+    }
+
+    public void setServiceId(int serviceId) {
+        this.serviceId = serviceId;
     }
 }
