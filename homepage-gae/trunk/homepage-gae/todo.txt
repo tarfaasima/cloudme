@@ -1,0 +1,4 @@
+Open
+- MailReceiver configuration (tokens for inbound email)
+
+Closed

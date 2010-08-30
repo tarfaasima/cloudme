@@ -9,16 +9,16 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.inject.Inject;
 
-import de.moritzpetersen.homepage.guice.GuiceServlet;
 import de.moritzpetersen.homepage.util.ObjectUtil;
 
 @SuppressWarnings( "serial" )
-public class MailHandlerServlet extends GuiceServlet {
+public class MailHandlerServlet extends HttpServlet {
     private static final Logger LOG = Logger.getLogger(MailHandlerServlet.class.getName());
     @Inject
     private MailServiceProvider provider;

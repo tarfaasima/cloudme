@@ -1,4 +1,4 @@
-package de.moritzpetersen.stripes.controller;
+package de.moritzpetersen.homepage.stripes.controller;
 
 
 import java.io.File;

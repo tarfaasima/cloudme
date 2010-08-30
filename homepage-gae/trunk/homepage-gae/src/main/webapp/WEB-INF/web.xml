@@ -16,10 +16,10 @@
       <param-name>MultipartWrapper.Class</param-name>
       <param-value>de.moritzpetersen.stripes.controller.multipart.NullMultipartWrapper</param-value>
     </init-param>
-<!--    <init-param>-->
-<!--      <param-name>Extension.Packages</param-name>-->
-<!--      <param-value>de.moritzpetersen.homepage.stripes.extensions</param-value>-->
-<!--    </init-param>-->
+    <init-param>
+      <param-name>Extension.Packages</param-name>
+      <param-value>de.moritzpetersen.homepage.stripes.extensions</param-value>
+    </init-param>
   </filter>
 
   <filter-mapping>
