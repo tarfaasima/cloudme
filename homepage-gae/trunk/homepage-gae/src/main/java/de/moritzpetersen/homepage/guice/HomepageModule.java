@@ -2,11 +2,13 @@ package de.moritzpetersen.homepage.guice;
 
 import com.google.inject.AbstractModule;
 
-import de.moritzpetersen.homepage.dataimport.DataLoader;
-import de.moritzpetersen.homepage.dataimport.DefaultEntryHandler;
-import de.moritzpetersen.homepage.dataimport.DefaultSourceHandler;
-import de.moritzpetersen.homepage.dataimport.EntryHandler;
-import de.moritzpetersen.homepage.dataimport.SourceHandler;
+import de.moritzpetersen.homepage.dao.EntryDao;
+import de.moritzpetersen.homepage.dao.SourceDao;
+import de.moritzpetersen.homepage.dataload.DataLoader;
+import de.moritzpetersen.homepage.dataload.DefaultEntryHandler;
+import de.moritzpetersen.homepage.dataload.DefaultSourceHandler;
+import de.moritzpetersen.homepage.dataload.EntryHandler;
+import de.moritzpetersen.homepage.dataload.SourceHandler;
 
 public class HomepageModule extends AbstractModule {
     @Override
@@ -14,5 +16,7 @@ public class HomepageModule extends AbstractModule {
         bind(DataLoader.class);
         bind(EntryHandler.class).to(DefaultEntryHandler.class);
         bind(SourceHandler.class).to(DefaultSourceHandler.class);
+        bind(EntryDao.class);
+        bind(SourceDao.class);
     }
 }
