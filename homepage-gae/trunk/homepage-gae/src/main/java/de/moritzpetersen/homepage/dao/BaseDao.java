@@ -5,11 +5,13 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 
-import de.moritzpetersen.homepage.domain.Config;
+import de.moritzpetersen.homepage.domain.Entry;
+import de.moritzpetersen.homepage.domain.Source;
 
 public abstract class BaseDao<T> {
     static {
-        ObjectifyService.register(Config.class);
+        ObjectifyService.register(Entry.class);
+        ObjectifyService.register(Source.class);
     }
 
     protected abstract class Callback<R> {
