@@ -1,4 +1,6 @@
 Open
-- MailReceiver configuration (tokens for inbound email)
+- Load entities with data load interface
+- Better input validation for data load interface
+- Better UI for data load interface
 
 Closed

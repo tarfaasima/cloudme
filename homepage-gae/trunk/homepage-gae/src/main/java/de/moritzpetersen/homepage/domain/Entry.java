@@ -2,11 +2,15 @@ package de.moritzpetersen.homepage.domain;
 
 import java.util.Date;
 
+import javax.persistence.Id;
+
 public class Entry {
+    @Id
+    private Long id;
     private String content;
     private Date date;
     private String oldId;
-    private Long sourceId;
+    private String origin;
     private String title;
     private String url;
 
@@ -49,12 +53,11 @@ public class Entry {
         this.url = url;
     }
 
-    public void setSourceId(Long sourceId) {
-        this.sourceId = sourceId;
+    public void setOrigin(String origin) {
+        this.origin = origin;
     }
 
-    public Long getSourceId() {
-        return sourceId;
+    public String getOrigin() {
+        return origin;
     }
-
 }

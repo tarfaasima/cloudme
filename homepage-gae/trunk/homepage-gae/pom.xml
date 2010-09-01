@@ -128,6 +128,11 @@
       <name>maven-gae-plugin repository</name>
       <url>http://maven-gae-plugin.googlecode.com/svn/repository/</url>
     </pluginRepository>
+    <pluginRepository>
+    	<id>twdata-m2-repository</id>
+    	<name>twdata.org Maven 2 Repository</name>
+    	<url>http://twdata-m2-repository.googlecode.com/svn/</url>
+    </pluginRepository>
   </pluginRepositories>
   <dependencies>
     <dependency>

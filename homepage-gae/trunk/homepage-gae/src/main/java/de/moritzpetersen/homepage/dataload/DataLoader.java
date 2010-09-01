@@ -24,8 +24,6 @@ public class DataLoader {
     private static final Logger LOG = Logger.getLogger(DataLoader.class.getName());
     @Inject
     private EntryHandler entryHandler;
-    @Inject
-    private SourceHandler sourceHandler;
 
     public void load(InputStream in) {
         try {
@@ -78,7 +76,7 @@ public class DataLoader {
                         }
                     }
                     else if ("origin".equals(qName)) {
-                        entry.setSourceId(sourceHandler.resolve(value));
+                        entry.setOrigin(value);
                     }
                 }
             });

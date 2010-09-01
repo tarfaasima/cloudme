@@ -16,7 +16,6 @@ import com.google.inject.Injector;
 
 import de.moritzpetersen.homepage.dataload.DataLoader;
 import de.moritzpetersen.homepage.dataload.EntryHandler;
-import de.moritzpetersen.homepage.dataload.SourceHandler;
 import de.moritzpetersen.homepage.domain.Entry;
 import de.moritzpetersen.homepage.util.DateUtil;
 
@@ -50,21 +49,12 @@ public class DataLoaderTest {
         }
     };
 
-    private final SourceHandler testSourceHandler = new SourceHandler() {
-        @Override
-        public Long resolve(String sourceUrl) {
-            assertEquals("http://test.url.com", sourceUrl);
-            return 1L;
-        }
-    };
-
     private Injector injector;
 
     private class TestModule extends AbstractModule {
         @Override
         protected void configure() {
             bind(EntryHandler.class).toInstance(testEntryHandler);
-            bind(SourceHandler.class).toInstance(testSourceHandler);
             bind(DataLoader.class);
         }
     }
@@ -85,6 +75,6 @@ public class DataLoaderTest {
         assertEquals("This is the first content", entry.getContent());
         assertEquals("http://test.url.com/something", entry.getUrl());
         assertEquals(DateUtil.defaultFormat().parse("2009-07-10 13:07:46"), entry.getDate());
-        assertEquals((Long) 1L, entry.getSourceId());
+        assertEquals("http://test.url.com", entry.getOrigin());
     }
 }
