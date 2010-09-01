@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dump>
+  <!-- Tabelle h_entry -->
+  <h_entry>
+    <id>35</id>
+    <title>How to create</title>
+    <content>
+      If you want to get much closer.</content>
+    <url>http://something.de/bla/blubb/</url>
+    <date>2009-07-10 13:07:46</date>
+    <origin>http://something.de</origin>
+  </h_entry>
+  <h_entry>
+    <id>36</id>
+    <title>Self-made ... in PHP</title>
+    <content>While PHP makes...
+      separating [...]</content>
+    <url>http://blog.example.org/2009/07/self-made</url>
+    <date>2009-07-09 21:34:17</date>
+    <origin>http://blog.example.org</origin>
+  </h_entry>
+</dump>

@@ -14,7 +14,7 @@
     </init-param>
     <init-param>
       <param-name>MultipartWrapper.Class</param-name>
-      <param-value>de.moritzpetersen.stripes.controller.multipart.NullMultipartWrapper</param-value>
+      <param-value>de.moritzpetersen.homepage.stripes.controller.NullMultipartWrapper</param-value>
     </init-param>
     <init-param>
       <param-name>Extension.Packages</param-name>
@@ -43,7 +43,7 @@
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Admin pages</web-resource-name>
-      <url-pattern>/admin</url-pattern>
+      <url-pattern>/admin/*</url-pattern>
     </web-resource-collection>
     <auth-constraint>
       <role-name>admin</role-name>

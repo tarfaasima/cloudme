@@ -14,6 +14,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import de.moritzpetersen.homepage.dataload.DataLoader;
+import de.moritzpetersen.homepage.dataload.EntryHandler;
+import de.moritzpetersen.homepage.dataload.SourceHandler;
 import de.moritzpetersen.homepage.domain.Entry;
 import de.moritzpetersen.homepage.util.DateUtil;
 
@@ -38,16 +41,16 @@ public class DataLoaderTest {
             + "</h_entry>"
             + "</db123>";
 
-    private Collection<Entry> entries = new ArrayList<Entry>();
+    private final Collection<Entry> entries = new ArrayList<Entry>();
 
-    private EntryHandler testEntryHandler = new EntryHandler() {
+    private final EntryHandler testEntryHandler = new EntryHandler() {
         @Override
         public void handle(Entry entry) {
             entries.add(entry);
         }
     };
 
-    private SourceHandler testSourceHandler = new SourceHandler() {
+    private final SourceHandler testSourceHandler = new SourceHandler() {
         @Override
         public Long resolve(String sourceUrl) {
             assertEquals("http://test.url.com", sourceUrl);
@@ -81,8 +84,7 @@ public class DataLoaderTest {
         assertEquals("This is the first title", entry.getTitle());
         assertEquals("This is the first content", entry.getContent());
         assertEquals("http://test.url.com/something", entry.getUrl());
-        assertEquals(DateUtil.getDateTimeFormat()
-                .parse("2009-07-10 13:07:46"), entry.getDate());
+        assertEquals(DateUtil.defaultFormat().parse("2009-07-10 13:07:46"), entry.getDate());
         assertEquals((Long) 1L, entry.getSourceId());
     }
 }
