@@ -43,7 +43,7 @@ public class DataLoadActionBean extends AbstractActionBean {
             System.out.println(count + " Entries");
         }
         catch (InvalidDataException e) {
-            addError("Invalid data. Please enter data in XML format.");
+            return addValidationError("data.invalid");
         }
         return show();
     }

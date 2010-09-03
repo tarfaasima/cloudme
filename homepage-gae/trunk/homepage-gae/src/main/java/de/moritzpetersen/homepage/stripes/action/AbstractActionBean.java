@@ -2,7 +2,8 @@ package de.moritzpetersen.homepage.stripes.action;
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.validation.SimpleError;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.validation.LocalizableError;
 
 public abstract class AbstractActionBean implements ActionBean {
     private ActionBeanContext context;
@@ -15,7 +16,8 @@ public abstract class AbstractActionBean implements ActionBean {
         this.context = context;
     }
 
-    protected void addError(String msg, Object... params) {
-        context.getMessages().add(new SimpleError(msg, params));
+    protected Resolution addValidationError(String messageKey, Object... params) {
+        context.getValidationErrors().add("data", new LocalizableError(messageKey, params));
+        return context.getSourcePageResolution();
     }
 }
