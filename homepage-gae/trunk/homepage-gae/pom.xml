@@ -91,7 +91,7 @@
       <plugin>
         <groupId>net.kindleit</groupId>
         <artifactId>maven-gae-plugin</artifactId>
-        <version>0.7.0</version>
+        <version>0.7.1</version>
         <configuration>
           <unpackVersion>${gae.version}</unpackVersion>
         </configuration>
