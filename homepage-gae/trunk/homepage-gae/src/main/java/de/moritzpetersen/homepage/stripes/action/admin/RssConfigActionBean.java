@@ -18,7 +18,7 @@ import de.moritzpetersen.homepage.stripes.action.AbstractActionBean;
 public class RssConfigActionBean extends AbstractActionBean {
     @Inject
     private RssFeedDao rssFeedDao;
-    private List<RssFeed> rssFeeds;
+    private List<RssFeed> rssFeeds = new ArrayList<RssFeed>();
 
     public void setRssFeeds(List<RssFeed> rssFeeds) {
         this.rssFeeds = rssFeeds;
@@ -30,10 +30,11 @@ public class RssConfigActionBean extends AbstractActionBean {
 
     @DefaultHandler
     public Resolution show() {
-        rssFeeds = new ArrayList<RssFeed>();
         for (RssFeed rssFeed : rssFeedDao.findAll()) {
+            System.out.println(rssFeed.getId());
             rssFeeds.add(rssFeed);
         }
+        System.out.println("size = " + rssFeeds.size());
         return new ForwardResolution("/WEB-INF/jsp/admin/rssconfig.jsp");
     }
 
