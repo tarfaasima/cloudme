@@ -6,10 +6,12 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 
 import de.moritzpetersen.homepage.domain.Entry;
+import de.moritzpetersen.homepage.domain.RssFeed;
 
 public abstract class BaseDao<T> {
     static {
         ObjectifyService.register(Entry.class);
+        ObjectifyService.register(RssFeed.class);
     }
 
     protected abstract class Callback<R> {

@@ -17,7 +17,7 @@ import de.moritzpetersen.homepage.dataload.InvalidDataException;
 import de.moritzpetersen.homepage.domain.Entry;
 import de.moritzpetersen.homepage.stripes.action.AbstractActionBean;
 
-@UrlBinding( "/admin/dataload.php" )
+@UrlBinding( "/admin/dataload" )
 public class DataLoadActionBean extends AbstractActionBean {
     @Inject
     private DataLoader dataLoader;

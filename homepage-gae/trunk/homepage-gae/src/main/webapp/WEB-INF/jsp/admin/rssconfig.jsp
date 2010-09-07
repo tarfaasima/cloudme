@@ -5,15 +5,16 @@
 
 <s:errors />
 <s:form beanclass="de.moritzpetersen.homepage.stripes.action.admin.RssConfigActionBean">
-  <c:forEach items="${rssFeeds}" var="rssFeed" varStatus="loop">
+  <c:forEach items="${actionBean.rssFeeds}" var="rssFeed" varStatus="loop">
     <div>
       <s:hidden name="rssFeeds[${loop.index}].id" value="${rssFeed.id}" />
       <s:text name="rssFeeds[${loop.index}].url" />
+      <s:link href="/admin/rssconfig/delete/${rssFeed.id}">Delete</s:link>
     </div>
     <c:set var="newIndex" value="${loop.index + 1}" scope="page" />
   </c:forEach>
   <div>
-    <s:text name="rssFeeds[${f:length(rssFeeds)}].url" />
+    <s:text name="rssFeeds[${newIndex}].url" />
   </div>
   <div><s:submit name="save" value="Save" /></div>
 </s:form>
