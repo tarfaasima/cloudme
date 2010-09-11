@@ -102,6 +102,16 @@
         <version>2.1-beta-1</version>
       </plugin>
     </plugins>
+    <resources>
+    	<resource>
+    		<targetPath>${basedir}/target/classes</targetPath>
+    		<filtering>true</filtering>
+    		<directory>${basedir}/src/main/java</directory>
+    		<includes>
+    			<include>**/*.html</include>
+    		</includes>
+    	</resource>
+    </resources>
   </build>
   <repositories>
     <repository>
@@ -193,22 +203,16 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-    	<groupId>com.google.inject</groupId>
-    	<artifactId>guice</artifactId>
-    	<version>2.0</version>
+    	<groupId>org.slf4j</groupId>
+    	<artifactId>slf4j-jdk14</artifactId>
+    	<version>1.5.8</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.wicket</groupId>
+    	<artifactId>wicket-guice</artifactId>
+    	<version>1.4.11</version>
     	<type>jar</type>
     	<scope>compile</scope>
-    </dependency>
-    <dependency>
-    	<groupId>net.sourceforge.stripes</groupId>
-    	<artifactId>stripes</artifactId>
-    	<version>1.5.3</version>
-    	<scope>compile</scope>
-    </dependency>
-    <dependency>
-    	<groupId>taglibs</groupId>
-    	<artifactId>standard</artifactId>
-    	<version>1.1.2</version>
     </dependency>
   </dependencies>
 </project>
