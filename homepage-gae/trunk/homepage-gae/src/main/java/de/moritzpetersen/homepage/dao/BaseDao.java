@@ -1,5 +1,7 @@
 package de.moritzpetersen.homepage.dao;
 
+import java.util.List;
+
 import com.google.appengine.api.datastore.Transaction;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
@@ -75,11 +77,11 @@ public abstract class BaseDao<T> {
         });
     }
 
-    public Iterable<T> findAll() {
-        return execute(new Callback<Iterable<T>>() {
+    public List<T> findAll() {
+        return execute(new Callback<List<T>>() {
             @Override
-            protected Iterable<T> execute(Objectify ofy) {
-                return ofy.query(baseClass);
+            protected List<T> execute(Objectify ofy) {
+                return ofy.query(baseClass).list();
             }
         });
     }

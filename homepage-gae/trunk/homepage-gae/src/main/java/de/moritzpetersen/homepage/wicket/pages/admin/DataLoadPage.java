@@ -21,7 +21,7 @@ public class DataLoadPage extends WebPage {
 
     @SuppressWarnings( "serial" )
     public DataLoadPage() {
-        Form<String> form = new Form<String>("dataload");
+        final Form<String> form = new Form<String>("dataload");
         final FormComponent<String> data = new TextArea<String>("data", new Model<String>()).setRequired(true);
         form.add(data);
         form.add(new Button("submit") {
@@ -30,9 +30,10 @@ public class DataLoadPage extends WebPage {
                 byte[] bytes = data.getModelObject().getBytes();
                 try {
                     dataLoader.load(new ByteArrayInputStream(bytes));
+                    info(getString("data.Success"));
                 }
                 catch (InvalidDataException e) {
-                    getSession().error(getString("data.Invalid"));
+                    error(getString("data.Invalid"));
                 }
             }
         });

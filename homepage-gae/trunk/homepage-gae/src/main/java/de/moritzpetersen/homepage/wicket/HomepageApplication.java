@@ -7,13 +7,13 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.session.ISessionStore;
 
 import de.moritzpetersen.homepage.guice.HomepageModule;
-import de.moritzpetersen.homepage.wicket.pages.Index;
+import de.moritzpetersen.homepage.wicket.pages.IndexPage;
 import de.moritzpetersen.homepage.wicket.pages.admin.DataLoadPage;
 
 public class HomepageApplication extends WebApplication {
     @Override
     public Class<? extends Page> getHomePage() {
-        return Index.class;
+        return IndexPage.class;
     }
 
     @Override
