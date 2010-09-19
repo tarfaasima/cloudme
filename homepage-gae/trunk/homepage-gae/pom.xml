@@ -109,6 +109,7 @@
         <filtering>true</filtering>
         <includes>
           <include>**/*.html</include>
+          <include>**/*.properties</include>
         </includes>
       </resource>
       <resource>
