@@ -1,1 +1,1 @@
-<jsp:forward page="/Home.action"></jsp:forward>
+<% response.sendRedirect("/action/list/index"); %>
