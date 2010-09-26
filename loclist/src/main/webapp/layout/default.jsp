@@ -14,7 +14,7 @@
        Remove this if you use the .htaccess -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title></title>
+  <title>${title}</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -27,14 +27,14 @@
 
 
   <!-- CSS : implied media="all" -->
-  <link rel="stylesheet" href="css/style.css?v=1">
+  <link rel="stylesheet" href="/css/style.css?v=1">
 
   <!-- For the less-enabled mobile browsers like Opera Mini -->
-  <link rel="stylesheet" media="handheld" href="css/handheld.css?v=1">
+  <link rel="stylesheet" media="handheld" href="/css/handheld.css?v=1">
 
  
   <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
-  <script src="js/modernizr-1.5.min.js"></script>
+  <script src="/js/modernizr-1.5.min.js"></script>
 
 </head>
 
@@ -52,7 +52,8 @@
     </header>
     
     <div id="main">
-
+      <s:form>
+      </s:form>
     </div>
     
     <footer>
@@ -65,20 +66,20 @@
 
   <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-  <script>!window.jQuery && document.write('<script src="js/jquery-1.4.2.min.js"><\/script>')</script>
+  <script>!window.jQuery && document.write('<script src="/js/jquery-1.4.2.min.js"><\/script>')</script>
 
 
-  <script src="js/plugins.js?v=1"></script>
-  <script src="js/script.js?v=1"></script>
+  <script src="/js/plugins.js?v=1"></script>
+  <script src="/js/script.js?v=1"></script>
 
   <!--[if lt IE 7 ]>
-    <script src="js/dd_belatedpng.js?v=1"></script>
+    <script src="/js/dd_belatedpng.js?v=1"></script>
   <![endif]-->
 
 
   <!-- yui profiler and profileviewer - remove for production -->
-  <script src="js/profiling/yahoo-profiling.min.js?v=1"></script>
-  <script src="js/profiling/config.js?v=1"></script>
+  <script src="/js/profiling/yahoo-profiling.min.js?v=1"></script>
+  <script src="/js/profiling/config.js?v=1"></script>
   <!-- end profiling code -->
 
 
