@@ -1,4 +1,4 @@
-package org.cloudme.stripestools;
+package org.cloudme.gaestripes;
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;

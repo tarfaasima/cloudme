@@ -1,4 +1,4 @@
-package org.cloudme.stripestools;
+package org.cloudme.gaestripes;
 
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.controller.ExecutionContext;

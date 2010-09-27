@@ -1,4 +1,4 @@
-package org.cloudme.stripestools;
+package org.cloudme.gaestripes;
 
 import java.io.File;
 import java.io.IOException;
