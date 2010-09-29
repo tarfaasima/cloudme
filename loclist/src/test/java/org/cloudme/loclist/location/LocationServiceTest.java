@@ -39,8 +39,12 @@ public class LocationServiceTest {
 
     @Test
     public void testLocationService() {
-        Location location1 = locationService.checkin(53.59984f, 9.710541f);
-        Location location2 = locationService.checkin(53.59984f, 9.71054f);
+        locationService.setRadius(300);
+        Location location1 = locationService.checkin(53.480712f, -2.234376f);
+        Location location2 = locationService.checkin(51.500152f, -0.126236f);
         assertEquals(location1.getGeoPt(), location2.getGeoPt());
+        locationService.setRadius(200);
+        Location location3 = locationService.checkin(51.500152f, -0.126236f);
+        assertEquals(new Location(51.500152f, -0.126236f).getGeoPt(), location3.getGeoPt());
     }
 }
