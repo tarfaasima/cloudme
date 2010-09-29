@@ -6,6 +6,7 @@ import com.google.appengine.api.datastore.Transaction;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.Query;
 
 public abstract class BaseDao<T> {
     protected static void register(Class<?> clazz) {
@@ -83,10 +84,18 @@ public abstract class BaseDao<T> {
     }
 
     public Iterable<T> findAll() {
+        return findAll(null);
+    }
+
+    public Iterable<T> findAll(final String order) {
         return execute(new Callback<Iterable<T>>() {
             @Override
             protected Iterable<T> execute(Objectify ofy) {
-                return ofy.query(baseClass);
+                Query<T> query = ofy.query(baseClass);
+                if (order != null) {
+                    query = query.order(order);
+                }
+                return query;
             }
         });
     }
