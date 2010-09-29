@@ -1,10 +1,14 @@
 package org.cloudme.loclist.guice;
 
-import com.google.inject.Binder;
-import com.google.inject.Module;
+import org.cloudme.loclist.dao.LocationDao;
+import org.cloudme.loclist.location.LocationService;
 
-public class LoclistModule implements Module {
+import com.google.inject.AbstractModule;
+
+public class LoclistModule extends AbstractModule {
     @Override
-    public void configure(Binder binder) {
+    protected void configure() {
+        bind(LocationDao.class);
+        bind(LocationService.class);
     }
 }

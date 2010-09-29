@@ -6,7 +6,7 @@ import net.sourceforge.stripes.action.UrlBinding;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.cloudme.stripestools.AbstractActionBean;
+import org.cloudme.gaestripes.AbstractActionBean;
 
 @UrlBinding( "/action/list/index" )
 public class Index extends AbstractActionBean {

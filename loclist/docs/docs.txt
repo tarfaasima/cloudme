@@ -1,0 +1,7 @@
+Algorithm
+---------
+
+1) Check in to a location (x,y)
+2) Find location (X,Y) near (x,y)
+3) If no location is found create new location (X,Y)=(x,y)
+4) Sort items by usage in this location 

@@ -14,7 +14,7 @@
        Remove this if you use the .htaccess -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title>${title}</title>
+  <title>Loclist</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -52,8 +52,7 @@
     </header>
     
     <div id="main">
-      <s:form>
-      </s:form>
+      <s:layout-component name="content"/>
     </div>
     
     <footer>
