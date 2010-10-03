@@ -2,6 +2,8 @@ package org.cloudme.loclist.item;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
 import org.cloudme.loclist.dao.TickDao;
 import org.cloudme.loclist.location.LocationService;
 import org.cloudme.loclist.model.Item;
@@ -23,30 +25,45 @@ public class ItemServiceTest extends AbstractServiceTestCase {
     private TickDao tickDao;
     private ItemInstance milkInstance;
     private ItemInstance cheeseInstance;
+    private ItemInstance statusUpdateInstance;
 
     @Before
     public void createItems() {
-        Item milk = new Item();
-        milk.setText("Milk");
-        Item cheese = new Item();
-        cheese.setText("Cheese");
-        itemService.put(milk);
-        itemService.put(cheese);
-
         ItemList shoppingList = new ItemList();
         shoppingList.setName("Shopping List");
         itemService.put(shoppingList);
 
+        Item milk = new Item();
+        milk.setText("Milk");
+        itemService.put(milk);
+
         milkInstance = new ItemInstance();
         milkInstance.setItemId(milk.getId());
         milkInstance.setItemListId(shoppingList.getId());
-        milkInstance.setQuantity(2);
+        milkInstance.setAttribute("2");
         itemService.put(milkInstance);
         
+        Item cheese = new Item();
+        cheese.setText("Cheese");
+        itemService.put(cheese);
+
         cheeseInstance = new ItemInstance();
         cheeseInstance.setItemId(cheese.getId());
         cheeseInstance.setItemListId(shoppingList.getId());
         itemService.put(cheeseInstance);
+
+        ItemList todoList = new ItemList();
+        todoList.setName("My Todo List");
+        itemService.put(todoList);
+
+        Item statusUpdate = new Item();
+        statusUpdate.setText("Update status report");
+        itemService.put(statusUpdate);
+
+        statusUpdateInstance = new ItemInstance();
+        statusUpdateInstance.setItemId(statusUpdate.getId());
+        statusUpdateInstance.setItemListId(todoList.getId());
+        itemService.put(statusUpdateInstance);
     }
 
     @Test
@@ -59,6 +76,9 @@ public class ItemServiceTest extends AbstractServiceTestCase {
 
     @Test
     public void testGetItemList() {
-        itemService.getItemLists();
+        List<ItemList> itemLists = itemService.getItemLists();
+        assertEquals(2, itemLists.size());
+        assertEquals("My Todo List", itemLists.get(0).getName());
+        assertEquals("Shopping List", itemLists.get(1).getName());
     }
 }

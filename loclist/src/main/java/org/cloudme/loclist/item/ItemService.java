@@ -1,5 +1,7 @@
 package org.cloudme.loclist.item;
 
+import java.util.List;
+
 import org.cloudme.loclist.dao.ItemDao;
 import org.cloudme.loclist.dao.ItemInstanceDao;
 import org.cloudme.loclist.dao.ItemListDao;
@@ -41,7 +43,7 @@ public class ItemService {
         tickDao.save(tick);
     }
 
-    public Iterable<ItemList> getItemLists() {
-        return itemListDao.findAll();
+    public List<ItemList> getItemLists() {
+        return itemListDao.listAll(/* "name" */);
     }
 }

@@ -53,16 +53,20 @@ public abstract class BaseDao<T> {
         Transaction txn = ofy.getTxn();
         try {
             R result = callback.execute(ofy);
-            if (callback.needsTransaction) {
+            if (isActive(txn)) {
                 txn.commit();
             }
             return result;
         }
         finally {
-            if (txn != null && txn.isActive()) {
+            if (isActive(txn)) {
                 txn.rollback();
             }
         }
+    }
+
+    private boolean isActive(Transaction txn) {
+        return txn != null && txn.isActive();
     }
 
     public T find(final Long id) {
@@ -75,10 +79,18 @@ public abstract class BaseDao<T> {
     }
 
     public List<T> listAll() {
+        return listAll(null);
+    }
+
+    public List<T> listAll(final String order) {
         return execute(new Callback<List<T>>() {
             @Override
             protected List<T> execute(Objectify ofy) {
-                return ofy.query(baseClass).list();
+                Query<T> query = ofy.query(baseClass);
+                if (order != null) {
+                    query = query.order(order);
+                }
+                return query.list();
             }
         });
     }
@@ -87,7 +99,7 @@ public abstract class BaseDao<T> {
         return findAll(null);
     }
 
-    public Iterable<T> findAll(final String order) {
+    public final Iterable<T> findAll(final String order) {
         return execute(new Callback<Iterable<T>>() {
             @Override
             protected Iterable<T> execute(Objectify ofy) {

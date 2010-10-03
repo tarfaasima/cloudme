@@ -2,6 +2,9 @@ package org.cloudme.loclist.model;
 
 import javax.persistence.Id;
 
+import com.googlecode.objectify.annotation.Cached;
+
+@Cached
 public class Tick {
     @Id
     private Long id;

@@ -4,8 +4,10 @@ import java.util.Date;
 
 import javax.persistence.Id;
 
+import com.googlecode.objectify.annotation.Cached;
 import com.googlecode.objectify.annotation.Unindexed;
 
+@Cached
 public class ItemList {
     @Id
     private Long id;

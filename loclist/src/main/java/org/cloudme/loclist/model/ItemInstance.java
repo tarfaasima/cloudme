@@ -2,15 +2,17 @@ package org.cloudme.loclist.model;
 
 import javax.persistence.Id;
 
+import com.googlecode.objectify.annotation.Cached;
 import com.googlecode.objectify.annotation.Unindexed;
 
+@Cached
 public class ItemInstance {
     @Id
     private Long id;
     private Long itemListId;
     private Long itemId;
     @Unindexed
-    private int quantity;
+    private String attribute;
 
     public Long getId() {
         return id;
@@ -36,11 +38,11 @@ public class ItemInstance {
         this.itemId = itemId;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public String getAttribute() {
+        return attribute;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
     }
 }
