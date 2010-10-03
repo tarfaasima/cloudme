@@ -44,6 +44,6 @@ public class ItemService {
     }
 
     public List<ItemList> getItemLists() {
-        return itemListDao.listAll(/* "name" */);
+        return itemListDao.listAll("name");
     }
 }
