@@ -1,5 +1,8 @@
 package org.cloudme.loclist.item;
 
+import static org.junit.Assert.assertEquals;
+
+import org.cloudme.loclist.dao.TickDao;
 import org.cloudme.loclist.location.LocationService;
 import org.cloudme.loclist.model.Item;
 import org.cloudme.loclist.model.ItemInstance;
@@ -16,6 +19,8 @@ public class ItemServiceTest extends AbstractServiceTestCase {
     private ItemService itemService;
     @Inject
     private LocationService locationService;
+    @Inject
+    private TickDao tickDao;
     private ItemInstance milkInstance;
     private ItemInstance cheeseInstance;
 
@@ -49,5 +54,11 @@ public class ItemServiceTest extends AbstractServiceTestCase {
         Location manchester = locationService.checkin(53.480712f, -2.234376f);
         itemService.tick(manchester.getId(), milkInstance.getId());
         itemService.tick(manchester.getId(), cheeseInstance.getId());
+        assertEquals(2, tickDao.listAll().size());
+    }
+
+    @Test
+    public void testGetItemList() {
+        itemService.getItemLists();
     }
 }

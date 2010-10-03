@@ -21,7 +21,7 @@ Item Sort Algorithm
 
 1) Get location
 2) Get ticks at location
-3) Sort ticks by timestamp (but: also by checkin time / count?)
+3) Sort ticks by timestamp (but: also by checkin time or checkin count?)
 
 
 Todo

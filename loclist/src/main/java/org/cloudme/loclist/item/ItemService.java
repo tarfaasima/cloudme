@@ -40,4 +40,8 @@ public class ItemService {
         tick.setTimestamp(System.currentTimeMillis());
         tickDao.save(tick);
     }
+
+    public Iterable<ItemList> getItemLists() {
+        return itemListDao.findAll();
+    }
 }
