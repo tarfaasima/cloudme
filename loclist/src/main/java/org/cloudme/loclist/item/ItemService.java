@@ -1,5 +1,8 @@
 package org.cloudme.loclist.item;
 
+import static org.cloudme.gaestripes.BaseDao.filter;
+import static org.cloudme.gaestripes.BaseDao.orderBy;
+
 import java.util.List;
 
 import org.cloudme.loclist.dao.ItemDao;
@@ -44,6 +47,10 @@ public class ItemService {
     }
 
     public List<ItemList> getItemLists() {
-        return itemListDao.listAll("name");
+        return itemListDao.listAll(orderBy("name"));
+    }
+
+    public List<ItemInstance> getItemInstances(Long itemListId) {
+        return itemInstanceDao.listAll(filter("itemListId =", itemListId));
     }
 }

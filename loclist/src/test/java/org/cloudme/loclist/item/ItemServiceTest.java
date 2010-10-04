@@ -1,9 +1,11 @@
 package org.cloudme.loclist.item;
 
+import static org.cloudme.gaestripes.BaseDao.orderBy;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import org.cloudme.loclist.dao.ItemDao;
 import org.cloudme.loclist.dao.ItemListDao;
 import org.cloudme.loclist.dao.TickDao;
 import org.cloudme.loclist.location.LocationService;
@@ -22,6 +24,8 @@ public class ItemServiceTest extends AbstractServiceTestCase {
     private ItemService itemService;
     @Inject
     private LocationService locationService;
+    @Inject
+    private ItemDao itemDao;
     @Inject
     private ItemListDao itemListDao;
     @Inject
@@ -76,14 +80,33 @@ public class ItemServiceTest extends AbstractServiceTestCase {
         Location manchester = locationService.checkin(53.480712f, -2.234376f);
         itemService.tick(manchester.getId(), milkInstance.getId());
         itemService.tick(manchester.getId(), cheeseInstance.getId());
-        assertEquals(2, tickDao.listAll("timestamp").size());
+        assertEquals(2, tickDao.listAll(orderBy("timestamp")).size());
     }
 
     @Test
     public void testGetItemList() {
+        Location manchester = locationService.checkin(53.480712f, -2.234376f);
+
         List<ItemList> itemLists = itemService.getItemLists();
         assertEquals(2, itemLists.size());
         assertEquals("My Todo List", itemLists.get(0).getName());
         assertEquals("Shopping List", itemLists.get(1).getName());
+
+        ItemList shoppingList = itemLists.get(1);
+        List<ItemInstance> itemInstances = itemService.getItemInstances(shoppingList.getId());
+        assertInstance(itemInstances, "Milk", "Cheese");
+
+        itemService.tick(manchester.getId(), itemInstances.get(1).getId());
+        itemService.tick(manchester.getId(), itemInstances.get(0).getId());
+    }
+
+    private void assertInstance(List<ItemInstance> itemInstances, String... texts) {
+        assertEquals(texts.length, itemInstances.size());
+        for (int i = 0; i < texts.length; i++) {
+            Long itemId = itemInstances.get(i).getItemId();
+            Item item = itemDao.find(itemId);
+            String text = texts[i];
+            assertEquals(text, item.getText());
+        }
     }
 }
