@@ -9,6 +9,24 @@ import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Query;
 
 public abstract class BaseDao<T> {
+    public static QueryOperator filter(final String condition, final Object value) {
+        return new QueryOperator() {
+            @Override
+            public <T> Query<T> appendToQuery(Query<T> query) {
+                return query.filter(condition, value);
+            }
+        };
+    }
+
+    public static QueryOperator orderBy(final String condition) {
+        return new QueryOperator() {
+            @Override
+            public <T> Query<T> appendToQuery(Query<T> query) {
+                return query.order(condition);
+            }
+        };
+    }
+
     protected static void register(Class<?> clazz) {
         ObjectifyService.register(clazz);
     }
@@ -78,34 +96,17 @@ public abstract class BaseDao<T> {
         });
     }
 
-    public List<T> listAll() {
-        return listAll(null);
+    public List<T> listAll(final QueryOperator... operators) {
+        return ((Query<T>) findAll(operators)).list();
     }
 
-    public List<T> listAll(final String order) {
-        return execute(new Callback<List<T>>() {
-            @Override
-            protected List<T> execute(Objectify ofy) {
-                Query<T> query = ofy.query(baseClass);
-                if (order != null) {
-                    query = query.order(order);
-                }
-                return query.list();
-            }
-        });
-    }
-
-    public Iterable<T> findAll() {
-        return findAll(null);
-    }
-
-    public final Iterable<T> findAll(final String order) {
+    public final Iterable<T> findAll(final QueryOperator... operators) {
         return execute(new Callback<Iterable<T>>() {
             @Override
             protected Iterable<T> execute(Objectify ofy) {
                 Query<T> query = ofy.query(baseClass);
-                if (order != null) {
-                    query = query.order(order);
+                for (QueryOperator operator : operators) {
+                    query = operator.appendToQuery(query);
                 }
                 return query;
             }
