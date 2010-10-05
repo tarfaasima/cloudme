@@ -98,6 +98,8 @@ public class ItemServiceTest extends AbstractServiceTestCase {
 
         itemService.tick(manchester.getId(), itemInstances.get(1).getId());
         itemService.tick(manchester.getId(), itemInstances.get(0).getId());
+
+        itemService.computeItemOrder();
     }
 
     private void assertInstance(List<ItemInstance> itemInstances, String... texts) {

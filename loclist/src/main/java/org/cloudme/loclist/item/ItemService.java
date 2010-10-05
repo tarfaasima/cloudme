@@ -53,4 +53,7 @@ public class ItemService {
     public List<ItemInstance> getItemInstances(Long itemListId) {
         return itemInstanceDao.listAll(filter("itemListId =", itemListId));
     }
+
+    public void computeItemOrder() {
+    }
 }
