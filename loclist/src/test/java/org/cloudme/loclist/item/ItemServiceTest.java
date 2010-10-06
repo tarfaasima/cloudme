@@ -93,16 +93,17 @@ public class ItemServiceTest extends AbstractServiceTestCase {
         assertEquals("Shopping List", itemLists.get(1).getName());
 
         ItemList shoppingList = itemLists.get(1);
-        List<ItemInstance> itemInstances = itemService.getItemInstances(shoppingList.getId());
-        assertInstance(itemInstances, "Milk", "Cheese");
+        assertItemInstanceOrder(itemService.getItemInstances(shoppingList.getId()), "Milk", "Cheese");
 
-        itemService.tick(manchester.getId(), itemInstances.get(1).getId());
-        itemService.tick(manchester.getId(), itemInstances.get(0).getId());
+        itemService.tick(manchester.getId(), itemService.getItemInstances(shoppingList.getId()).get(1).getId());
+        itemService.tick(manchester.getId(), itemService.getItemInstances(shoppingList.getId()).get(0).getId());
 
         itemService.computeItemOrder();
+
+        assertItemInstanceOrder(itemService.getItemInstances(shoppingList.getId()), "Cheese", "Milk");
     }
 
-    private void assertInstance(List<ItemInstance> itemInstances, String... texts) {
+    private void assertItemInstanceOrder(List<ItemInstance> itemInstances, String... texts) {
         assertEquals(texts.length, itemInstances.size());
         for (int i = 0; i < texts.length; i++) {
             Long itemId = itemInstances.get(i).getItemId();

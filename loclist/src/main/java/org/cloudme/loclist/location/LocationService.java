@@ -1,6 +1,8 @@
 package org.cloudme.loclist.location;
 
+import org.cloudme.loclist.dao.CheckinDao;
 import org.cloudme.loclist.dao.LocationDao;
+import org.cloudme.loclist.model.Checkin;
 import org.cloudme.loclist.model.Location;
 
 import com.google.inject.Inject;
@@ -8,11 +10,13 @@ import com.google.inject.Inject;
 public class LocationService {
     @Inject
     private LocationDao locationDao;
+    @Inject
+    private CheckinDao checkinDao;
     /**
      * The radius in kilometers of tolerance to map a checkin to an existing
      * location within this radius.
      */
-    private double radius = 50.0d;
+    private double radius = 0.05d;
 
     public double getRadius() {
         return radius;
@@ -48,6 +52,12 @@ public class LocationService {
             result = new Location(latitude, longitude);
             locationDao.save(result);
         }
+        Checkin checkin = new Checkin();
+        checkin.setLocationId(result.getId());
+        checkin.setTimestamp(System.currentTimeMillis());
+        checkin.setLatitude(latitude);
+        checkin.setLongitude(longitude);
+        checkinDao.save(checkin);
         return result;
     }
 

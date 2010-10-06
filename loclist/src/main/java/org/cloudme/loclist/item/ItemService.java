@@ -3,12 +3,15 @@ package org.cloudme.loclist.item;
 import static org.cloudme.gaestripes.BaseDao.filter;
 import static org.cloudme.gaestripes.BaseDao.orderBy;
 
+import java.util.Iterator;
 import java.util.List;
 
+import org.cloudme.loclist.dao.CheckinDao;
 import org.cloudme.loclist.dao.ItemDao;
 import org.cloudme.loclist.dao.ItemInstanceDao;
 import org.cloudme.loclist.dao.ItemListDao;
 import org.cloudme.loclist.dao.TickDao;
+import org.cloudme.loclist.model.Checkin;
 import org.cloudme.loclist.model.Item;
 import org.cloudme.loclist.model.ItemInstance;
 import org.cloudme.loclist.model.ItemList;
@@ -25,6 +28,8 @@ public class ItemService {
     private ItemInstanceDao itemInstanceDao;
     @Inject
     private TickDao tickDao;
+    @Inject
+    private CheckinDao checkinDao;
 
     public void put(Item item) {
         itemDao.save(item);
@@ -55,5 +60,10 @@ public class ItemService {
     }
 
     public void computeItemOrder() {
+        Iterator<Checkin> checkins = checkinDao.findAll(orderBy("-timestamp")).iterator();
+        long timestamp = checkins.hasNext() ? checkins.next().getTimestamp() : 0;
+        Iterable<Tick> ticks = tickDao.findAll(filter("timestamp >=", timestamp));
+        for (Tick tick : ticks) {
+        }
     }
 }
