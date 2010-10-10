@@ -13,6 +13,7 @@ public class ItemInstance {
     private Long itemId;
     @Unindexed
     private String attribute;
+    private int index;
 
     public Long getId() {
         return id;
@@ -44,5 +45,13 @@ public class ItemInstance {
 
     public void setAttribute(String attribute) {
         this.attribute = attribute;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

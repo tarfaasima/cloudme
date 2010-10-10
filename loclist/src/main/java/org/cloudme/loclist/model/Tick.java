@@ -11,6 +11,7 @@ public class Tick {
     private Long locationId;
     private Long itemInstanceId;
     private long timestamp;
+    private Long itemId;
 
     public Long getId() {
         return id;
@@ -42,5 +43,18 @@ public class Tick {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public Long getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
+    }
+
+    @Override
+    public String toString() {
+        return "itemId = " + itemId;
     }
 }

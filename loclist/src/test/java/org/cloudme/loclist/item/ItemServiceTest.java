@@ -3,7 +3,9 @@ package org.cloudme.loclist.item;
 import static org.cloudme.gaestripes.BaseDao.orderBy;
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.cloudme.loclist.dao.ItemDao;
 import org.cloudme.loclist.dao.ItemListDao;
@@ -32,47 +34,44 @@ public class ItemServiceTest extends AbstractServiceTestCase {
     private TickDao tickDao;
     private ItemInstance milkInstance;
     private ItemInstance cheeseInstance;
-    private ItemInstance statusUpdateInstance;
+    private final Map<String, ItemInstance> itemInstanceCache = new HashMap<String, ItemInstance>();
 
     @Before
     public void createItems() {
-        ItemList shoppingList = new ItemList();
-        shoppingList.setName("Shopping List");
-        itemService.put(shoppingList);
+        ItemList shoppingList = createItemList("Shopping List");
+        milkInstance = createItem(shoppingList, "Milk", "2");
+        cheeseInstance = createItem(shoppingList, "Cheese", null);
+        createItem(shoppingList, "Tea", null);
+        createItem(shoppingList, "Bread", null);
+        createItem(shoppingList, "Sugar", null);
 
-        Item milk = new Item();
-        milk.setText("Milk");
-        itemService.put(milk);
-
-        milkInstance = new ItemInstance();
-        milkInstance.setItemId(milk.getId());
-        milkInstance.setItemListId(shoppingList.getId());
-        milkInstance.setAttribute("2");
-        itemService.put(milkInstance);
-        
-        Item cheese = new Item();
-        cheese.setText("Cheese");
-        itemService.put(cheese);
-
-        cheeseInstance = new ItemInstance();
-        cheeseInstance.setItemId(cheese.getId());
-        cheeseInstance.setItemListId(shoppingList.getId());
-        itemService.put(cheeseInstance);
-
-        ItemList todoList = new ItemList();
-        todoList.setName("My Todo List");
-        itemService.put(todoList);
-
-        Item statusUpdate = new Item();
-        statusUpdate.setText("Update status report");
-        itemService.put(statusUpdate);
-
-        statusUpdateInstance = new ItemInstance();
-        statusUpdateInstance.setItemId(statusUpdate.getId());
-        statusUpdateInstance.setItemListId(todoList.getId());
-        itemService.put(statusUpdateInstance);
+        ItemList todoList = createItemList("My Todo List");
+        createItem(todoList, "Update status report", null);
         
         assertEquals(2, itemListDao.listAll().size());
+    }
+
+    private ItemInstance createItem(ItemList itemList, String text, String attribute) {
+        Item item = new Item();
+        item.setText(text);
+        itemService.put(item);
+
+        ItemInstance itemInstance = new ItemInstance();
+        itemInstance.setItemId(item.getId());
+        itemInstance.setItemListId(itemList.getId());
+        itemInstance.setAttribute(attribute);
+        itemService.put(itemInstance);
+
+        itemInstanceCache.put(text, itemInstance);
+
+        return itemInstance;
+    }
+
+    private ItemList createItemList(String name) {
+        ItemList shoppingList = new ItemList();
+        shoppingList.setName(name);
+        itemService.put(shoppingList);
+        return shoppingList;
     }
 
     @Test
@@ -93,17 +92,23 @@ public class ItemServiceTest extends AbstractServiceTestCase {
         assertEquals("Shopping List", itemLists.get(1).getName());
 
         ItemList shoppingList = itemLists.get(1);
-        assertItemInstanceOrder(itemService.getItemInstances(shoppingList.getId()), "Milk", "Cheese");
+        assertItemInstanceOrder(shoppingList, "Milk", "Cheese", "Tea", "Bread", "Sugar");
 
-        itemService.tick(manchester.getId(), itemService.getItemInstances(shoppingList.getId()).get(1).getId());
-        itemService.tick(manchester.getId(), itemService.getItemInstances(shoppingList.getId()).get(0).getId());
+        simulateTicks(manchester, "Cheese", "Bread");
 
         itemService.computeItemOrder();
 
-        assertItemInstanceOrder(itemService.getItemInstances(shoppingList.getId()), "Cheese", "Milk");
+        assertItemInstanceOrder(shoppingList, "Cheese", "Bread", "Milk", "Tea", "Sugar");
     }
 
-    private void assertItemInstanceOrder(List<ItemInstance> itemInstances, String... texts) {
+    private void simulateTicks(Location location, String... texts) {
+        for (String text : texts) {
+            itemService.tick(location.getId(), itemInstanceCache.get(text).getId());
+        }
+    }
+
+    private void assertItemInstanceOrder(ItemList itemList, String... texts) {
+        List<ItemInstance> itemInstances = itemService.getItemInstances(itemList.getId());
         assertEquals(texts.length, itemInstances.size());
         for (int i = 0; i < texts.length; i++) {
             Long itemId = itemInstances.get(i).getItemId();
