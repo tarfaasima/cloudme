@@ -13,7 +13,7 @@ import org.cloudme.loclist.model.ItemOrder;
 import org.cloudme.loclist.model.Tick;
 import org.junit.Test;
 
-public class ItemSorterTest {
+public class ItemOrderEngineTest {
     @Test
     public void testCreateOrder() {
         ItemOrderEngine itemOrderEngine = new ItemOrderEngine();
