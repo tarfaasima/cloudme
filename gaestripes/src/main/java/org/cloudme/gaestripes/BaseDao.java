@@ -113,6 +113,16 @@ public abstract class BaseDao<T> {
         });
     }
 
+    public void save(final Iterable<? extends T> objs) {
+        execute(new Callback<Object>() {
+            @Override
+            protected Object execute(Objectify ofy) {
+                ofy.put(objs);
+                return null;
+            }
+        });
+    }
+
     public void save(final T t) {
         execute(new Callback<Object>(true) {
             @Override
