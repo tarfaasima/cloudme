@@ -1,25 +1,15 @@
 package org.cloudme.loclist.model;
 
-import javax.persistence.Id;
+import org.cloudme.gaestripes.DomainObject;
 
 import com.googlecode.objectify.annotation.Unindexed;
 
-public class ItemOrder implements Comparable<ItemOrder> {
-    @Id
-    private Long id;
+public class ItemOrder extends DomainObject implements Comparable<ItemOrder> {
     @Unindexed
     private int index = -1;
     @Unindexed
     private Long itemId;
     private Long locationId;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public int getIndex() {
         return index;

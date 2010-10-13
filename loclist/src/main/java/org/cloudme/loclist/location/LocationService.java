@@ -35,30 +35,30 @@ public class LocationService {
      *            The latitude of the geo location.
      * @param longitude
      *            The longitude of the geo location.
-     * @return The nearest location (if it already exists) or a location with
-     *         the given coordinates.
+     * @return A {@link Checkin} at the nearest existing location or a new
+     *         location with the given coordinates.
      */
-    public Location checkin(float latitude, float longitude) {
-        Location result = null;
+    public Checkin checkin(float latitude, float longitude) {
+        Location location = null;
         double dMin = Double.MAX_VALUE;
-        for (Location location : locationDao.findAll()) {
-            double d = distance(latitude, longitude, location.getLatitude(), location.getLongitude());
+        for (Location tmp : locationDao.findAll()) {
+            double d = distance(latitude, longitude, tmp.getLatitude(), tmp.getLongitude());
             if (d < radius && d < dMin) {
-                result = location;
+                location = tmp;
                 dMin = d;
             }
         }
-        if (result == null) {
-            result = new Location(latitude, longitude);
-            locationDao.save(result);
+        if (location == null) {
+            location = new Location(latitude, longitude);
+            locationDao.save(location);
         }
         Checkin checkin = new Checkin();
-        checkin.setLocationId(result.getId());
+        checkin.setLocationId(location.getId());
         checkin.setTimestamp(System.currentTimeMillis());
         checkin.setLatitude(latitude);
         checkin.setLongitude(longitude);
         checkinDao.save(checkin);
-        return result;
+        return checkin;
     }
 
     /**

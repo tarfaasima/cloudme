@@ -1,19 +1,18 @@
 package org.cloudme.loclist.model;
 
-import javax.persistence.Id;
+import org.cloudme.gaestripes.DomainObject;
 
 import com.google.appengine.api.datastore.GeoPt;
 import com.googlecode.objectify.annotation.Cached;
 import com.googlecode.objectify.annotation.Unindexed;
 
 @Cached
-public class Location {
-    @Id
-    private Long id;
+public class Location extends DomainObject {
     @Unindexed
     private GeoPt geoPt;
 
     public Location() {
+        // Required for persistence
     }
 
     public Location(float latitude, float longitude) {
@@ -34,13 +33,5 @@ public class Location {
 
     public float getLongitude() {
         return geoPt.getLongitude();
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
     }
 }

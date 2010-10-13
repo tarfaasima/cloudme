@@ -8,6 +8,7 @@ import org.cloudme.loclist.model.ItemList;
 import org.cloudme.loclist.model.ItemOrder;
 import org.cloudme.loclist.model.Location;
 import org.cloudme.loclist.model.Tick;
+import org.cloudme.loclist.model.Update;
 
 public abstract class AbstractDao<T> extends BaseDao<T> {
     {
@@ -18,6 +19,7 @@ public abstract class AbstractDao<T> extends BaseDao<T> {
         register(ItemOrder.class);
         register(Location.class);
         register(Tick.class);
+        register(Update.class);
     }
 
     public AbstractDao(Class<T> baseClass) {

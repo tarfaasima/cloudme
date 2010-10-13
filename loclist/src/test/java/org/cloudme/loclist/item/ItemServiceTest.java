@@ -11,10 +11,10 @@ import org.cloudme.loclist.dao.ItemDao;
 import org.cloudme.loclist.dao.ItemListDao;
 import org.cloudme.loclist.dao.TickDao;
 import org.cloudme.loclist.location.LocationService;
+import org.cloudme.loclist.model.Checkin;
 import org.cloudme.loclist.model.Item;
 import org.cloudme.loclist.model.ItemInstance;
 import org.cloudme.loclist.model.ItemList;
-import org.cloudme.loclist.model.Location;
 import org.cloudme.loclist.test.AbstractServiceTestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -76,15 +76,15 @@ public class ItemServiceTest extends AbstractServiceTestCase {
 
     @Test
     public void testTick() {
-        Location manchester = locationService.checkin(53.480712f, -2.234376f);
-        itemService.tick(manchester.getId(), milkInstance.getId());
-        itemService.tick(manchester.getId(), cheeseInstance.getId());
+        Checkin checkin = locationService.checkin(53.480712f, -2.234376f);
+        itemService.tick(checkin.getId(), milkInstance.getId());
+        itemService.tick(checkin.getId(), cheeseInstance.getId());
         assertEquals(2, tickDao.listAll(orderBy("timestamp")).size());
     }
 
     @Test
     public void testGetItemList() {
-        Location manchester = locationService.checkin(53.480712f, -2.234376f);
+        Checkin checkin = locationService.checkin(53.480712f, -2.234376f);
 
         List<ItemList> itemLists = itemService.getItemLists();
         assertEquals(2, itemLists.size());
@@ -94,21 +94,21 @@ public class ItemServiceTest extends AbstractServiceTestCase {
         ItemList shoppingList = itemLists.get(1);
         assertItemInstanceOrder(shoppingList, "Milk", "Cheese", "Tea", "Bread", "Sugar");
 
-        simulateTicks(manchester, "Cheese", "Bread");
+        simulateTicks(checkin, "Cheese", "Bread");
 
         itemService.computeItemOrder();
 
         assertItemInstanceOrder(shoppingList, "Cheese", "Bread", "Milk", "Tea", "Sugar");
     }
 
-    private void simulateTicks(Location location, String... texts) {
+    private void simulateTicks(Checkin checkin, String... texts) {
         for (String text : texts) {
-            itemService.tick(location.getId(), itemInstanceCache.get(text).getId());
+            itemService.tick(checkin.getId(), itemInstanceCache.get(text).getId());
         }
     }
 
     private void assertItemInstanceOrder(ItemList itemList, String... texts) {
-        List<ItemInstance> itemInstances = itemService.getItemInstances(itemList.getId());
+        List<ItemInstance> itemInstances = itemService.getItemInstances(null, itemList.getId());
         assertEquals(texts.length, itemInstances.size());
         for (int i = 0; i < texts.length; i++) {
             Long itemId = itemInstances.get(i).getItemId();

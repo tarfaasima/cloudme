@@ -2,24 +2,14 @@ package org.cloudme.loclist.model;
 
 import java.util.Date;
 
-import javax.persistence.Id;
+import org.cloudme.gaestripes.DomainObject;
 
 import com.googlecode.objectify.annotation.Cached;
 
 @Cached
-public class ItemList {
-    @Id
-    private Long id;
+public class ItemList extends DomainObject {
     private String name;
     private Date lastUpdate;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 
     public void setName(String name) {
         this.name = name;

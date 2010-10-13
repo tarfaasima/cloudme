@@ -1,12 +1,10 @@
 package org.cloudme.loclist.model;
 
-import javax.persistence.Id;
+import org.cloudme.gaestripes.DomainObject;
 
 import com.googlecode.objectify.annotation.Unindexed;
 
-public class Checkin {
-    @Id
-    private Long id;
+public class Checkin extends DomainObject {
     @Unindexed
     private Long locationId;
     private long timestamp;
@@ -14,14 +12,6 @@ public class Checkin {
     private float latitude;
     @Unindexed
     private float longitude;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getLocationId() {
         return locationId;

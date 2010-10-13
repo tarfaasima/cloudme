@@ -1,27 +1,16 @@
 package org.cloudme.loclist.model;
 
-import javax.persistence.Id;
+import org.cloudme.gaestripes.DomainObject;
 
 import com.googlecode.objectify.annotation.Cached;
 import com.googlecode.objectify.annotation.Unindexed;
 
 @Cached
-public class ItemInstance {
-    @Id
-    private Long id;
+public class ItemInstance extends DomainObject {
     private Long itemListId;
     private Long itemId;
     @Unindexed
     private String attribute;
-    private int index;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getItemListId() {
         return itemListId;
@@ -45,13 +34,5 @@ public class ItemInstance {
 
     public void setAttribute(String attribute) {
         this.attribute = attribute;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 }
