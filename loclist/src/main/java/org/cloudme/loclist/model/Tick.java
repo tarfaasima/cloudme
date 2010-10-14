@@ -7,8 +7,8 @@ import com.googlecode.objectify.annotation.Cached;
 @Cached
 public class Tick extends DomainObject {
     private Long checkinId;
-    private long timestamp;
     private Long itemId;
+    private long timestamp;
 
     public long getTimestamp() {
         return timestamp;

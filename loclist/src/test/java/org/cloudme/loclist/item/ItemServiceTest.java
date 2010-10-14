@@ -92,13 +92,13 @@ public class ItemServiceTest extends AbstractServiceTestCase {
         assertEquals("Shopping List", itemLists.get(1).getName());
 
         ItemList shoppingList = itemLists.get(1);
-        assertItemInstanceOrder(shoppingList, "Milk", "Cheese", "Tea", "Bread", "Sugar");
+        assertItemInstanceOrder(checkin, shoppingList, "Milk", "Cheese", "Tea", "Bread", "Sugar");
 
         simulateTicks(checkin, "Cheese", "Bread");
 
         itemService.computeItemOrder();
 
-        assertItemInstanceOrder(shoppingList, "Cheese", "Bread", "Milk", "Tea", "Sugar");
+        assertItemInstanceOrder(checkin, shoppingList, "Cheese", "Bread", "Milk", "Tea", "Sugar");
     }
 
     private void simulateTicks(Checkin checkin, String... texts) {
@@ -107,8 +107,8 @@ public class ItemServiceTest extends AbstractServiceTestCase {
         }
     }
 
-    private void assertItemInstanceOrder(ItemList itemList, String... texts) {
-        List<ItemInstance> itemInstances = itemService.getItemInstances(null, itemList.getId());
+    private void assertItemInstanceOrder(Checkin checkin, ItemList itemList, String... texts) {
+        List<ItemInstance> itemInstances = itemService.getItemInstances(checkin.getLocationId(), itemList.getId());
         assertEquals(texts.length, itemInstances.size());
         for (int i = 0; i < texts.length; i++) {
             Long itemId = itemInstances.get(i).getItemId();

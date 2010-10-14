@@ -3,8 +3,10 @@ package org.cloudme.loclist.guice;
 import org.cloudme.loclist.dao.ItemDao;
 import org.cloudme.loclist.dao.ItemInstanceDao;
 import org.cloudme.loclist.dao.ItemListDao;
+import org.cloudme.loclist.dao.ItemOrderDao;
 import org.cloudme.loclist.dao.LocationDao;
 import org.cloudme.loclist.dao.TickDao;
+import org.cloudme.loclist.dao.UpdateDao;
 import org.cloudme.loclist.item.ItemService;
 import org.cloudme.loclist.location.LocationService;
 
@@ -16,8 +18,10 @@ public class LoclistModule extends AbstractModule {
         bind(ItemDao.class);
         bind(ItemInstanceDao.class);
         bind(ItemListDao.class);
+        bind(ItemOrderDao.class);
         bind(LocationDao.class);
         bind(TickDao.class);
+        bind(UpdateDao.class);
 
         bind(ItemService.class);
         bind(LocationService.class);

@@ -19,28 +19,29 @@ public class ItemOrderEngineTest {
         ItemOrderEngine itemOrderEngine = new ItemOrderEngine();
         Iterable<ItemOrder> itemOrders;
         Map<Long, ItemOrder> itemOrderMap = null;
-        itemOrders = itemOrderEngine.createOrder(ticks(2L, 1L), itemOrderMap);
+        Long locationId = 1L;
+        itemOrders = itemOrderEngine.createOrder(locationId, ticks(2L, 1L), itemOrderMap);
         itemOrderMap = assertOrder(itemOrders, 2L, 1L);
 
-        itemOrders = itemOrderEngine.createOrder(ticks(1L, 2L), itemOrderMap);
+        itemOrders = itemOrderEngine.createOrder(locationId, ticks(1L, 2L), itemOrderMap);
         itemOrderMap = assertOrder(itemOrders, 1L, 2L);
 
-        itemOrders = itemOrderEngine.createOrder(ticks(3L, 4L), itemOrderMap);
+        itemOrders = itemOrderEngine.createOrder(locationId, ticks(3L, 4L), itemOrderMap);
         itemOrderMap = assertOrder(itemOrders, 1L, 3L, 2L, 4L);
 
-        itemOrders = itemOrderEngine.createOrder(ticks(1L, 2L), itemOrderMap);
+        itemOrders = itemOrderEngine.createOrder(locationId, ticks(1L, 2L), itemOrderMap);
         itemOrderMap = assertOrder(itemOrders, 1L, 3L, 2L, 4L);
 
-        itemOrders = itemOrderEngine.createOrder(ticks(2L, 3L), itemOrderMap);
+        itemOrders = itemOrderEngine.createOrder(locationId, ticks(2L, 3L), itemOrderMap);
         itemOrderMap = assertOrder(itemOrders, 1L, 2L, 3L, 4L);
 
-        itemOrders = itemOrderEngine.createOrder(ticks(1L, 2L, 3L, 4L, 5L), itemOrderMap);
+        itemOrders = itemOrderEngine.createOrder(locationId, ticks(1L, 2L, 3L, 4L, 5L), itemOrderMap);
         itemOrderMap = assertOrder(itemOrders, 1L, 2L, 3L, 4L, 5L);
 
-        itemOrders = itemOrderEngine.createOrder(ticks(2L, 1L), itemOrderMap);
+        itemOrders = itemOrderEngine.createOrder(locationId, ticks(2L, 1L), itemOrderMap);
         itemOrderMap = assertOrder(itemOrders, 2L, 1L, 3L, 4L, 5L);
 
-        itemOrders = itemOrderEngine.createOrder(ticks(4L, 3L), itemOrderMap);
+        itemOrders = itemOrderEngine.createOrder(locationId, ticks(4L, 3L), itemOrderMap);
         itemOrderMap = assertOrder(itemOrders, 2L, 1L, 4L, 3L, 5L);
     }
 

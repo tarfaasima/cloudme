@@ -10,7 +10,7 @@ import org.cloudme.loclist.model.ItemOrder;
 import org.cloudme.loclist.model.Tick;
 
 public class ItemOrderEngine {
-    public Iterable<ItemOrder> createOrder(Iterable<Tick> ticks, Map<Long, ItemOrder> itemOrderMap) {
+    public Iterable<ItemOrder> createOrder(Long locationId, Iterable<Tick> ticks, Map<Long, ItemOrder> itemOrderMap) {
         if (itemOrderMap == null) {
             itemOrderMap = new HashMap<Long, ItemOrder>();
         }
@@ -22,6 +22,7 @@ public class ItemOrderEngine {
             if (itemOrder == null) {
                 itemOrder = new ItemOrder();
                 itemOrder.setItemId(itemId);
+                itemOrder.setLocationId(locationId);
                 itemOrders.add(itemOrder);
             }
             Integer index = itemOrder.getIndex();

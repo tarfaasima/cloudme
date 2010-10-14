@@ -7,10 +7,12 @@ import com.googlecode.objectify.annotation.Unindexed;
 
 @Cached
 public class ItemInstance extends DomainObject {
-    private Long itemListId;
     private Long itemId;
+    private Long itemListId;
     @Unindexed
     private String attribute;
+    @Unindexed
+    private boolean ticked;
 
     public Long getItemListId() {
         return itemListId;
@@ -34,5 +36,13 @@ public class ItemInstance extends DomainObject {
 
     public void setAttribute(String attribute) {
         this.attribute = attribute;
+    }
+
+    public void setTicked(boolean ticked) {
+        this.ticked = ticked;
+    }
+
+    public boolean isTicked() {
+        return ticked;
     }
 }
