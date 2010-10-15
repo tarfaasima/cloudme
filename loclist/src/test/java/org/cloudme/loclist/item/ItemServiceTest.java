@@ -108,7 +108,7 @@ public class ItemServiceTest extends AbstractServiceTestCase {
     }
 
     private void assertItemInstanceOrder(Checkin checkin, ItemList itemList, String... texts) {
-        List<ItemInstance> itemInstances = itemService.getItemInstances(checkin.getLocationId(), itemList.getId());
+        List<ItemInstance> itemInstances = itemService.getItemInstances(checkin.getId(), itemList.getId());
         assertEquals(texts.length, itemInstances.size());
         for (int i = 0; i < texts.length; i++) {
             Long itemId = itemInstances.get(i).getItemId();
