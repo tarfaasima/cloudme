@@ -3,10 +3,12 @@ package org.cloudme.loclist.model;
 import org.cloudme.gaestripes.DomainObject;
 
 import com.googlecode.objectify.annotation.Cached;
+import com.googlecode.objectify.annotation.Unindexed;
 
 @Cached
 public class Tick extends DomainObject {
     private Long checkinId;
+    @Unindexed
     private Long itemId;
     private long timestamp;
 

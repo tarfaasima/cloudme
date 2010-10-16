@@ -2,8 +2,10 @@ package org.cloudme.loclist.model;
 
 import org.cloudme.gaestripes.DomainObject;
 
+import com.googlecode.objectify.annotation.Cached;
 import com.googlecode.objectify.annotation.Unindexed;
 
+@Cached
 public class ItemOrder extends DomainObject implements Comparable<ItemOrder> {
     @Unindexed
     private int index = -1;

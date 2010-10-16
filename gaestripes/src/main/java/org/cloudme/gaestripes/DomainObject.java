@@ -3,7 +3,6 @@ package org.cloudme.gaestripes;
 import javax.persistence.Id;
 
 public class DomainObject {
-
     @Id
     private Long id;
 
@@ -14,5 +13,4 @@ public class DomainObject {
     public Long getId() {
         return id;
     }
-
 }

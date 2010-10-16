@@ -3,10 +3,10 @@ package org.cloudme.loclist.model;
 
 import org.cloudme.gaestripes.DomainObject;
 
-import com.googlecode.objectify.annotation.Unindexed;
+import com.googlecode.objectify.annotation.Cached;
 
+@Cached
 public class Update extends DomainObject {
-    @Unindexed
     private long timestamp;
 
     public long getTimestamp() {

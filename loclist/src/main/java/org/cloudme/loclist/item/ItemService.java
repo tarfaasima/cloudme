@@ -81,51 +81,39 @@ public class ItemService {
             for (ItemOrder itemOrder : itemOrders) {
                 itemOrderMap.put(itemOrder.getItemId(), itemOrder);
             }
-            Comparator<ItemInstance> itemInstanceComparator = new Comparator<ItemInstance>() {
+            Collections.sort(itemInstances, new Comparator<ItemInstance>() {
                 @Override
                 public int compare(ItemInstance i1, ItemInstance i2) {
                     ItemOrder o1 = itemOrderMap.get(i1.getItemId());
                     ItemOrder o2 = itemOrderMap.get(i2.getItemId());
                     return o1 == null ? o2 == null ? 0 : 1 : o2 == null ? -1 : o1.getIndex() - o2.getIndex();
                 }
-            };
-            Collections.sort(itemInstances, itemInstanceComparator);
+            });
         }
         return itemInstances;
     }
 
-    public void computeItemOrder() {
-        // Capture current timestamp
+    public void updateItemOrder() {
         Update currentUpdate = new Update();
         currentUpdate.setTimestamp(System.currentTimeMillis());
-
-        // Load last update timestamp
         Iterator<Update> updates = updateDao.findAll(orderBy("-timestamp")).iterator();
         long lastTimestamp = updates.hasNext() ? updates.next().getTimestamp() : 0;
-
-        // Load checkins between current and last timestamp
         Iterator<Checkin> checkins = checkinDao.findAll(orderBy("-timestamp")).iterator();
-        // For each checkin do:
         while (checkins.hasNext()) {
             Checkin checkin = checkins.next();
             if (checkin.getTimestamp() < lastTimestamp) {
                 break;
             }
             Long locationId = checkin.getLocationId();
-            // Load ticks
             Iterable<Tick> ticks = tickDao.findAll(filter("checkinId", checkin.getId()), orderBy("timestamp"));
-            // Load item orders and create map
             Iterable<ItemOrder> itemOrders = itemOrderDao.findAll(filter("locationId", locationId));
             Map<Long, ItemOrder> itemOrderMap = new HashMap<Long, ItemOrder>();
             for (ItemOrder itemOrder : itemOrders) {
                 itemOrderMap.put(itemOrder.getId(), itemOrder);
             }
-            // Compute new order
             itemOrders = new ItemOrderEngine().createOrder(locationId, ticks, itemOrderMap);
-            // Save item orders
             itemOrderDao.save(itemOrders);
         }
-        // Save current timestamp
         updateDao.save(currentUpdate);
     }
 }

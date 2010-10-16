@@ -96,7 +96,7 @@ public class ItemServiceTest extends AbstractServiceTestCase {
 
         simulateTicks(checkin, "Cheese", "Bread");
 
-        itemService.computeItemOrder();
+        itemService.updateItemOrder();
 
         assertItemInstanceOrder(checkin, shoppingList, "Cheese", "Bread", "Milk", "Tea", "Sugar");
     }

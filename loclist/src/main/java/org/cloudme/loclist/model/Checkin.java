@@ -2,8 +2,10 @@ package org.cloudme.loclist.model;
 
 import org.cloudme.gaestripes.DomainObject;
 
+import com.googlecode.objectify.annotation.Cached;
 import com.googlecode.objectify.annotation.Unindexed;
 
+@Cached
 public class Checkin extends DomainObject {
     @Unindexed
     private Long locationId;
