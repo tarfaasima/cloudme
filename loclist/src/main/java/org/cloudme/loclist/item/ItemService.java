@@ -1,7 +1,5 @@
 package org.cloudme.loclist.item;
 
-import static java.lang.String.format;
-import static org.cloudme.gaestripes.BaseDao.filter;
 import static org.cloudme.gaestripes.BaseDao.orderBy;
 
 import java.util.Collections;
@@ -11,8 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.cloudme.loclist.dao.CheckinDao;
 import org.cloudme.loclist.dao.ItemDao;
 import org.cloudme.loclist.dao.ItemInstanceDao;
@@ -31,7 +27,6 @@ import org.cloudme.loclist.model.Update;
 import com.google.inject.Inject;
 
 public class ItemService {
-    private static final Log LOG = LogFactory.getLog(ItemService.class);
     @Inject
     private ItemDao itemDao;
     @Inject
@@ -72,16 +67,7 @@ public class ItemService {
             tickDao.save(tick);
         }
         else {
-            Iterator<Tick> ticks = tickDao.findAll(filter("checkinId", checkinId), filter("itemId", itemId)).iterator();
-            if (ticks.hasNext()) {
-                tickDao.delete(ticks.next().getId());
-                if (ticks.hasNext()) {
-                    LOG.warn(format("Too many ticks for checkin %d and item %d", checkinId, itemId));
-                }
-            }
-            else {
-                LOG.warn(format("No ticks found for checkin %d and item %d", checkinId, itemId));
-            }
+            tickDao.deleteByCheckinAndItem(checkinId, itemId);
         }
     }
 
@@ -90,10 +76,10 @@ public class ItemService {
     }
 
     public List<ItemInstance> getItemInstances(Long checkinId, Long itemListId) {
-        List<ItemInstance> itemInstances = itemInstanceDao.listAll(filter("itemListId", itemListId));
+        List<ItemInstance> itemInstances = itemInstanceDao.listByItemList(itemListId);
         Checkin checkin = checkinDao.find(checkinId);
         if (checkin != null) {
-            Iterable<ItemOrder> itemOrders = itemOrderDao.findAll(filter("locationId", checkin.getLocationId()));
+            Iterable<ItemOrder> itemOrders = itemOrderDao.findByLocation(checkin.getLocationId());
             final Map<Long, ItemOrder> itemOrderMap = new HashMap<Long, ItemOrder>();
             for (ItemOrder itemOrder : itemOrders) {
                 itemOrderMap.put(itemOrder.getItemId(), itemOrder);
@@ -122,8 +108,8 @@ public class ItemService {
                 break;
             }
             Long locationId = checkin.getLocationId();
-            Iterable<Tick> ticks = tickDao.findAll(filter("checkinId", checkin.getId()), orderBy("timestamp"));
-            Iterable<ItemOrder> itemOrders = itemOrderDao.findAll(filter("locationId", locationId));
+            Iterable<Tick> ticks = tickDao.findByCheckin(checkin.getId());
+            Iterable<ItemOrder> itemOrders = itemOrderDao.findByLocation(locationId);
             Map<Long, ItemOrder> itemOrderMap = new HashMap<Long, ItemOrder>();
             for (ItemOrder itemOrder : itemOrders) {
                 itemOrderMap.put(itemOrder.getId(), itemOrder);
