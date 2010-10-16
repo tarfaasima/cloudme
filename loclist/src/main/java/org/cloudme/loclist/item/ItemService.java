@@ -1,5 +1,6 @@
 package org.cloudme.loclist.item;
 
+import static java.lang.String.format;
 import static org.cloudme.gaestripes.BaseDao.filter;
 import static org.cloudme.gaestripes.BaseDao.orderBy;
 
@@ -10,6 +11,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cloudme.loclist.dao.CheckinDao;
 import org.cloudme.loclist.dao.ItemDao;
 import org.cloudme.loclist.dao.ItemInstanceDao;
@@ -28,6 +31,7 @@ import org.cloudme.loclist.model.Update;
 import com.google.inject.Inject;
 
 public class ItemService {
+    private static final Log LOG = LogFactory.getLog(ItemService.class);
     @Inject
     private ItemDao itemDao;
     @Inject
@@ -59,12 +63,25 @@ public class ItemService {
         ItemInstance itemInstance = itemInstanceDao.find(itemInstanceId);
         itemInstance.setTicked(!itemInstance.isTicked());
         itemInstanceDao.save(itemInstance);
+        Long itemId = itemInstance.getItemId();
         if (itemInstance.isTicked()) {
             Tick tick = new Tick();
             tick.setCheckinId(checkinId);
-            tick.setItemId(itemInstance.getItemId());
+            tick.setItemId(itemId);
             tick.setTimestamp(System.currentTimeMillis());
             tickDao.save(tick);
+        }
+        else {
+            Iterator<Tick> ticks = tickDao.findAll(filter("checkinId", checkinId), filter("itemId", itemId)).iterator();
+            if (ticks.hasNext()) {
+                tickDao.delete(ticks.next().getId());
+                if (ticks.hasNext()) {
+                    LOG.warn(format("Too many ticks for checkin %d and item %d", checkinId, itemId));
+                }
+            }
+            else {
+                LOG.warn(format("No ticks found for checkin %d and item %d", checkinId, itemId));
+            }
         }
     }
 
