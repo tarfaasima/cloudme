@@ -49,7 +49,7 @@ public abstract class BaseDao<T> {
         }
     }
 
-    private final Class<T> baseClass;
+    protected final Class<T> baseClass;
 
     public BaseDao(Class<T> baseClass) {
         this.baseClass = baseClass;
