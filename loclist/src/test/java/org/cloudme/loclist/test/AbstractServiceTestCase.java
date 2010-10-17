@@ -3,6 +3,7 @@ package org.cloudme.loclist.test;
 import org.cloudme.loclist.guice.LoclistModule;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMemcacheServiceTestConfig;
@@ -24,5 +25,9 @@ public class AbstractServiceTestCase {
     @After
     public void tearDown() {
         helper.tearDown();
+    }
+
+    @Test
+    public void dummyTest() {
     }
 }

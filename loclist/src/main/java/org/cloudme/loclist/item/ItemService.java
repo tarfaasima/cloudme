@@ -3,7 +3,6 @@ package org.cloudme.loclist.item;
 import static org.cloudme.gaestripes.BaseDao.orderBy;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -84,14 +83,7 @@ public class ItemService {
             for (ItemOrder itemOrder : itemOrders) {
                 itemOrderMap.put(itemOrder.getItemId(), itemOrder);
             }
-            Collections.sort(itemInstances, new Comparator<ItemInstance>() {
-                @Override
-                public int compare(ItemInstance i1, ItemInstance i2) {
-                    ItemOrder o1 = itemOrderMap.get(i1.getItemId());
-                    ItemOrder o2 = itemOrderMap.get(i2.getItemId());
-                    return o1 == null ? o2 == null ? 0 : 1 : o2 == null ? -1 : o1.getIndex() - o2.getIndex();
-                }
-            });
+            Collections.sort(itemInstances, new ItemInstanceComparator(itemOrderMap));
         }
         return itemInstances;
     }

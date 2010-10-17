@@ -8,13 +8,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cloudme.gaestripes.AbstractActionBean;
 
-@UrlBinding( "/action/list/index" )
+@UrlBinding( "/action/list/{$event}" )
 public class Index extends AbstractActionBean {
     private static final Log LOG = LogFactory.getLog(Index.class);
 
     @DefaultHandler
-    public Resolution show() {
-        LOG.info("show()");
+    public Resolution index() {
+        return jspForwardResolution();
+    }
+
+    public Resolution create() {
         return jspForwardResolution();
     }
 }
