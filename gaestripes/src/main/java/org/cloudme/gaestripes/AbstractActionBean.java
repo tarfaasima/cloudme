@@ -7,7 +7,7 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class AbstractActionBean implements ActionBean {
+public abstract class AbstractActionBean implements ActionBean {
     private static final Log LOG = LogFactory.getLog(AbstractActionBean.class);
     private ActionBeanContext context;
 
@@ -21,9 +21,9 @@ public class AbstractActionBean implements ActionBean {
         this.context = context;
     }
 
-    protected ForwardResolution jspForwardResolution() {
-        String name = getClass().getName();
-        String path = "/WEB-INF/classes/" + name.replace('.', '/') + ".jsp";
+    protected ForwardResolution resolve(String file) {
+        String name = getClass().getPackage().getName();
+        String path = "/WEB-INF/classes/" + name.replace('.', '/') + "/" + file + ".jsp";
         if (LOG.isDebugEnabled()) {
             LOG.debug("Forward path: " + path);
         }

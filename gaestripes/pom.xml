@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.cloudme.gaestripes</groupId>
   <artifactId>gaestripes</artifactId>
-  <version>0.1.3</version>
+  <version>0.1.4-SNAPSHOT</version>
   <name>Stripes Tools</name>
   <description>Simplifies development with Stripes framework by adding useful helper classes, Google Guice integration etc.</description>
   <dependencies>
@@ -98,6 +98,6 @@
   </build>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <gae.version>1.3.7</gae.version>
+    <gae.version>1.3.8</gae.version>
   </properties>
 </project>

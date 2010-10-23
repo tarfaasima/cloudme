@@ -4,7 +4,7 @@
 <s:layout-render name="/layout/default.jsp">
   <s:layout-component name="content">
     <div id="newlist">
-      <a href="/action/list/new">Create a new list</a>
+      <a href="/action/list/create">Create a new list</a>
     </div>
   </s:layout-component>
 </s:layout-render>

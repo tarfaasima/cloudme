@@ -1,23 +1,34 @@
 package org.cloudme.loclist.stripes.action.list;
 
+import java.util.List;
+
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.cloudme.gaestripes.AbstractActionBean;
+import org.cloudme.loclist.item.ItemService;
+import org.cloudme.loclist.model.ItemList;
 
-@UrlBinding( "/action/list/{$event}" )
+import com.google.inject.Inject;
+
+@UrlBinding( "/action/list/index" )
 public class Index extends AbstractActionBean {
-    private static final Log LOG = LogFactory.getLog(Index.class);
+    @Inject
+    private ItemService itemService;
+    private List<ItemList> itemLists;
 
-    @DefaultHandler
-    public Resolution index() {
-        return jspForwardResolution();
+    public void setItemLists(List<ItemList> itemLists) {
+        this.itemLists = itemLists;
     }
 
-    public Resolution create() {
-        return jspForwardResolution();
+    public List<ItemList> getItemLists() {
+        return itemLists;
+    }
+
+    @DefaultHandler
+    protected Resolution show() {
+        setItemLists(itemService.getItemLists());
+        return resolve("Index");
     }
 }
