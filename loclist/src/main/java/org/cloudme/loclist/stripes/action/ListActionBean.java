@@ -1,4 +1,4 @@
-package org.cloudme.loclist.stripes.action.list;
+package org.cloudme.loclist.stripes.action;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import org.cloudme.loclist.model.ItemList;
 
 import com.google.inject.Inject;
 
-@UrlBinding( "/action/list/index" )
-public class Index extends AbstractActionBean {
+@UrlBinding( "/action/list/{$event}" )
+public class ListActionBean extends AbstractActionBean {
     @Inject
     private ItemService itemService;
     private List<ItemList> itemLists;
@@ -27,8 +27,8 @@ public class Index extends AbstractActionBean {
     }
 
     @DefaultHandler
-    protected Resolution show() {
+    protected Resolution index() {
         setItemLists(itemService.getItemLists());
-        return resolve("Index");
+        return resolve("listIndex");
     }
 }
