@@ -13,6 +13,8 @@ public class ItemInstance extends DomainObject {
     private String attribute;
     @Unindexed
     private boolean ticked;
+    @Unindexed
+    private String text;
 
     public Long getItemListId() {
         return itemListId;
@@ -44,5 +46,13 @@ public class ItemInstance extends DomainObject {
 
     public boolean isTicked() {
         return ticked;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getText() {
+        return text;
     }
 }
