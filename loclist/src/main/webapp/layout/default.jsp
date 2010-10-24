@@ -8,6 +8,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <title>Loclist</title>
+    <script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
   </head>
   <body>
     <s:layout-component name="content"/>
