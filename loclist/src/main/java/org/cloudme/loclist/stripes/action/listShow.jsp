@@ -4,12 +4,11 @@
 
 <s:layout-render name="/layout/default.jsp">
   <s:layout-component name="content">
-    <c:set property="itemList" value="${actionBean.itemList}"/>
     <div>
       <a href="/action/list/index">Lists</a>
     </div>
     <div>
-      ${itemList.name}
+      ${actionBean.itemList.name}
     </div>
   </s:layout-component>
 </s:layout-render>
