@@ -111,4 +111,8 @@ public class ItemService {
         }
         updateDao.save(currentUpdate);
     }
+
+    public ItemList getItemList(Long id) {
+        return itemListDao.find(id);
+    }
 }
