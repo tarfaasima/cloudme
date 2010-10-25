@@ -5,32 +5,32 @@ import java.util.List;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
+import net.sourceforge.stripes.validation.Validate;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.cloudme.gaestripes.AbstractActionBean;
 import org.cloudme.loclist.item.ItemService;
 import org.cloudme.loclist.location.LocationService;
 import org.cloudme.loclist.model.ItemInstance;
+import org.cloudme.loclist.stripes.validation.GeoCoordinateConverter;
 
 import com.google.inject.Inject;
 
 @UrlBinding( "/action/checkin/{itemListId}/{latitude}/{longitude}" )
 public class CheckinActionBean extends AbstractActionBean {
-    private static final Log LOG = LogFactory.getLog(CheckinActionBean.class);
     @Inject
     private LocationService locationService;
     @Inject
     private ItemService itemService;
     private Long itemListId;
+    @Validate( converter = GeoCoordinateConverter.class )
     private float latitude;
+    @Validate( converter = GeoCoordinateConverter.class )
     private float longitude;
     private List<ItemInstance> itemInstances;
 
     @DefaultHandler
     public Resolution show() {
         Long checkinId = locationService.checkin(latitude, longitude).getId();
-        LOG.info(String.format("checkinId = %d", checkinId));
         setItemInstances(itemService.getItemInstances(checkinId, itemListId));
         return resolve("checkin");
     }
