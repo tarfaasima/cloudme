@@ -187,19 +187,26 @@
     	<artifactId>jstl</artifactId>
     	<version>1.1.2</version>
     	<type>jar</type>
-    	<scope>provided</scope>
+    	<scope>test</scope>
     </dependency>
     <dependency>
     	<groupId>taglibs</groupId>
     	<artifactId>standard</artifactId>
     	<version>1.1.2</version>
     	<type>jar</type>
-    	<scope>provided</scope>
+    	<scope>test</scope>
     </dependency>
     <dependency>
     	<groupId>javax.servlet</groupId>
     	<artifactId>servlet-api</artifactId>
     	<version>2.5</version>
+    	<type>jar</type>
+    	<scope>test</scope>
+    </dependency>
+    <dependency>
+    	<groupId>javax.servlet.jsp</groupId>
+    	<artifactId>jsp-api</artifactId>
+    	<version>2.1</version>
     	<type>jar</type>
     	<scope>test</scope>
     </dependency>

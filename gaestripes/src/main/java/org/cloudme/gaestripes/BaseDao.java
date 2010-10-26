@@ -1,5 +1,6 @@
 package org.cloudme.gaestripes;
 
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Transaction;
@@ -94,6 +95,21 @@ public abstract class BaseDao<T> {
                 return ofy.find(baseClass, id);
             }
         });
+    }
+
+    public T findSingle(String condition, Object value) {
+        Iterator<T> it = findAll(filter(condition, value)).iterator();
+        T result = null;
+        if (it.hasNext()) {
+            result = it.next();
+            if (it.hasNext()) {
+                throw new IllegalStateException(String.format("Multiple objects found for class %s with (%s, %s)",
+                        baseClass.getName(),
+                        condition,
+                        value));
+            }
+        }
+        return result;
     }
 
     public List<T> listAll(final QueryOperator... operators) {

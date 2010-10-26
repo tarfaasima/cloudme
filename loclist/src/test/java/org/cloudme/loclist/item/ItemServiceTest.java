@@ -3,12 +3,8 @@ package org.cloudme.loclist.item;
 import static org.cloudme.gaestripes.BaseDao.orderBy;
 import static org.junit.Assert.assertEquals;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.cloudme.loclist.dao.ItemDao;
-import org.cloudme.loclist.dao.ItemListDao;
 import org.cloudme.loclist.dao.TickDao;
 import org.cloudme.loclist.location.LocationService;
 import org.cloudme.loclist.model.Checkin;
@@ -27,58 +23,22 @@ public class ItemServiceTest extends AbstractServiceTestCase {
     @Inject
     private LocationService locationService;
     @Inject
-    private ItemDao itemDao;
-    @Inject
-    private ItemListDao itemListDao;
-    @Inject
     private TickDao tickDao;
-    private ItemInstance milkInstance;
-    private ItemInstance cheeseInstance;
-    private final Map<String, ItemInstance> itemInstanceCache = new HashMap<String, ItemInstance>();
 
     @Before
-    public void createItems() {
-        ItemList shoppingList = createItemList("Shopping List");
-        milkInstance = createItem(shoppingList, "Milk", "2");
-        cheeseInstance = createItem(shoppingList, "Cheese", null);
-        createItem(shoppingList, "Tea", null);
-        createItem(shoppingList, "Bread", null);
-        createItem(shoppingList, "Sugar", null);
-
-        ItemList todoList = createItemList("My Todo List");
-        createItem(todoList, "Update status report", null);
+    public void generateTestData() {
+        createItems("Milk", "Cheese", "Tea", "Bread", "Sugar", "Update status report");
+        createItemList("Shopping List", "Milk", "Cheese", "Tea", "Bread", "Sugar");
+        createItemList("My Todo List", "Update status report");
         
         assertEquals(2, itemListDao.listAll().size());
-    }
-
-    private ItemInstance createItem(ItemList itemList, String text, String attribute) {
-        Item item = new Item();
-        item.setText(text);
-        itemService.put(item);
-
-        ItemInstance itemInstance = new ItemInstance();
-        itemInstance.setItemId(item.getId());
-        itemInstance.setItemListId(itemList.getId());
-        itemInstance.setAttribute(attribute);
-        itemService.put(itemInstance);
-
-        itemInstanceCache.put(text, itemInstance);
-
-        return itemInstance;
-    }
-
-    private ItemList createItemList(String name) {
-        ItemList shoppingList = new ItemList();
-        shoppingList.setName(name);
-        itemService.put(shoppingList);
-        return shoppingList;
     }
 
     @Test
     public void testTick() {
         Checkin checkin = locationService.checkin(53.480712f, -2.234376f);
-        itemService.tick(checkin.getId(), milkInstance.getId());
-        itemService.tick(checkin.getId(), cheeseInstance.getId());
+        itemService.tick(checkin.getId(), itemInstance("Milk").getId());
+        itemService.tick(checkin.getId(), itemInstance("Cheese").getId());
         assertEquals(2, tickDao.listAll(orderBy("timestamp")).size());
     }
 
@@ -103,7 +63,7 @@ public class ItemServiceTest extends AbstractServiceTestCase {
 
     private void simulateTicks(Checkin checkin, String... texts) {
         for (String text : texts) {
-            itemService.tick(checkin.getId(), itemInstanceCache.get(text).getId());
+            itemService.tick(checkin.getId(), itemInstance(text).getId());
         }
     }
 
