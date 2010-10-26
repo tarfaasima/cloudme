@@ -2,6 +2,7 @@ package org.cloudme.loclist.test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -154,9 +155,9 @@ public class AbstractServiceTestCase {
                                 new ArrayList<ValidationError>());
                     }
                 }
-                if (value == null) {
-                    if (field.getType().equals(Long.class) && parameter.getValue() != null) {
-                        value = Long.valueOf(parameter.getValue());
+                if (value == null && parameter.getValue() != null) {
+                    if (Number.class.isAssignableFrom(field.getType())) {
+                        value = DecimalFormat.getNumberInstance().parse(parameter.getValue());
                     }
                 }
                 field.set(instance, value);
