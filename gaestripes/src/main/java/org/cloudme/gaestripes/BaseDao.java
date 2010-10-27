@@ -13,7 +13,7 @@ public abstract class BaseDao<T> {
     public static QueryOperator filter(final String condition, final Object value) {
         return new QueryOperator() {
             @Override
-            public <T> Query<T> appendToQuery(Query<T> query) {
+            public <T> Query<T> apply(Query<T> query) {
                 return query.filter(condition, value);
             }
         };
@@ -22,7 +22,7 @@ public abstract class BaseDao<T> {
     public static QueryOperator orderBy(final String condition) {
         return new QueryOperator() {
             @Override
-            public <T> Query<T> appendToQuery(Query<T> query) {
+            public <T> Query<T> apply(Query<T> query) {
                 return query.order(condition);
             }
         };
@@ -61,6 +61,17 @@ public abstract class BaseDao<T> {
             @Override
             public Object execute(Objectify ofy) {
                 ofy.delete(new Key<Object>(baseClass, id));
+                return null;
+            }
+        });
+    }
+
+    public void deleteAll(QueryOperator... operators) {
+        final Query<T> query = (Query<T>) findAll(operators);
+        execute(new Callback<Object>() {
+            @Override
+            protected Object execute(Objectify ofy) {
+                ofy.delete(query.fetchKeys());
                 return null;
             }
         });
@@ -122,7 +133,7 @@ public abstract class BaseDao<T> {
             protected Iterable<T> execute(Objectify ofy) {
                 Query<T> query = ofy.query(baseClass);
                 for (QueryOperator operator : operators) {
-                    query = operator.appendToQuery(query);
+                    query = operator.apply(query);
                 }
                 return query;
             }

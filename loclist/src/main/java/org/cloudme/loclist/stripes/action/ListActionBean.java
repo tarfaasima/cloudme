@@ -34,7 +34,7 @@ public class ListActionBean extends AbstractActionBean {
 
     @DontValidate
     public Resolution show() {
-        itemList = itemService.getItemList(getId());
+        itemList = itemService.getItemList(id);
         return resolve("listShow");
     }
 
@@ -43,10 +43,16 @@ public class ListActionBean extends AbstractActionBean {
         return resolve("listCreate");
     }
 
+    @DontValidate
+    public Resolution delete() {
+        itemService.delete(id);
+        return index();
+    }
+
     @DefaultHandler
     @DontValidate
     public Resolution index() {
-        setItemLists(itemService.getItemLists());
+        itemLists = itemService.getItemLists();
         return resolve("listIndex");
     }
 

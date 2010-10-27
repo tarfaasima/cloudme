@@ -2,6 +2,7 @@ package org.cloudme.loclist.stripes.action;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,8 +38,23 @@ public class ListActionBeanTest extends AbstractServiceTestCase {
         params.put("itemList", itemList);
 
         String url = "/action/list/save";
-        ListActionBean bean = createActionBean(url, ListActionBean.class, params);
+        createActionBean(url, ListActionBean.class, params);
 
         assertNotNull(itemList("Test"));
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        createItems("Foo", "Bar", "XYZ");
+        createItemList("Test", "Foo", "XYZ");
+        assertNotNull(itemList("Test"));
+
+        String url = "/action/list/delete/" + itemList("Test").getId();
+        createActionBean(url, ListActionBean.class);
+
+        assertNull(itemList("Test"));
+        assertNull(itemInstance("Foo"));
+        assertNull(itemInstance("XYZ"));
+        assertNotNull(itemInstance("Bar"));
     }
 }

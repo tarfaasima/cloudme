@@ -1,5 +1,6 @@
 package org.cloudme.loclist.item;
 
+import static org.cloudme.gaestripes.BaseDao.filter;
 import static org.cloudme.gaestripes.BaseDao.orderBy;
 
 import java.util.Collections;
@@ -114,5 +115,10 @@ public class ItemService {
 
     public ItemList getItemList(Long id) {
         return itemListDao.find(id);
+    }
+
+    public void delete(Long id) {
+        itemListDao.delete(id);
+        itemInstanceDao.deleteAll(filter("itemListId", id));
     }
 }

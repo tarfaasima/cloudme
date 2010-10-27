@@ -5,21 +5,25 @@
 <s:layout-render name="/layout/default.jsp">
   <s:layout-component name="script">
     function checkin(position) {
-        alert("checkin");
         latitude = position.coords.latitude; 
         longitude = position.coords.longitude;
         url = "/action/checkin/${actionBean.itemList.id}/" + latitude + "/" + longitude;
-        alert(url);
-        $.get(url), function(data) {
-            alert(data);
-            $(".items").html(data);
-        }
+        $.get(url, function(data) {
+            $("#items").html(data);
+        });
+    }
+    
+    function handleError(error) {
+        alert(error);
     }
     
     $(document).ready(function() {
-      alert("ready");
-      navigator.geolocation.getCurrentPosition(checkin);
-      alert("done");
+        $("#delete").click(function() {
+            if (confirm("Do you want to delete list '${actionBean.itemList.name}'?")) {
+                $(location).attr("href", "/action/list/delete/${actionBean.itemList.id}");
+            };
+        });
+        navigator.geolocation.getCurrentPosition(checkin, handleError);
     });
   </s:layout-component>
   <s:layout-component name="content">
@@ -30,6 +34,9 @@
       ${actionBean.itemList.name}
     </div>
     <div id="items">
+    </div>
+    <div>
+      <a href="#" id="delete">delete</a>
     </div>
   </s:layout-component>
 </s:layout-render>
