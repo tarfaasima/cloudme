@@ -57,24 +57,23 @@ public abstract class BaseDao<T> {
     }
 
     public void delete(final Long id) {
+        delete(new Key<T>(baseClass, id));
+    }
+
+    private void delete(final Key<T> key) {
         execute(new Callback<Object>(true) {
             @Override
             public Object execute(Objectify ofy) {
-                ofy.delete(new Key<Object>(baseClass, id));
+                ofy.delete(key);
                 return null;
             }
         });
     }
 
     public void deleteAll(QueryOperator... operators) {
-        final Query<T> query = (Query<T>) findAll(operators);
-        execute(new Callback<Object>() {
-            @Override
-            protected Object execute(Objectify ofy) {
-                ofy.delete(query.fetchKeys());
-                return null;
-            }
-        });
+        for (Key<T> key : ((Query<T>) findAll(operators)).fetchKeys()) {
+            delete(key);
+        }
     }
 
     protected <R> R execute(Callback<R> callback) {

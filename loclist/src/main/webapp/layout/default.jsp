@@ -10,6 +10,7 @@
     <title>Loclist</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
     <script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="/js/simple-confirm-0.1.js"></script>
     <script type="text/javascript"><s:layout-component name="script"/></script>
   </head>
   <body>

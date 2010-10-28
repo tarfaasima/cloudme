@@ -41,7 +41,7 @@ public class AbstractServiceTestCase {
     @Inject
     protected ItemDao itemDao;
     @Inject
-    private ItemInstanceDao itemInstanceDao;
+    protected ItemInstanceDao itemInstanceDao;
     @Inject
     protected ItemListDao itemListDao;
     private final Map<String, Item> items = new HashMap<String, Item>();
@@ -80,6 +80,13 @@ public class AbstractServiceTestCase {
             itemInstance.setText(text);
             itemInstanceDao.save(itemInstance);
             itemInstances.put(text, itemInstance);
+        }
+    }
+
+    protected void refreshItemInstances() {
+        itemInstances.clear();
+        for (ItemInstance itemInstance : itemInstanceDao.findAll()) {
+            itemInstances.put(itemInstance.getText(), itemInstance);
         }
     }
 

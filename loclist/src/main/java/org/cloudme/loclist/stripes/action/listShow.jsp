@@ -18,11 +18,7 @@
     }
     
     $(document).ready(function() {
-        $("#delete").click(function() {
-            if (confirm("Do you want to delete list '${actionBean.itemList.name}'?")) {
-                $(location).attr("href", "/action/list/delete/${actionBean.itemList.id}");
-            };
-        });
+        $("a.confirm").confirm();
         navigator.geolocation.getCurrentPosition(checkin, handleError);
     });
   </s:layout-component>
@@ -36,7 +32,7 @@
     <div id="items">
     </div>
     <div>
-      <a href="#" id="delete">delete</a>
+      <a href="/action/list/delete/${actionBean.itemList.id}" class="confirm" title="Do you want to delete list '${actionBean.itemList.name}'?">delete</a>
     </div>
   </s:layout-component>
 </s:layout-render>

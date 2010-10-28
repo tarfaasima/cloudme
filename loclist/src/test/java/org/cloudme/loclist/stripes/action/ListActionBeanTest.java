@@ -47,10 +47,13 @@ public class ListActionBeanTest extends AbstractServiceTestCase {
     public void testDelete() throws Exception {
         createItems("Foo", "Bar", "XYZ");
         createItemList("Test", "Foo", "XYZ");
+        createItemList("Test 2", "Bar");
         assertNotNull(itemList("Test"));
 
         String url = "/action/list/delete/" + itemList("Test").getId();
         createActionBean(url, ListActionBean.class);
+
+        refreshItemInstances();
 
         assertNull(itemList("Test"));
         assertNull(itemInstance("Foo"));
