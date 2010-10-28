@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.validation.Validate;
@@ -35,12 +36,12 @@ public class ListActionBean extends AbstractActionBean {
     @DontValidate
     public Resolution show() {
         itemList = itemService.getItemList(id);
-        return resolve("listShow");
+        return resolve("listShow.jsp");
     }
 
     @DontValidate
     public Resolution create() {
-        return resolve("listCreate");
+        return resolve("listCreate.jsp");
     }
 
     @DontValidate
@@ -53,12 +54,12 @@ public class ListActionBean extends AbstractActionBean {
     @DontValidate
     public Resolution index() {
         itemLists = itemService.getItemLists();
-        return resolve("listIndex");
+        return resolve("listIndex.jsp");
     }
 
     public Resolution save() {
         itemService.put(itemList);
-        return index();
+        return new RedirectResolution(getClass());
     }
 
     public void setItemList(ItemList itemList) {

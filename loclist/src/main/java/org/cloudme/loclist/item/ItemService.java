@@ -3,11 +3,14 @@ package org.cloudme.loclist.item;
 import static org.cloudme.gaestripes.BaseDao.filter;
 import static org.cloudme.gaestripes.BaseDao.orderBy;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.cloudme.loclist.dao.CheckinDao;
 import org.cloudme.loclist.dao.ItemDao;
@@ -120,5 +123,20 @@ public class ItemService {
     public void delete(Long id) {
         itemListDao.delete(id);
         itemInstanceDao.deleteAll(filter("itemListId", id));
+    }
+
+    public List<Item> getItems(Long itemListId) {
+        List<Item> items = new ArrayList<Item>();
+        List<ItemInstance> itemInstances = itemInstanceDao.listByItemList(itemListId);
+        Set<Long> itemIds = new HashSet<Long>(itemInstances.size());
+        for (ItemInstance itemInstance : itemInstances) {
+            itemIds.add(itemInstance.getItemId());
+        }
+        for (Item item : itemDao.findAll(orderBy("text"))) {
+            if (!itemIds.contains(item.getId())) {
+                items.add(item);
+            }
+        }
+        return items;
     }
 }

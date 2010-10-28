@@ -32,6 +32,9 @@
     <div id="items">
     </div>
     <div>
+      <a href="/action/item/${actionBean.itemList.id}">Add items</a>
+    </div>
+    <div>
       <a href="/action/list/delete/${actionBean.itemList.id}" class="confirm" title="Do you want to delete list '${actionBean.itemList.name}'?">delete</a>
     </div>
   </s:layout-component>

@@ -2,7 +2,9 @@ package org.cloudme.loclist.item;
 
 import static org.cloudme.gaestripes.BaseDao.orderBy;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.cloudme.loclist.dao.TickDao;
@@ -59,6 +61,19 @@ public class ItemServiceTest extends AbstractServiceTestCase {
         itemService.updateItemOrder();
 
         assertItemInstanceOrder(checkin, shoppingList, "Cheese", "Bread", "Milk", "Tea", "Sugar");
+    }
+
+    @Test
+    public void testGetItems() {
+        createItemList("Shopping List 2", "Tea", "Bread", "Sugar");
+
+        List<Item> items = itemService.getItems(itemList("Shopping List 2").getId());
+        
+        Iterator<Item> it = items.iterator();
+        assertEquals("Cheese", it.next().getText());
+        assertEquals("Milk", it.next().getText());
+        assertEquals("Update status report", it.next().getText());
+        assertFalse(it.hasNext());
     }
 
     private void simulateTicks(Checkin checkin, String... texts) {
