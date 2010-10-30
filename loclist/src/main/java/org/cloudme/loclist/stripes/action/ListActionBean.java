@@ -46,8 +46,8 @@ public class ListActionBean extends AbstractActionBean {
 
     @DontValidate
     public Resolution delete() {
-        itemService.delete(id);
-        return index();
+        itemService.deleteItemList(id);
+        return new RedirectResolution(getClass());
     }
 
     @DefaultHandler

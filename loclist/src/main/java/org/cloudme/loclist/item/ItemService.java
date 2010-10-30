@@ -53,10 +53,6 @@ public class ItemService {
         itemListDao.save(itemList);
     }
 
-    public void put(ItemInstance itemInstance) {
-        itemInstanceDao.save(itemInstance);
-    }
-
     public void tick(Long checkinId, Long itemInstanceId) {
         ItemInstance itemInstance = itemInstanceDao.find(itemInstanceId);
         itemInstance.setTicked(!itemInstance.isTicked());
@@ -78,7 +74,7 @@ public class ItemService {
         return itemListDao.listAll(orderBy("name"));
     }
 
-    public List<ItemInstance> getItemInstances(Long checkinId, Long itemListId) {
+    public List<ItemInstance> getItemInstancesInItemList(Long checkinId, Long itemListId) {
         List<ItemInstance> itemInstances = itemInstanceDao.listByItemList(itemListId);
         Checkin checkin = checkinDao.find(checkinId);
         if (checkin != null) {
@@ -120,12 +116,12 @@ public class ItemService {
         return itemListDao.find(id);
     }
 
-    public void delete(Long id) {
+    public void deleteItemList(Long id) {
         itemListDao.delete(id);
         itemInstanceDao.deleteAll(filter("itemListId", id));
     }
 
-    public List<Item> getItems(Long itemListId) {
+    public List<Item> getItemsNotInItemList(Long itemListId) {
         List<Item> items = new ArrayList<Item>();
         List<ItemInstance> itemInstances = itemInstanceDao.listByItemList(itemListId);
         Set<Long> itemIds = new HashSet<Long>(itemInstances.size());
@@ -138,5 +134,18 @@ public class ItemService {
             }
         }
         return items;
+    }
+
+    public void deleteItem(Long id) {
+        itemDao.delete(id);
+    }
+
+    public void addToItemList(Long itemListId, Long itemId) {
+        Item item = itemDao.find(itemId);
+        ItemInstance itemInstance = new ItemInstance();
+        itemInstance.setItemId(itemId);
+        itemInstance.setItemListId(itemListId);
+        itemInstance.setText(item.getText());
+        itemInstanceDao.save(itemInstance);
     }
 }

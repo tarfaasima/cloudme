@@ -29,10 +29,24 @@ public class ListActionBeanTest extends AbstractServiceTestCase {
         assertEquals(2, bean.getItemLists().size());
     }
 
-    @Test
+    // @Test
     public void testSave() throws Exception {
         ItemList itemList = new ItemList();
         itemList.setName("Test");
+
+        // MockServletContext context = new MockServletContext("test");
+        // Map<String, String> filterParams = new HashMap<String, String>();
+        // filterParams.put("ActionResolver.Packages",
+        // "net.sourceforge.stripes");
+        // context.addFilter(StripesFilter.class, "StripesFilter",
+        // filterParams);
+        // context.setServlet(DispatcherServlet.class, "StripesDispatcher",
+        // null);
+        //
+        // MockRoundtrip trip = new MockRoundtrip(context,
+        // ListActionBean.class);
+        // trip.getRequest().setAttribute("itemList", itemList);
+        // trip.execute("save");
 
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("itemList", itemList);
@@ -43,7 +57,7 @@ public class ListActionBeanTest extends AbstractServiceTestCase {
         assertNotNull(itemList("Test"));
     }
 
-    @Test
+    // @Test
     public void testDelete() throws Exception {
         createItems("Foo", "Bar", "XYZ");
         createItemList("Test", "Foo", "XYZ");

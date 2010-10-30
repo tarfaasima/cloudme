@@ -67,13 +67,31 @@ public class ItemServiceTest extends AbstractServiceTestCase {
     public void testGetItems() {
         createItemList("Shopping List 2", "Tea", "Bread", "Sugar");
 
-        List<Item> items = itemService.getItems(itemList("Shopping List 2").getId());
+        List<Item> items = itemService.getItemsNotInItemList(itemList("Shopping List 2").getId());
         
         Iterator<Item> it = items.iterator();
         assertEquals("Cheese", it.next().getText());
         assertEquals("Milk", it.next().getText());
         assertEquals("Update status report", it.next().getText());
         assertFalse(it.hasNext());
+    }
+
+    @Test
+    public void testAddToItemList() {
+        createItemList("Shopping List 2");
+        Long itemListId = itemList("Shopping List 2").getId();
+        Long checkinId = locationService.checkin(1.0f, 1.0f).getId();
+
+        assertEquals(0, itemService.getItemInstancesInItemList(checkinId, itemListId).size());
+        assertEquals(6, itemService.getItemsNotInItemList(itemListId).size());
+
+        itemService.addToItemList(itemListId, item("Milk").getId());
+
+        assertEquals(5, itemService.getItemsNotInItemList(itemListId).size());
+
+        itemService.addToItemList(itemListId, item("Cheese").getId());
+
+        assertEquals(4, itemService.getItemsNotInItemList(itemListId).size());
     }
 
     private void simulateTicks(Checkin checkin, String... texts) {
@@ -83,7 +101,7 @@ public class ItemServiceTest extends AbstractServiceTestCase {
     }
 
     private void assertItemInstanceOrder(Checkin checkin, ItemList itemList, String... texts) {
-        List<ItemInstance> itemInstances = itemService.getItemInstances(checkin.getId(), itemList.getId());
+        List<ItemInstance> itemInstances = itemService.getItemInstancesInItemList(checkin.getId(), itemList.getId());
         assertEquals(texts.length, itemInstances.size());
         for (int i = 0; i < texts.length; i++) {
             Long itemId = itemInstances.get(i).getItemId();

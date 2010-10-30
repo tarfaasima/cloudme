@@ -29,13 +29,25 @@ public class ItemActionBean extends AbstractActionBean {
     @DontValidate
     @DefaultHandler
     public Resolution index() {
-        setItems(itemService.getItems(itemListId));
+        items = itemService.getItemsNotInItemList(itemListId);
         return resolve("itemIndex.jsp");
     }
 
     public Resolution save() {
         itemService.put(item);
-        return new RedirectResolution(getClass());
+        return new RedirectResolution("/action/item/" + itemListId);
+    }
+
+    @DontValidate
+    public Resolution delete() {
+        itemService.deleteItem(id);
+        return new RedirectResolution("/action/item/" + itemListId);
+    }
+
+    @DontValidate
+    public Resolution add() {
+        itemService.addToItemList(itemListId, id);
+        return null;
     }
 
     public Long getId() {

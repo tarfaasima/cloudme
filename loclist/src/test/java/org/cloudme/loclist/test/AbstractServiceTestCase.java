@@ -187,6 +187,7 @@ public class AbstractServiceTestCase {
                 }
             }
         }
+
         if (method != null) {
             method.invoke(instance);
         }
