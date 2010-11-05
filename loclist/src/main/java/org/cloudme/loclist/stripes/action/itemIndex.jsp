@@ -24,9 +24,9 @@
       </div>
     </c:forEach>
     <div>
-      <s:form beanclass="org.cloudme.loclist.stripes.action.ItemActionBean" focus="item.text">
+      <s:form beanclass="org.cloudme.loclist.stripes.action.ItemActionBean">
         <s:hidden name="itemListId" value="${actionBean.itemListId}" />
-        <s:text name="item.text" value="${actionBean.item.text}" />
+        <s:text name="item.text" value="${actionBean.item.text}" class="focus"/>
         <s:submit name="save" value="Save" />
       </s:form>
     </div>

@@ -9,7 +9,6 @@ import com.googlecode.objectify.annotation.Unindexed;
 public class ItemOrder extends DomainObject implements Comparable<ItemOrder> {
     @Unindexed
     private int index = -1;
-    @Unindexed
     private Long itemId;
     private Long locationId;
 

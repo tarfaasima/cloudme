@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.cloudme.gaestripes.QueryOperator;
 import org.cloudme.loclist.dao.CheckinDao;
 import org.cloudme.loclist.dao.ItemDao;
 import org.cloudme.loclist.dao.ItemInstanceDao;
@@ -116,6 +117,12 @@ public class ItemService {
         return itemListDao.find(id);
     }
 
+	/**
+	 * Deletes the {@link ItemList} and all {@link ItemInstance}s.
+	 * 
+	 * @param id
+	 *            The id of the {@link ItemList}
+	 */
     public void deleteItemList(Long id) {
         itemListDao.delete(id);
         itemInstanceDao.deleteAll(filter("itemListId", id));
@@ -136,8 +143,19 @@ public class ItemService {
         return items;
     }
 
+	/**
+	 * Deletes the {@link Item}, the {@link ItemInstance}, the {@link ItemOrder}
+	 * and the {@link Tick}.
+	 * 
+	 * @param id
+	 *            The id of the {@link Item}.
+	 */
     public void deleteItem(Long id) {
         itemDao.delete(id);
+		QueryOperator filter = filter("itemId", id);
+		itemInstanceDao.deleteAll(filter);
+		itemOrderDao.deleteAll(filter);
+		tickDao.deleteAll(filter);
     }
 
     public void addToItemList(Long itemListId, Long itemId) {
