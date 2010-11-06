@@ -1,7 +1,5 @@
 package org.cloudme.loclist.stripes.action;
 
-import java.util.List;
-
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.RedirectResolution;
@@ -12,6 +10,7 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
 import org.cloudme.gaestripes.AbstractActionBean;
 import org.cloudme.loclist.item.ItemService;
+import org.cloudme.loclist.item.Items;
 import org.cloudme.loclist.model.Item;
 
 import com.google.inject.Inject;
@@ -22,14 +21,14 @@ public class ItemActionBean extends AbstractActionBean {
     private ItemService itemService;
     private Long id;
     private Long itemListId;
-    private List<Item> items;
     @ValidateNestedProperties( { @Validate( field = "text", required = true ) } )
     private Item item;
+    private Items items;
     
     @DontValidate
     @DefaultHandler
     public Resolution index() {
-        items = itemService.getItemsNotInItemList(itemListId);
+        items = itemService.getItems(itemListId);
         return resolve("itemIndex.jsp");
     }
 
@@ -66,11 +65,11 @@ public class ItemActionBean extends AbstractActionBean {
         this.itemListId = itemListId;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(Items items) {
         this.items = items;
     }
 
-    public List<Item> getItems() {
+    public Items getItems() {
         return items;
     }
 

@@ -72,7 +72,7 @@ public class ItemServiceTest extends AbstractServiceTestCase {
 	public void testGetItems() {
 		createItemList("Shopping List 2", "Tea", "Bread", "Sugar");
 
-		List<Item> items = itemService.getItemsNotInItemList(itemList("Shopping List 2").getId());
+        List<Item> items = itemService.getItems(itemList("Shopping List 2").getId()).getItemsNotInList();
 
 		Iterator<Item> it = items.iterator();
 		assertEquals("Cheese", it.next().getText());
@@ -88,15 +88,15 @@ public class ItemServiceTest extends AbstractServiceTestCase {
 		Long checkinId = locationService.checkin(1.0f, 1.0f).getId();
 
 		assertEquals(0, itemService.getItemInstancesInItemList(checkinId, itemListId).size());
-		assertEquals(6, itemService.getItemsNotInItemList(itemListId).size());
+        assertEquals(6, itemService.getItems(itemListId).getItemsNotInList().size());
 
 		itemService.addToItemList(itemListId, item("Milk").getId());
 
-		assertEquals(5, itemService.getItemsNotInItemList(itemListId).size());
+        assertEquals(5, itemService.getItems(itemListId).getItemsNotInList().size());
 
 		itemService.addToItemList(itemListId, item("Cheese").getId());
 
-		assertEquals(4, itemService.getItemsNotInItemList(itemListId).size());
+        assertEquals(4, itemService.getItems(itemListId).getItemsNotInList().size());
 	}
 
 	@Test

@@ -18,7 +18,7 @@ public class ItemActionBeanTest extends AbstractServiceTestCase {
         String url = "/action/item/" + itemList("L").getId();
         ItemActionBean bean = createActionBean(url, ItemActionBean.class);
 
-        List<Item> items = bean.getItems();
+        List<Item> items = bean.getItems().getItemsNotInList();
         assertEquals(2, items.size());
         assertEquals("B", items.get(0).getText());
         assertEquals("C", items.get(1).getText());

@@ -17,7 +17,7 @@
     <div>
       <a href="/action/list/show/${actionBean.itemListId}">Back</a>
     </div>
-    <c:forEach items="${actionBean.items}" var="item">
+    <c:forEach items="${actionBean.items.itemsNotInList}" var="item">
       <div>
         <a href="/action/item/${actionBean.itemListId}/add/${item.id}" class="add">${item.text}</a>
         <a href="/action/item/${actionBean.itemListId}/delete/${item.id}" class="delete" title="Do you want to delete item ${item.text}?">delete</a>

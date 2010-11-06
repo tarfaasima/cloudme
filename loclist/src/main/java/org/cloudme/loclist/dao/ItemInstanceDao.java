@@ -12,4 +12,8 @@ public class ItemInstanceDao extends AbstractDao<ItemInstance> {
     public List<ItemInstance> listByItemList(Long itemListId) {
         return listAll(filter("itemListId", itemListId));
     }
+
+    public Iterable<ItemInstance> findByItemList(Long itemListId) {
+        return findAll(filter("itemListId", itemListId));
+    }
 }
