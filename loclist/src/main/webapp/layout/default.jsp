@@ -19,6 +19,7 @@
     <script type="text/javascript"><s:layout-component name="script"/></script>
   </head>
   <body>
+    <div><%= ((com.google.appengine.api.users.User) application.getAttribute("user")).getNickname() %></div>
     <s:layout-component name="content"/>
   </body>
 </html>
