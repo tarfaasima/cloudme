@@ -1,5 +1,7 @@
 package org.cloudme.loclist.stripes.action;
 
+import java.util.List;
+
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.RedirectResolution;
@@ -10,8 +12,8 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
 import org.cloudme.gaestripes.AbstractActionBean;
 import org.cloudme.loclist.item.ItemService;
-import org.cloudme.loclist.item.Items;
 import org.cloudme.loclist.model.Item;
+import org.cloudme.loclist.model.ItemInstance;
 
 import com.google.inject.Inject;
 
@@ -23,17 +25,19 @@ public class ItemActionBean extends AbstractActionBean {
     private Long itemListId;
     @ValidateNestedProperties( { @Validate( field = "text", required = true ) } )
     private Item item;
-    private Items items;
+    private List<Item> items;
+    private List<ItemInstance> itemInstances;
     
     @DontValidate
     @DefaultHandler
     public Resolution index() {
-        items = itemService.getItems(itemListId);
+        itemInstances = itemService.getItemInstancesByItemList(itemListId);
+        items = itemService.getItemsNotInList(itemInstances);
         return resolve("itemIndex.jsp");
     }
 
     public Resolution save() {
-        itemService.put(item);
+        itemService.createItem(itemListId, item);
         return new RedirectResolution("/action/item/" + itemListId);
     }
 
@@ -45,8 +49,14 @@ public class ItemActionBean extends AbstractActionBean {
 
     @DontValidate
     public Resolution add() {
-        itemService.addToItemList(itemListId, id);
-        return null;
+        itemService.createItemInstance(itemListId, id);
+        return new RedirectResolution("/action/item/" + itemListId);
+    }
+
+    @DontValidate
+    public Resolution remove() {
+        itemService.deleteItemInstance(id);
+        return new RedirectResolution("/action/item/" + itemListId);
     }
 
     public Long getId() {
@@ -65,19 +75,27 @@ public class ItemActionBean extends AbstractActionBean {
         this.itemListId = itemListId;
     }
 
-    public void setItems(Items items) {
-        this.items = items;
-    }
-
-    public Items getItems() {
-        return items;
-    }
-
     public void setItem(Item item) {
         this.item = item;
     }
 
     public Item getItem() {
         return item;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItemInstances(List<ItemInstance> itemInstances) {
+        this.itemInstances = itemInstances;
+    }
+
+    public List<ItemInstance> getItemInstances() {
+        return itemInstances;
     }
 }

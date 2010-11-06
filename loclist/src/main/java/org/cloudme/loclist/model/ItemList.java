@@ -15,4 +15,9 @@ public class ItemList extends DomainObject {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return getId() + ":" + name;
+    }
 }

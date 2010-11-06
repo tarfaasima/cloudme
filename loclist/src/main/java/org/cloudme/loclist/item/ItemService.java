@@ -3,6 +3,7 @@ package org.cloudme.loclist.item;
 import static org.cloudme.gaestripes.BaseDao.filter;
 import static org.cloudme.gaestripes.BaseDao.orderBy;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,8 +46,28 @@ public class ItemService {
     @Inject
     private UpdateDao updateDao;
 
-    public void put(Item item) {
-        itemDao.save(item);
+    /**
+     * Creates a new {@link Item} and adds it to the {@link ItemList} with the
+     * given id. If another {@link Item} with the same text already exists, the
+     * {@link Item} will not be created, but added to the {@link ItemList}. If
+     * the {@link Item} is already added to the {@link ItemList} it will not be
+     * added again.
+     * 
+     * @param itemListId
+     *            The id of the {@link ItemList}.
+     * @param item
+     *            The {@link Item}.
+     */
+    public void createItem(Long itemListId, Item item) {
+        Item existingItem = itemDao.findSingle("text", item.getText());
+        if (existingItem != null) {
+            item.setId(existingItem.getId());
+            item.setText(existingItem.getText());
+        }
+        else {
+            itemDao.save(item);
+        }
+        createItemInstance(itemListId, item.getId());
     }
 
     public void put(ItemList itemList) {
@@ -74,8 +95,11 @@ public class ItemService {
         return itemListDao.listAll(orderBy("name"));
     }
 
-    public List<ItemInstance> getItemInstancesInItemList(Long checkinId, Long itemListId) {
-        List<ItemInstance> itemInstances = itemInstanceDao.listByItemList(itemListId);
+    public List<ItemInstance> getItemInstancesByItemList(Long itemListId) {
+        return itemInstanceDao.listByItemList(itemListId);
+    }
+
+    public void orderByCheckin(Long checkinId, List<ItemInstance> itemInstances) {
         Checkin checkin = checkinDao.find(checkinId);
         if (checkin != null) {
             Iterable<ItemOrder> itemOrders = itemOrderDao.findByLocation(checkin.getLocationId());
@@ -85,7 +109,20 @@ public class ItemService {
             }
             Collections.sort(itemInstances, new ItemInstanceComparator(itemOrderMap));
         }
-        return itemInstances;
+    }
+
+    public List<Item> getItemsNotInList(List<ItemInstance> itemInstances) {
+        List<Item> items = new ArrayList<Item>();
+        Set<Long> itemIdsInList = new HashSet<Long>();
+        for (ItemInstance itemInstance : itemInstances) {
+            itemIdsInList.add(itemInstance.getItemId());
+        }
+        for (Item item : itemDao.findAll(orderBy("text"))) {
+            if (!itemIdsInList.contains(item.getId())) {
+                items.add(item);
+            }
+        }
+        return items;
     }
 
     public void updateItemOrder() {
@@ -116,56 +153,54 @@ public class ItemService {
         return itemListDao.find(id);
     }
 
-	/**
-	 * Deletes the {@link ItemList} and all {@link ItemInstance}s.
-	 * 
-	 * @param id
-	 *            The id of the {@link ItemList}
-	 */
+    /**
+     * Deletes the {@link ItemList} and all {@link ItemInstance}s.
+     * 
+     * @param id
+     *            The id of the {@link ItemList}
+     */
     public void deleteItemList(Long id) {
         itemListDao.delete(id);
         itemInstanceDao.deleteAll(filter("itemListId", id));
     }
 
-    public Items getItems(Long itemListId) {
-        Items items = new Items();
-        Iterable<ItemInstance> itemInstances = itemInstanceDao.findByItemList(itemListId);
-        Set<Long> itemIdsInList = new HashSet<Long>();
-        for (ItemInstance itemInstance : itemInstances) {
-            itemIdsInList.add(itemInstance.getItemId());
-        }
-        for (Item item : itemDao.findAll(orderBy("text"))) {
-            if (itemIdsInList.contains(item.getId())) {
-                items.addItemInList(item);
-            }
-            else {
-                items.addItemNotInList(item);
-            }
-        }
-        return items;
-    }
-
-	/**
-	 * Deletes the {@link Item}, the {@link ItemInstance}, the {@link ItemOrder}
-	 * and the {@link Tick}.
-	 * 
-	 * @param id
-	 *            The id of the {@link Item}.
-	 */
+    /**
+     * Deletes the {@link Item}, the {@link ItemInstance}, the {@link ItemOrder}
+     * and the {@link Tick}.
+     * 
+     * @param id
+     *            The id of the {@link Item}.
+     */
     public void deleteItem(Long id) {
         itemDao.delete(id);
-		QueryOperator filter = filter("itemId", id);
-		itemInstanceDao.deleteAll(filter);
-		itemOrderDao.deleteAll(filter);
-		tickDao.deleteAll(filter);
+        QueryOperator filter = filter("itemId", id);
+        itemInstanceDao.deleteAll(filter);
+        itemOrderDao.deleteAll(filter);
+        tickDao.deleteAll(filter);
     }
 
-    public void addToItemList(Long itemListId, Long itemId) {
-        Item item = itemDao.find(itemId);
+    public void createItemInstance(Long itemListId, Long itemId) {
         ItemInstance itemInstance = new ItemInstance();
-        itemInstance.setItemId(itemId);
-        itemInstance.setItemListId(itemListId);
+        Item item = itemDao.find(itemId);
+        Iterator<ItemInstance> it = itemInstanceDao.findAll(filter("itemListId", itemListId), filter("itemId", itemId))
+                .iterator();
+        if (it.hasNext()) {
+            itemInstance = it.next();
+            if (it.hasNext()) {
+                throw new IllegalStateException(String.format("Multiple instances exist for item %s in list %s",
+                        item,
+                        itemListDao.find(itemListId)));
+            }
+        }
+        else {
+            itemInstance.setItemId(itemId);
+            itemInstance.setItemListId(itemListId);
+        }
         itemInstance.setText(item.getText());
         itemInstanceDao.save(itemInstance);
+    }
+
+    public void deleteItemInstance(Long itemInstanceId) {
+        itemInstanceDao.delete(itemInstanceId);
     }
 }

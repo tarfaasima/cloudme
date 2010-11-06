@@ -4,7 +4,9 @@ import static org.cloudme.gaestripes.BaseDao.filter;
 import static org.cloudme.gaestripes.BaseDao.orderBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.util.Iterator;
 import java.util.List;
@@ -23,121 +25,169 @@ import org.junit.Test;
 import com.google.inject.Inject;
 
 public class ItemServiceTest extends AbstractServiceTestCase {
-	@Inject
-	private ItemOrderDao itemOrderDao;
-	@Inject
-	private ItemService itemService;
-	@Inject
-	private LocationService locationService;
-	@Inject
-	private TickDao tickDao;
+    @Inject
+    private ItemOrderDao itemOrderDao;
+    @Inject
+    private ItemService itemService;
+    @Inject
+    private LocationService locationService;
+    @Inject
+    private TickDao tickDao;
 
-	@Before
-	public void generateTestData() {
-		createItems("Milk", "Cheese", "Tea", "Bread", "Sugar", "Update status report");
-		createItemList("Shopping List", "Milk", "Cheese", "Tea", "Bread", "Sugar");
-		createItemList("My Todo List", "Update status report");
+    @Before
+    public void generateTestData() {
+        createItems("Milk", "Cheese", "Tea", "Bread", "Sugar", "Update status report");
+        createItemList("Shopping List", "Milk", "Cheese", "Tea", "Bread", "Sugar");
+        createItemList("My Todo List", "Update status report");
 
-		assertEquals(2, itemListDao.listAll().size());
-	}
+        assertEquals(2, itemListDao.listAll().size());
+    }
 
-	@Test
-	public void testTick() {
-		Checkin checkin = locationService.checkin(53.480712f, -2.234376f);
-		itemService.tick(checkin.getId(), itemInstance("Milk").getId());
-		itemService.tick(checkin.getId(), itemInstance("Cheese").getId());
-		assertEquals(2, tickDao.listAll(orderBy("timestamp")).size());
-	}
+    @Test
+    public void testCreateItem() {
+        Item milk = item("Milk");
+        assertNotNull(milk);
+        assertEquals(6, itemDao.listAll().size());
 
-	@Test
-	public void testGetItemList() {
-		Checkin checkin = locationService.checkin(53.480712f, -2.234376f);
+        Item item = new Item();
+        item.setText("Milk");
+        itemService.createItem(itemList("Shopping List").getId(), item);
 
-		List<ItemList> itemLists = itemService.getItemLists();
-		assertEquals(2, itemLists.size());
-		assertEquals("My Todo List", itemLists.get(0).getName());
-		assertEquals("Shopping List", itemLists.get(1).getName());
+        assertEquals(milk.getId(), item.getId());
+        assertEquals(6, itemDao.listAll().size());
+    }
 
-		ItemList shoppingList = itemLists.get(1);
-		assertItemInstanceOrder(checkin, shoppingList, "Milk", "Cheese", "Tea", "Bread", "Sugar");
+    @Test
+    public void testCreateItemInstance() {
+        assertEquals(6, itemInstanceDao.listAll().size());
+        Long itemListId = itemList("Shopping List").getId();
+        Long itemId = item("Milk").getId();
 
-		simulateTicks(checkin, "Cheese", "Bread");
+        itemService.createItemInstance(itemListId, itemId);
 
-		itemService.updateItemOrder();
+        assertEquals(6, itemInstanceDao.listAll().size());
+    }
 
-		assertItemInstanceOrder(checkin, shoppingList, "Cheese", "Bread", "Milk", "Tea", "Sugar");
-	}
+    @Test( expected = IllegalStateException.class )
+    public void testCreateItemInstanceIllegalState() {
+        assertEquals(6, itemInstanceDao.listAll().size());
+        Long itemListId = itemList("Shopping List").getId();
+        Long itemId = item("Milk").getId();
 
-	@Test
-	public void testGetItems() {
-		createItemList("Shopping List 2", "Tea", "Bread", "Sugar");
+        ItemInstance itemInstance = new ItemInstance();
+        itemInstance.setItemId(itemId);
+        itemInstance.setItemListId(itemListId);
+        itemInstanceDao.save(itemInstance);
 
-        List<Item> items = itemService.getItems(itemList("Shopping List 2").getId()).getItemsNotInList();
+        try {
+            itemService.createItemInstance(itemListId, itemId);
+        }
+        catch (IllegalStateException e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
 
-		Iterator<Item> it = items.iterator();
-		assertEquals("Cheese", it.next().getText());
-		assertEquals("Milk", it.next().getText());
-		assertEquals("Update status report", it.next().getText());
-		assertFalse(it.hasNext());
-	}
+        fail("Exception should have been thrown.");
+    }
 
-	@Test
-	public void testAddToItemList() {
-		createItemList("Shopping List 2");
-		Long itemListId = itemList("Shopping List 2").getId();
-		Long checkinId = locationService.checkin(1.0f, 1.0f).getId();
+    @Test
+    public void testTick() {
+        Checkin checkin = locationService.checkin(53.480712f, -2.234376f);
+        itemService.tick(checkin.getId(), itemInstance("Milk").getId());
+        itemService.tick(checkin.getId(), itemInstance("Cheese").getId());
+        assertEquals(2, tickDao.listAll(orderBy("timestamp")).size());
+    }
 
-		assertEquals(0, itemService.getItemInstancesInItemList(checkinId, itemListId).size());
-        assertEquals(6, itemService.getItems(itemListId).getItemsNotInList().size());
+    @Test
+    public void testGetItemList() {
+        Checkin checkin = locationService.checkin(53.480712f, -2.234376f);
 
-		itemService.addToItemList(itemListId, item("Milk").getId());
+        List<ItemList> itemLists = itemService.getItemLists();
+        assertEquals(2, itemLists.size());
+        assertEquals("My Todo List", itemLists.get(0).getName());
+        assertEquals("Shopping List", itemLists.get(1).getName());
 
-        assertEquals(5, itemService.getItems(itemListId).getItemsNotInList().size());
+        ItemList shoppingList = itemLists.get(1);
+        assertItemInstanceOrder(checkin, shoppingList, "Bread", "Cheese", "Milk", "Sugar", "Tea");
 
-		itemService.addToItemList(itemListId, item("Cheese").getId());
+        simulateTicks(checkin, "Cheese", "Bread");
 
-        assertEquals(4, itemService.getItems(itemListId).getItemsNotInList().size());
-	}
+        itemService.updateItemOrder();
 
-	@Test
-	public void testDeleteItemList() {
-		Long itemListId = itemList("Shopping List").getId();
-		assertEquals(5, itemInstanceDao.listAll(filter("itemListId", itemListId)).size());
+        assertItemInstanceOrder(checkin, shoppingList, "Cheese", "Bread", "Milk", "Sugar", "Tea");
+    }
 
-		itemService.deleteItemList(itemListId);
+    @Test
+    public void testGetItems() {
+        createItemList("Shopping List 2", "Tea", "Bread", "Sugar");
 
-		refreshItemInstances();
-		assertEquals(0, itemInstanceDao.listAll(filter("itemListId", itemListId)).size());
-		assertNull(itemListDao.find(itemListId));
-	}
+        List<Item> items = itemService.getItemsNotInList(itemService
+                .getItemInstancesByItemList(itemList("Shopping List 2").getId()));
 
-	@Test
-	public void testDeleteItem() {
-		Long itemId = item("Tea").getId();
-		Long checkinId = locationService.checkin(1.0F, 1.0F).getId();
-		itemService.tick(checkinId, itemInstance("Tea").getId());
-		itemService.tick(checkinId, itemInstance("Milk").getId());
-		assertEquals(2, tickDao.listAll().size());
-		itemService.updateItemOrder();
-		assertEquals(2, itemOrderDao.listAll().size());
+        Iterator<Item> it = items.iterator();
+        assertEquals("Cheese", it.next().getText());
+        assertEquals("Milk", it.next().getText());
+        assertEquals("Update status report", it.next().getText());
+        assertFalse(it.hasNext());
+    }
 
-		itemService.deleteItem(itemId);
-		
-		refreshItemInstances();
-		assertNull(itemDao.find(itemId));
-		assertEquals(0, itemInstanceDao.listAll(filter("itemId", itemId)).size());
-		assertEquals(1, itemOrderDao.listAll().size());
-		assertEquals(1, tickDao.listAll().size());
-	}
+    @Test
+    public void testAddToItemList() {
+        createItemList("Shopping List 2");
+        Long itemListId = itemList("Shopping List 2").getId();
 
-	private void simulateTicks(Checkin checkin, String... texts) {
-		for (String text : texts) {
-			itemService.tick(checkin.getId(), itemInstance(text).getId());
-		}
-	}
+        assertEquals(0, itemService.getItemInstancesByItemList(itemListId).size());
+        assertEquals(6, itemService.getItemsNotInList(itemService.getItemInstancesByItemList(itemListId)).size());
 
-	private void assertItemInstanceOrder(Checkin checkin, ItemList itemList, String... texts) {
-		List<ItemInstance> itemInstances = itemService.getItemInstancesInItemList(checkin.getId(), itemList.getId());
+        itemService.createItemInstance(itemListId, item("Milk").getId());
+
+        assertEquals(5, itemService.getItemsNotInList(itemService.getItemInstancesByItemList(itemListId)).size());
+
+        itemService.createItemInstance(itemListId, item("Cheese").getId());
+
+        assertEquals(4, itemService.getItemsNotInList(itemService.getItemInstancesByItemList(itemListId)).size());
+    }
+
+    @Test
+    public void testDeleteItemList() {
+        Long itemListId = itemList("Shopping List").getId();
+        assertEquals(5, itemInstanceDao.listAll(filter("itemListId", itemListId)).size());
+
+        itemService.deleteItemList(itemListId);
+
+        refreshItemInstances();
+        assertEquals(0, itemInstanceDao.listAll(filter("itemListId", itemListId)).size());
+        assertNull(itemListDao.find(itemListId));
+    }
+
+    @Test
+    public void testDeleteItem() {
+        Long itemId = item("Tea").getId();
+        Long checkinId = locationService.checkin(1.0F, 1.0F).getId();
+        itemService.tick(checkinId, itemInstance("Tea").getId());
+        itemService.tick(checkinId, itemInstance("Milk").getId());
+        assertEquals(2, tickDao.listAll().size());
+        itemService.updateItemOrder();
+        assertEquals(2, itemOrderDao.listAll().size());
+
+        itemService.deleteItem(itemId);
+
+        refreshItemInstances();
+        assertNull(itemDao.find(itemId));
+        assertEquals(0, itemInstanceDao.listAll(filter("itemId", itemId)).size());
+        assertEquals(1, itemOrderDao.listAll().size());
+        assertEquals(1, tickDao.listAll().size());
+    }
+
+    private void simulateTicks(Checkin checkin, String... texts) {
+        for (String text : texts) {
+            itemService.tick(checkin.getId(), itemInstance(text).getId());
+        }
+    }
+
+    private void assertItemInstanceOrder(Checkin checkin, ItemList itemList, String... texts) {
+        List<ItemInstance> itemInstances = itemService.getItemInstancesByItemList(itemList.getId());
+        itemService.orderByCheckin(checkin.getId(), itemInstances);
 		assertEquals(texts.length, itemInstances.size());
 		for (int i = 0; i < texts.length; i++) {
 			Long itemId = itemInstances.get(i).getItemId();

@@ -13,7 +13,6 @@ public class ItemInstance extends DomainObject {
     private String attribute;
     @Unindexed
     private boolean ticked;
-    @Unindexed
     private String text;
 
     public Long getItemListId() {

@@ -15,4 +15,9 @@ public class Item extends DomainObject {
     public void setText(String text) {
         this.text = text;
     }
+
+    @Override
+    public String toString() {
+        return getId() + ":" + text;
+    }
 }
