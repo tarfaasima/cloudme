@@ -51,7 +51,7 @@ public class ItemServiceTest extends AbstractServiceTestCase {
 
         Item item = new Item();
         item.setText("Milk");
-        itemService.createItem(itemList("Shopping List").getId(), item);
+        itemService.createItem(itemList("Shopping List").getId(), item, "");
 
         assertEquals(milk.getId(), item.getId());
         assertEquals(6, itemDao.listAll().size());
@@ -63,7 +63,7 @@ public class ItemServiceTest extends AbstractServiceTestCase {
         Long itemListId = itemList("Shopping List").getId();
         Long itemId = item("Milk").getId();
 
-        itemService.createItemInstance(itemListId, itemId);
+        itemService.createItemInstance(itemListId, itemId, "");
 
         assertEquals(6, itemInstanceDao.listAll().size());
     }
@@ -80,7 +80,7 @@ public class ItemServiceTest extends AbstractServiceTestCase {
         itemInstanceDao.save(itemInstance);
 
         try {
-            itemService.createItemInstance(itemListId, itemId);
+            itemService.createItemInstance(itemListId, itemId, "");
         }
         catch (IllegalStateException e) {
             System.out.println(e.getMessage());
@@ -139,11 +139,11 @@ public class ItemServiceTest extends AbstractServiceTestCase {
         assertEquals(0, itemService.getItemInstancesByItemList(itemListId).size());
         assertEquals(6, itemService.getItemsNotInList(itemService.getItemInstancesByItemList(itemListId)).size());
 
-        itemService.createItemInstance(itemListId, item("Milk").getId());
+        itemService.createItemInstance(itemListId, item("Milk").getId(), "");
 
         assertEquals(5, itemService.getItemsNotInList(itemService.getItemInstancesByItemList(itemListId)).size());
 
-        itemService.createItemInstance(itemListId, item("Cheese").getId());
+        itemService.createItemInstance(itemListId, item("Cheese").getId(), "");
 
         assertEquals(4, itemService.getItemsNotInList(itemService.getItemInstancesByItemList(itemListId)).size());
     }

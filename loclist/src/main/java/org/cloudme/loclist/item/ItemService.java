@@ -57,8 +57,9 @@ public class ItemService {
      *            The id of the {@link ItemList}.
      * @param item
      *            The {@link Item}.
+     * @param attribute TODO
      */
-    public void createItem(Long itemListId, Item item) {
+    public void createItem(Long itemListId, Item item, String attribute) {
         Item existingItem = itemDao.findSingle("text", item.getText());
         if (existingItem != null) {
             item.setId(existingItem.getId());
@@ -67,7 +68,7 @@ public class ItemService {
         else {
             itemDao.save(item);
         }
-        createItemInstance(itemListId, item.getId());
+        createItemInstance(itemListId, item.getId(), attribute);
     }
 
     public void put(ItemList itemList) {
@@ -179,7 +180,7 @@ public class ItemService {
         tickDao.deleteAll(filter);
     }
 
-    public void createItemInstance(Long itemListId, Long itemId) {
+    public void createItemInstance(Long itemListId, Long itemId, String attribute) {
         ItemInstance itemInstance = new ItemInstance();
         Item item = itemDao.find(itemId);
         Iterator<ItemInstance> it = itemInstanceDao.findAll(filter("itemListId", itemListId), filter("itemId", itemId))
@@ -196,6 +197,7 @@ public class ItemService {
             itemInstance.setItemId(itemId);
             itemInstance.setItemListId(itemListId);
         }
+        itemInstance.setAttribute(attribute);
         itemInstance.setText(item.getText());
         itemInstanceDao.save(itemInstance);
     }

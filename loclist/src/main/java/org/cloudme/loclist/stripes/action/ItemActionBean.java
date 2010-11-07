@@ -17,7 +17,7 @@ import org.cloudme.loclist.model.ItemInstance;
 
 import com.google.inject.Inject;
 
-@UrlBinding( "/action/item/{itemListId}/{$event}/{id}" )
+@UrlBinding( "/action/item/{itemListId}/{$event}/{id}/{attribute}" )
 public class ItemActionBean extends AbstractActionBean {
     @Inject
     private ItemService itemService;
@@ -27,6 +27,7 @@ public class ItemActionBean extends AbstractActionBean {
     private Item item;
     private List<Item> items;
     private List<ItemInstance> itemInstances;
+    private String attribute;
     
     @DontValidate
     @DefaultHandler
@@ -36,8 +37,8 @@ public class ItemActionBean extends AbstractActionBean {
         return resolve("itemIndex.jsp");
     }
 
-    public Resolution save() {
-        itemService.createItem(itemListId, item);
+    public Resolution create() {
+        itemService.createItem(itemListId, item, attribute);
         return new RedirectResolution("/action/item/" + itemListId);
     }
 
@@ -49,7 +50,7 @@ public class ItemActionBean extends AbstractActionBean {
 
     @DontValidate
     public Resolution add() {
-        itemService.createItemInstance(itemListId, id);
+        itemService.createItemInstance(itemListId, id, attribute);
         return new RedirectResolution("/action/item/" + itemListId);
     }
 
@@ -57,6 +58,12 @@ public class ItemActionBean extends AbstractActionBean {
     public Resolution remove() {
         itemService.deleteItemInstance(id);
         return new RedirectResolution("/action/item/" + itemListId);
+    }
+
+    @DontValidate
+    public Resolution update() {
+        itemService.createItemInstance(itemListId, id, attribute);
+        return null;
     }
 
     public Long getId() {
@@ -97,5 +104,13 @@ public class ItemActionBean extends AbstractActionBean {
 
     public List<ItemInstance> getItemInstances() {
         return itemInstances;
+    }
+
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+    }
+
+    public String getAttribute() {
+        return attribute;
     }
 }
