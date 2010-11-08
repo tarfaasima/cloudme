@@ -7,12 +7,12 @@
 (function($) {
     var changeId = null;
     
-    function submit(e, async) {
-            itemId = $(e).attr("name");
+    $.fn.dynatype = function(async) {
+        $(this).blur(function() {
+            itemId = $(this).attr("name");
             if (changeId == itemId) {
-                attribute = escape($(e).val());
+                attribute = escape($(this).val());
                 url = $(e).parent().attr("action") + attribute;
-                alert(url);
                 if (async) {
                     $.get(url);
                 }
@@ -21,29 +21,17 @@
                 }
                 changeId = null;
             }
-    }
-    
-    $.fn.dynatype = function(async) {
-        $(this).change(function() {
-            changeId = $(this).attr("name");
         });
-        $(this).blur(function() {
-            alert("blur");
-            submit($(this), async);
-        });
-        $(this).keypress(function(e) {
-            alert("keypress " + e.which);
+        $(this).keyup(function(e) {
             if (e.which == 13) {
-                submit($(this), async);
+                $(this).blur();
                 return false;
             }
-  <% /*
-*/ %>
+            changeId = $(this).attr("name");
         });
     };
 })(jQuery);
     $(document).ready(function() {
-        alert("ready");
         $("input.update").dynatype(true);
         $("input.add").dynatype(false);
         $("a.delete").confirm();
@@ -53,16 +41,6 @@
     <div>
       <a href="/action/list/show/${actionBean.itemListId}">Back</a>
     </div>
-    <div id="itemInstances">
-    <c:forEach items="${actionBean.itemInstances}" var="itemInstance">
-      <div>
-        <form action="/action/item/${actionBean.itemListId}/update/${itemInstance.itemId}/">
-          <input type="text" name="${itemInstance.itemId}" value="${itemInstance.attribute}" class="update" size="5"/>
-          <a href="/action/item/${actionBean.itemListId}/remove/${itemInstance.id}" class="remove">${itemInstance.text}</a>
-        </form>
-      </div>
-    </c:forEach>
-    </div>
     <div>
       <s:form beanclass="org.cloudme.loclist.stripes.action.ItemActionBean">
         <s:hidden name="itemListId" value="${actionBean.itemListId}" />
@@ -71,13 +49,13 @@
         <s:submit name="create" value="Add" />
       </s:form>
     </div>
-    <div id="items">
-    <c:forEach items="${actionBean.items}" var="item">
-      <div>
-        <form action="/action/item/${actionBean.itemListId}/add/${item.id}/">
-          <input type="text" name="${item.id}" class="add" size="5"/>
-          <a href="/action/item/${actionBean.itemListId}/add/${item.id}" class="add">${item.text}</a>
-          <a href="/action/item/${actionBean.itemListId}/delete/${item.id}" class="delete" title="Do you want to delete item '${item.text}'?">delete</a>
+    <div>
+    <c:forEach items="${actionBean.listItems}" var="listItem">
+      <div class="${listItem.inList ? 'inList' : 'notInList'}">
+        <form action="/action/item/${actionBean.itemListId}/add/${listItem.id}/">
+          <input type="text" name="${listItem.id}" class="add" size="5" value="${listItem.attribute}"/>
+          <a href="/action/item/${actionBean.itemListId}/add/${listItem.id}" class="add">${listItem.text}</a>
+          <a href="/action/item/${actionBean.itemListId}/delete/${listItem.id}" class="delete" title="Do you want to delete item '${listItem.text}'?">delete</a>
         </form>
       </div>
     </c:forEach>

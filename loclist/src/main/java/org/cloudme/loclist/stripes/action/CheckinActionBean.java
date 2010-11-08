@@ -31,7 +31,7 @@ public class CheckinActionBean extends AbstractActionBean {
     @DefaultHandler
     public Resolution show() {
         Long checkinId = locationService.checkin(latitude, longitude).getId();
-        itemInstances = itemService.getItemInstancesByItemList(itemListId);
+        itemInstances = itemService.getItemInstances(itemListId);
         itemService.orderByCheckin(checkinId, itemInstances);
         return resolve("checkin.jsp");
     }

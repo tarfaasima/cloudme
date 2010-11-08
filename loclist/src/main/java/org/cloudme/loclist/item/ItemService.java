@@ -6,11 +6,9 @@ import static org.cloudme.gaestripes.BaseDao.orderBy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.cloudme.gaestripes.QueryOperator;
 import org.cloudme.loclist.dao.CheckinDao;
@@ -68,7 +66,7 @@ public class ItemService {
         else {
             itemDao.save(item);
         }
-        createItemInstance(itemListId, item.getId(), attribute);
+        addToList(itemListId, item.getId(), attribute);
     }
 
     public void put(ItemList itemList) {
@@ -96,7 +94,7 @@ public class ItemService {
         return itemListDao.listAll(orderBy("name"));
     }
 
-    public List<ItemInstance> getItemInstancesByItemList(Long itemListId) {
+    public List<ItemInstance> getItemInstances(Long itemListId) {
         return itemInstanceDao.listByItemList(itemListId);
     }
 
@@ -112,18 +110,25 @@ public class ItemService {
         }
     }
 
-    public List<Item> getItemsNotInList(List<ItemInstance> itemInstances) {
-        List<Item> items = new ArrayList<Item>();
-        Set<Long> itemIdsInList = new HashSet<Long>();
+    public List<ListItem> getListItems(Long itemListId) {
+        List<ListItem> listItems = new ArrayList<ListItem>();
+        List<ItemInstance> itemInstances = getItemInstances(itemListId);
+        Map<Long, ItemInstance> itemInstanceMap = new HashMap<Long, ItemInstance>();
         for (ItemInstance itemInstance : itemInstances) {
-            itemIdsInList.add(itemInstance.getItemId());
+            itemInstanceMap.put(itemInstance.getItemId(), itemInstance);
         }
         for (Item item : itemDao.findAll(orderBy("text"))) {
-            if (!itemIdsInList.contains(item.getId())) {
-                items.add(item);
+            ListItem listItem = new ListItem();
+            listItem.setId(item.getId());
+            listItem.setText(item.getText());
+            ItemInstance itemInstance = itemInstanceMap.get(item.getId());
+            if (itemInstance != null) {
+                listItem.setAttribute(itemInstance.getAttribute());
+                listItem.setInList(true);
             }
+            listItems.add(listItem);
         }
-        return items;
+        return listItems;
     }
 
     public void updateItemOrder() {
@@ -180,7 +185,7 @@ public class ItemService {
         tickDao.deleteAll(filter);
     }
 
-    public void createItemInstance(Long itemListId, Long itemId, String attribute) {
+    public void addToList(Long itemListId, Long itemId, String attribute) {
         ItemInstance itemInstance = new ItemInstance();
         Item item = itemDao.find(itemId);
         Iterator<ItemInstance> it = itemInstanceDao.findAll(filter("itemListId", itemListId), filter("itemId", itemId))
@@ -202,7 +207,7 @@ public class ItemService {
         itemInstanceDao.save(itemInstance);
     }
 
-    public void deleteItemInstance(Long itemInstanceId) {
-        itemInstanceDao.delete(itemInstanceId);
+    public void removeFromList(Long itemListId, Long itemId) {
+        itemInstanceDao.deleteAll(filter("itemListId", itemListId), filter("itemId", itemId));
     }
 }

@@ -3,12 +3,13 @@ package org.cloudme.loclist.item;
 import static org.cloudme.gaestripes.BaseDao.filter;
 import static org.cloudme.gaestripes.BaseDao.orderBy;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.cloudme.loclist.dao.ItemOrderDao;
@@ -63,7 +64,7 @@ public class ItemServiceTest extends AbstractServiceTestCase {
         Long itemListId = itemList("Shopping List").getId();
         Long itemId = item("Milk").getId();
 
-        itemService.createItemInstance(itemListId, itemId, "");
+        itemService.addToList(itemListId, itemId, "");
 
         assertEquals(6, itemInstanceDao.listAll().size());
     }
@@ -80,7 +81,7 @@ public class ItemServiceTest extends AbstractServiceTestCase {
         itemInstanceDao.save(itemInstance);
 
         try {
-            itemService.createItemInstance(itemListId, itemId, "");
+            itemService.addToList(itemListId, itemId, "");
         }
         catch (IllegalStateException e) {
             System.out.println(e.getMessage());
@@ -118,34 +119,29 @@ public class ItemServiceTest extends AbstractServiceTestCase {
     }
 
     @Test
-    public void testGetItems() {
-        createItemList("Shopping List 2", "Tea", "Bread", "Sugar");
+    public void testAddAndRemoveFromList() {
+        Long itemListId = itemList("Shopping List").getId();
+        assertInList("Shopping List", "Milk", "Cheese", "Tea", "Bread", "Sugar");
 
-        List<Item> items = itemService.getItemsNotInList(itemService
-                .getItemInstancesByItemList(itemList("Shopping List 2").getId()));
+        itemService.removeFromList(itemListId, item("Milk").getId());
+        assertInList("Shopping List", "Cheese", "Tea", "Bread", "Sugar");
 
-        Iterator<Item> it = items.iterator();
-        assertEquals("Cheese", it.next().getText());
-        assertEquals("Milk", it.next().getText());
-        assertEquals("Update status report", it.next().getText());
-        assertFalse(it.hasNext());
+        itemService.removeFromList(itemListId, item("Tea").getId());
+        assertInList("Shopping List", "Cheese", "Bread", "Sugar");
+
+        itemService.addToList(itemListId, item("Milk").getId(), "2l");
+        assertInList("Shopping List", "Milk", "Cheese", "Bread", "Sugar");
     }
 
-    @Test
-    public void testAddToItemList() {
-        createItemList("Shopping List 2");
-        Long itemListId = itemList("Shopping List 2").getId();
-
-        assertEquals(0, itemService.getItemInstancesByItemList(itemListId).size());
-        assertEquals(6, itemService.getItemsNotInList(itemService.getItemInstancesByItemList(itemListId)).size());
-
-        itemService.createItemInstance(itemListId, item("Milk").getId(), "");
-
-        assertEquals(5, itemService.getItemsNotInList(itemService.getItemInstancesByItemList(itemListId)).size());
-
-        itemService.createItemInstance(itemListId, item("Cheese").getId(), "");
-
-        assertEquals(4, itemService.getItemsNotInList(itemService.getItemInstancesByItemList(itemListId)).size());
+    private void assertInList(String name, String... texts) {
+        List<String> textList = new ArrayList<String>(Arrays.asList(texts));
+        List<ListItem> listItems = itemService.getListItems(itemList(name).getId());
+        for (ListItem listItem : listItems) {
+            if (listItem.isInList()) {
+                textList.remove(listItem.getText());
+            }
+        }
+        assertTrue("Items not in list: " + textList, textList.isEmpty());
     }
 
     @Test
@@ -186,14 +182,14 @@ public class ItemServiceTest extends AbstractServiceTestCase {
     }
 
     private void assertItemInstanceOrder(Checkin checkin, ItemList itemList, String... texts) {
-        List<ItemInstance> itemInstances = itemService.getItemInstancesByItemList(itemList.getId());
+        List<ItemInstance> itemInstances = itemService.getItemInstances(itemList.getId());
         itemService.orderByCheckin(checkin.getId(), itemInstances);
-		assertEquals(texts.length, itemInstances.size());
-		for (int i = 0; i < texts.length; i++) {
-			Long itemId = itemInstances.get(i).getItemId();
-			Item item = itemDao.find(itemId);
-			String text = texts[i];
-			assertEquals(text, item.getText());
-		}
-	}
+        assertEquals(texts.length, itemInstances.size());
+        for (int i = 0; i < texts.length; i++) {
+            Long itemId = itemInstances.get(i).getItemId();
+            Item item = itemDao.find(itemId);
+            String text = texts[i];
+            assertEquals(text, item.getText());
+        }
+    }
 }

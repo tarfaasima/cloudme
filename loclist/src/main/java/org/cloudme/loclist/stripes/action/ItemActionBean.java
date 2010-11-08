@@ -12,28 +12,26 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
 import org.cloudme.gaestripes.AbstractActionBean;
 import org.cloudme.loclist.item.ItemService;
+import org.cloudme.loclist.item.ListItem;
 import org.cloudme.loclist.model.Item;
-import org.cloudme.loclist.model.ItemInstance;
 
 import com.google.inject.Inject;
 
-@UrlBinding( "/action/item/{itemListId}/{$event}/{id}/{attribute}" )
+@UrlBinding( "/action/item/{itemListId}/{$event}/{itemId}/{attribute}" )
 public class ItemActionBean extends AbstractActionBean {
     @Inject
     private ItemService itemService;
-    private Long id;
+    private Long itemId;
     private Long itemListId;
     @ValidateNestedProperties( { @Validate( field = "text", required = true ) } )
     private Item item;
-    private List<Item> items;
-    private List<ItemInstance> itemInstances;
     private String attribute;
+    private List<ListItem> listItems;
     
     @DontValidate
     @DefaultHandler
     public Resolution index() {
-        itemInstances = itemService.getItemInstancesByItemList(itemListId);
-        items = itemService.getItemsNotInList(itemInstances);
+        listItems = itemService.getListItems(itemListId);
         return resolve("itemIndex.jsp");
     }
 
@@ -44,34 +42,34 @@ public class ItemActionBean extends AbstractActionBean {
 
     @DontValidate
     public Resolution delete() {
-        itemService.deleteItem(id);
+        itemService.deleteItem(itemId);
         return new RedirectResolution("/action/item/" + itemListId);
     }
 
     @DontValidate
     public Resolution add() {
-        itemService.createItemInstance(itemListId, id, attribute);
+        itemService.addToList(itemListId, itemId, attribute);
         return new RedirectResolution("/action/item/" + itemListId);
     }
 
     @DontValidate
     public Resolution remove() {
-        itemService.deleteItemInstance(id);
+        itemService.removeFromList(itemListId, itemId);
         return new RedirectResolution("/action/item/" + itemListId);
     }
 
     @DontValidate
     public Resolution update() {
-        itemService.createItemInstance(itemListId, id, attribute);
+        itemService.addToList(itemListId, itemId, attribute);
         return null;
     }
 
-    public Long getId() {
-        return id;
+    public Long getItemId() {
+        return itemId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setItemId(Long id) {
+        this.itemId = id;
     }
 
     public Long getItemListId() {
@@ -90,27 +88,19 @@ public class ItemActionBean extends AbstractActionBean {
         return item;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
-
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItemInstances(List<ItemInstance> itemInstances) {
-        this.itemInstances = itemInstances;
-    }
-
-    public List<ItemInstance> getItemInstances() {
-        return itemInstances;
-    }
-
     public void setAttribute(String attribute) {
         this.attribute = attribute;
     }
 
     public String getAttribute() {
         return attribute;
+    }
+
+    public void setListItems(List<ListItem> listItems) {
+        this.listItems = listItems;
+    }
+
+    public List<ListItem> getListItems() {
+        return listItems;
     }
 }
