@@ -133,11 +133,11 @@ public class AbstractServiceTestCase {
         T instance = clazz.newInstance();
         injectMembers(instance);
 
-        UrlBindingFactory factory = UrlBindingFactory.getInstance();
+        UrlBindingFactory factory = new UrlBindingFactory();// .getInstance();
         factory.addBinding(clazz, UrlBindingFactory.parseUrlBinding(clazz));
         UrlBinding binding = factory.getBinding(url);
 
-        Method method = null;
+        Method eventMethod = null;
         // String action = null;
 
         for (UrlBindingParameter parameter : binding.getParameters()) {
@@ -145,7 +145,7 @@ public class AbstractServiceTestCase {
             // String value = parameter.getValue();
             if (name.equals("$event")) {
                 if (parameter.getValue() != null) {
-                    method = clazz.getDeclaredMethod(parameter.getValue());
+                    eventMethod = clazz.getDeclaredMethod(parameter.getValue());
                 }
                 // action = value;
             }
@@ -181,16 +181,16 @@ public class AbstractServiceTestCase {
             }
         }
 
-        if (method == null) {
+        if (eventMethod == null) {
             for (Method m : clazz.getDeclaredMethods()) {
                 if (m.isAnnotationPresent(DefaultHandler.class)) {
-                    method = m;
+                    eventMethod = m;
                 }
             }
         }
 
-        if (method != null) {
-            method.invoke(instance);
+        if (eventMethod != null) {
+            eventMethod.invoke(instance);
         }
         // if (action == null) {
         // roundtrip.execute();
