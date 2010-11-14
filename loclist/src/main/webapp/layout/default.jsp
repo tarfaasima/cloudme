@@ -17,13 +17,25 @@
     <script type="text/javascript">
 	  $(document).ready(function() {
 	    $('.focus').focus();
+	    window.scrollTo(0, 1);
 	  });
 	</script>
     <script type="text/javascript"><s:layout-component name="script"/></script>
   </head>
   <body>
-    <div><%= ((com.google.appengine.api.users.User) application.getAttribute("user")).getNickname() %></div>
-    <s:layout-component name="content"/>
+    <div id="header">
+      <div id="headerLeft">
+        <s:layout-component name="headerLeft" />
+      </div>
+      <s:layout-component name="headerText" />
+      <div id="headerRight">
+        <s:layout-component name="headerRight" />
+      </div>
+    </div>
+    <div id="content">
+      <s:layout-component name="content" />
+    </div>
+    <div id="user"><%= ((com.google.appengine.api.users.User) application.getAttribute("user")).getNickname() %></div>
   </body>
 </html>
 </s:layout-definition>

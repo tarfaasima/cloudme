@@ -52,7 +52,7 @@
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>User area.</web-resource-name>
-      <url-pattern>/action/list/*</url-pattern>
+      <url-pattern>/*</url-pattern>
     </web-resource-collection>
     <auth-constraint>
       <role-name>*</role-name>

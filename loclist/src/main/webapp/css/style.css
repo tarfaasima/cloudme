@@ -1,13 +1,83 @@
 body {
-  font: bold 17px Helvetica;
-}
-ul {
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
-li {
+
+/* Header */
+
+div#header {
+  background-color: #000000;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#666666), to(#000000));
+  color: white;
+  font: bold 17px Helvetica;
+  text-align: center;
   padding: 10px;
 }
-input {
-  font: normal 20px Helvetica;
+
+div#header h1 {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  font: bold 17px Helvetica;
+}
+
+div#headerLeft {
+  float: left;
+}
+
+div#headerRight {
+  float: right;
+}
+div#headerRight a {
+  font: bold 12px Helvetica;
+  background-color: #999999;
+  border: 1px solid #000000;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#D9D9D9), color-stop(.4,#999999));
+  color: #FFFFFF;
+  margin: 4px 0;
+  padding: 4px 8px;
+  -webkit-border-radius: 5px;
+  text-decoration: none;
+}
+
+/* List style edge-to-edge */
+
+ul.edgeToEdge {
+  padding: 0;
+  margin: 0;
+  font: bold 17px Helvetica;
+}
+ul.edgeToEdge li {
+  border-bottom: 1px solid #D9D9D9;
+}
+li a {
+  display: block;
+  padding: 14px 10px;
+  width: 100%;
+  color: black;
+  text-decoration: none;
+}
+li a.delete {
+  font-size: 14px;
+  padding: 5px;
+  -webkit-border-radius: 5px;
+  background-color: red;
+  color: white;
+  float: right;
+  margin: 10px;
+}
+li input {
+  font: normal 17px Helvetica;
+  float: left;
+  margin: 10px;
+}
+li .attribute {
+  font-weight: normal;
+}
+
+/* User */
+div#user {
+  font: normal 10px Helvetica;
+  text-align: center;
+  padding: 5px;
 }

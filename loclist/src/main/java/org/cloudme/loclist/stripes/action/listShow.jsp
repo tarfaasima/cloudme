@@ -18,7 +18,7 @@
     }
     
     $(document).ready(function() {
-        $("a.confirm").confirm();
+        $("a.delete").confirm();
         navigator.geolocation.getCurrentPosition(checkin, handleError);
     });
   </s:layout-component>
@@ -35,7 +35,7 @@
       <a href="/action/item/${actionBean.itemList.id}">Add items</a>
     </div>
     <div>
-      <a href="/action/list/delete/${actionBean.itemList.id}" class="confirm" title="Do you want to delete list '${actionBean.itemList.name}'?">delete</a>
+      <a href="/action/list/delete/${actionBean.itemList.id}" class="delete" title="Do you want to delete list '${actionBean.itemList.name}'?">delete</a>
     </div>
   </s:layout-component>
 </s:layout-render>

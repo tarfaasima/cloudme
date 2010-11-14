@@ -52,13 +52,13 @@
     <ul>
     <c:forEach items="${actionBean.listItems}" var="listItem">
       <li class="${listItem.inList ? 'inList' : 'notInList'}">
-        <div>
         <form action="/action/item/${actionBean.itemListId}/add/${listItem.id}/">
           <input type="text" name="${listItem.id}" class="add" size="5" value="${listItem.attribute}"/>
-          <a href="/action/item/${actionBean.itemListId}/add/${listItem.id}" class="add">${listItem.text}</a>
-          <a href="/action/item/${actionBean.itemListId}/delete/${listItem.id}" class="delete" title="Do you want to delete item '${listItem.text}'?">delete</a>
         </form>
-        </div>
+        <a href="/action/item/${actionBean.itemListId}/add/${listItem.id}" class="add">
+          ${listItem.text}
+        </a>
+        <a href="/action/item/${actionBean.itemListId}/delete/${listItem.id}" class="delete" title="Do you want to delete item '${listItem.text}'?">delete</a>
       </li>
     </c:forEach>
     </ul>
