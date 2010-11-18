@@ -1,6 +1,11 @@
 body {
   margin: 0;
   padding: 0;
+  background-color: #C5CCD3;
+}
+
+a {
+  text-decoration: none;
 }
 
 /* Header */
@@ -21,28 +26,23 @@ div#header h1 {
   font: bold 17px Helvetica;
 }
 
-div#headerLeft {
+div#header a {
+  color: #FFFFFF;
+  font-weight: normal;
+}
+
+div#buttonLeft {
   float: left;
 }
 
-div#headerRight {
+div#buttonRight {
   float: right;
-}
-div#headerRight a {
-  font: bold 12px Helvetica;
-  background-color: #999999;
-  border: 1px solid #000000;
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#D9D9D9), color-stop(.4,#999999));
-  color: #FFFFFF;
-  margin: 4px 0;
-  padding: 4px 8px;
-  -webkit-border-radius: 5px;
-  text-decoration: none;
 }
 
 /* List style edge-to-edge */
 
 ul.edgeToEdge {
+  background-color: #FFFFFF;
   padding: 0;
   margin: 0;
   font: bold 17px Helvetica;
@@ -53,9 +53,12 @@ ul.edgeToEdge li {
 li a {
   display: block;
   padding: 14px 10px;
-  width: 100%;
+  //width: 100%;
   color: black;
   text-decoration: none;
+}
+li a span {
+  width: 100%;
 }
 li a.delete {
   font-size: 14px;
@@ -80,4 +83,33 @@ div#user {
   font: normal 10px Helvetica;
   text-align: center;
   padding: 5px;
+}
+
+/* Form */
+.roundedRectangle {
+  display: block;
+  padding: 10px;
+}
+.roundedRectangle .formLabel {
+  padding: 10px;
+  font: bold 17px Helvetica;
+  color: #4C566C;
+}
+.roundedRectangle form {
+  background-color: #FFF;
+  width: 100%;
+  -webkit-border-radius: 8px;
+}
+.roundedRectangle .inputContainer {
+  font: normal 17px Helvetica;
+  padding: 10px;
+  display: block;
+}
+.roundedRectangle input {
+  font: normal 17px Helvetica;
+  margin: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  border: none;
+  width: 100%;
 }

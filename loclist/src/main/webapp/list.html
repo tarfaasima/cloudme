@@ -3,60 +3,91 @@
      PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-  <head>
-    <title>Loclist</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-    <link rel="apple-touch-startup-image" href="/apple-touch-startup-image.png"/>
-    <link rel="stylesheet" href="/css/style.css" type="text/css" />
-    <script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
-    <script type="text/javascript" src="/js/simple-confirm-0.1.js"></script>
-    <script type="text/javascript">
-      var itemListId;
-      var itemListName;
+<head>
+<title>Loclist</title>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="apple-touch-startup-image" href="/apple-touch-startup-image.png"/>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="/js/simple-confirm-0.1.js"></script>
+<script type="text/javascript">
+(function($) {
+  var changeName;
+  var name;
 
-      function checkin(position) {
-          latitude = position.coords.latitude; 
-          longitude = position.coords.longitude;
-          url = '/action/checkin/' + itemListId + '/' + latitude + '/' + longitude;
-          $('div#content').load(url);
-      }
-      
-      function handleError(error) {
-          alert(error);
-      }
-      
-      function listIndex() {
-        $('div#content').load('/action/list', function() {
-          $('div#content a.checkin').click(listShow);
-        });
-      }
-
-      function listShow() {
-        itemListId = $(this).attr('href');
-        itemListName = $(this).text();
-        $('div#header h1').empty()
-        $('div#header h1').append(itemListName);
-        navigator.geolocation.getCurrentPosition(checkin, handleError);
-        return false;
-      }
-    
-      $(document).ready(function() {
-        window.scrollTo(0, 1);
-        $('.focus').focus();
-        listIndex();
+  function doSubmit(form) {
+    if (changeName == name) {
+      var url = $(form).attr('action') + '?';
+      $(form).find('input').each(function(index, child) {
+        var value = encodeURI($(child).attr('value'));
+        var name = $(child).attr('name');
+        url = url + name + '=' + value;
       });
-    </script>
-  </head>
-  <body>
-    <div id="header">
-      <h1></h1>
-      <div id="buttonLeft"></div>
-      <div id="buttonRight"></div>
-    </div>
-    <div id="content"></div>
-    <div id="user"></div>
-  </body>
+      index(url);
+      changeName = null;
+    }
+  }
+
+  $.fn.asyncSubmit = function() {
+    name = $(this).attr('name');
+    var form = $(this).closest('form');
+    $(this).change(function() { changeName = name; });
+    $(this).blur(function() { doSubmit(form); });
+    $(form).submit(function() {
+      doSubmit(form); 
+      return false; 
+    });
+  };
+})(jQuery);
+
+var itemListId;
+var itemListName;
+
+function edit() {
+  var url = '/action/item/' + itemListId;
+  $('body').load(url, function() {
+    
+  });
+}
+
+function checkin(position) {
+  var latitude = position.coords.latitude; 
+  var longitude = position.coords.longitude;
+  var url = '/action/checkin/' + itemListId + '/' + latitude + '/' + longitude;
+  $('body').load(url, function() {
+    $('#buttonLeft a').click(index);
+    $('#buttonRight a').click(edit);
+  });
+}
+
+function handleError(error) {
+  alert(error);
+}
+
+function show(id) {
+  itemListId = id; 
+  navigator.geolocation.getCurrentPosition(checkin, handleError);
+}
+
+function index(url) {
+  $('body').load(url == null ? '/action/list' : url, function() {
+    $('a.checkin').click(function() {
+      show($(this).attr('id'));
+    });
+    $('input').asyncSubmit();
+  });
+}
+
+$(document).ready(function() {
+  window.scrollTo(0, 1);
+  $('.focus').focus();
+  index();
+});
+</script>
+</head>
+<body>
+</body>
 </html>

@@ -11,6 +11,7 @@ import org.cloudme.gaestripes.AbstractActionBean;
 import org.cloudme.loclist.item.ItemService;
 import org.cloudme.loclist.location.LocationService;
 import org.cloudme.loclist.model.ItemInstance;
+import org.cloudme.loclist.model.ItemList;
 import org.cloudme.loclist.stripes.validation.GeoCoordinateConverter;
 
 import com.google.inject.Inject;
@@ -27,12 +28,14 @@ public class CheckinActionBean extends AbstractActionBean {
     @Validate( converter = GeoCoordinateConverter.class )
     private float longitude;
     private List<ItemInstance> itemInstances;
+    private ItemList itemList;
 
     @DefaultHandler
     public Resolution show() {
         Long checkinId = locationService.checkin(latitude, longitude).getId();
         itemInstances = itemService.getItemInstances(itemListId);
         itemService.orderByCheckin(checkinId, itemInstances);
+        itemList = itemService.getItemList(itemListId);
         return resolve("checkin.jsp");
     }
 
@@ -66,5 +69,13 @@ public class CheckinActionBean extends AbstractActionBean {
 
     public List<ItemInstance> getItemInstances() {
         return itemInstances;
+    }
+
+    public void setItemList(ItemList itemList) {
+        this.itemList = itemList;
+    }
+
+    public ItemList getItemList() {
+        return itemList;
     }
 }

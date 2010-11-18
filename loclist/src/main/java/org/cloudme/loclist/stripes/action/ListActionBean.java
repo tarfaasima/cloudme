@@ -41,7 +41,7 @@ public class ListActionBean extends AbstractActionBean {
 
     @DontValidate
     public Resolution create() {
-        return resolve("listCreate.jsp");
+        return new RedirectResolution(getClass());
     }
 
     @DontValidate
