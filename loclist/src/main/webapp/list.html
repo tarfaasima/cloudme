@@ -15,11 +15,10 @@
 <script type="text/javascript" src="/js/simple-confirm-0.1.js"></script>
 <script type="text/javascript">
 (function($) {
-  var changeName;
-  var name;
+  var hasChanged = false;
 
   function doSubmit(form) {
-    if (changeName == name) {
+    if (hasChanged) {
       var url = $(form).attr('action') + '?';
       $(form).find('input').each(function(index, child) {
         var value = encodeURI($(child).attr('value'));
@@ -27,49 +26,46 @@
         url = url + name + '=' + value;
       });
       index(url);
-      changeName = null;
+      hasChanged = false;
     }
+    return false;
   }
 
   $.fn.asyncSubmit = function() {
-    name = $(this).attr('name');
+    var name = $(this).attr('name');
     var form = $(this).closest('form');
-    $(this).change(function() { changeName = name; });
+    $(this).change(function() { hasChanged = true; });
     $(this).blur(function() { doSubmit(form); });
-    $(form).submit(function() {
-      doSubmit(form); 
-      return false; 
-    });
+    $(form).submit(function() { return doSubmit(form); });
   };
 })(jQuery);
 
 var itemListId;
-var itemListName;
 
 function edit() {
   var url = '/action/item/' + itemListId;
   $('body').load(url, function() {
-    
+    $('#buttonRight a').click(function() { show(itemListId); });
+    $('a.delete').click(function() {
+      index($(this).attr('href'));
+      return false;
+    });
   });
-}
-
-function checkin(position) {
-  var latitude = position.coords.latitude; 
-  var longitude = position.coords.longitude;
-  var url = '/action/checkin/' + itemListId + '/' + latitude + '/' + longitude;
-  $('body').load(url, function() {
-    $('#buttonLeft a').click(index);
-    $('#buttonRight a').click(edit);
-  });
-}
-
-function handleError(error) {
-  alert(error);
 }
 
 function show(id) {
   itemListId = id; 
-  navigator.geolocation.getCurrentPosition(checkin, handleError);
+  navigator.geolocation.getCurrentPosition(function(position) {
+    var latitude = position.coords.latitude; 
+    var longitude = position.coords.longitude;
+    var url = '/action/checkin/' + itemListId + '/' + latitude + '/' + longitude;
+    $('body').load(url, function() {
+      $('#buttonLeft a').click(function() { index(); });
+      $('#buttonRight a').click(function() { edit(); });
+    });
+  }, function() {
+      alert(error);
+  });
 }
 
 function index(url) {
@@ -83,7 +79,6 @@ function index(url) {
 
 $(document).ready(function() {
   window.scrollTo(0, 1);
-  $('.focus').focus();
   index();
 });
 </script>

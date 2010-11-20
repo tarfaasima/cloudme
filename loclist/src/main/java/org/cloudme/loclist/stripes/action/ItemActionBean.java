@@ -14,6 +14,7 @@ import org.cloudme.gaestripes.AbstractActionBean;
 import org.cloudme.loclist.item.ItemService;
 import org.cloudme.loclist.item.ListItem;
 import org.cloudme.loclist.model.Item;
+import org.cloudme.loclist.model.ItemList;
 
 import com.google.inject.Inject;
 
@@ -27,11 +28,13 @@ public class ItemActionBean extends AbstractActionBean {
     private Item item;
     private String attribute;
     private List<ListItem> listItems;
+    private ItemList itemList;
     
     @DontValidate
     @DefaultHandler
     public Resolution index() {
         listItems = itemService.getListItems(itemListId);
+        itemList = itemService.getItemList(itemListId);
         return resolve("itemIndex.jsp");
     }
 
@@ -102,5 +105,13 @@ public class ItemActionBean extends AbstractActionBean {
 
     public List<ListItem> getListItems() {
         return listItems;
+    }
+
+    public void setItemList(ItemList itemList) {
+        this.itemList = itemList;
+    }
+
+    public ItemList getItemList() {
+        return itemList;
     }
 }
