@@ -41,7 +41,7 @@
     <ul class="edgeToEdge">
       <c:forEach items="${actionBean.listItems}" var="listItem">
         <li>
-          <a href="#" id="${listItem.id}" class="checkin">
+          <a href="#" id="${listItem.id}">
             <span>
               ${listItem.text}
             </span>

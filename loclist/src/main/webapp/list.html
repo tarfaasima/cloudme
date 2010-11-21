@@ -47,7 +47,9 @@ function edit() {
   $('body').load(url, function() {
     $('#buttonRight a').click(function() { show(itemListId); });
     $('a.delete').click(function() {
-      index($(this).attr('href'));
+      if (confirm($(this).attr('title'))) {
+        index($(this).attr('href'));
+      }
       return false;
     });
   });
