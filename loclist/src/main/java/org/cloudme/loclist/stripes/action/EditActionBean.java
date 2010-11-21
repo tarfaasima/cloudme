@@ -1,6 +1,6 @@
 package org.cloudme.loclist.stripes.action;
 
-import java.util.List;
+import java.util.Collection;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
@@ -12,8 +12,8 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
 import org.cloudme.gaestripes.AbstractActionBean;
 import org.cloudme.loclist.item.ItemService;
-import org.cloudme.loclist.item.ListItem;
 import org.cloudme.loclist.model.Item;
+import org.cloudme.loclist.model.ItemInstance;
 import org.cloudme.loclist.model.ItemList;
 
 import com.google.inject.Inject;
@@ -27,13 +27,13 @@ public class EditActionBean extends AbstractActionBean {
     @ValidateNestedProperties( { @Validate( field = "text", required = true ) } )
     private Item item;
     private String attribute;
-    private List<ListItem> listItems;
+    private Collection<ItemInstance> itemInstances;
     private ItemList itemList;
     
     @DontValidate
     @DefaultHandler
     public Resolution index() {
-        listItems = itemService.getListItems(itemListId);
+        itemInstances = itemService.getAllItemInstances(itemListId);
         itemList = itemService.getItemList(itemListId);
         return resolve("edit.jsp");
     }
@@ -59,12 +59,6 @@ public class EditActionBean extends AbstractActionBean {
     public Resolution remove() {
         itemService.removeFromList(itemListId, itemId);
         return new RedirectResolution("/action/edit/" + itemListId);
-    }
-
-    @DontValidate
-    public Resolution update() {
-        itemService.addToList(itemListId, itemId, attribute);
-        return null;
     }
 
     public Long getItemId() {
@@ -99,19 +93,19 @@ public class EditActionBean extends AbstractActionBean {
         return attribute;
     }
 
-    public void setListItems(List<ListItem> listItems) {
-        this.listItems = listItems;
-    }
-
-    public List<ListItem> getListItems() {
-        return listItems;
-    }
-
     public void setItemList(ItemList itemList) {
         this.itemList = itemList;
     }
 
     public ItemList getItemList() {
         return itemList;
+    }
+
+    public void setItemInstances(Collection<ItemInstance> itemInstances) {
+        this.itemInstances = itemInstances;
+    }
+
+    public Collection<ItemInstance> getItemInstances() {
+        return itemInstances;
     }
 }

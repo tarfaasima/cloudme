@@ -2,79 +2,36 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<!--(function($) {-->
-<!--    var changeId = null;-->
-<!--    -->
-<!--    $.fn.dynatype = function(async) {-->
-<!--        $(this).blur(function() {-->
-<!--            itemId = $(this).attr("name");-->
-<!--            if (changeId == itemId) {-->
-<!--                attribute = escape($(this).val());-->
-<!--                url = $(e).parent().attr("action") + attribute;-->
-<!--                if (async) {-->
-<!--                    $.get(url);-->
-<!--                }-->
-<!--                else {-->
-<!--                    location.href = url;-->
-<!--                }-->
-<!--                changeId = null;-->
-<!--            }-->
-<!--        });-->
-<!--        $(this).keyup(function(e) {-->
-<!--            if (e.which == 13) {-->
-<!--                $(this).blur();-->
-<!--                return false;-->
-<!--            }-->
-<!--            changeId = $(this).attr("name");-->
-<!--        });-->
-<!--    };-->
-<!--})(jQuery);-->
-<!--    $(document).ready(function() {-->
-<!--        $("input.update").dynatype(true);-->
-<!--        $("input.add").dynatype(false);-->
-<!--        $("a.delete").confirm();-->
-<!--    });-->
 <s:layout-render name="/layout/iphone.jsp">
   <s:layout-component name="header">${actionBean.itemList.name}</s:layout-component>
   <s:layout-component name="buttonRight"><a href="#">Done</a></s:layout-component>
   <s:layout-component name="content">
     <ul class="edgeToEdge">
-      <c:forEach items="${actionBean.listItems}" var="listItem">
-        <li>
-          <a href="#" id="${listItem.id}">
+      <c:forEach items="${actionBean.itemInstances}" var="itemInstance">
+        <c:set var="removeUrl" value="/action/edit/${actionBean.itemList.id}/remove/${itemInstance.itemId}" />
+        <c:set var="addUrl" value="/action/edit/${actionBean.itemList.id}/add/${itemInstance.itemId}" />
+        <li class="${itemInstance.inList ? 'remove' : 'add'}">
+          <form action="${addUrl}">
+            <input type="text" size="5" name="attribute" value="${itemInstance.attribute}" placeholder="?"/>
+          </form>
+          <a href="${itemInstance.inList ? removeUrl : addUrl}" id="${itemInstance.itemId}">
             <span>
-              ${listItem.text}
+              ${itemInstance.text}
             </span>
           </a>
         </li>
       </c:forEach>
     </ul>
     <div class="roundedRectangle">
+      <div class="formLabel">
+        Create a new item
+      </div>
+      <form action="/action/edit/${actionBean.itemList.id}/create">
+        <div class="inputContainer">
+          <input type="text" name="item.text" placeholder="Item" class="create"/>
+        </div>
+      </form>
       <a href="/action/list/delete/${actionBean.itemList.id}" class="delete" title="Do you want to delete list ${actionBean.itemList.name}?"><span>Delete List</span></a>
     </div>
-
-    <% /*
-    <div>
-      <s:form beanclass="org.cloudme.loclist.stripes.action.ItemActionBean">
-        <s:hidden name="itemListId" value="${actionBean.itemListId}" />
-        <s:text name="attribute" value="${actionBean.attribute}" size="5"/>
-        <s:text name="item.text" value="${actionBean.item.text}" class="focus" />
-        <s:submit name="create" value="Add" />
-      </s:form>
-    </div>
-    <ul>
-    <c:forEach items="${actionBean.listItems}" var="listItem">
-      <li class="${listItem.inList ? 'inList' : 'notInList'}">
-        <form action="/action/edit/${actionBean.itemListId}/add/${listItem.id}/">
-          <input type="text" name="${listItem.id}" class="add" size="5" value="${listItem.attribute}"/>
-        </form>
-        <a href="/action/edit/${actionBean.itemListId}/add/${listItem.id}" class="add">
-          ${listItem.text}
-        </a>
-        <a href="/action/edit/${actionBean.itemListId}/delete/${listItem.id}" class="delete" title="Do you want to delete item '${listItem.text}'?">delete</a>
-      </li>
-    </c:forEach>
-    </ul>
-*/    %>
   </s:layout-component>
 </s:layout-render>

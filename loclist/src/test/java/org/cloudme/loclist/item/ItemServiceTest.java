@@ -10,6 +10,7 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.cloudme.loclist.dao.ItemOrderDao;
@@ -135,10 +136,10 @@ public class ItemServiceTest extends AbstractServiceTestCase {
 
     private void assertInList(String name, String... texts) {
         List<String> textList = new ArrayList<String>(Arrays.asList(texts));
-        List<ListItem> listItems = itemService.getListItems(itemList(name).getId());
-        for (ListItem listItem : listItems) {
-            if (listItem.isInList()) {
-                textList.remove(listItem.getText());
+        Collection<ItemInstance> itemInstances = itemService.getAllItemInstances(itemList(name).getId());
+        for (ItemInstance itemInstance : itemInstances) {
+            if (itemInstance.isInList()) {
+                textList.remove(itemInstance.getText());
             }
         }
         assertTrue("Items not in list: " + textList, textList.isEmpty());

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Iterator;
 
-import org.cloudme.loclist.item.ListItem;
+import org.cloudme.loclist.model.ItemInstance;
 import org.cloudme.loclist.test.AbstractServiceTestCase;
 import org.junit.Test;
 
@@ -18,7 +18,7 @@ public class ItemActionBeanTest extends AbstractServiceTestCase {
         String url = "/action/edit/" + itemList("L").getId();
         EditActionBean bean = createActionBean(url, EditActionBean.class);
 
-        Iterator<ListItem> it = bean.getListItems().iterator();
+        Iterator<ItemInstance> it = bean.getItemInstances().iterator();
         assertTrue(it.next().isInList());
         assertFalse(it.next().isInList());
         assertFalse(it.next().isInList());

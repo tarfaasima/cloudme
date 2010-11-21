@@ -3,12 +3,16 @@ package org.cloudme.loclist.item;
 import static org.cloudme.gaestripes.BaseDao.filter;
 import static org.cloudme.gaestripes.BaseDao.orderBy;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.cloudme.gaestripes.QueryOperator;
 import org.cloudme.loclist.dao.CheckinDao;
@@ -110,25 +114,22 @@ public class ItemService {
         }
     }
 
-    public List<ListItem> getListItems(Long itemListId) {
-        List<ListItem> listItems = new ArrayList<ListItem>();
-        List<ItemInstance> itemInstances = getItemInstances(itemListId);
-        Map<Long, ItemInstance> itemInstanceMap = new HashMap<Long, ItemInstance>();
+    public Collection<ItemInstance> getAllItemInstances(Long itemListId) {
+        SortedSet<ItemInstance> itemInstances = new TreeSet<ItemInstance>(getItemInstances(itemListId));
+        Set<Long> itemIds = new HashSet<Long>(itemInstances.size());
         for (ItemInstance itemInstance : itemInstances) {
-            itemInstanceMap.put(itemInstance.getItemId(), itemInstance);
+            itemIds.add(itemInstance.getItemId());
+            itemInstance.setInList(true);
         }
         for (Item item : itemDao.findAll(orderBy("text"))) {
-            ListItem listItem = new ListItem();
-            listItem.setId(item.getId());
-            listItem.setText(item.getText());
-            ItemInstance itemInstance = itemInstanceMap.get(item.getId());
-            if (itemInstance != null) {
-                listItem.setAttribute(itemInstance.getAttribute());
-                listItem.setInList(true);
+            if (!itemIds.contains(item.getId())) {
+                ItemInstance itemInstance = new ItemInstance();
+                itemInstance.setItemId(item.getId());
+                itemInstance.setText(item.getText());
+                itemInstances.add(itemInstance);
             }
-            listItems.add(listItem);
         }
-        return listItems;
+        return itemInstances;
     }
 
     public void updateItemOrder() {

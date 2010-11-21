@@ -1,12 +1,14 @@
 package org.cloudme.loclist.model;
 
+import javax.persistence.Transient;
+
 import org.cloudme.gaestripes.DomainObject;
 
 import com.googlecode.objectify.annotation.Cached;
 import com.googlecode.objectify.annotation.Unindexed;
 
 @Cached
-public class ItemInstance extends DomainObject {
+public class ItemInstance extends DomainObject implements Comparable<ItemInstance> {
     private Long itemId;
     private Long itemListId;
     @Unindexed
@@ -14,6 +16,8 @@ public class ItemInstance extends DomainObject {
     @Unindexed
     private boolean ticked;
     private String text;
+    @Transient
+    private boolean inList = false;
 
     public Long getItemListId() {
         return itemListId;
@@ -53,5 +57,18 @@ public class ItemInstance extends DomainObject {
 
     public String getText() {
         return text;
+    }
+
+    public void setInList(boolean inList) {
+        this.inList = inList;
+    }
+
+    public boolean isInList() {
+        return inList;
+    }
+
+    @Override
+    public int compareTo(ItemInstance o) {
+        return text.compareTo(o.text);
     }
 }

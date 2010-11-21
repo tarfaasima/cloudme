@@ -17,39 +17,63 @@
 (function($) {
   var hasChanged = false;
 
-  function doSubmit(form) {
+  function doSubmit(form, callback) {
     if (hasChanged) {
       var url = $(form).attr('action') + '?';
       $(form).find('input').each(function(index, child) {
         var value = encodeURI($(child).attr('value'));
         var name = $(child).attr('name');
-        url = url + name + '=' + value;
+        url = url + name + '=' + value + '&';
       });
-      index(url);
+      callback(url);
       hasChanged = false;
     }
     return false;
   }
 
-  $.fn.asyncSubmit = function() {
+  $.fn.asyncSubmit = function(callback) {
     var name = $(this).attr('name');
     var form = $(this).closest('form');
     $(this).change(function() { hasChanged = true; });
-    $(this).blur(function() { doSubmit(form); });
-    $(form).submit(function() { return doSubmit(form); });
+    $(this).blur(function() { doSubmit(form, callback); });
+    $(form).submit(function() { return doSubmit(form, callback); });
   };
 })(jQuery);
 
 var itemListId;
 
-function edit() {
-  var url = '/action/edit/' + itemListId;
-  $('body').load(url, function() {
+function edit(url) {
+  $('body').load(url == null ? '/action/edit/' + itemListId : url, function() {
     $('#buttonRight a').click(function() { checkin(itemListId); });
     $('a.delete').click(function() {
       var title = $(this).attr('title');
       var url = $(this).attr('href');
       if (confirm(title)) { index(url); }
+      return false;
+    });
+    $('.edgeToEdge input').each(function() {
+      var e = $(this).closest('li'); 
+      $(this).asyncSubmit(function(url) { 
+        $.get(url);
+        if (e.hasClass('add')) {
+          e.removeClass('add');
+          e.addClass('remove');
+        }
+      }) 
+    });
+    $('.roundedRectangle input').asyncSubmit(function(url) {
+      $.get(url); 
+    });
+    $('.edgeToEdge a').click(function() {
+      var id = $(this).attr('id');
+      var e = $(this).closest('li');
+      var url = '/action/edit/' + itemListId + '/' + (e.hasClass('add') ? 'add' : 'remove') + '/' + id;
+      $.get(url);
+      if (e.hasClass('remove')) {
+        e.find('input').val('');
+      }
+      e.toggleClass('add');
+      e.toggleClass('remove');
       return false;
     });
   });
@@ -73,7 +97,7 @@ function checkin(id) {
 function index(url) {
   $('body').load(url == null ? '/action/index' : url, function() {
     $('a.checkin').click(function() { checkin($(this).attr('id')); });
-    $('input').asyncSubmit();
+    $('input').asyncSubmit(index);
   });
 }
 
