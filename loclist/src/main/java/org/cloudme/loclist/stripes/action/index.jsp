@@ -19,7 +19,7 @@
       <div class="formLabel">
         Create a new list
       </div>
-      <form action="/action/list/save">
+      <form action="/action/index/create">
         <div class="inputContainer">
           <input type="text" name="itemList.name" placeholder="Name of list"/>
         </div>

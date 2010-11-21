@@ -18,8 +18,8 @@ import org.cloudme.loclist.model.ItemList;
 
 import com.google.inject.Inject;
 
-@UrlBinding( "/action/item/{itemListId}/{$event}/{itemId}/{attribute}" )
-public class ItemActionBean extends AbstractActionBean {
+@UrlBinding( "/action/edit/{itemListId}/{$event}/{itemId}/{attribute}" )
+public class EditActionBean extends AbstractActionBean {
     @Inject
     private ItemService itemService;
     private Long itemId;
@@ -35,30 +35,30 @@ public class ItemActionBean extends AbstractActionBean {
     public Resolution index() {
         listItems = itemService.getListItems(itemListId);
         itemList = itemService.getItemList(itemListId);
-        return resolve("itemIndex.jsp");
+        return resolve("edit.jsp");
     }
 
     public Resolution create() {
         itemService.createItem(itemListId, item, attribute);
-        return new RedirectResolution("/action/item/" + itemListId);
+        return new RedirectResolution("/action/edit/" + itemListId);
     }
 
     @DontValidate
     public Resolution delete() {
         itemService.deleteItem(itemId);
-        return new RedirectResolution("/action/item/" + itemListId);
+        return new RedirectResolution("/action/edit/" + itemListId);
     }
 
     @DontValidate
     public Resolution add() {
         itemService.addToList(itemListId, itemId, attribute);
-        return new RedirectResolution("/action/item/" + itemListId);
+        return new RedirectResolution("/action/edit/" + itemListId);
     }
 
     @DontValidate
     public Resolution remove() {
         itemService.removeFromList(itemListId, itemId);
-        return new RedirectResolution("/action/item/" + itemListId);
+        return new RedirectResolution("/action/edit/" + itemListId);
     }
 
     @DontValidate

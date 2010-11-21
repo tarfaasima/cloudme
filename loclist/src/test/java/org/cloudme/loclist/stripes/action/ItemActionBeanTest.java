@@ -15,8 +15,8 @@ public class ItemActionBeanTest extends AbstractServiceTestCase {
         createItems("A", "B", "C");
         createItemList("L", "A");
 
-        String url = "/action/item/" + itemList("L").getId();
-        ItemActionBean bean = createActionBean(url, ItemActionBean.class);
+        String url = "/action/edit/" + itemList("L").getId();
+        EditActionBean bean = createActionBean(url, EditActionBean.class);
 
         Iterator<ListItem> it = bean.getListItems().iterator();
         assertTrue(it.next().isInList());

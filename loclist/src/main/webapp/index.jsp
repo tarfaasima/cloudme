@@ -1,1 +1,1 @@
-<% response.sendRedirect("/action/list/index"); %>
+<% response.sendRedirect("/action/index/index"); %>

@@ -43,24 +43,24 @@
 var itemListId;
 
 function edit() {
-  var url = '/action/item/' + itemListId;
+  var url = '/action/edit/' + itemListId;
   $('body').load(url, function() {
-    $('#buttonRight a').click(function() { show(itemListId); });
+    $('#buttonRight a').click(function() { checkin(itemListId); });
     $('a.delete').click(function() {
-      if (confirm($(this).attr('title'))) {
-        index($(this).attr('href'));
-      }
+      var title = $(this).attr('title');
+      var url = $(this).attr('href');
+      if (confirm(title)) { index(url); }
       return false;
     });
   });
 }
 
-function show(id) {
+function checkin(id) {
   itemListId = id; 
   navigator.geolocation.getCurrentPosition(function(position) {
     var latitude = position.coords.latitude; 
     var longitude = position.coords.longitude;
-    var url = '/action/checkin/' + itemListId + '/' + latitude + '/' + longitude;
+    var url = '/action/list/checkin/' + itemListId + '/' + latitude + '/' + longitude;
     $('body').load(url, function() {
       $('#buttonLeft a').click(function() { index(); });
       $('#buttonRight a').click(function() { edit(); });
@@ -71,10 +71,8 @@ function show(id) {
 }
 
 function index(url) {
-  $('body').load(url == null ? '/action/list' : url, function() {
-    $('a.checkin').click(function() {
-      show($(this).attr('id'));
-    });
+  $('body').load(url == null ? '/action/index' : url, function() {
+    $('a.checkin').click(function() { checkin($(this).attr('id')); });
     $('input').asyncSubmit();
   });
 }
