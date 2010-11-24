@@ -12,6 +12,7 @@
 <link rel="apple-touch-startup-image" href="/apple-touch-startup-image.png"/>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="/js/jquery.touchwipe.min.js"></script>
 <script type="text/javascript" src="/js/simple-confirm-0.1.js"></script>
 <script type="text/javascript">
 (function($) {
@@ -62,9 +63,9 @@ function edit(url) {
       }) 
     });
     $('.roundedRectangle input').asyncSubmit(function(url) {
-      $.get(url); 
+      edit(url); 
     });
-    $('.edgeToEdge a').click(function() {
+    $('.edgeToEdge a.toggle').click(function() {
       var id = $(this).attr('id');
       var e = $(this).closest('li');
       var url = '/action/edit/' + itemListId + '/' + (e.hasClass('add') ? 'add' : 'remove') + '/' + id;
@@ -75,6 +76,15 @@ function edit(url) {
       e.toggleClass('add');
       e.toggleClass('remove');
       return false;
+    });
+    $('.edgeToEdge a').touchwipe({
+      wipeLeft: function() { alert('left ' + $(this).attr('href')); },
+      wipeRight: function() { alert('right ' + $(this).attr('href')); },
+      //min_move_x: '20px',
+      preventDefaultEvents: false
+    });
+    $('.edgeToEdge a.delete').click(function() {
+      alert('delete');
     });
   });
 }

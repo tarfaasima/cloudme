@@ -12,7 +12,6 @@ a {
 
 div#header {
   background-color: #000000;
-  /* background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#666666), to(#000000)); */
   color: white;
   font: bold 17px Helvetica;
   text-align: center;
@@ -49,27 +48,25 @@ ul.edgeToEdge {
   font: bold 17px Helvetica;
 }
 ul.edgeToEdge li {
+  position: relative;
+  display: block;
   border-bottom: 1px solid #D9D9D9;
 }
 ul.edgeToEdge form {
-  /*
-  margin: 0;
-  padding: 0;
-  */
-  padding: 14px 10px;
-  clear: both;
+  position: absolute;
   float: left;
-  display: inline;
+  clear: both;
 }
 ul.edgeToEdge input {
   font: normal 17px Helvetica;
-  margin: 0;
-  padding: 0;
+  width: 50px;
   -webkit-appearance: none;
   border: none;
-  /*
-  background-color: #EEE;
-  */
+  margin: 14px 10px;
+  padding: 0px;
+}
+ul.edgeToEdge form + a {
+  margin-left: 60px;
 }
 li a {
   display: block;
@@ -77,27 +74,22 @@ li a {
   color: black;
   text-decoration: none;
 }
-li a span {
-  display: right;
-  width: 100%;
-}
 li.add a {
   color: #CCC;
 }
 
 li a.delete {
+  position: absolute;
+  top: 0px;
+  right: 0px;
   font-size: 14px;
   padding: 5px;
+  margin: 11px;
   -webkit-border-radius: 5px;
   background-color: red;
   color: white;
   float: right;
-  margin: 10px;
-}
-li input {
-  font: normal 17px Helvetica;
-  float: left;
-  margin: 10px;
+  display: none;
 }
 li .attribute {
   font-weight: normal;

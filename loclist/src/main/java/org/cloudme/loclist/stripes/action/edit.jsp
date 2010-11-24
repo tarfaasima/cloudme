@@ -14,10 +14,11 @@
           <form action="${addUrl}">
             <input type="text" size="5" name="attribute" value="${itemInstance.attribute}" placeholder="?"/>
           </form>
-          <a href="${itemInstance.inList ? removeUrl : addUrl}" id="${itemInstance.itemId}">
-            <span>
-              ${itemInstance.text}
-            </span>
+          <a href="${itemInstance.inList ? removeUrl : addUrl}" id="${itemInstance.itemId}" class="toggle">
+            ${itemInstance.text}
+          </a>
+          <a href="Do you want to delete ${itemInstance.text}?" class="delete">
+            Delete
           </a>
         </li>
       </c:forEach>
