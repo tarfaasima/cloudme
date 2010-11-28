@@ -35,7 +35,7 @@ public class ListActionBean extends AbstractActionBean {
         itemInstances = itemService.getItemInstances(id);
         itemService.orderByCheckin(checkinId, itemInstances);
         itemList = itemService.getItemList(id);
-        return resolve("checkin.jsp");
+        return resolve("list.jsp");
     }
 
     public Resolution delete() {
