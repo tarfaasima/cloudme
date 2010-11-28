@@ -17,7 +17,7 @@
           <a href="${itemInstance.inList ? removeUrl : addUrl}" id="${itemInstance.itemId}" class="toggle">
             ${itemInstance.text}
           </a>
-          <a href="Do you want to delete ${itemInstance.text}?" class="delete">
+          <a href="/action/edit/${actionBean.itemList.id}/delete/${itemInstance.itemId}" title="Do you want to delete ${itemInstance.text}?" class="delete">
             Delete
           </a>
         </li>

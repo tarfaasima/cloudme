@@ -36,10 +36,10 @@
 	    		 if(Math.abs(dx) >= config.min_move_x) {
 	    			cancelTouch();
 	    			if(dx > 0) {
-	    				config.wipeLeft();
+	    				config.wipeLeft(this);
 	    			}
 	    			else {
-	    				config.wipeRight();
+	    				config.wipeRight(this);
 	    			}
 	    		 }
     		 }

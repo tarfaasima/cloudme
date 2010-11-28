@@ -12,7 +12,7 @@
 <link rel="apple-touch-startup-image" href="/apple-touch-startup-image.png"/>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
-<script type="text/javascript" src="/js/jquery.touchwipe.min.js"></script>
+<script type="text/javascript" src="/js/jquery.touchwipe.js"></script>
 <script type="text/javascript" src="/js/simple-confirm-0.1.js"></script>
 <script type="text/javascript">
 (function($) {
@@ -78,13 +78,14 @@ function edit(url) {
       return false;
     });
     $('.edgeToEdge a').touchwipe({
-      wipeLeft: function() { alert('left ' + $(this).attr('href')); },
-      wipeRight: function() { alert('right ' + $(this).attr('href')); },
-      //min_move_x: '20px',
+      wipeLeft: function(source) { $(source).closest('li').find('a.delete').toggle(); },
+      wipeRight: function(source) { $(source).closest('li').find('a.delete').toggle(); },
+      min_move_x: 50,
       preventDefaultEvents: false
     });
     $('.edgeToEdge a.delete').click(function() {
-      alert('delete');
+      $(this).closest('li').hide();
+      $.get($(this).attr('href'));
     });
   });
 }
