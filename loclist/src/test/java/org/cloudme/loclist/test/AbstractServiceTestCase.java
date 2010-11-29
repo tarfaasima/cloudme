@@ -83,10 +83,14 @@ public class AbstractServiceTestCase {
         }
     }
 
-    protected void refreshItemInstances() {
+    protected void refresh() {
         itemInstances.clear();
         for (ItemInstance itemInstance : itemInstanceDao.findAll()) {
             itemInstances.put(itemInstance.getText(), itemInstance);
+        }
+        items.clear();
+        for (Item item : itemDao.findAll()) {
+            items.put(item.getText(), item);
         }
     }
 
@@ -199,6 +203,8 @@ public class AbstractServiceTestCase {
         // roundtrip.execute(action);
         // }
         // return roundtrip.getActionBean(clazz);
+        refresh();
+
         return instance;
     }
 }

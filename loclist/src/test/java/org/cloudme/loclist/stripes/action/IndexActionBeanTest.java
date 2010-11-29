@@ -59,7 +59,7 @@ public class IndexActionBeanTest extends AbstractServiceTestCase {
         String url = "/action/index/delete/" + itemList("Test").getId();
         createActionBean(url, IndexActionBean.class);
 
-        refreshItemInstances();
+        refresh();
 
         assertNull(itemList("Test"));
         assertNull(itemInstance("Foo"));

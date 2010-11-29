@@ -152,7 +152,7 @@ public class ItemServiceTest extends AbstractServiceTestCase {
 
         itemService.deleteItemList(itemListId);
 
-        refreshItemInstances();
+        refresh();
         assertEquals(0, itemInstanceDao.listAll(filter("itemListId", itemListId)).size());
         assertNull(itemListDao.find(itemListId));
     }
@@ -169,7 +169,7 @@ public class ItemServiceTest extends AbstractServiceTestCase {
 
         itemService.deleteItem(itemId);
 
-        refreshItemInstances();
+        refresh();
         assertNull(itemDao.find(itemId));
         assertEquals(0, itemInstanceDao.listAll(filter("itemId", itemId)).size());
         assertEquals(1, itemOrderDao.listAll().size());

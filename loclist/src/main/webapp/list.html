@@ -46,7 +46,7 @@ var itemListId;
 function edit(url) {
   $('body').load(url == null ? '/action/edit/' + itemListId : url, function() {
     $('#buttonRight a').click(function() { checkin(itemListId); });
-    $('a.delete').click(function() {
+    $('.roundedRectangle a.delete').click(function() {
       var title = $(this).attr('title');
       var url = $(this).attr('href');
       if (confirm(title)) { index(url); }
@@ -80,12 +80,13 @@ function edit(url) {
     $('.edgeToEdge a').touchwipe({
       wipeLeft: function(source) { $(source).closest('li').find('a.delete').toggle(); },
       wipeRight: function(source) { $(source).closest('li').find('a.delete').toggle(); },
-      min_move_x: 50,
+      min_move_x: 150,
       preventDefaultEvents: false
     });
     $('.edgeToEdge a.delete').click(function() {
       $(this).closest('li').hide();
       $.get($(this).attr('href'));
+      return false;
     });
   });
 }
