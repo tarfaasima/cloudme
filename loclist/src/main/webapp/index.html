@@ -4,7 +4,7 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>Loclist</title>
+<title>Lists</title>
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
@@ -113,9 +113,32 @@ function index(url) {
   });
 }
 
-$(document).ready(function() {
-  window.scrollTo(0, 1);
-  index();
+// --------------------------------------
+(function($) {
+  var element;
+
+  $.fn.sugar = function(args) {
+    element = $(this);
+    function load(url) {
+      if (url == null) { url = $(this).attr('href'); }
+      if (url.substr(0, 1) === '!') {
+        $.get(url);
+      }
+      else {
+        element.load(url, function() {
+          $('a').click(load);
+        });
+      }
+      return false;
+    }
+    load(args.url);
+  };
+
+})(jQuery);
+
+
+$(function() {
+  $('body').sugar({ url: '/action/index' });
 });
 </script>
 </head>
