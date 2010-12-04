@@ -61,7 +61,7 @@
   </reporting>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <gae.version>1.3.8</gae.version>
+    <gae.version>1.4.0</gae.version>
   </properties>
   <url>http://loclist.cloudme.org</url>
   <developers>

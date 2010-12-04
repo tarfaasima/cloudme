@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript" src="/js/jquery.touchwipe.js"></script>
-<script type="text/javascript" src="/js/simple-confirm-0.1.js"></script>
+<script type="text/javascript" src="/js/sugar.js"></script>
 <script type="text/javascript">
 var itemListId;
 
@@ -68,69 +68,6 @@ function edit(url) {
 
 
 // --------------------------------------
-(function($) {
-  var element;
-  var hasChanged;
-  
-  $.fn.sugar = function(args) {
-    element = $(this);
-    load(args.url);
-    
-    function load(url) {
-      if (url.substr(0, 1) === '!') {
-        $.get(url.substr(1));
-      }
-      else {
-        element.load(url, function() {
-          args.onLoad();
-          $('a.delete').click(function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            var title = $(this).attr('title');
-            if (title !== undefined) {
-              if (confirm(title)) { doLoad(); }
-            }
-          });
-          $('a').click(function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            doLoad();
-          });
-          $('input').each(function() {
-            var form = $(this).closest('form');
-            $(this).change(function() { hasChanged = true; });
-            $(this).blur(function() { doSubmit(form); });
-            $(this).submit(function(event) {
-              event.preventDefault();
-              doSubmit(form); 
-            });
-          });
-        });
-      }
-    }
-
-    function doLoad() {
-      var url = $(this).attr('href');
-      alert(url);
-      load(url);
-    }
-
-    function doSubmit(form) {
-      if (hasChanged) {
-        hasChanged = false;
-        var url = $(form).attr('action') + '?';
-        $(form).find('input').each(function(index, input) {
-          var value = encodeURI($(input).attr('value'));
-          var name = $(input).attr('name');
-          url = url + name + '=' + value + '&';
-        });
-        load(url);
-      }
-      return false;
-    }
-  };
-
-})(jQuery);
 
 function checkin() {
   navigator.geolocation.getCurrentPosition(function(position) {
