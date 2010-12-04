@@ -7,7 +7,7 @@
     <ul class="edgeToEdge">
       <c:forEach items="${actionBean.itemLists}" var="itemList">
         <li>
-          <a href="#" id="${itemList.id}" class="checkin">
+          <a href="/action/list/checkin/${itemList.id}/" class="checkin">
             <span>
             ${itemList.name}
             </span>
@@ -21,7 +21,7 @@
       </div>
       <form action="/action/index/create">
         <div class="inputContainer">
-          <input type="text" name="itemList.name" placeholder="Name of list"/>
+          <input type="text" name="itemList.name" placeholder="Name of list" class="submit"/>
         </div>
       </form>
     </div>

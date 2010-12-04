@@ -3,8 +3,8 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <s:layout-render name="/layout/iphone.jsp">
   <s:layout-component name="header">${actionBean.itemList.name}</s:layout-component>
-  <s:layout-component name="buttonLeft"><a href="#">Lists</a></s:layout-component>
-  <s:layout-component name="buttonRight"><a href="#">Edit</a></s:layout-component>
+  <s:layout-component name="buttonLeft"><a href="/action/index">Lists</a></s:layout-component>
+  <s:layout-component name="buttonRight"><a href="/action/edit/${actionBean.itemList.id}">Edit</a></s:layout-component>
   <s:layout-component name="content">
     <ul class="edgeToEdge">
     <c:forEach var="itemInstance" items="${actionBean.itemInstances}">

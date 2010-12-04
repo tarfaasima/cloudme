@@ -15,32 +15,6 @@
 <script type="text/javascript" src="/js/jquery.touchwipe.js"></script>
 <script type="text/javascript" src="/js/simple-confirm-0.1.js"></script>
 <script type="text/javascript">
-(function($) {
-  var hasChanged = false;
-
-  function doSubmit(form, callback) {
-    if (hasChanged) {
-      var url = $(form).attr('action') + '?';
-      $(form).find('input').each(function(index, child) {
-        var value = encodeURI($(child).attr('value'));
-        var name = $(child).attr('name');
-        url = url + name + '=' + value + '&';
-      });
-      callback(url);
-      hasChanged = false;
-    }
-    return false;
-  }
-
-  $.fn.asyncSubmit = function(callback) {
-    var name = $(this).attr('name');
-    var form = $(this).closest('form');
-    $(this).change(function() { hasChanged = true; });
-    $(this).blur(function() { doSubmit(form, callback); });
-    $(form).submit(function() { return doSubmit(form, callback); });
-  };
-})(jQuery);
-
 var itemListId;
 
 function edit(url) {
@@ -91,54 +65,94 @@ function edit(url) {
   });
 }
 
-function checkin(id) {
-  itemListId = id; 
-  navigator.geolocation.getCurrentPosition(function(position) {
-    var latitude = position.coords.latitude; 
-    var longitude = position.coords.longitude;
-    var url = '/action/list/checkin/' + itemListId + '/' + latitude + '/' + longitude;
-    $('body').load(url, function() {
-      $('#buttonLeft a').click(function() { index(); });
-      $('#buttonRight a').click(function() { edit(); });
-    });
-  }, function() {
-      alert(error);
-  });
-}
 
-function index(url) {
-  $('body').load(url == null ? '/action/index' : url, function() {
-    $('a.checkin').click(function() { checkin($(this).attr('id')); });
-    $('input').asyncSubmit(index);
-  });
-}
 
 // --------------------------------------
 (function($) {
   var element;
-
+  var hasChanged;
+  
   $.fn.sugar = function(args) {
     element = $(this);
+    load(args.url);
+    
     function load(url) {
-      if (url == null) { url = $(this).attr('href'); }
       if (url.substr(0, 1) === '!') {
-        $.get(url);
+        $.get(url.substr(1));
       }
       else {
         element.load(url, function() {
-          $('a').click(load);
+          args.onLoad();
+          $('a.delete').click(function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var title = $(this).attr('title');
+            if (title !== undefined) {
+              if (confirm(title)) { doLoad(); }
+            }
+          });
+          $('a').click(function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            doLoad();
+          });
+          $('input').each(function() {
+            var form = $(this).closest('form');
+            $(this).change(function() { hasChanged = true; });
+            $(this).blur(function() { doSubmit(form); });
+            $(this).submit(function(event) {
+              event.preventDefault();
+              doSubmit(form); 
+            });
+          });
         });
+      }
+    }
+
+    function doLoad() {
+      var url = $(this).attr('href');
+      alert(url);
+      load(url);
+    }
+
+    function doSubmit(form) {
+      if (hasChanged) {
+        hasChanged = false;
+        var url = $(form).attr('action') + '?';
+        $(form).find('input').each(function(index, input) {
+          var value = encodeURI($(input).attr('value'));
+          var name = $(input).attr('name');
+          url = url + name + '=' + value + '&';
+        });
+        load(url);
       }
       return false;
     }
-    load(args.url);
   };
 
 })(jQuery);
 
+function checkin() {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    var latitude = position.coords.latitude; 
+    var longitude = position.coords.longitude;
+    var position = latitude + '/' + longitude
+    $('a.checkin').each(function() {
+      var url = $(this).attr('href') + position;
+      $(this).attr('href', url);
+    });
+  }, function(error) {
+    alert(error);
+  });
+}
 
 $(function() {
-  $('body').sugar({ url: '/action/index' });
+  $('body').sugar({ 
+    url : '/action/index',
+    onLoad : function() {
+        checkin();
+      }
+  });
 });
 </script>
 </head>

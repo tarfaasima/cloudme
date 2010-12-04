@@ -4,7 +4,7 @@
 
 <s:layout-render name="/layout/iphone.jsp">
   <s:layout-component name="header">${actionBean.itemList.name}</s:layout-component>
-  <s:layout-component name="buttonRight"><a href="#">Done</a></s:layout-component>
+  <s:layout-component name="buttonRight"><a href="/action/list/checkin/${actionBean.itemList.id}/" class="checkin">Done</a></s:layout-component>
   <s:layout-component name="content">
     <ul class="edgeToEdge">
       <c:forEach items="${actionBean.itemInstances}" var="itemInstance">
