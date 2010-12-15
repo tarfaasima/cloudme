@@ -9,6 +9,7 @@
     function load(url) {
       if (url.substr(0, 1) === '!') {
         $.get(url.substr(1));
+        args.onLoad();
       }
       else {
         element.load(url, function() {

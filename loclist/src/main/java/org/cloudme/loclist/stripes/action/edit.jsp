@@ -8,16 +8,15 @@
   <s:layout-component name="content">
     <ul class="edgeToEdge">
       <c:forEach items="${actionBean.itemInstances}" var="itemInstance">
-        <c:set var="removeUrl" value="/action/edit/${actionBean.itemList.id}/remove/${itemInstance.itemId}" />
-        <c:set var="addUrl" value="/action/edit/${actionBean.itemList.id}/add/${itemInstance.itemId}" />
-        <li class="${itemInstance.inList ? 'remove' : 'add'}">
-          <form action="${addUrl}">
+        <c:set var="action" value="${itemInstance.inList ? 'remove' : 'add'}" />
+        <li class="${action}">
+          <form action="!/action/edit/${actionBean.itemList.id}/add/${itemInstance.itemId}">
             <input type="text" size="5" name="attribute" value="${itemInstance.attribute}" placeholder="?"/>
           </form>
-          <a href="${itemInstance.inList ? removeUrl : addUrl}" id="${itemInstance.itemId}" class="toggle">
+          <a href="!/action/edit/${actionBean.itemList.id}/${action}/${itemInstance.itemId}" id="${itemInstance.itemId}" class="edit">
             ${itemInstance.text}
           </a>
-          <a href="/action/edit/${actionBean.itemList.id}/delete/${itemInstance.itemId}" title="Do you want to delete ${itemInstance.text}?" class="delete">
+          <a href="!/action/edit/${actionBean.itemList.id}/delete/${itemInstance.itemId}" title="Do you want to delete ${itemInstance.text}?" class="delete">
             Delete
           </a>
         </li>

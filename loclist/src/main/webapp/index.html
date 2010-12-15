@@ -68,26 +68,44 @@ function edit(url) {
 
 
 // --------------------------------------
+var undefined;
+var checkinLink = undefined;
 
-function checkin() {
-  navigator.geolocation.getCurrentPosition(function(position) {
-    var latitude = position.coords.latitude; 
-    var longitude = position.coords.longitude;
-    var position = latitude + '/' + longitude
-    $('a.checkin').each(function() {
-      var url = $(this).attr('href') + position;
-      $(this).attr('href', url);
+function checkin(event) {
+  event.preventDefault();
+  if (checkinLink == undefined) {
+    checkinLink = this;
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var latitude = position.coords.latitude; 
+      var longitude = position.coords.longitude;
+      var position = latitude + '/' + longitude;
+      var url = $(checkinLink).attr('href') + position;
+      $(checkinLink).attr('href', url);
+      $(checkinLink).click();
+    }, function(error) {
+      alert(error);
     });
-  }, function(error) {
-    alert(error);
-  });
+  }
+  else {
+    checkinLink = undefined;
+  }
+}
+
+function switchAction(a, oldClass, newClass) {
+  var li = $(a).closest('li');
+  li.removeClass(oldClass);
+  li.addClass(newClass);
+  var href = $(a).attr('href');
+  $(a).attr('href', href.replace(oldClass, newClass));
 }
 
 $(function() {
   $('body').sugar({ 
     url : '/action/index',
     onLoad : function() {
-        checkin();
+        $('a.checkin').click(checkin);
+        $('li.add a.edit').click(function() { switchAction(this, 'add', 'remove'); });
+        $('li.remove a.edit').click(function() { switchAction(this, 'remove', 'add'); });
       }
   });
 });
