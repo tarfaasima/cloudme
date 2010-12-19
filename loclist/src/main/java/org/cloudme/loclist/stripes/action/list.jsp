@@ -15,5 +15,6 @@
       </li>
     </c:forEach>
     </ul>
+    ${actionBean.longitude}, ${actionBean.latitude}
   </s:layout-component>
 </s:layout-render>

@@ -74,6 +74,7 @@ var checkinLink = undefined;
 function checkin(event) {
   event.preventDefault();
   if (checkinLink == undefined) {
+    event.stopImmediatePropagation();
     checkinLink = this;
     navigator.geolocation.getCurrentPosition(function(position) {
       var latitude = position.coords.latitude; 
@@ -91,21 +92,47 @@ function checkin(event) {
   }
 }
 
-function switchAction(a, oldClass, newClass) {
+function switchAction(a, oldAction, newAction) {
   var li = $(a).closest('li');
-  li.removeClass(oldClass);
-  li.addClass(newClass);
-  var href = $(a).attr('href');
-  $(a).attr('href', href.replace(oldClass, newClass));
+  if (li.hasClass(oldAction)) {
+    li.removeClass(oldAction);
+    li.addClass(newAction);
+    var href = $(a).attr('href');
+    $(a).attr('href', href.replace(oldAction, newAction));
+  }
+}
+
+function clearAttribute(a) {
+  $(a).closest('li').find('input.attribute').val('');  
+}
+
+var hasChanged = false;
+
+function attributeBlur() {
+  var oldAction = 'add';
+  var newAction = 'remove';
+  hasChanged = false;
+  var li = $(this).closest('li');
+  if (li.hasClass(oldAction)) {
+    li.removeClass(oldAction);
+    li.addClass(newAction);
+    var a = li.find('a.edit');
+    var href = a.attr('href');
+    a.attr('href', href.replace(oldAction, newAction));
+  }
 }
 
 $(function() {
   $('body').sugar({ 
     url : '/action/index',
-    onLoad : function() {
+    onPreLoad : function() {
         $('a.checkin').click(checkin);
+      },
+    onPostLoad : function() {
         $('li.add a.edit').click(function() { switchAction(this, 'add', 'remove'); });
-        $('li.remove a.edit').click(function() { switchAction(this, 'remove', 'add'); });
+        $('li.remove a.edit').click(function() { switchAction(this, 'remove', 'add'); clearAttribute(this); });
+        $('input.attribute').change(function() { hasChanged = true; });
+        $('input.attribute').blur(attributeBlur);//function() { hasChanged = false; switchAction(this, 'add', 'remove'); });
       }
   });
 });

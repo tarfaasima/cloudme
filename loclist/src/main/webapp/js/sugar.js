@@ -8,12 +8,14 @@
     
     function load(url) {
       if (url.substr(0, 1) === '!') {
-        $.get(url.substr(1));
-        args.onLoad();
+        url = url.substr(1);
+        //alert(url);
+        $.get(url);
+        args.onPostLoad();
       }
       else {
         element.load(url, function() {
-          args.onLoad();
+          args.onPreLoad();
           $('a.delete').click(function(event) {
             event.preventDefault();
             event.stopImmediatePropagation();
@@ -27,14 +29,16 @@
             doLoad(this);
           });
           $('input').each(function() {
+            var input = this;
             var form = $(this).closest('form');
             $(this).change(function() { hasChanged = true; });
             $(this).blur(function() { doSubmit(form); });
             $(form).submit(function(event) {
               event.preventDefault();
-              doSubmit(form);
+              doSubmit(form, input);
             });
           });
+          args.onPostLoad();
         });
       }
     }
@@ -44,7 +48,7 @@
       load(url);
     }
 
-    function doSubmit(form) {
+    function doSubmit(form, input) {
       if (hasChanged) {
         hasChanged = false;
         var url = $(form).attr('action') + '?';

@@ -11,7 +11,7 @@
         <c:set var="action" value="${itemInstance.inList ? 'remove' : 'add'}" />
         <li class="${action}">
           <form action="!/action/edit/${actionBean.itemList.id}/add/${itemInstance.itemId}">
-            <input type="text" size="5" name="attribute" value="${itemInstance.attribute}" placeholder="?"/>
+            <input type="text" size="5" name="attribute" value="${itemInstance.attribute}" placeholder="?" class="attribute"/>
           </form>
           <a href="!/action/edit/${actionBean.itemList.id}/${action}/${itemInstance.itemId}" id="${itemInstance.itemId}" class="edit">
             ${itemInstance.text}

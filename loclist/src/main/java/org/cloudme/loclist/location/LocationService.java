@@ -1,5 +1,7 @@
 package org.cloudme.loclist.location;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cloudme.loclist.dao.CheckinDao;
 import org.cloudme.loclist.dao.LocationDao;
 import org.cloudme.loclist.model.Checkin;
@@ -8,6 +10,7 @@ import org.cloudme.loclist.model.Location;
 import com.google.inject.Inject;
 
 public class LocationService {
+    private static final Log LOG = LogFactory.getLog(LocationService.class);
     @Inject
     private LocationDao locationDao;
     @Inject
@@ -58,6 +61,8 @@ public class LocationService {
         checkin.setLatitude(latitude);
         checkin.setLongitude(longitude);
         checkinDao.save(checkin);
+        LOG.info(String.format("Checkin %d at (%f, %f) location %d", checkin.getId(), checkin.getLongitude(), checkin
+                .getLatitude(), checkin.getLocationId()));
         return checkin;
     }
 
@@ -79,7 +84,10 @@ public class LocationService {
         lon1 = Math.toRadians(lon1);
         lat2 = Math.toRadians(lat2);
         lon2 = Math.toRadians(lon2);
-        double angle = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2)
+        double angle = Math.acos(Math.sin(lat1)
+                * Math.sin(lat2)
+                + Math.cos(lat1)
+                * Math.cos(lat2)
                 * Math.cos(lon1 - lon2));
         return 6371.0f * angle;
     }
