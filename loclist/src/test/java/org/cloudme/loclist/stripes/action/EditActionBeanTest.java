@@ -32,7 +32,7 @@ public class EditActionBeanTest extends AbstractServiceTestCase {
         createItemList("L", "A");
 
         String url = String.format("/action/edit/%d/delete/%d", itemList("L").getId(), item("A").getId());
-        EditActionBean bean = createActionBean(url, EditActionBean.class);
+        createActionBean(url, EditActionBean.class);
 
         refresh();
         assertNull(item("A"));

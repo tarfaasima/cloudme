@@ -159,7 +159,6 @@ public class AbstractServiceTestCase {
                 Validate validate = field.getAnnotation(Validate.class);
                 Object value = null;
                 if (validate != null) {
-                    @SuppressWarnings( "rawtypes" )
                     Class<? extends TypeConverter> converter = validate.converter();
                     if (converter != null) {
                         value = converter.newInstance().convert(parameter.getValue(),

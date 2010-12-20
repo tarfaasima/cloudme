@@ -107,7 +107,7 @@
       <plugin>
         <groupId>net.kindleit</groupId>
         <artifactId>maven-gae-plugin</artifactId>
-        <version>0.7.2</version>
+        <version>0.7.3</version>
         <configuration>
           <unpackVersion>${gae.version}</unpackVersion>
         </configuration>
@@ -217,7 +217,7 @@
       <artifactId>servlet-api</artifactId>
       <version>2.5</version>
       <type>jar</type>
-      <scope>test</scope>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
