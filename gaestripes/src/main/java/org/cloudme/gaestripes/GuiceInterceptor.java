@@ -14,6 +14,7 @@ public abstract class GuiceInterceptor implements Interceptor {
 
     public GuiceInterceptor() {
         injector = Guice.createInjector(createModule());
+        injectMembers(this);
     }
 
     protected abstract Module createModule();
@@ -22,7 +23,11 @@ public abstract class GuiceInterceptor implements Interceptor {
     public Resolution intercept(ExecutionContext context) throws Exception {
         Resolution resolution = context.proceed();
         ActionBean actionBean = context.getActionBean();
-        injector.injectMembers(actionBean);
+        injectMembers(actionBean);
         return resolution;
+    }
+
+    protected void injectMembers(Object obj) {
+        injector.injectMembers(obj);
     }
 }

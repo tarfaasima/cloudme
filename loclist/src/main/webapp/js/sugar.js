@@ -9,7 +9,6 @@
     function load(url) {
       if (url.substr(0, 1) === '!') {
         url = url.substr(1);
-        //alert(url);
         $.get(url);
         args.onPostLoad();
       }
@@ -31,8 +30,8 @@
           $('input').each(function() {
             var input = this;
             var form = $(this).closest('form');
-            $(this).change(function() { hasChanged = true; });
-            $(this).blur(function() { doSubmit(form); });
+            //$(this).change(function() { hasChanged = true; });
+            $(this).change(function() { doSubmit(form); });
             $(form).submit(function(event) {
               event.preventDefault();
               doSubmit(form, input);

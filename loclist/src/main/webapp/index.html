@@ -106,12 +106,9 @@ function clearAttribute(a) {
   $(a).closest('li').find('input.attribute').val('');  
 }
 
-var hasChanged = false;
-
-function attributeBlur() {
+function attributeChange() {
   var oldAction = 'add';
   var newAction = 'remove';
-  hasChanged = false;
   var li = $(this).closest('li');
   if (li.hasClass(oldAction)) {
     li.removeClass(oldAction);
@@ -131,8 +128,7 @@ $(function() {
     onPostLoad : function() {
         $('li.add a.edit').click(function() { switchAction(this, 'add', 'remove'); });
         $('li.remove a.edit').click(function() { switchAction(this, 'remove', 'add'); clearAttribute(this); });
-        $('input.attribute').change(function() { hasChanged = true; });
-        $('input.attribute').blur(attributeBlur);//function() { hasChanged = false; switchAction(this, 'add', 'remove'); });
+        $('input.attribute').change(attributeChange);
       }
   });
 });
