@@ -129,6 +129,7 @@ $(function() {
         $('li.add a.edit').click(function() { switchAction(this, 'add', 'remove'); });
         $('li.remove a.edit').click(function() { switchAction(this, 'remove', 'add'); clearAttribute(this); });
         $('input.attribute').change(attributeChange);
+        $('a.list').click(function() { $(this).toggleClass('ticked'); });
       }
   });
 });

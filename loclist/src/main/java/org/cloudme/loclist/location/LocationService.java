@@ -61,8 +61,13 @@ public class LocationService {
         checkin.setLatitude(latitude);
         checkin.setLongitude(longitude);
         checkinDao.save(checkin);
-        LOG.info(String.format("Checkin %d at (%f, %f) location %d", checkin.getId(), checkin.getLongitude(), checkin
-                .getLatitude(), checkin.getLocationId()));
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(String.format("Checkin %d at (%f, %f) location %d",
+                    checkin.getId(),
+                    checkin.getLongitude(),
+                    checkin.getLatitude(),
+                    checkin.getLocationId()));
+        }
         return checkin;
     }
 

@@ -9,7 +9,7 @@
     <ul class="edgeToEdge">
     <c:forEach var="itemInstance" items="${actionBean.itemInstances}">
       <li>
-        <a href="#">
+        <a href="!/action/item/tick/${actionBean.checkinId}/${itemInstance.id}" class="list${itemInstance.ticked ? ' ticked' : ''}">
           <c:if test="${not empty itemInstance.attribute}"><span class="attribute">${itemInstance.attribute}</span> </c:if>${itemInstance.text}
         </a>
       </li>

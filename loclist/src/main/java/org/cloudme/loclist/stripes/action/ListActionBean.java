@@ -29,9 +29,10 @@ public class ListActionBean extends AbstractActionBean {
     private float longitude;
     private List<ItemInstance> itemInstances;
     private ItemList itemList;
+    private Long checkinId;
 
     public Resolution checkin() {
-        Long checkinId = locationService.checkin(latitude, longitude).getId();
+        checkinId = locationService.checkin(latitude, longitude).getId();
         itemInstances = itemService.getItemInstances(id);
         itemService.orderByCheckin(checkinId, itemInstances);
         itemList = itemService.getItemList(id);
@@ -81,5 +82,13 @@ public class ListActionBean extends AbstractActionBean {
 
     public ItemList getItemList() {
         return itemList;
+    }
+
+    public void setCheckinId(Long checkinId) {
+        this.checkinId = checkinId;
+    }
+
+    public Long getCheckinId() {
+        return checkinId;
     }
 }

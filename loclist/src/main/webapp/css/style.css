@@ -78,6 +78,11 @@ li.add a {
   color: #CCC;
 }
 
+.ticked {
+  text-decoration: line-through;
+  color: #CCC;
+}
+
 li a.delete {
   position: absolute;
   top: 0px;
