@@ -14,6 +14,8 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cloudme.gaestripes.QueryOperator;
 import org.cloudme.loclist.dao.CheckinDao;
 import org.cloudme.loclist.dao.ItemDao;
@@ -30,9 +32,11 @@ import org.cloudme.loclist.model.ItemOrder;
 import org.cloudme.loclist.model.Tick;
 import org.cloudme.loclist.model.Update;
 
+import com.google.appengine.repackaged.com.google.common.base.StringUtil;
 import com.google.inject.Inject;
 
 public class ItemService {
+    private static final Log LOG = LogFactory.getLog(ItemService.class);
     @Inject
     private ItemDao itemDao;
     @Inject
@@ -59,7 +63,8 @@ public class ItemService {
      *            The id of the {@link ItemList}.
      * @param item
      *            The {@link Item}.
-     * @param attribute TODO
+     * @param attribute
+     *            TODO
      */
     public void createItem(Long itemListId, Item item, String attribute) {
         Item existingItem = itemDao.findSingle("text", item.getText());
@@ -70,7 +75,7 @@ public class ItemService {
         else {
             itemDao.save(item);
         }
-        addToList(itemListId, item.getId(), attribute);
+        addOrRemove(itemListId, item.getId(), attribute);
     }
 
     public void put(ItemList itemList) {
@@ -186,7 +191,7 @@ public class ItemService {
         tickDao.deleteAll(filter);
     }
 
-    public void addToList(Long itemListId, Long itemId, String attribute) {
+    public void addOrRemove(Long itemListId, Long itemId, String attribute) {
         ItemInstance itemInstance = new ItemInstance();
         Item item = itemDao.find(itemId);
         Iterator<ItemInstance> it = itemInstanceDao.findAll(filter("itemListId", itemListId), filter("itemId", itemId))
@@ -198,6 +203,13 @@ public class ItemService {
                         item,
                         itemListDao.find(itemListId)));
             }
+            if (StringUtil.isEmptyOrWhitespace(attribute)) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Deleting itemInstance with itemListId = " + itemListId + " and itemId = " + itemId);
+                }
+                itemInstanceDao.deleteAll(filter("itemListId", itemListId), filter("itemId", itemId));
+                return;
+            }
         }
         else {
             itemInstance.setItemId(itemId);
@@ -206,9 +218,5 @@ public class ItemService {
         itemInstance.setAttribute(attribute);
         itemInstance.setText(item.getText());
         itemInstanceDao.save(itemInstance);
-    }
-
-    public void removeFromList(Long itemListId, Long itemId) {
-        itemInstanceDao.deleteAll(filter("itemListId", itemListId), filter("itemId", itemId));
     }
 }

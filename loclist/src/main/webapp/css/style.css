@@ -74,8 +74,13 @@ li a {
   color: black;
   text-decoration: none;
 }
-li.add a {
+
+.edit {
   color: #CCC;
+}
+
+.inList {
+  color: #000;
 }
 
 .ticked {

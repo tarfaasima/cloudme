@@ -1,9 +1,8 @@
 (function($) {
-  var element;
-  var hasChanged;
+  var base;
   
   $.fn.sugar = function(args) {
-    element = $(this);
+    base = $(this);
     load(args.url);
     
     function load(url) {
@@ -13,8 +12,8 @@
         args.onPostLoad();
       }
       else {
-        element.load(url, function() {
-          args.onPreLoad();
+        base.load(url, function() {
+          args.onLoad();
           $('a.delete').click(function(event) {
             event.preventDefault();
             event.stopImmediatePropagation();
@@ -28,14 +27,9 @@
             doLoad(this);
           });
           $('input').each(function() {
-            var input = this;
             var form = $(this).closest('form');
-            //$(this).change(function() { hasChanged = true; });
             $(this).change(function() { doSubmit(form); });
-            $(form).submit(function(event) {
-              event.preventDefault();
-              doSubmit(form, input);
-            });
+            $(form).submit(function(event) { event.preventDefault(); });
           });
           args.onPostLoad();
         });
@@ -47,18 +41,14 @@
       load(url);
     }
 
-    function doSubmit(form, input) {
-      if (hasChanged) {
-        hasChanged = false;
-        var url = $(form).attr('action') + '?';
-        $(form).find('input').each(function(index, input) {
-          var value = encodeURI($(input).attr('value'));
-          var name = $(input).attr('name');
-          url = url + name + '=' + value + '&';
-        });
-        load(url);
-      }
+    function doSubmit(form) {
+      var url = $(form).attr('action') + '?';
+      $(form).find('input').each(function(index, input) {
+        var value = encodeURI($(input).attr('value'));
+        var name = $(input).attr('name');
+        url = url + name + '=' + value + '&';
+      });
+      load(url);
     }
   };
-
 })(jQuery);

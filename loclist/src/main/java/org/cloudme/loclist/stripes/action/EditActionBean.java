@@ -10,6 +10,8 @@ import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cloudme.gaestripes.AbstractActionBean;
 import org.cloudme.loclist.item.ItemService;
 import org.cloudme.loclist.model.Item;
@@ -20,6 +22,7 @@ import com.google.inject.Inject;
 
 @UrlBinding( "/action/edit/{itemListId}/{$event}/{itemId}/{attribute}" )
 public class EditActionBean extends AbstractActionBean {
+    private static final Log LOG = LogFactory.getLog(EditActionBean.class);
     @Inject
     private ItemService itemService;
     private Long itemId;
@@ -29,7 +32,7 @@ public class EditActionBean extends AbstractActionBean {
     private String attribute;
     private Collection<ItemInstance> itemInstances;
     private ItemList itemList;
-    
+
     @DontValidate
     @DefaultHandler
     public Resolution index() {
@@ -50,15 +53,12 @@ public class EditActionBean extends AbstractActionBean {
     }
 
     @DontValidate
-    public Resolution add() {
-        itemService.addToList(itemListId, itemId, attribute);
-        return new RedirectResolution("/action/edit/" + itemListId);
-    }
-
-    @DontValidate
-    public Resolution remove() {
-        itemService.removeFromList(itemListId, itemId);
-        return new RedirectResolution("/action/edit/" + itemListId);
+    public Resolution addOrRemove() {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("attribute = " + attribute);
+        }
+        itemService.addOrRemove(itemListId, itemId, attribute);
+        return null;
     }
 
     public Long getItemId() {

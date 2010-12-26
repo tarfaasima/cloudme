@@ -8,12 +8,11 @@
   <s:layout-component name="content">
     <ul class="edgeToEdge">
       <c:forEach items="${actionBean.itemInstances}" var="itemInstance">
-        <c:set var="action" value="${itemInstance.inList ? 'remove' : 'add'}" />
         <li class="${action}">
-          <form action="!/action/edit/${actionBean.itemList.id}/add/${itemInstance.itemId}">
+          <form action="!/action/edit/${actionBean.itemList.id}/addOrRemove/${itemInstance.itemId}">
             <input type="text" size="5" name="attribute" value="${itemInstance.attribute}" placeholder="?" class="attribute"/>
           </form>
-          <a href="!/action/edit/${actionBean.itemList.id}/${action}/${itemInstance.itemId}" id="${itemInstance.itemId}" class="edit">
+          <a href="!/action/edit/${actionBean.itemList.id}/addOrRemove/${itemInstance.itemId}" id="${itemInstance.itemId}" class="edit${itemInstance.inList ? ' inList' : ''}">
             ${itemInstance.text}
           </a>
           <a href="!/action/edit/${actionBean.itemList.id}/delete/${itemInstance.itemId}" title="Do you want to delete ${itemInstance.text}?" class="delete">

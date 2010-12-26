@@ -60,14 +60,14 @@ public class ItemServiceTest extends AbstractServiceTestCase {
     }
 
     @Test
-    public void testCreateItemInstance() {
+    public void testRemoveItemInstance() {
         assertEquals(6, itemInstanceDao.listAll().size());
         Long itemListId = itemList("Shopping List").getId();
         Long itemId = item("Milk").getId();
 
-        itemService.addToList(itemListId, itemId, "");
+        itemService.addOrRemove(itemListId, itemId, "");
 
-        assertEquals(6, itemInstanceDao.listAll().size());
+        assertEquals(5, itemInstanceDao.listAll().size());
     }
 
     @Test( expected = IllegalStateException.class )
@@ -82,10 +82,10 @@ public class ItemServiceTest extends AbstractServiceTestCase {
         itemInstanceDao.save(itemInstance);
 
         try {
-            itemService.addToList(itemListId, itemId, "");
+            itemService.addOrRemove(itemListId, itemId, "");
         }
         catch (IllegalStateException e) {
-            System.out.println(e.getMessage());
+            System.out.println("If you can see this, the test is successful: " + e.getMessage());
             throw e;
         }
 
@@ -120,17 +120,17 @@ public class ItemServiceTest extends AbstractServiceTestCase {
     }
 
     @Test
-    public void testAddAndRemoveFromList() {
+    public void testAddOrRemove() {
         Long itemListId = itemList("Shopping List").getId();
         assertInList("Shopping List", "Milk", "Cheese", "Tea", "Bread", "Sugar");
 
-        itemService.removeFromList(itemListId, item("Milk").getId());
+        itemService.addOrRemove(itemListId, item("Milk").getId(), null);
         assertInList("Shopping List", "Cheese", "Tea", "Bread", "Sugar");
 
-        itemService.removeFromList(itemListId, item("Tea").getId());
+        itemService.addOrRemove(itemListId, item("Tea").getId(), null);
         assertInList("Shopping List", "Cheese", "Bread", "Sugar");
 
-        itemService.addToList(itemListId, item("Milk").getId(), "2l");
+        itemService.addOrRemove(itemListId, item("Milk").getId(), "2l");
         assertInList("Shopping List", "Milk", "Cheese", "Bread", "Sugar");
     }
 
