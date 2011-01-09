@@ -26,6 +26,11 @@ public class ItemActionBean extends AbstractActionBean {
         return null;
     }
 
+    public Resolution updateItemOrder() {
+        itemService.updateItemOrder();
+        return null;
+    }
+
     public long getCheckinId() {
         return checkinId;
     }

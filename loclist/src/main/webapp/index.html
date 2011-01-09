@@ -112,6 +112,12 @@ $(function() {
         $('a.list').click(function() { $(this).toggleClass('ticked'); });
         $('a.edit').click(function() { $(this).toggleClass('inList'); clearAttribute(this); });
         $('input.attribute').change(attributeChange);
+        $('a.edit').touchwipe({
+          wipeLeft: function(source) { $(source).closest('li').find('a.delete').toggle(); },
+          wipeRight: function(source) { $(source).closest('li').find('a.delete').toggle(); },
+          min_move_x: 150,
+          preventDefaultEvents: false
+        });
       },
   });
 });

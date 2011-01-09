@@ -32,6 +32,7 @@ import org.cloudme.loclist.model.ItemOrder;
 import org.cloudme.loclist.model.Tick;
 import org.cloudme.loclist.model.Update;
 
+import com.google.appengine.api.NamespaceManager;
 import com.google.appengine.repackaged.com.google.common.base.StringUtil;
 import com.google.inject.Inject;
 
@@ -140,6 +141,7 @@ public class ItemService {
     public void updateItemOrder() {
         Update currentUpdate = new Update();
         currentUpdate.setTimestamp(System.currentTimeMillis());
+        NamespaceManager.set("");
         Iterator<Update> updates = updateDao.findAll(orderBy("-timestamp")).iterator();
         long lastTimestamp = updates.hasNext() ? updates.next().getTimestamp() : 0;
         Iterator<Checkin> checkins = checkinDao.findAll(orderBy("-timestamp")).iterator();
