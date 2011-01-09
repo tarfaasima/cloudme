@@ -1,7 +1,7 @@
 package org.cloudme.loclist.item;
 
-import static org.cloudme.gaestripes.BaseDao.filter;
-import static org.cloudme.gaestripes.BaseDao.orderBy;
+import static org.cloudme.gaestripes.AbstractDao.filter;
+import static org.cloudme.gaestripes.AbstractDao.orderBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;

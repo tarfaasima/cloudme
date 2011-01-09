@@ -2,7 +2,7 @@ package org.cloudme.loclist.dao;
 
 import org.cloudme.loclist.model.UserLog;
 
-public class UserLogDao extends AbstractDao<UserLog> {
+public class UserLogDao extends BaseDao<UserLog> {
     public UserLogDao() {
         super(UserLog.class);
     }

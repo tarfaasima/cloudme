@@ -6,7 +6,7 @@ import org.cloudme.loclist.model.ItemInstance;
 
 import com.googlecode.objectify.Query;
 
-public class ItemInstanceDao extends AbstractDao<ItemInstance> {
+public class ItemInstanceDao extends BaseDao<ItemInstance> {
     public ItemInstanceDao() {
         super(ItemInstance.class);
     }

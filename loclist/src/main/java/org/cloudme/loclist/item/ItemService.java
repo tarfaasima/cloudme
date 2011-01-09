@@ -1,7 +1,7 @@
 package org.cloudme.loclist.item;
 
-import static org.cloudme.gaestripes.BaseDao.filter;
-import static org.cloudme.gaestripes.BaseDao.orderBy;
+import static org.cloudme.gaestripes.AbstractDao.filter;
+import static org.cloudme.gaestripes.AbstractDao.orderBy;
 
 import java.util.Collection;
 import java.util.Collections;

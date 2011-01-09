@@ -7,7 +7,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.Query;
 
-public class TickDao extends AbstractDao<Tick> {
+public class TickDao extends BaseDao<Tick> {
     public TickDao() {
         super(Tick.class);
     }

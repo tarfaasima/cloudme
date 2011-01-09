@@ -1,6 +1,6 @@
 package org.cloudme.loclist.dao;
 
-import org.cloudme.gaestripes.BaseDao;
+import org.cloudme.gaestripes.AbstractDao;
 import org.cloudme.loclist.model.Checkin;
 import org.cloudme.loclist.model.Item;
 import org.cloudme.loclist.model.ItemInstance;
@@ -11,7 +11,7 @@ import org.cloudme.loclist.model.Tick;
 import org.cloudme.loclist.model.Update;
 import org.cloudme.loclist.model.UserLog;
 
-public abstract class AbstractDao<T> extends BaseDao<T> {
+public abstract class BaseDao<T> extends AbstractDao<T> {
     {
         register(Checkin.class);
         register(Item.class);
@@ -24,7 +24,7 @@ public abstract class AbstractDao<T> extends BaseDao<T> {
         register(UserLog.class);
     }
 
-    public AbstractDao(Class<T> baseClass) {
+    public BaseDao(Class<T> baseClass) {
         super(baseClass);
     }
 }

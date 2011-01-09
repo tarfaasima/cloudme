@@ -9,7 +9,7 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Query;
 
-public abstract class BaseDao<T> {
+public abstract class AbstractDao<T> {
     public static QueryOperator filter(final String condition, final Object value) {
         return new QueryOperator() {
             @Override
@@ -52,7 +52,7 @@ public abstract class BaseDao<T> {
 
     protected final Class<T> baseClass;
 
-    public BaseDao(Class<T> baseClass) {
+    public AbstractDao(Class<T> baseClass) {
         this.baseClass = baseClass;
     }
 
