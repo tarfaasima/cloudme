@@ -35,4 +35,8 @@ public abstract class AbstractActionBean implements ActionBean {
         }
         return redirect ? new RedirectResolution(path) : new ForwardResolution(path);
     }
+
+    protected Resolution redirect(String url) {
+        return new RedirectResolution(url);
+    }
 }

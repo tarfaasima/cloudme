@@ -23,6 +23,7 @@ import org.cloudme.loclist.guice.LoclistModule;
 import org.cloudme.loclist.model.Item;
 import org.cloudme.loclist.model.ItemInstance;
 import org.cloudme.loclist.model.ItemList;
+import org.cloudme.loclist.stripes.extensions.LoclistInterceptor;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,6 +51,9 @@ public class AbstractServiceTestCase {
     @Before
     public void setUp() {
         helper.setUp();
+        LoclistInterceptor interceptor = new LoclistInterceptor();
+        interceptor.initGuice();
+        interceptor.initObjectify();
         injector = Guice.createInjector(new LoclistModule());
         injector.injectMembers(this);
     }

@@ -1,8 +1,9 @@
 package org.cloudme.loclist.dao;
 
+import org.cloudme.gaestripes.AbstractDao;
 import org.cloudme.loclist.model.ItemOrder;
 
-public class ItemOrderDao extends BaseDao<ItemOrder> {
+public class ItemOrderDao extends AbstractDao<ItemOrder> {
     public ItemOrderDao() {
         super(ItemOrder.class);
     }

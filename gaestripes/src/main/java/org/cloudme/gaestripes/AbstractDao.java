@@ -28,10 +28,6 @@ public abstract class AbstractDao<T> {
         };
     }
 
-    protected static void register(Class<?> clazz) {
-        ObjectifyService.register(clazz);
-    }
-
     protected abstract class Callback<R> {
         private final boolean needsTransaction;
 
