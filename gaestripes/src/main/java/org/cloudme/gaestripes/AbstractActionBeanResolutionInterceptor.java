@@ -21,7 +21,6 @@ public abstract class AbstractActionBeanResolutionInterceptor implements Interce
 
     public final void initObjectify() {
         for (Class<?> clazz : objectifyEntityClasses()) {
-            System.out.println("registering " + clazz);
             ObjectifyService.register(clazz);
         }
     }
@@ -45,7 +44,6 @@ public abstract class AbstractActionBeanResolutionInterceptor implements Interce
 
     @Override
     public Resolution intercept(ExecutionContext context) throws Exception {
-        System.out.println("intercept");
         Resolution resolution = context.proceed();
         ActionBean actionBean = context.getActionBean();
         injectMembers(actionBean);
