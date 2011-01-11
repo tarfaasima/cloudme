@@ -8,7 +8,7 @@ import org.cloudme.cashbox.dao.AccountDao;
 import org.cloudme.cashbox.domain.Account;
 import org.cloudme.gaestripes.AbstractActionBeanResolutionInterceptor;
 
-@Intercepts( LifecycleStage.ActionBeanResolution )
+@Intercepts( { LifecycleStage.ActionBeanResolution } )
 public class ActionBeanResolutionInterceptor extends AbstractActionBeanResolutionInterceptor {
     @Override
     protected Class<?>[] guiceModuleClasses() {

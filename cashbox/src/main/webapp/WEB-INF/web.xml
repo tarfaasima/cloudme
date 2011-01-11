@@ -13,7 +13,7 @@
     </init-param>
     <init-param>
       <param-name>MultipartWrapper.Class</param-name>
-      <param-value>org.cloudme.gaestripes.NullMultipartWrapper</param-value>
+      <param-value>org.cloudme.gaestripes.BufferedMultipartWrapper</param-value>
     </init-param>
     <init-param>
       <param-name>Extension.Packages</param-name>

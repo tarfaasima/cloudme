@@ -18,4 +18,8 @@ public class AccountService {
     public void create(Account account) {
         accountDao.save(account);
     }
+
+    public void delete(Account account) {
+        accountDao.delete(account.getId());
+    }
 }

@@ -6,7 +6,11 @@
   <s:layout-component name="body">
     <ul>
       <c:forEach items="${actionBean.accounts}" var="account">
-        <li>${account.name}</li>
+        <li>
+          ${account.name}
+          <s:link href="/action/transaction/${account.id}/load">import</s:link>
+          <s:link href="/action/account/delete/${account.id}">delete</s:link>
+        </li>
       </c:forEach>
     </ul>
     <s:form action="/action/account/create">

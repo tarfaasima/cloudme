@@ -15,13 +15,13 @@ import org.cloudme.gaestripes.AbstractActionBean;
 
 import com.google.inject.Inject;
 
-@UrlBinding( "/action/account/{$event}" )
+@UrlBinding( "/action/account/{$event}/{account.id}" )
 public class AccountActionBean extends AbstractActionBean {
+    @Inject
+    private AccountService accountService;
     @ValidateNestedProperties( { @Validate( field = "name", required = true ) } )
     private Account account;
     private Collection<Account> accounts;
-    @Inject
-    private AccountService accountService;
 
     @DefaultHandler
     @DontValidate
@@ -32,6 +32,12 @@ public class AccountActionBean extends AbstractActionBean {
 
     public Resolution create() {
         accountService.create(account);
+        return redirect("/action/account");
+    }
+
+    @DontValidate
+    public Resolution delete() {
+        accountService.delete(account);
         return redirect("/action/account");
     }
 
