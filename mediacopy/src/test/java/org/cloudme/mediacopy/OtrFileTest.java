@@ -21,13 +21,13 @@ public class OtrFileTest {
         assertEquals("Das Bourne Ultimatum", otrFile.getTitle());
     }
 
-    @Test( expected = IllegalStateException.class )
+	@Test(expected = IllegalArgumentException.class)
     public void testWithoutSuffix() {
         String fileName = "Das_Bourne_Ultimatum_10.12.27_22-15_zdf_105_TVOON_DE";
         new OtrFile(new File(fileName));
     }
 
-    @Test( expected = IllegalStateException.class )
+	@Test(expected = IllegalArgumentException.class)
     public void testIncompleteFileName() {
         String fileName = "10.12.27_22-15_zdf_105_TVOON_DE.mpg.avi";
         new OtrFile(new File(fileName));
