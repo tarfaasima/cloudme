@@ -120,8 +120,8 @@ public class OtrCopy extends BaseCopy {
 		destDir = new File(dir);
 	}
 
-	String createFileName(OtrFile otrFile, boolean isCut) {
-		return otrFile.getTitle() + " (" + otrFile.getChannel() + ", " + DATE_FORMAT.format(otrFile.getDate())
-				+ (isCut ? ", CUT" : "") + ")." + otrFile.getSuffix();
+	String createFileName(OtrFile o, boolean isCut) {
+		return String.format("%1$s (%2$s, %3$tF %3$tH-%3$tM%4$s).%5$s", o.getTitle(), o.getChannel(), o.getDate(),
+				(isCut ? ", CUT" : ""), o.getSuffix());
 	}
 }
