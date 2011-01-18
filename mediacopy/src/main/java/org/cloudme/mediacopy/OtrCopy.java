@@ -61,16 +61,16 @@ public class OtrCopy extends BaseCopy {
         FileLog fileLog = new FileLog();
         fileLog.load();
         for (OtrFile otrFile : cuts.values()) {
-            if (fileLog.contains(otrFile.getFile())) {
+			if (!fileLog.contains(otrFile.getFile())) {
                 boolean success = createCopy(otrFile, true);
                 if (success) {
-                    fileLog.put(new FileLogEntry(otrFile.getFile()));
+					fileLog.put(otrFile.getFile());
                 }
             }
         }
         for (OtrFile otrFile : originals.values()) {
             if (!cuts.containsKey(new Key(otrFile))) {
-                if (fileLog.contains(otrFile.getFile())) {
+				if (!fileLog.contains(otrFile.getFile())) {
                     createCopy(otrFile, false);
                 }
             }
@@ -88,14 +88,6 @@ public class OtrCopy extends BaseCopy {
         catch (IOException e) {
             return false;
         }
-    }
-
-    private boolean needsUpdate(OtrFile otrFile, Map<Key, OtrFile> existingFiles) {
-        OtrFile existingFile = existingFiles.get(new Key(otrFile));
-        if (existingFile == null) {
-            return true;
-        }
-        return otrFile.getFile().lastModified() != existingFile.getFile().lastModified();
     }
 
     private Map<Key, OtrFile> asMap(File dir) {

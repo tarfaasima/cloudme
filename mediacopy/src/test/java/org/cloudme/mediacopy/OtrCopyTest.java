@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
@@ -28,7 +26,7 @@ public class OtrCopyTest {
         File originalsDir = new File(tmp, "originalsDir");
         FileUtils.deleteQuietly(tmp);
         File b = new File(originalsDir, "Das_Bourne_Ultimatum_10.12.27_22-15_zdf_105_TVOON_DE.mpg.avi");
-        createFile(b);
+		FileUtils.writeByteArrayToFile(b, new byte[10000]);
         OtrCopy otrCopy = new OtrCopy();
         otrCopy.setCutDir(cutDir.getAbsolutePath());
         otrCopy.setDestDir(destDir.getAbsolutePath());
@@ -43,14 +41,5 @@ public class OtrCopyTest {
         list = new File(destDir, "D").listFiles();
         assertEquals(1, list.length);
         assertTrue(lastModified + " != " + list[0].lastModified(), lastModified == list[0].lastModified());
-    }
-
-    private void createFile(File file) throws FileNotFoundException, IOException {
-        file.getParentFile().mkdirs();
-        FileOutputStream out = new FileOutputStream(file);
-        for (int i = 0; i < 10000; i++) {
-            out.write('A' + i % 26);
-        }
-        out.close();
     }
 }

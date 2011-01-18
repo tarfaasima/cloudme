@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FileLog {
-    private final Map<String, FileLogEntry> entries = new HashMap<String, FileLogEntry>();
+	private final Map<String, Long> entries = new HashMap<String, Long>();
 
     public void load() {
     }
@@ -14,14 +14,14 @@ public class FileLog {
     }
 
     public boolean contains(File file) {
-        FileLogEntry entry = entries.get(file.getName());
-        if (entry == null) {
-            return false;
-        }
-        return file.lastModified() == entry.getLastModified();
+		Long lastModified = entries.get(file.getName());
+		if (lastModified == null) {
+			return false;
+		}
+		return file.lastModified() == (long) lastModified;
     }
 
-    public void put(FileLogEntry entry) {
-        entries.put(entry.getName(), entry);
+	public void put(File file) {
+		entries.put(file.getName(), file.lastModified());
     }
 }
