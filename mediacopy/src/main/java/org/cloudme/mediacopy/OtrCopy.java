@@ -1,6 +1,7 @@
 package org.cloudme.mediacopy;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -97,7 +98,12 @@ public class OtrCopy extends BaseCopy {
 
     private Map<Key, OtrFile> asMap(File dir) {
         Map<Key, OtrFile> otrFiles = new HashMap<Key, OtrFile>();
-        File[] files = dir.listFiles();
+        File[] files = dir.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.charAt(0) != '.';
+            }
+        });
         if (files != null) {
             for (File file : files) {
                 try {
