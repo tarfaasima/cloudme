@@ -56,10 +56,9 @@ public class OtrCopy extends BaseCopy {
 
     @Override
     public void copy() {
-        Map<Key, OtrFile> originals = asMap(originalsDir);
-        Map<Key, OtrFile> cuts = asMap(cutDir);
         FileLog fileLog = new FileLog();
         fileLog.load();
+		Map<Key, OtrFile> cuts = asMap(cutDir);
         for (OtrFile otrFile : cuts.values()) {
 			if (!fileLog.contains(otrFile.getFile())) {
                 boolean success = createCopy(otrFile, true);
@@ -68,6 +67,7 @@ public class OtrCopy extends BaseCopy {
                 }
             }
         }
+		Map<Key, OtrFile> originals = asMap(originalsDir);
         for (OtrFile otrFile : originals.values()) {
             if (!cuts.containsKey(new Key(otrFile))) {
 				if (!fileLog.contains(otrFile.getFile())) {
