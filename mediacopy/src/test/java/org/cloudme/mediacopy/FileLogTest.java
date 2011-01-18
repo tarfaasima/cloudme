@@ -16,7 +16,7 @@ public class FileLogTest {
 		FileUtils.deleteQuietly(tmp);
 		File test = new File(tmp, "test.txt");
 		FileUtils.writeStringToFile(test, "Hello World");
-		FileLog fileLog = new FileLog();
+        FileLog fileLog = new FileLog(new File(tmp, "otrCopy.log"));
 		assertFalse(fileLog.contains(test));
 		fileLog.put(test);
 		assertTrue(fileLog.contains(test));

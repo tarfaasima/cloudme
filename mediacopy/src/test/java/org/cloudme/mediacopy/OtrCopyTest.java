@@ -31,6 +31,7 @@ public class OtrCopyTest {
         otrCopy.setCutDir(cutDir.getAbsolutePath());
         otrCopy.setDestDir(destDir.getAbsolutePath());
         otrCopy.setOriginalsDir(originalsDir.getAbsolutePath());
+        otrCopy.setLogFile(new File(tmp, "otrCopy.log").getAbsolutePath());
         otrCopy.copy();
         File[] list = new File(destDir, "D").listFiles();
         assertEquals(1, list.length);

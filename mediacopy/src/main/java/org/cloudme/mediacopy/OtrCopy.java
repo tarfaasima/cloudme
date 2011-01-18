@@ -53,10 +53,11 @@ public class OtrCopy extends BaseCopy {
     private File originalsDir;
     private File cutDir;
     private File destDir;
+    private File logFile;
 
     @Override
     public void copy() {
-        FileLog fileLog = new FileLog();
+        FileLog fileLog = new FileLog(logFile);
         fileLog.load();
 		Map<Key, OtrFile> cuts = asMap(cutDir);
         for (OtrFile otrFile : cuts.values()) {
@@ -71,10 +72,14 @@ public class OtrCopy extends BaseCopy {
         for (OtrFile otrFile : originals.values()) {
             if (!cuts.containsKey(new Key(otrFile))) {
 				if (!fileLog.contains(otrFile.getFile())) {
-                    createCopy(otrFile, false);
+                    boolean success = createCopy(otrFile, false);
+                    if (success) {
+                        fileLog.put(otrFile.getFile());
+                    }
                 }
             }
         }
+        fileLog.save();
     }
 
     private boolean createCopy(OtrFile otrFile, boolean isCut) {
@@ -117,6 +122,10 @@ public class OtrCopy extends BaseCopy {
 
     public void setDestDir(String dir) {
         destDir = new File(dir);
+    }
+
+    public void setLogFile(String name) {
+        logFile = new File(name);
     }
 
     String createFileName(OtrFile o, boolean isCut) {
