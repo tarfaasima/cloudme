@@ -12,6 +12,13 @@ public class OtrFileTest {
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
     @Test
+    public void testCreateFileName() {
+        OtrFile otrFile = new OtrFile(new File("Das_Bourne_Ultimatum_10.12.27_22-15_zdf_105_TVOON_DE.mpg.avi"));
+        assertEquals("Das Bourne Ultimatum (ZDF, 2010-12-27 22-15, CUT).mpg.avi", otrFile.createFileName(true));
+        assertEquals("Das Bourne Ultimatum (ZDF, 2010-12-27 22-15).mpg.avi", otrFile.createFileName(false));
+    }
+
+    @Test
     public void testAttributes() {
         String fileName = "Das_Bourne_Ultimatum_10.12.27_22-15_zdf_105_TVOON_DE.mpg.avi";
         OtrFile otrFile = new OtrFile(new File(fileName));

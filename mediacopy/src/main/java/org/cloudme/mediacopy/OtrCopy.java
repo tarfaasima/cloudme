@@ -62,31 +62,30 @@ public class OtrCopy extends BaseCopy {
         fileLog.load();
 		Map<Key, OtrFile> cuts = asMap(cutDir);
         for (OtrFile otrFile : cuts.values()) {
-			if (!fileLog.contains(otrFile.getFile())) {
-                boolean success = createCopy(otrFile, true);
-                if (success) {
-					fileLog.put(otrFile.getFile());
-                }
-            }
+            createCopy(fileLog, otrFile, true);
         }
 		Map<Key, OtrFile> originals = asMap(originalsDir);
         for (OtrFile otrFile : originals.values()) {
             if (!cuts.containsKey(new Key(otrFile))) {
-				if (!fileLog.contains(otrFile.getFile())) {
-                    boolean success = createCopy(otrFile, false);
-                    if (success) {
-                        fileLog.put(otrFile.getFile());
-                    }
-                }
+                createCopy(fileLog, otrFile, false);
             }
         }
         fileLog.save();
     }
 
+    private void createCopy(FileLog fileLog, OtrFile otrFile, boolean isCut) {
+        if (!fileLog.contains(otrFile.getFile())) {
+            boolean success = createCopy(otrFile, isCut);
+            if (success) {
+                fileLog.put(otrFile.getFile());
+            }
+        }
+    }
+
     private boolean createCopy(OtrFile otrFile, boolean isCut) {
         File dir = new File(destDir, otrFile.getTitle().substring(0, 1).toUpperCase());
         dir.mkdirs();
-        File dest = new File(dir, createFileName(otrFile, isCut));
+        File dest = new File(dir, otrFile.createFileName(isCut));
         try {
             FileUtils.copyFile(otrFile.getFile(), dest, false);
             return true;
@@ -134,12 +133,4 @@ public class OtrCopy extends BaseCopy {
         logFile = new File(name);
     }
 
-    String createFileName(OtrFile o, boolean isCut) {
-        return String.format("%1$s (%2$s, %3$tF %3$tH-%3$tM%4$s).%5$s",
-                o.getTitle(),
-                o.getChannel(),
-                o.getDate(),
-                (isCut ? ", CUT" : ""),
-                o.getSuffix());
-    }
 }
