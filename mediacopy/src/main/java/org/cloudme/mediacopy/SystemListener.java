@@ -2,6 +2,8 @@ package org.cloudme.mediacopy;
 
 import java.io.File;
 
+import org.apache.commons.lang.time.DurationFormatUtils;
+
 public class SystemListener implements CopyListener {
     private long startTime;
     private long totalSize;
@@ -9,7 +11,8 @@ public class SystemListener implements CopyListener {
 
     @Override
     public void copyCompleted() {
-        System.out.printf("Completed in %d sec.%n", (System.currentTimeMillis() - startTime) / 1000);
+        System.out.printf("Completed in %s%n",
+                DurationFormatUtils.formatDurationHMS(System.currentTimeMillis() - startTime));
     }
 
     @Override
@@ -24,22 +27,25 @@ public class SystemListener implements CopyListener {
 
     @Override
     public void copyPrepared(int count, long size) {
-        System.out.printf("Copy %d files (%d byte)%n", count, size);
+        System.out.printf("%d files [%d byte]%n", count, size);
         totalSize = size;
     }
 
     @Override
     public void copyStarted(File src, File dest) {
-        System.out.printf("Copy %s --> %s (%d byte) ", src.getName(), dest.getName(), src.length());
+        System.out.printf("%s --> %s [%d byte]%n", src.getName(), dest.getName(), src.length());
     }
 
     @Override
     public void copySuccess(File src, File dest) {
-        long now = System.currentTimeMillis();
+        long tNow = System.currentTimeMillis();
         bytesCopied += src.length();
-        float percentage = bytesCopied / (float) totalSize;
-        long remaining = (long) ((now - startTime) / percentage / 1000.0f);
-        System.out.printf("Successful (%d / %d byte copied, %d sec remaining)%n", bytesCopied, totalSize, remaining);
+        long spent = tNow - startTime;
+        long tMax = spent * totalSize / bytesCopied;
+        System.out.printf("%n%s remaining [%d of %d byte]%n",
+                DurationFormatUtils.formatDurationHMS(tMax - spent),
+                bytesCopied,
+                totalSize);
     }
 
     @Override

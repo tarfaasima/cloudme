@@ -14,7 +14,7 @@ import org.apache.commons.io.IOUtils;
 import com.google.inject.Inject;
 
 public abstract class BaseCopy {
-    private static final long BUFLEN = 1024 * 100;
+    private static final long BUFLEN = 1024 * 1024 * 50;
     private File destDir;
     private FileLog fileLog;
     @Inject

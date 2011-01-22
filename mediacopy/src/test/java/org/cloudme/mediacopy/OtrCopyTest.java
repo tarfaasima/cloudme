@@ -20,7 +20,19 @@ public class OtrCopyTest {
     	Injector injector = Guice.createInjector(new AbstractModule() {
 			@Override
 			protected void configure() {
-                bind(CopyListener.class).toInstance(new SystemListener());
+                bind(CopyListener.class).toInstance(new SystemListener() {
+                    @Override
+                    public void copyProgressed(File src, File dest, long size, long pos) {
+                        try {
+                            Thread.sleep(200);
+                        }
+                        catch (InterruptedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        super.copyProgressed(src, dest, size, pos);
+                    }
+                });
 			}
 		});
 		// Test setup

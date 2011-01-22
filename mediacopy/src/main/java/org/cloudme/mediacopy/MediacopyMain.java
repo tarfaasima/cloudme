@@ -22,5 +22,6 @@ public class MediacopyMain {
         FileLog log = new FileLog(new File(System.getProperty("user.home")
                 + "/Library/Application Support/Mediacopy/filelog.ser"));
         copy.setFileLog(log);
+        copy.copy();
     }
 }
