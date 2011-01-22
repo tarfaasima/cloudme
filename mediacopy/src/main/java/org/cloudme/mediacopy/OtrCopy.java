@@ -54,7 +54,7 @@ public class OtrCopy extends BaseCopy {
 	private File cutDir;
 
 	@Override
-	protected Iterable<CopyParam> prepareCopy() {
+	protected Collection<CopyParam> prepareCopy() {
 		Collection<CopyParam> params = new ArrayList<CopyParam>();
 		Map<Key, OtrFile> cuts = asMap(cutDir);
 		for (OtrFile otrFile : cuts.values()) {

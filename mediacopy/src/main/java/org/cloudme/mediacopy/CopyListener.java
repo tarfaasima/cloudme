@@ -15,5 +15,5 @@ public interface CopyListener {
 
 	void copyInitialized();
 
-	void copySkipped(File src, File dest);
+    void copyProgressed(File src, File dest, long size, long pos);
 }

@@ -1,23 +1,26 @@
 package org.cloudme.mediacopy;
 
-import org.apache.commons.cli.BasicParser;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import java.io.File;
+
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 public class MediacopyMain {
-    /**
-     * @param args
-     */
     public static void main(String[] args) {
-        Options options = new Options();
-        options.addOption("o", "otr", true, "Directory containing videos from the Online TV Recorder website");
-        options.addOption("c", "otrcut", true, "Directory containing cut versions from OTR videos");
-        CommandLineParser parser = new BasicParser();
-        try {
-            parser.parse(options, args);
-        }
-        catch (ParseException e) {
-        }
+        Injector injector = Guice.createInjector(new AbstractModule() {
+            @Override
+            protected void configure() {
+                bind(CopyListener.class).to(SystemListener.class);
+            }
+        });
+        OtrCopy copy = new OtrCopy();
+        injector.injectMembers(copy);
+        copy.setOriginalsDir(args[0]);
+        copy.setCutDir(args[1]);
+        copy.setDestDir(args[2]);
+        FileLog log = new FileLog(new File(System.getProperty("user.home")
+                + "/Library/Application Support/Mediacopy/filelog.ser"));
+        copy.setFileLog(log);
     }
 }

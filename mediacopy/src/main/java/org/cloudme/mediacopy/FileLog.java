@@ -40,6 +40,10 @@ public class FileLog {
 
     public void save() {
         try {
+            File dir = logFile.getParentFile();
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(logFile));
             out.writeObject(entries);
             out.close();
