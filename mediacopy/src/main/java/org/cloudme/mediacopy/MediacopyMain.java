@@ -8,6 +8,9 @@ import com.google.inject.Injector;
 
 public class MediacopyMain {
     public static void main(String[] args) {
+        if (args.length != 3) {
+            System.out.println("Illegal number of arguments.\n\n    mediacopy <originals> <cut> <dest>");
+        }
         Injector injector = Guice.createInjector(new AbstractModule() {
             @Override
             protected void configure() {
