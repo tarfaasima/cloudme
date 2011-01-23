@@ -27,13 +27,13 @@ public class SystemListener implements CopyListener {
 
     @Override
     public void copyPrepared(int count, long size) {
-        System.out.printf("%d files [%d byte]%n", count, size);
+        System.out.printf("%d files [%s]%n", count, ByteFormat.formatMB(size));
         totalSize = size;
     }
 
     @Override
     public void copyStarted(File src, File dest) {
-        System.out.printf("%s --> %s [%d byte]%n", src.getName(), dest.getName(), src.length());
+        System.out.printf("%s --> %s [%s]%n", src.getName(), dest.getName(), ByteFormat.formatMB(src.length()));
     }
 
     @Override
@@ -42,10 +42,10 @@ public class SystemListener implements CopyListener {
         bytesCopied += src.length();
         long spent = tNow - startTime;
         long tMax = spent * totalSize / bytesCopied;
-        System.out.printf("%n%s remaining [%d of %d byte]%n",
+        System.out.printf("%n%s remaining [%s of %s]%n",
                 DurationFormatUtils.formatDurationHMS(tMax - spent),
-                bytesCopied,
-                totalSize);
+                ByteFormat.formatMB(bytesCopied),
+                ByteFormat.formatMB(totalSize));
     }
 
     @Override
