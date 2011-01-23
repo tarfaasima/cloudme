@@ -8,6 +8,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <title>Cashbox</title>
+    <script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
     <script type="text/javascript"><s:layout-component name="script"/></script>
   </head>
   <body>

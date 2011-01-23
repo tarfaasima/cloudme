@@ -19,7 +19,11 @@ public class AccountService {
         accountDao.save(account);
     }
 
-    public void delete(Account account) {
-        accountDao.delete(account.getId());
+    public void delete(Long id) {
+        accountDao.delete(id);
+    }
+
+    public Account get(Long id) {
+        return accountDao.find(id);
     }
 }

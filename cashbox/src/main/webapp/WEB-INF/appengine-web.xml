@@ -8,4 +8,5 @@
       name="java.util.logging.config.file"
       value="WEB-INF/classes/logging.properties" />
   </system-properties>
+  <sessions-enabled>false</sessions-enabled>
 </appengine-web-app>

@@ -2,13 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <s:layout-render name="/layout/default.jsp">
-  <s:layout-component name="header">Loclist</s:layout-component>
   <s:layout-component name="body">
     <ul>
       <c:forEach items="${actionBean.accounts}" var="account">
         <li>
           ${account.name}
-          <s:link href="/action/transaction/${account.id}/load">import</s:link>
+          <s:link href="/action/transaction/show/${account.id}">import</s:link>
           <s:link href="/action/account/delete/${account.id}">delete</s:link>
         </li>
       </c:forEach>
