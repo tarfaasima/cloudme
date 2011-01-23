@@ -21,6 +21,10 @@ public abstract class BaseCopy {
     private CopyListener copyListener;
 
     public final void copy() {
+        if (!destDir.exists()) {
+            fireCopyFailed(null, null, "Directory " + destDir.getAbsolutePath() + " does not exist.");
+            return;
+        }
         fileLog.load();
         Collection<CopyParam> params = prepareCopy();
         long size = 0;

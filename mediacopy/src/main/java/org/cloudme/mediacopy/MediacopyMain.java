@@ -10,6 +10,7 @@ public class MediacopyMain {
     public static void main(String[] args) {
         if (args.length != 3) {
             System.out.println("Illegal number of arguments.\n\n    mediacopy <originals> <cut> <dest>");
+            System.exit(-1);
         }
         Injector injector = Guice.createInjector(new AbstractModule() {
             @Override

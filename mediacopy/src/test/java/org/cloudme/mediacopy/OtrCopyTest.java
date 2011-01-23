@@ -42,6 +42,7 @@ public class OtrCopyTest {
 		FileLog fileLog = new FileLog(new File(tmp, "otrCopy.log"));
         File originalsDir = new File(tmp, "originalsDir");
         FileUtils.deleteQuietly(tmp);
+        destDir.mkdirs();
         createFile(originalsDir, "Das_Bourne_Ultimatum_10.12.27_22-15_zdf_105_TVOON_DE.mpg.avi");
         createFile(originalsDir, "Die_Bourne_Verschwoerung_10.12.26_22-15_zdf_105_TVOON_DE.mpg.avi");
         createFile(cutDir, "Die_Bourne_Verschwoerung_10.12.26_22-15_zdf_105_TVOON_DE.mpg.avi");
