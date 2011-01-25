@@ -5,42 +5,19 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.controller.ExecutionContext;
 import net.sourceforge.stripes.controller.Interceptor;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.googlecode.objectify.ObjectifyService;
 
 public abstract class AbstractActionBeanResolutionInterceptor implements Interceptor {
-    private Injector injector;
+    private final Injector injector;
 
     public AbstractActionBeanResolutionInterceptor() {
-        initObjectify();
-        initGuice();
+        injector = Guice.createInjector(createModule());
+        injector.injectMembers(this);
     }
 
-    public final void initObjectify() {
-        for (Class<?> clazz : objectifyEntityClasses()) {
-            ObjectifyService.register(clazz);
-        }
-    }
-
-    public final void initGuice() {
-        Module module = new AbstractModule() {
-            @Override
-            protected void configure() {
-                for (Class<?> clazz : guiceModuleClasses()) {
-                    bind(clazz);
-                }
-            }
-        };
-        injector = Guice.createInjector(module);
-        injectMembers(this);
-    }
-
-    protected abstract Class<?>[] guiceModuleClasses();
-
-    protected abstract Class<?>[] objectifyEntityClasses();
+    protected abstract Module createModule();
 
     @Override
     public Resolution intercept(ExecutionContext context) throws Exception {

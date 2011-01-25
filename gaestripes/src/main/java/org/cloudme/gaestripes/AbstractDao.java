@@ -46,6 +46,10 @@ public abstract class AbstractDao<T> {
         }
     }
 
+    protected static void register(Class<? extends DomainObject> clazz) {
+        ObjectifyService.register(clazz);
+    }
+
     protected final Class<T> baseClass;
 
     public AbstractDao(Class<T> baseClass) {
