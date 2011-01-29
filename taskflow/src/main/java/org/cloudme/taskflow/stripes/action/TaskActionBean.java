@@ -1,5 +1,7 @@
 package org.cloudme.taskflow.stripes.action;
 
+import java.util.List;
+
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
@@ -15,15 +17,17 @@ public class TaskActionBean extends AbstractActionBean {
     @Inject
     private TaskService taskService;
     private Task task;
+    private List<Task> tasks;
 
     @DefaultHandler
     public Resolution show() {
+        tasks = taskService.list();
         return resolve("task.jsp");
     }
 
     public Resolution create() {
         taskService.create(task);
-        return show();
+        return redirect("/action/task");
     }
 
     public void setTask(Task task) {
@@ -32,5 +36,13 @@ public class TaskActionBean extends AbstractActionBean {
 
     public Task getTask() {
         return task;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
     }
 }

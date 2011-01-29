@@ -1,5 +1,7 @@
 package org.cloudme.taskflow.task;
 
+import java.util.List;
+
 import org.cloudme.taskflow.dao.TaskDao;
 import org.cloudme.taskflow.domain.Task;
 
@@ -11,5 +13,9 @@ public class TaskService {
 
     public void create(Task task) {
         taskDao.save(task);
+    }
+
+    public List<Task> list() {
+        return taskDao.listAll();
     }
 }

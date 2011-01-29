@@ -37,6 +37,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	font-family: Helvetica,Arial,sans-serif;
 }
 ol, ul {
 	list-style: none;
@@ -69,3 +70,7 @@ table {
 }
 
 /* Meyer's reset ends here */
+
+input[type="text"], textarea {
+  width: 520px;
+}
