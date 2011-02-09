@@ -6,11 +6,11 @@ import java.util.Iterator;
 import org.cloudme.webgallery.cache.CacheProducer;
 import org.cloudme.webgallery.cache.CacheService;
 import org.cloudme.webgallery.flickr.FlickrRequest;
-import org.cloudme.webgallery.flickr.FlickrRequest.FlickrUrl;
 import org.cloudme.webgallery.flickr.FlickrResponse;
+import org.cloudme.webgallery.flickr.FlickrRequest.FlickrUrl;
 import org.cloudme.webgallery.image.ContentType;
+import org.cloudme.webgallery.image.DefaultImageFormat;
 import org.cloudme.webgallery.image.ImageServiceException;
-import org.cloudme.webgallery.image.SimpleImageFormat;
 import org.cloudme.webgallery.message.Message;
 import org.cloudme.webgallery.model.FlickrMetaData;
 import org.cloudme.webgallery.model.Photo;
@@ -156,9 +156,7 @@ public class FlickrService extends
         request.add("content_type", 1);
         request.add("async", 1);
         try {
-            byte[] data = photoDataService.getPhotoData(photoId,
-                    new SimpleImageFormat(500, 500, false),
-                    ContentType.JPEG);
+            byte[] data = photoDataService.getPhotoData(photoId, DefaultImageFormat.LARGE, ContentType.JPEG);
             request.addFile(ContentType.JPEG.toString(),
                     photo.getFileName(),
                     data);
