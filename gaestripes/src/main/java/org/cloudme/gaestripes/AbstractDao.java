@@ -1,5 +1,6 @@
 package org.cloudme.gaestripes;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,6 +17,11 @@ public abstract class AbstractDao<T> {
             public <T> Query<T> apply(Query<T> query) {
                 return query.filter(condition, value);
             }
+
+            @Override
+            public String toString() {
+                return "filter(" + condition + ", " + value + ")";
+            }
         };
     }
 
@@ -24,6 +30,11 @@ public abstract class AbstractDao<T> {
             @Override
             public <T> Query<T> apply(Query<T> query) {
                 return query.order(condition);
+            }
+
+            @Override
+            public String toString() {
+                return "orderBy(" + condition + ")";
             }
         };
     }
@@ -46,8 +57,10 @@ public abstract class AbstractDao<T> {
         }
     }
 
-    protected static void register(Class<? extends DomainObject> clazz) {
-        ObjectifyService.register(clazz);
+    protected static void register(Class<? extends DomainObject>... classes) {
+        for (Class<? extends DomainObject> clazz : classes) {
+            ObjectifyService.register(clazz);
+        }
     }
 
     protected final Class<T> baseClass;
@@ -77,8 +90,7 @@ public abstract class AbstractDao<T> {
     }
 
     protected <R> R execute(Callback<R> callback) {
-        Objectify ofy = callback.needsTransaction ? ObjectifyService
-                .beginTransaction() : ObjectifyService.begin();
+        Objectify ofy = callback.needsTransaction ? ObjectifyService.beginTransaction() : ObjectifyService.begin();
         Transaction txn = ofy.getTxn();
         try {
             R result = callback.execute(ofy);
@@ -108,15 +120,17 @@ public abstract class AbstractDao<T> {
     }
 
     public T findSingle(String condition, Object value) {
-        Iterator<T> it = findAll(filter(condition, value)).iterator();
+        return findSingle(filter(condition, value));
+    }
+
+    public T findSingle(QueryOperator... operators) {
+        Iterator<T> it = findAll(operators).iterator();
         T result = null;
         if (it.hasNext()) {
             result = it.next();
             if (it.hasNext()) {
-                throw new IllegalStateException(String.format("Multiple objects found for class %s with (%s, %s)",
-                        baseClass.getName(),
-                        condition,
-                        value));
+                throw new IllegalStateException(String.format("Multiple objects found for class %s with %s", baseClass
+                        .getName(), Arrays.asList(operators)));
             }
         }
         return result;
