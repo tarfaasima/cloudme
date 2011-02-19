@@ -4,6 +4,12 @@ import org.cloudme.gaestripes.DomainObject;
 
 import com.googlecode.objectify.annotation.Cached;
 
+/**
+ * An item of the list - essentially just the text of the item. It can be used
+ * in any {@link Note}.
+ * 
+ * @author Moritz Petersen
+ */
 @Cached
 public class Item extends DomainObject {
     private String text;

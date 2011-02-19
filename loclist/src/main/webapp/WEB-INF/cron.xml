@@ -1,8 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<cronentries>
-  <cron>
-    <url>/action/item/updateItemOrder</url>
-    <description>Update item order every 2 minutes</description>
-    <schedule>every 2 minutes</schedule>
-  </cron>
-</cronentries>
+<cronentries/>

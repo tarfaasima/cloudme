@@ -17,13 +17,12 @@ import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidationError;
 
 import org.cloudme.loclist.dao.ItemDao;
-import org.cloudme.loclist.dao.ItemInstanceDao;
-import org.cloudme.loclist.dao.ItemListDao;
+import org.cloudme.loclist.dao.NoteItemDao;
+import org.cloudme.loclist.dao.NoteDao;
 import org.cloudme.loclist.guice.LoclistModule;
 import org.cloudme.loclist.model.Item;
-import org.cloudme.loclist.model.ItemInstance;
-import org.cloudme.loclist.model.ItemList;
-import org.cloudme.loclist.stripes.extensions.LoclistInterceptor;
+import org.cloudme.loclist.model.NoteItem;
+import org.cloudme.loclist.model.Note;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,18 +41,15 @@ public class AbstractServiceTestCase {
     @Inject
     protected ItemDao itemDao;
     @Inject
-    protected ItemInstanceDao itemInstanceDao;
+    protected NoteItemDao noteItemDao;
     @Inject
-    protected ItemListDao itemListDao;
+    protected NoteDao noteDao;
     private final Map<String, Item> items = new HashMap<String, Item>();
-    private final Map<String, ItemInstance> itemInstances = new HashMap<String, ItemInstance>();
+    private final Map<String, NoteItem> noteItems = new HashMap<String, NoteItem>();
 
     @Before
     public void setUp() {
         helper.setUp();
-        LoclistInterceptor interceptor = new LoclistInterceptor();
-        interceptor.initGuice();
-        interceptor.initObjectify();
         injector = Guice.createInjector(new LoclistModule());
         injector.injectMembers(this);
     }
@@ -71,26 +67,26 @@ public class AbstractServiceTestCase {
     public void dummyTest() {
     }
 
-    protected void createItemList(String name, String... texts) {
-        ItemList itemList = new ItemList();
-        itemList.setName(name);
-        itemListDao.save(itemList);
+    protected void createNote(String name, String... texts) {
+        Note note = new Note();
+        note.setName(name);
+        noteDao.save(note);
 
         for (String text : texts) {
             Item item = items.get(text);
-            ItemInstance itemInstance = new ItemInstance();
-            itemInstance.setItemId(item.getId());
-            itemInstance.setItemListId(itemList.getId());
-            itemInstance.setText(text);
-            itemInstanceDao.save(itemInstance);
-            itemInstances.put(text, itemInstance);
+            NoteItem noteItem = new NoteItem();
+            noteItem.setItemId(item.getId());
+            noteItem.setNoteId(note.getId());
+            noteItem.setText(text);
+            noteItemDao.save(noteItem);
+            noteItems.put(text, noteItem);
         }
     }
 
     protected void refresh() {
-        itemInstances.clear();
-        for (ItemInstance itemInstance : itemInstanceDao.findAll()) {
-            itemInstances.put(itemInstance.getText(), itemInstance);
+        noteItems.clear();
+        for (NoteItem noteItem : noteItemDao.findAll()) {
+            noteItems.put(noteItem.getText(), noteItem);
         }
         items.clear();
         for (Item item : itemDao.findAll()) {
@@ -98,12 +94,12 @@ public class AbstractServiceTestCase {
         }
     }
 
-    protected ItemList itemList(String name) {
-        return itemListDao.findSingle("name", name);
+    protected Note note(String name) {
+        return noteDao.findSingle("name", name);
     }
 
-    protected ItemInstance itemInstance(String text) {
-        return itemInstances.get(text);
+    protected NoteItem noteItem(String text) {
+        return noteItems.get(text);
     }
 
     protected void createItems(String... texts) {

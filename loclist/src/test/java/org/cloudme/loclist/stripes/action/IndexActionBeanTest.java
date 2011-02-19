@@ -7,24 +7,24 @@ import static org.junit.Assert.assertNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.cloudme.loclist.model.ItemList;
+import org.cloudme.loclist.model.Note;
 import org.cloudme.loclist.test.AbstractServiceTestCase;
 import org.junit.Test;
 
 public class IndexActionBeanTest extends AbstractServiceTestCase {
     @Test
     public void testIndex() throws Exception {
-        createItemList("Test 1");
-        createItemList("Test 2");
+        createNote("Test 1");
+        createNote("Test 2");
         String url = "/action/index/";
         IndexActionBean bean = createActionBean(url, IndexActionBean.class);
-        assertEquals(2, bean.getItemLists().size());
+        assertEquals(2, bean.getNotes().size());
     }
 
     // @Test
     public void testSave() throws Exception {
-        ItemList itemList = new ItemList();
-        itemList.setName("Test");
+        Note note = new Note();
+        note.setName("Test");
 
         // MockServletContext context = new MockServletContext("test");
         // Map<String, String> filterParams = new HashMap<String, String>();
@@ -37,33 +37,33 @@ public class IndexActionBeanTest extends AbstractServiceTestCase {
         //
         // MockRoundtrip trip = new MockRoundtrip(context,
         // IndexActionBean.class);
-        // trip.getRequest().setAttribute("itemList", itemList);
+        // trip.getRequest().setAttribute("note", note);
         // trip.execute("save");
 
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("itemList", itemList);
+        params.put("itemList", note);
 
         String url = "/action/index/save";
         createActionBean(url, IndexActionBean.class, params);
 
-        assertNotNull(itemList("Test"));
+        assertNotNull(note("Test"));
     }
 
     // @Test
     public void testDelete() throws Exception {
         createItems("Foo", "Bar", "XYZ");
-        createItemList("Test", "Foo", "XYZ");
-        createItemList("Test 2", "Bar");
-        assertNotNull(itemList("Test"));
+        createNote("Test", "Foo", "XYZ");
+        createNote("Test 2", "Bar");
+        assertNotNull(note("Test"));
 
-        String url = "/action/index/delete/" + itemList("Test").getId();
+        String url = "/action/index/delete/" + note("Test").getId();
         createActionBean(url, IndexActionBean.class);
 
         refresh();
 
-        assertNull(itemList("Test"));
-        assertNull(itemInstance("Foo"));
-        assertNull(itemInstance("XYZ"));
-        assertNotNull(itemInstance("Bar"));
+        assertNull(note("Test"));
+        assertNull(noteItem("Foo"));
+        assertNull(noteItem("XYZ"));
+        assertNotNull(noteItem("Bar"));
     }
 }

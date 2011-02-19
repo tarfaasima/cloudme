@@ -15,11 +15,11 @@
 <script type="text/javascript" src="/js/jquery.touchwipe.js"></script>
 <script type="text/javascript" src="/js/sugar.js"></script>
 <script type="text/javascript">
-var itemListId;
+var noteId;
 
 function edit(url) {
-  $('body').load(url == null ? '/action/edit/' + itemListId : url, function() {
-    $('#buttonRight a').click(function() { checkin(itemListId); });
+  $('body').load(url == null ? '/action/edit/' + noteId : url, function() {
+    $('#buttonRight a').click(function() { checkin(noteId); });
     $('.roundedRectangle a.delete').click(function() {
       var title = $(this).attr('title');
       var url = $(this).attr('href');
@@ -42,7 +42,7 @@ function edit(url) {
     $('.edgeToEdge a.toggle').click(function() {
       var id = $(this).attr('id');
       var e = $(this).closest('li');
-      var url = '/action/edit/' + itemListId + '/' + (e.hasClass('add') ? 'add' : 'remove') + '/' + id;
+      var url = '/action/edit/' + noteId + '/' + (e.hasClass('add') ? 'add' : 'remove') + '/' + id;
       $.get(url);
       if (e.hasClass('remove')) {
         e.find('input').val('');
@@ -109,8 +109,8 @@ $(function() {
     url : '/action/index',
     onLoad : function() {
         $('a.checkin').click(checkin);
-        $('a.list').click(function() { $(this).toggleClass('ticked'); });
-        $('a.edit').click(function() { $(this).toggleClass('inList'); clearAttribute(this); });
+        $('a.note').click(function() { $(this).toggleClass('ticked'); });
+        $('a.edit').click(function() { $(this).toggleClass('inNote'); clearAttribute(this); });
         $('input.attribute').change(attributeChange);
         $('a.edit').touchwipe({
           wipeLeft: function(source) { $(source).closest('li').find('a.delete').toggle(); },

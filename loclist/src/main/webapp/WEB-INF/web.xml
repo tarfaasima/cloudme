@@ -61,8 +61,8 @@
 
   <security-constraint>
     <web-resource-collection>
-      <web-resource-name>Scheduled Task: updateItemOrder</web-resource-name>
-      <url-pattern>/action/item/updateItemOrder</url-pattern>
+      <web-resource-name>Scheduled Task: updateItemIndex</web-resource-name>
+      <url-pattern>/action/item/updateItemIndex</url-pattern>
     </web-resource-collection>
     <auth-constraint>
       <role-name>admin</role-name>

@@ -10,26 +10,27 @@ import org.cloudme.loclist.item.ItemService;
 
 import com.google.inject.Inject;
 
-@UrlBinding( "/action/item/{$event}/{checkinId}/{itemInstanceId}" )
+@UrlBinding( "/action/item/{$event}/{checkinId}/{noteItemId}" )
 public class ItemActionBean extends AbstractActionBean {
     private static final Log LOG = LogFactory.getLog(ItemActionBean.class);
     private long checkinId;
-    private long itemInstanceId;
+    private long noteItemId;
     @Inject
     private ItemService itemService;
 
     public Resolution tick() {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("tick(" + checkinId + ", " + itemInstanceId + ")");
+            LOG.debug("tick(" + checkinId + ", " + noteItemId + ")");
         }
-        itemService.tick(checkinId, itemInstanceId);
+        itemService.tick(checkinId, noteItemId);
         return null;
     }
 
-    public Resolution updateItemOrder() {
-        itemService.updateItemOrder();
-        return null;
-    }
+    //
+    // public Resolution updateItemIndex() {
+    // itemService.updateItemIndex();
+    // return null;
+    // }
 
     public long getCheckinId() {
         return checkinId;
@@ -39,11 +40,11 @@ public class ItemActionBean extends AbstractActionBean {
         this.checkinId = checkinId;
     }
 
-    public long getItemInstanceId() {
-        return itemInstanceId;
+    public long getNoteItemId() {
+        return noteItemId;
     }
 
-    public void setItemInstanceId(long itemInstanceId) {
-        this.itemInstanceId = itemInstanceId;
+    public void setNoteItemId(long noteItemId) {
+        this.noteItemId = noteItemId;
     }
 }

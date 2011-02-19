@@ -1,6 +1,5 @@
 package org.cloudme.loclist.dao;
 
-import org.cloudme.gaestripes.AbstractDao;
 import org.cloudme.loclist.model.Tick;
 
 import com.google.appengine.api.datastore.QueryResultIterable;
@@ -8,7 +7,8 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.Query;
 
-public class TickDao extends AbstractDao<Tick> {
+@Deprecated
+public class TickDao extends BaseDao<Tick> {
     public TickDao() {
         super(Tick.class);
     }

@@ -10,14 +10,14 @@ import net.sourceforge.stripes.validation.Validate;
 import org.cloudme.gaestripes.AbstractActionBean;
 import org.cloudme.loclist.item.ItemService;
 import org.cloudme.loclist.location.LocationService;
-import org.cloudme.loclist.model.ItemInstance;
-import org.cloudme.loclist.model.ItemList;
+import org.cloudme.loclist.model.Note;
+import org.cloudme.loclist.model.NoteItem;
 import org.cloudme.loclist.stripes.validation.GeoCoordinateConverter;
 
 import com.google.inject.Inject;
 
-@UrlBinding( "/action/list/{$event}/{id}/{latitude}/{longitude}" )
-public class ListActionBean extends AbstractActionBean {
+@UrlBinding( "/action/note/{$event}/{id}/{latitude}/{longitude}" )
+public class NoteActionBean extends AbstractActionBean {
     @Inject
     private LocationService locationService;
     @Inject
@@ -27,20 +27,20 @@ public class ListActionBean extends AbstractActionBean {
     private float latitude;
     @Validate( converter = GeoCoordinateConverter.class )
     private float longitude;
-    private List<ItemInstance> itemInstances;
-    private ItemList itemList;
+    private List<NoteItem> noteItems;
+    private Note note;
     private Long checkinId;
 
     public Resolution checkin() {
         checkinId = locationService.checkin(latitude, longitude).getId();
-        itemInstances = itemService.getItemInstances(id);
-        itemService.orderByCheckin(checkinId, itemInstances);
-        itemList = itemService.getItemList(id);
-        return resolve("list.jsp");
+        noteItems = itemService.getNoteItems(id);
+        itemService.orderByCheckin(checkinId, noteItems);
+        note = itemService.getNote(id);
+        return resolve("note.jsp");
     }
 
     public Resolution delete() {
-        itemService.deleteItemList(id);
+        itemService.deleteNote(id);
         return new RedirectResolution("/action/index");
     }
 
@@ -68,20 +68,20 @@ public class ListActionBean extends AbstractActionBean {
         this.longitude = longitude;
     }
 
-    public void setItemInstances(List<ItemInstance> itemInstances) {
-        this.itemInstances = itemInstances;
+    public void setNoteItems(List<NoteItem> noteItems) {
+        this.noteItems = noteItems;
     }
 
-    public List<ItemInstance> getItemInstances() {
-        return itemInstances;
+    public List<NoteItem> getNoteItems() {
+        return noteItems;
     }
 
-    public void setItemList(ItemList itemList) {
-        this.itemList = itemList;
+    public void setNote(Note note) {
+        this.note = note;
     }
 
-    public ItemList getItemList() {
-        return itemList;
+    public Note getNote() {
+        return note;
     }
 
     public void setCheckinId(Long checkinId) {

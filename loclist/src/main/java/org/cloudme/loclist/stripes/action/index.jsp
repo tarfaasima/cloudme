@@ -5,11 +5,11 @@
   <s:layout-component name="header">Loclist</s:layout-component>
   <s:layout-component name="content">
     <ul class="edgeToEdge">
-      <c:forEach items="${actionBean.itemLists}" var="itemList">
+      <c:forEach items="${actionBean.notes}" var="note">
         <li>
-          <a href="/action/list/checkin/${itemList.id}/" class="checkin">
+          <a href="/action/list/checkin/${note.id}/" class="checkin">
             <span>
-            ${itemList.name}
+            ${note.name}
             </span>
           </a>
         </li>
@@ -21,7 +21,7 @@
       </div>
       <form action="/action/index/create">
         <div class="inputContainer">
-          <input type="text" name="itemList.name" placeholder="Name of list" class="submit"/>
+          <input type="text" name="note.name" placeholder="Name of list" class="submit"/>
         </div>
       </form>
     </div>

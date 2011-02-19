@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Iterator;
 
-import org.cloudme.loclist.model.ItemInstance;
+import org.cloudme.loclist.model.NoteItem;
 import org.cloudme.loclist.test.AbstractServiceTestCase;
 import org.junit.Test;
 
@@ -14,12 +14,12 @@ public class EditActionBeanTest extends AbstractServiceTestCase {
     @Test
     public void testDefault() throws Exception {
         createItems("A", "B", "C");
-        createItemList("L", "A");
+        createNote("L", "A");
 
-        String url = "/action/edit/" + itemList("L").getId();
+        String url = "/action/edit/" + note("L").getId();
         EditActionBean bean = createActionBean(url, EditActionBean.class);
 
-        Iterator<ItemInstance> it = bean.getItemInstances().iterator();
+        Iterator<NoteItem> it = bean.getNoteItems().iterator();
         assertTrue(it.next().isInList());
         assertFalse(it.next().isInList());
         assertFalse(it.next().isInList());
@@ -29,13 +29,13 @@ public class EditActionBeanTest extends AbstractServiceTestCase {
     @Test
     public void testDelete() throws Exception {
         createItems("A", "B", "C");
-        createItemList("L", "A");
+        createNote("L", "A");
 
-        String url = String.format("/action/edit/%d/delete/%d", itemList("L").getId(), item("A").getId());
+        String url = String.format("/action/edit/%d/delete/%d", note("L").getId(), item("A").getId());
         createActionBean(url, EditActionBean.class);
 
         refresh();
         assertNull(item("A"));
-        assertNull(itemInstance("A"));
+        assertNull(noteItem("A"));
     }
 }

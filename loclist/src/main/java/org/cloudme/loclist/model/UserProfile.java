@@ -12,7 +12,7 @@ import com.googlecode.objectify.annotation.Unindexed;
 
 @Unindexed
 @Cached
-public class UserLog extends DomainObject {
+public class UserProfile extends DomainObject {
     private String authDomain;
     private String email;
     private String federatedIdentity;

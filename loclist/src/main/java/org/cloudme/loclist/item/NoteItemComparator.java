@@ -17,20 +17,20 @@ package org.cloudme.loclist.item;
 import java.util.Comparator;
 import java.util.Map;
 
-import org.cloudme.loclist.model.ItemInstance;
-import org.cloudme.loclist.model.ItemOrder;
+import org.cloudme.loclist.model.NoteItem;
+import org.cloudme.loclist.model.ItemIndex;
 
-final class ItemInstanceComparator implements Comparator<ItemInstance> {
-    private final Map<Long, ItemOrder> itemOrderMap;
+final class NoteItemComparator implements Comparator<NoteItem> {
+    private final Map<Long, ItemIndex> itemIndexMap;
 
-    ItemInstanceComparator(Map<Long, ItemOrder> itemOrderMap) {
-        this.itemOrderMap = itemOrderMap;
+    NoteItemComparator(Map<Long, ItemIndex> itemIndexMap) {
+        this.itemIndexMap = itemIndexMap;
     }
 
     @Override
-    public int compare(ItemInstance i1, ItemInstance i2) {
-        ItemOrder o1 = itemOrderMap.get(i1.getItemId());
-        ItemOrder o2 = itemOrderMap.get(i2.getItemId());
+    public int compare(NoteItem i1, NoteItem i2) {
+        ItemIndex o1 = itemIndexMap.get(i1.getItemId());
+        ItemIndex o2 = itemIndexMap.get(i2.getItemId());
         return o1 == null ? o2 == null ? 0 : 1 : o2 == null ? -1 : o1.getIndex() - o2.getIndex();
     }
 }

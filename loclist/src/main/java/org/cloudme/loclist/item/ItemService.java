@@ -19,55 +19,56 @@ import org.apache.commons.logging.LogFactory;
 import org.cloudme.gaestripes.QueryOperator;
 import org.cloudme.loclist.dao.CheckinDao;
 import org.cloudme.loclist.dao.ItemDao;
-import org.cloudme.loclist.dao.ItemInstanceDao;
-import org.cloudme.loclist.dao.ItemListDao;
-import org.cloudme.loclist.dao.ItemOrderDao;
-import org.cloudme.loclist.dao.TickDao;
+import org.cloudme.loclist.dao.ItemIndexDao;
+import org.cloudme.loclist.dao.NoteDao;
+import org.cloudme.loclist.dao.NoteItemDao;
 import org.cloudme.loclist.dao.UpdateDao;
 import org.cloudme.loclist.model.Checkin;
 import org.cloudme.loclist.model.Item;
-import org.cloudme.loclist.model.ItemInstance;
-import org.cloudme.loclist.model.ItemList;
-import org.cloudme.loclist.model.ItemOrder;
+import org.cloudme.loclist.model.ItemIndex;
+import org.cloudme.loclist.model.Note;
+import org.cloudme.loclist.model.NoteItem;
 import org.cloudme.loclist.model.Tick;
-import org.cloudme.loclist.model.Update;
 
-import com.google.appengine.api.NamespaceManager;
 import com.google.appengine.repackaged.com.google.common.base.StringUtil;
 import com.google.inject.Inject;
 
 public class ItemService {
     private static final Log LOG = LogFactory.getLog(ItemService.class);
+    /**
+     * Timeout is one day.
+     */
+    private static final long TIMEOUT = 24 * 60 * 60 * 1000;
     @Inject
     private ItemDao itemDao;
     @Inject
-    private ItemListDao itemListDao;
+    private NoteDao noteDao;
     @Inject
-    private ItemInstanceDao itemInstanceDao;
-    @Inject
-    private TickDao tickDao;
+    private NoteItemDao noteItemDao;
+    // @Inject
+    // private TickDao tickDao;
     @Inject
     private CheckinDao checkinDao;
     @Inject
-    private ItemOrderDao itemOrderDao;
+    private ItemIndexDao itemIndexDao;
     @Inject
     private UpdateDao updateDao;
 
     /**
-     * Creates a new {@link Item} and adds it to the {@link ItemList} with the
-     * given id. If another {@link Item} with the same text already exists, the
-     * {@link Item} will not be created, but added to the {@link ItemList}. If
-     * the {@link Item} is already added to the {@link ItemList} it will not be
-     * added again.
+     * Creates a new {@link Item} and adds it to the {@link Note} with the given
+     * id. If another {@link Item} with the same text already exists, the
+     * {@link Item} will not be created, but added to the {@link Note}. If the
+     * {@link Item} is already added to the {@link Note} it will not be added
+     * again.
      * 
-     * @param itemListId
-     *            The id of the {@link ItemList}.
+     * @param noteId
+     *            The id of the {@link Note}.
      * @param item
      *            The {@link Item}.
      * @param attribute
      *            TODO
      */
-    public void createItem(Long itemListId, Item item, String attribute) {
+    public void createItem(Long noteId, Item item, String attribute) {
         Item existingItem = itemDao.findSingle("text", item.getText());
         if (existingItem != null) {
             item.setId(existingItem.getId());
@@ -76,111 +77,115 @@ public class ItemService {
         else {
             itemDao.save(item);
         }
-        addOrRemove(itemListId, item.getId(), attribute);
+        addOrRemove(noteId, item.getId(), attribute);
     }
 
-    public void put(ItemList itemList) {
-        itemListDao.save(itemList);
+    public void put(Note note) {
+        noteDao.save(note);
     }
 
-    public void tick(Long checkinId, Long itemInstanceId) {
-        ItemInstance itemInstance = itemInstanceDao.find(itemInstanceId);
-        itemInstance.setTicked(!itemInstance.isTicked());
-        itemInstanceDao.save(itemInstance);
-        Long itemId = itemInstance.getItemId();
-        if (itemInstance.isTicked()) {
-            Tick tick = new Tick();
-            tick.setCheckinId(checkinId);
-            tick.setItemId(itemId);
-            tick.setTimestamp(System.currentTimeMillis());
-            tickDao.save(tick);
+    public void tick(Long checkinId, Long noteItemId) {
+        NoteItem noteItem = noteItemDao.find(noteItemId);
+        if (noteItem.isTicked()) {
+            return;
+        }
+        noteItem.setTicked(true);
+        noteItemDao.save(noteItem);
+
+        updateItemIndex(checkinId, noteItem);
+    }
+
+    private void updateItemIndex(Long checkinId, NoteItem noteItem) {
+        Long itemId = noteItem.getItemId();
+        long locationId = checkinDao.find(checkinId).getLocationId();
+        ItemIndex itemIndex = itemIndexDao.findByLocationAndItem(locationId, itemId);
+        if (itemIndex == null) {
+            itemIndex = new ItemIndex();
+            itemIndex.setIndex(-1);
+            itemIndex.setItemId(itemId);
+            itemIndex.setLocationId(locationId);
+        }
+
+        ItemIndex lastItemIndex = itemIndexDao.findLastByLocation(locationId);
+
+        if (lastItemIndex != null) {
+            int lastIndex = lastItemIndex.getIndex();
+            if (isAlreadyLower(itemIndex, lastIndex)) {
+                return;
+            }
+            itemIndex.setIndex(lastIndex + 1);
         }
         else {
-            tickDao.deleteByCheckinAndItem(checkinId, itemId);
+            itemIndex.setIndex(0);
         }
+
+        itemIndexDao.save(itemIndex);
     }
 
-    public List<ItemList> getItemLists() {
-        return itemListDao.listAll(orderBy("name"));
+    private boolean isOutdated(ItemIndex lastItemIndex) {
+        return System.currentTimeMillis() - lastItemIndex.getLastUpdate() > TIMEOUT;
     }
 
-    public List<ItemInstance> getItemInstances(Long itemListId) {
-        return itemInstanceDao.listByItemList(itemListId);
+    private boolean isAlreadyLower(ItemIndex itemIndex, int lastIndex) {
+        return itemIndex.getIndex() > lastIndex;
     }
 
-    public void orderByCheckin(Long checkinId, List<ItemInstance> itemInstances) {
+    public List<Note> getNotes() {
+        return noteDao.listAll(orderBy("name"));
+    }
+
+    public List<NoteItem> getNoteItems(Long noteId) {
+        return noteItemDao.listByNote(noteId);
+    }
+
+    public void orderByCheckin(Long checkinId, List<NoteItem> noteItems) {
         Checkin checkin = checkinDao.find(checkinId);
         if (checkin != null) {
-            Iterable<ItemOrder> itemOrders = itemOrderDao.findByLocation(checkin.getLocationId());
-            final Map<Long, ItemOrder> itemOrderMap = new HashMap<Long, ItemOrder>();
-            for (ItemOrder itemOrder : itemOrders) {
-                itemOrderMap.put(itemOrder.getItemId(), itemOrder);
+            Iterable<ItemIndex> itemIndexs = itemIndexDao.findByLocation(checkin.getLocationId());
+            final Map<Long, ItemIndex> itemIndexMap = new HashMap<Long, ItemIndex>();
+            for (ItemIndex itemIndex : itemIndexs) {
+                itemIndexMap.put(itemIndex.getItemId(), itemIndex);
             }
-            Collections.sort(itemInstances, new ItemInstanceComparator(itemOrderMap));
+            Collections.sort(noteItems, new NoteItemComparator(itemIndexMap));
         }
     }
 
-    public Collection<ItemInstance> getAllItemInstances(Long itemListId) {
-        SortedSet<ItemInstance> itemInstances = new TreeSet<ItemInstance>(getItemInstances(itemListId));
-        Set<Long> itemIds = new HashSet<Long>(itemInstances.size());
-        for (ItemInstance itemInstance : itemInstances) {
-            itemIds.add(itemInstance.getItemId());
-            itemInstance.setInList(true);
+    public Collection<NoteItem> getAllNoteItems(Long noteId) {
+        SortedSet<NoteItem> noteItems = new TreeSet<NoteItem>(getNoteItems(noteId));
+        Set<Long> itemIds = new HashSet<Long>(noteItems.size());
+        for (NoteItem noteItem : noteItems) {
+            itemIds.add(noteItem.getItemId());
+            noteItem.setInList(true);
         }
         for (Item item : itemDao.findAll(orderBy("text"))) {
             if (!itemIds.contains(item.getId())) {
-                ItemInstance itemInstance = new ItemInstance();
-                itemInstance.setItemId(item.getId());
-                itemInstance.setText(item.getText());
-                itemInstances.add(itemInstance);
+                NoteItem noteItem = new NoteItem();
+                noteItem.setItemId(item.getId());
+                noteItem.setText(item.getText());
+                noteItems.add(noteItem);
             }
         }
-        return itemInstances;
+        return noteItems;
     }
 
-    public void updateItemOrder() {
-        Update currentUpdate = new Update();
-        currentUpdate.setTimestamp(System.currentTimeMillis());
-        NamespaceManager.set("");
-        Iterator<Update> updates = updateDao.findAll(orderBy("-timestamp")).iterator();
-        long lastTimestamp = updates.hasNext() ? updates.next().getTimestamp() : 0;
-        Iterator<Checkin> checkins = checkinDao.findAll(orderBy("-timestamp")).iterator();
-        while (checkins.hasNext()) {
-            Checkin checkin = checkins.next();
-            if (checkin.getTimestamp() < lastTimestamp) {
-                break;
-            }
-            Long locationId = checkin.getLocationId();
-            Iterable<Tick> ticks = tickDao.findByCheckin(checkin.getId());
-            Iterable<ItemOrder> itemOrders = itemOrderDao.findByLocation(locationId);
-            Map<Long, ItemOrder> itemOrderMap = new HashMap<Long, ItemOrder>();
-            for (ItemOrder itemOrder : itemOrders) {
-                itemOrderMap.put(itemOrder.getId(), itemOrder);
-            }
-            itemOrders = new ItemOrderEngine().createOrder(locationId, ticks, itemOrderMap);
-            itemOrderDao.save(itemOrders);
-        }
-        updateDao.save(currentUpdate);
-    }
-
-    public ItemList getItemList(Long id) {
-        return itemListDao.find(id);
+    public Note getNote(Long id) {
+        return noteDao.find(id);
     }
 
     /**
-     * Deletes the {@link ItemList} and all {@link ItemInstance}s.
+     * Deletes the {@link Note} and all {@link NoteItem}s.
      * 
      * @param id
-     *            The id of the {@link ItemList}
+     *            The id of the {@link Note}
      */
-    public void deleteItemList(Long id) {
-        itemListDao.delete(id);
-        itemInstanceDao.deleteAll(filter("itemListId", id));
+    public void deleteNote(Long id) {
+        noteDao.delete(id);
+        noteItemDao.deleteAll(filter("noteId", id));
     }
 
     /**
-     * Deletes the {@link Item}, the {@link ItemInstance}, the {@link ItemOrder}
-     * and the {@link Tick}.
+     * Deletes the {@link Item}, the {@link NoteItem}, the {@link ItemIndex} and
+     * the {@link Tick}.
      * 
      * @param id
      *            The id of the {@link Item}.
@@ -188,37 +193,36 @@ public class ItemService {
     public void deleteItem(Long id) {
         itemDao.delete(id);
         QueryOperator filter = filter("itemId", id);
-        itemInstanceDao.deleteAll(filter);
-        itemOrderDao.deleteAll(filter);
-        tickDao.deleteAll(filter);
+        noteItemDao.deleteAll(filter);
+        itemIndexDao.deleteAll(filter);
+        // tickDao.deleteAll(filter);
     }
 
-    public void addOrRemove(Long itemListId, Long itemId, String attribute) {
-        ItemInstance itemInstance = new ItemInstance();
+    public void addOrRemove(Long noteId, Long itemId, String attribute) {
+        NoteItem noteItem = new NoteItem();
         Item item = itemDao.find(itemId);
-        Iterator<ItemInstance> it = itemInstanceDao.findAll(filter("itemListId", itemListId), filter("itemId", itemId))
-                .iterator();
+        Iterator<NoteItem> it = noteItemDao.findAll(filter("noteId", noteId), filter("itemId", itemId)).iterator();
         if (it.hasNext()) {
-            itemInstance = it.next();
+            noteItem = it.next();
             if (it.hasNext()) {
-                throw new IllegalStateException(String.format("Multiple instances exist for item %s in list %s",
+                throw new IllegalStateException(String.format("Multiple instances exist for item %s in note %s",
                         item,
-                        itemListDao.find(itemListId)));
+                        noteDao.find(noteId)));
             }
             if (StringUtil.isEmptyOrWhitespace(attribute)) {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("Deleting itemInstance with itemListId = " + itemListId + " and itemId = " + itemId);
+                    LOG.debug("Deleting noteItem with noteId = " + noteId + " and itemId = " + itemId);
                 }
-                itemInstanceDao.deleteAll(filter("itemListId", itemListId), filter("itemId", itemId));
+                noteItemDao.deleteAll(filter("noteId", noteId), filter("itemId", itemId));
                 return;
             }
         }
         else {
-            itemInstance.setItemId(itemId);
-            itemInstance.setItemListId(itemListId);
+            noteItem.setItemId(itemId);
+            noteItem.setNoteId(noteId);
         }
-        itemInstance.setAttribute(attribute);
-        itemInstance.setText(item.getText());
-        itemInstanceDao.save(itemInstance);
+        noteItem.setAttribute(attribute);
+        noteItem.setText(item.getText());
+        noteItemDao.save(noteItem);
     }
 }

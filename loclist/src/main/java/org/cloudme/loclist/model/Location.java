@@ -6,6 +6,13 @@ import com.google.appengine.api.datastore.GeoPt;
 import com.googlecode.objectify.annotation.Cached;
 import com.googlecode.objectify.annotation.Unindexed;
 
+/**
+ * A consolidated location; referred to by {@link Checkin}s and
+ * {@link ItemIndex}s.
+ * 
+ * @author Moritz Petersen
+ * 
+ */
 @Cached
 public class Location extends DomainObject {
     @Unindexed

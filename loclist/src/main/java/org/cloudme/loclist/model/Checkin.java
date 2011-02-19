@@ -5,6 +5,13 @@ import org.cloudme.gaestripes.DomainObject;
 import com.googlecode.objectify.annotation.Cached;
 import com.googlecode.objectify.annotation.Unindexed;
 
+/**
+ * Time and exact geocoordinates of the user checkin. Also contains the
+ * reference to the consolidated {@link Location}.
+ * 
+ * @author Moritz Petersen
+ * 
+ */
 @Cached
 public class Checkin extends DomainObject {
     @Unindexed

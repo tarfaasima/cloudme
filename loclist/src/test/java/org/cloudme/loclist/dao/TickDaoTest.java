@@ -7,13 +7,17 @@ import org.cloudme.loclist.test.AbstractServiceTestCase;
 import org.junit.Test;
 
 import com.google.inject.Inject;
+import com.googlecode.objectify.ObjectifyService;
 
+@Deprecated
 public class TickDaoTest extends AbstractServiceTestCase {
     @Inject
     private TickDao tickDao;
 
     @Test
     public void testDeleteByCheckinAndItem() {
+        ObjectifyService.register(Tick.class);
+
         Tick tick = new Tick();
         tick.setCheckinId(1L);
         tick.setItemId(2L);

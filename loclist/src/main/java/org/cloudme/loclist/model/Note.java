@@ -4,8 +4,13 @@ import org.cloudme.gaestripes.DomainObject;
 
 import com.googlecode.objectify.annotation.Cached;
 
+/**
+ * A list of {@link Item}s.
+ * 
+ * @author Moritz Petersen
+ */
 @Cached
-public class ItemList extends DomainObject {
+public class Note extends DomainObject {
     private String name;
 
     public void setName(String name) {

@@ -7,10 +7,17 @@ import org.cloudme.gaestripes.DomainObject;
 import com.googlecode.objectify.annotation.Cached;
 import com.googlecode.objectify.annotation.Unindexed;
 
+/**
+ * An instance of an {@link Item} attached to an {@link Note}. Contains an
+ * attribute (such as quantity), a flag to indicated if it is ticked and the
+ * text of the {@link Item}.
+ * 
+ * @author Moritz Petersen
+ */
 @Cached
-public class ItemInstance extends DomainObject implements Comparable<ItemInstance> {
+public class NoteItem extends DomainObject implements Comparable<NoteItem> {
     private Long itemId;
-    private Long itemListId;
+    private Long noteId;
     @Unindexed
     private String attribute;
     @Unindexed
@@ -19,12 +26,12 @@ public class ItemInstance extends DomainObject implements Comparable<ItemInstanc
     @Transient
     private boolean inList = false;
 
-    public Long getItemListId() {
-        return itemListId;
+    public Long getNoteId() {
+        return noteId;
     }
 
-    public void setItemListId(Long itemListId) {
-        this.itemListId = itemListId;
+    public void setNoteId(Long noteId) {
+        this.noteId = noteId;
     }
 
     public Long getItemId() {
@@ -68,7 +75,7 @@ public class ItemInstance extends DomainObject implements Comparable<ItemInstanc
     }
 
     @Override
-    public int compareTo(ItemInstance o) {
+    public int compareTo(NoteItem o) {
         return text.compareTo(o.text);
     }
 }
