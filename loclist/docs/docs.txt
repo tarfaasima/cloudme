@@ -6,16 +6,6 @@ Checkin Algorithm
 3) If no location is found create new location (X,Y)=(x,y)
 
 
-Data Model
-----------
-- Location: Geo location where a user checks in when using this application
-- ItemList: List of ItemInstances - re-ordered for each location based on Ticks
-- ItemInstance: Instance of an Item (includes quantity) assigned to an ItemList
-- Item: Raw item (contains only text; optional: category)
-- Category (optional): Used to group Items
-- Tick: A checked Item at a certain Location (optional: with reference to ItemInstance)
-
-
 Item Sort Algorithm
 -------------------
 
