@@ -8,6 +8,6 @@ public class UserDao extends BaseDao<User> {
     }
 
     public User findByUserId(String userId) {
-        return findSingle("userId", userId);
+        return findSingleBy("userId", userId);
     }
 }
