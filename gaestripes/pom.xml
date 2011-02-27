@@ -107,11 +107,13 @@
     </plugins>
   </build>
   <repositories>
+  <!-- 
     <repository>
       <id>maven-gae-plugin-repo</id>
       <name>maven-gae-plugin repository</name>
       <url>http://maven-gae-plugin.googlecode.com/svn/repository/</url>
     </repository>
+   -->
     <repository>
       <id>objectify-appengine</id>
       <url>http://objectify-appengine.googlecode.com/svn/maven</url>

@@ -11,7 +11,7 @@ import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Query;
 
 public abstract class AbstractDao<T> {
-    public static QueryOperator filter(final String condition, final Object value) {
+    protected static QueryOperator filter(final String condition, final Object value) {
         return new QueryOperator() {
             @Override
             public <T> Query<T> apply(Query<T> query) {
@@ -25,7 +25,7 @@ public abstract class AbstractDao<T> {
         };
     }
 
-    public static QueryOperator orderBy(final String condition) {
+    protected static QueryOperator orderBy(final String condition) {
         return new QueryOperator() {
             @Override
             public <T> Query<T> apply(Query<T> query) {
@@ -84,7 +84,7 @@ public abstract class AbstractDao<T> {
     }
 
     public void deleteAll(QueryOperator... operators) {
-        for (Key<T> key : ((Query<T>) findAll(operators)).fetchKeys()) {
+        for (Key<T> key : ((Query<T>) findBy(operators)).fetchKeys()) {
             delete(key);
         }
     }
@@ -119,12 +119,12 @@ public abstract class AbstractDao<T> {
         });
     }
 
-    public T findSingle(String condition, Object value) {
+    protected T findSingleBy(String condition, Object value) {
         return findSingle(filter(condition, value));
     }
 
-    public T findSingle(QueryOperator... operators) {
-        Iterator<T> it = findAll(operators).iterator();
+    protected T findSingle(QueryOperator... operators) {
+        Iterator<T> it = findBy(operators).iterator();
         T result = null;
         if (it.hasNext()) {
             result = it.next();
@@ -136,11 +136,19 @@ public abstract class AbstractDao<T> {
         return result;
     }
 
-    public List<T> listAll(final QueryOperator... operators) {
-        return ((Query<T>) findAll(operators)).list();
+    public List<T> listAll() {
+        return listBy();
     }
 
-    public final Iterable<T> findAll(final QueryOperator... operators) {
+    protected List<T> listBy(final QueryOperator... operators) {
+        return ((Query<T>) findBy(operators)).list();
+    }
+
+    public Iterable<T> findAll() {
+        return findBy();
+    }
+
+    protected final Iterable<T> findBy(final QueryOperator... operators) {
         return execute(new Callback<Iterable<T>>() {
             @Override
             protected Iterable<T> execute(Objectify ofy) {
