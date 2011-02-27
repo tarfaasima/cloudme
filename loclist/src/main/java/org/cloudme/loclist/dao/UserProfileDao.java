@@ -8,6 +8,6 @@ public class UserProfileDao extends BaseDao<UserProfile> {
     }
 
     public boolean userIdExists(String userId) {
-        return findAll(filter("userId", userId)).iterator().hasNext();
+        return findBy(filter("userId", userId)).iterator().hasNext();
     }
 }

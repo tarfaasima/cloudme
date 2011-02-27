@@ -25,7 +25,7 @@
   <body>
     <div id="header">
       <div id="headerLeft">
-        <s:layout-component name="headerLeft" />
+        <a href="/">Notes</a>
       </div>
       <s:layout-component name="headerText" />
       <div id="headerRight">

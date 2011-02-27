@@ -10,6 +10,7 @@ import net.sourceforge.stripes.validation.Validate;
 import org.cloudme.gaestripes.AbstractActionBean;
 import org.cloudme.loclist.item.ItemService;
 import org.cloudme.loclist.location.LocationService;
+import org.cloudme.loclist.model.Location;
 import org.cloudme.loclist.model.Note;
 import org.cloudme.loclist.model.NoteItem;
 import org.cloudme.loclist.stripes.validation.GeoCoordinateConverter;
@@ -29,13 +30,13 @@ public class NoteActionBean extends AbstractActionBean {
     private float longitude;
     private List<NoteItem> noteItems;
     private Note note;
-    private Long checkinId;
+    private Location location;
 
     public Resolution checkin() {
-        checkinId = locationService.checkin(latitude, longitude).getId();
-        noteItems = itemService.getNoteItems(id);
-        itemService.orderByCheckin(checkinId, noteItems);
+        location = locationService.checkin(latitude, longitude);
         note = itemService.getNote(id);
+        noteItems = itemService.getNoteItems(note);
+        itemService.orderByLocation(location, noteItems);
         return resolve("note.jsp");
     }
 
@@ -84,11 +85,11 @@ public class NoteActionBean extends AbstractActionBean {
         return note;
     }
 
-    public void setCheckinId(Long checkinId) {
-        this.checkinId = checkinId;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
-    public Long getCheckinId() {
-        return checkinId;
+    public Location getLocation() {
+        return location;
     }
 }

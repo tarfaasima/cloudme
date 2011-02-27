@@ -14,7 +14,7 @@ public class TickDao extends BaseDao<Tick> {
     }
 
     public void deleteByCheckinAndItem(final Long checkinId, final Long itemId) {
-        Query<Tick> query = (Query<Tick>) findAll(filter("checkinId", checkinId), filter("itemId", itemId));
+        Query<Tick> query = (Query<Tick>) findBy(filter("checkinId", checkinId), filter("itemId", itemId));
         final QueryResultIterable<Key<Tick>> keys = query.fetchKeys();
         execute(new Callback<Void>(true) {
             @Override
@@ -26,6 +26,6 @@ public class TickDao extends BaseDao<Tick> {
     }
 
     public Iterable<Tick> findByCheckin(Long checkinId) {
-        return findAll(filter("checkinId", checkinId), orderBy("timestamp"));
+        return findBy(filter("checkinId", checkinId), orderBy("timestamp"));
     }
 }

@@ -9,7 +9,7 @@
       if (url.substr(0, 1) === '!') {
         url = url.substr(1);
         $.get(url);
-        args.onPostLoad();
+//        args.onPostLoad();
       }
       else {
         base.load(url, function() {
@@ -31,13 +31,16 @@
             $(this).change(function() { doSubmit(form); });
             $(form).submit(function(event) { event.preventDefault(); });
           });
-          args.onPostLoad();
+//          args.onPostLoad();
         });
       }
     }
 
     function doLoad(e) {
       var url = $(e).attr('href');
+      if (url == undefined) {
+        return;
+      }
       load(url);
     }
 

@@ -1,72 +1,64 @@
 package org.cloudme.loclist.item;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.ParseException;
 
+import org.cloudme.loclist.model.Item;
 import org.cloudme.loclist.model.ItemIndex;
-import org.cloudme.loclist.model.Tick;
+import org.cloudme.loclist.model.Location;
 import org.junit.Test;
 
 public class ItemIndexEngineTest {
+    private static final long LOCATION_ID = 10001L;
+    private static final long ITEM_ID = 10002L;
+    private static final long TS_1 = createTimestamp("21.09.2010");
+    private static final long TS_2 = createTimestamp("22.09.2010");
+    private final ItemIndexEngine engine = new ItemIndexEngine();
+
     @Test
     public void testCreateOrder() {
-        ItemIndexEngine itemIndexEngine = new ItemIndexEngine();
-        Iterable<ItemIndex> itemIndexs;
-        Map<Long, ItemIndex> itemIndexMap = null;
-        Long locationId = 1L;
-        itemIndexs = itemIndexEngine.createOrder(locationId, ticks(2L, 1L), itemIndexMap);
-        itemIndexMap = assertOrder(itemIndexs, 2L, 1L);
-
-        itemIndexs = itemIndexEngine.createOrder(locationId, ticks(1L, 2L), itemIndexMap);
-        itemIndexMap = assertOrder(itemIndexs, 1L, 2L);
-
-        itemIndexs = itemIndexEngine.createOrder(locationId, ticks(3L, 4L), itemIndexMap);
-        itemIndexMap = assertOrder(itemIndexs, 1L, 3L, 2L, 4L);
-
-        itemIndexs = itemIndexEngine.createOrder(locationId, ticks(1L, 2L), itemIndexMap);
-        itemIndexMap = assertOrder(itemIndexs, 1L, 3L, 2L, 4L);
-
-        itemIndexs = itemIndexEngine.createOrder(locationId, ticks(2L, 3L), itemIndexMap);
-        itemIndexMap = assertOrder(itemIndexs, 1L, 2L, 3L, 4L);
-
-        itemIndexs = itemIndexEngine.createOrder(locationId, ticks(1L, 2L, 3L, 4L, 5L), itemIndexMap);
-        itemIndexMap = assertOrder(itemIndexs, 1L, 2L, 3L, 4L, 5L);
-
-        itemIndexs = itemIndexEngine.createOrder(locationId, ticks(2L, 1L), itemIndexMap);
-        itemIndexMap = assertOrder(itemIndexs, 2L, 1L, 3L, 4L, 5L);
-
-        itemIndexs = itemIndexEngine.createOrder(locationId, ticks(4L, 3L), itemIndexMap);
-        itemIndexMap = assertOrder(itemIndexs, 2L, 1L, 4L, 3L, 5L);
+        assertIndex(0, null, 0, TS_1, null, 0, TS_1);
+        assertIndex(0, 0L, 0, TS_1, 0L, 0, TS_1);
+        assertIndex(1, null, 0, TS_1, 0L, 0, TS_1);
+        assertIndex(1, 1L, 1, TS_1, 0L, 0, TS_1);
+        assertIndex(2, 1L, 0, TS_1, 0L, 1, TS_1);
+        assertIndex(0, 1L, 0, TS_2, 0L, 1, TS_1);
     }
 
-    private Iterable<Tick> ticks(Long... itemIds) {
-        ArrayList<Tick> ticks = new ArrayList<Tick>();
-        for (Long itemId : itemIds) {
-            Tick tick = new Tick();
-            tick.setItemId(itemId);
-            ticks.add(tick);
-        }
-        return ticks;
+    private void assertIndex(int expected,
+            Long itemId,
+            int itemIndex,
+            long itemTimestamp,
+            Long lastItemId,
+            int lastItemIndex,
+            long lastItemTimestamp) {
+        int index = engine.update(new Location(LOCATION_ID),
+                new Item(ITEM_ID),
+                itemTimestamp,
+                createItemIndex(itemId, itemIndex, itemTimestamp),
+                createItemIndex(lastItemId, lastItemIndex, lastItemTimestamp)).getIndex();
+        assertEquals(expected, index);
     }
 
-    private Map<Long, ItemIndex> assertOrder(Iterable<ItemIndex> itemIndexs, Long... itemIds) {
-        Map<Long, ItemIndex> itemIndexMap = new HashMap<Long, ItemIndex>();
-        Iterator<ItemIndex> it = itemIndexs.iterator();
-        for (int i = 0; i < itemIds.length; i++) {
-            assertTrue(it.hasNext());
-            ItemIndex itemIndex = it.next();
-            assertEquals(itemIds[i], itemIndex.getItemId());
-            assertEquals(i, itemIndex.getIndex());
-
-            itemIndexMap.put(itemIndex.getItemId(), itemIndex);
+    private ItemIndex createItemIndex(Long itemId, int index, long timestamp) {
+        if (itemId == null) {
+            return null;
         }
-        assertFalse(it.hasNext());
-        return itemIndexMap;
+        ItemIndex itemIndex = new ItemIndex();
+        itemIndex.setItemId(itemId);
+        itemIndex.setIndex(index);
+        itemIndex.setLastUpdate(timestamp);
+        return itemIndex;
+    }
+
+    private static long createTimestamp(String dateStr) {
+        try {
+            return DateFormat.getDateInstance().parse(dateStr).getTime();
+        }
+        catch (ParseException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 }

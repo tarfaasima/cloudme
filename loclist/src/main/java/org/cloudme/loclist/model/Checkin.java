@@ -10,8 +10,9 @@ import com.googlecode.objectify.annotation.Unindexed;
  * reference to the consolidated {@link Location}.
  * 
  * @author Moritz Petersen
- * 
+ * @deprecated Only use {@link Location}
  */
+@Deprecated
 @Cached
 public class Checkin extends DomainObject {
     @Unindexed

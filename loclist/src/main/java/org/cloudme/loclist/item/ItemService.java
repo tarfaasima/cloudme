@@ -1,58 +1,38 @@
 package org.cloudme.loclist.item;
 
-import static org.cloudme.gaestripes.AbstractDao.filter;
-import static org.cloudme.gaestripes.AbstractDao.orderBy;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.cloudme.gaestripes.QueryOperator;
-import org.cloudme.loclist.dao.CheckinDao;
 import org.cloudme.loclist.dao.ItemDao;
 import org.cloudme.loclist.dao.ItemIndexDao;
 import org.cloudme.loclist.dao.NoteDao;
 import org.cloudme.loclist.dao.NoteItemDao;
-import org.cloudme.loclist.dao.UpdateDao;
-import org.cloudme.loclist.model.Checkin;
 import org.cloudme.loclist.model.Item;
 import org.cloudme.loclist.model.ItemIndex;
+import org.cloudme.loclist.model.Location;
 import org.cloudme.loclist.model.Note;
 import org.cloudme.loclist.model.NoteItem;
-import org.cloudme.loclist.model.Tick;
 
 import com.google.appengine.repackaged.com.google.common.base.StringUtil;
 import com.google.inject.Inject;
 
 public class ItemService {
-    private static final Log LOG = LogFactory.getLog(ItemService.class);
-    /**
-     * Timeout is one day.
-     */
-    private static final long TIMEOUT = 24 * 60 * 60 * 1000;
     @Inject
     private ItemDao itemDao;
     @Inject
     private NoteDao noteDao;
     @Inject
     private NoteItemDao noteItemDao;
-    // @Inject
-    // private TickDao tickDao;
-    @Inject
-    private CheckinDao checkinDao;
     @Inject
     private ItemIndexDao itemIndexDao;
-    @Inject
-    private UpdateDao updateDao;
+    private final ItemIndexEngine engine = new ItemIndexEngine();
 
     /**
      * Creates a new {@link Item} and adds it to the {@link Note} with the given
@@ -61,15 +41,15 @@ public class ItemService {
      * {@link Item} is already added to the {@link Note} it will not be added
      * again.
      * 
-     * @param noteId
-     *            The id of the {@link Note}.
+     * @param note
+     *            The {@link Note}
      * @param item
-     *            The {@link Item}.
+     *            The {@link Item}
      * @param attribute
-     *            TODO
+     *            The attribute of the {@link NoteItem}
      */
-    public void createItem(Long noteId, Item item, String attribute) {
-        Item existingItem = itemDao.findSingle("text", item.getText());
+    public void createItem(Note note, Item item, String attribute) {
+        Item existingItem = itemDao.findSingleByText(item.getText());
         if (existingItem != null) {
             item.setId(existingItem.getId());
             item.setText(existingItem.getText());
@@ -77,87 +57,101 @@ public class ItemService {
         else {
             itemDao.save(item);
         }
-        addOrRemove(noteId, item.getId(), attribute);
+        addOrRemove(note, item, attribute);
     }
 
+    /**
+     * Persists a {@link Note}.
+     * 
+     * @param note
+     *            The {@link Note}
+     */
     public void put(Note note) {
         noteDao.save(note);
     }
 
-    public void tick(Long checkinId, Long noteItemId) {
-        NoteItem noteItem = noteItemDao.find(noteItemId);
+    /**
+     * Registers a tick for the given {@link Location} and {@link NoteItem} and
+     * triggers index update.
+     * 
+     * @param location
+     *            The {@link Location}
+     * @param noteItem
+     *            The {@link NoteItem}
+     */
+    public void tick(Location location, NoteItem noteItem) {
         if (noteItem.isTicked()) {
             return;
         }
         noteItem.setTicked(true);
         noteItemDao.save(noteItem);
 
-        updateItemIndex(checkinId, noteItem);
-    }
-
-    private void updateItemIndex(Long checkinId, NoteItem noteItem) {
-        Long itemId = noteItem.getItemId();
-        long locationId = checkinDao.find(checkinId).getLocationId();
-        ItemIndex itemIndex = itemIndexDao.findByLocationAndItem(locationId, itemId);
-        if (itemIndex == null) {
-            itemIndex = new ItemIndex();
-            itemIndex.setIndex(-1);
-            itemIndex.setItemId(itemId);
-            itemIndex.setLocationId(locationId);
-        }
-
-        ItemIndex lastItemIndex = itemIndexDao.findLastByLocation(locationId);
-
-        if (lastItemIndex != null) {
-            int lastIndex = lastItemIndex.getIndex();
-            if (isAlreadyLower(itemIndex, lastIndex)) {
-                return;
-            }
-            itemIndex.setIndex(lastIndex + 1);
-        }
-        else {
-            itemIndex.setIndex(0);
-        }
-
+        Item item = new Item(noteItem.getItemId());
+        ItemIndex itemIndex = itemIndexDao.findBy(location, item);
+        ItemIndex lastItemIndex = itemIndexDao.findLastBy(location);
+        long timestamp = System.currentTimeMillis();
+        itemIndex = engine.update(location, item, timestamp, itemIndex, lastItemIndex);
         itemIndexDao.save(itemIndex);
     }
 
-    private boolean isOutdated(ItemIndex lastItemIndex) {
-        return System.currentTimeMillis() - lastItemIndex.getLastUpdate() > TIMEOUT;
-    }
-
-    private boolean isAlreadyLower(ItemIndex itemIndex, int lastIndex) {
-        return itemIndex.getIndex() > lastIndex;
-    }
-
+    /**
+     * Returns all {@link Note}s ordered by name.
+     * 
+     * @return A list of {@link Note}s ordered by name.
+     */
     public List<Note> getNotes() {
-        return noteDao.listAll(orderBy("name"));
+        return noteDao.listAll();
     }
 
-    public List<NoteItem> getNoteItems(Long noteId) {
-        return noteItemDao.listByNote(noteId);
+    /**
+     * Returns the {@link NoteItem} of the given id.
+     * 
+     * @param noteItemId
+     *            The id of the {@link NoteItem}
+     * @return The {@link NoteItem}
+     */
+    public NoteItem getNoteItem(long noteItemId) {
+        return noteItemDao.find(noteItemId);
     }
 
-    public void orderByCheckin(Long checkinId, List<NoteItem> noteItems) {
-        Checkin checkin = checkinDao.find(checkinId);
-        if (checkin != null) {
-            Iterable<ItemIndex> itemIndexs = itemIndexDao.findByLocation(checkin.getLocationId());
-            final Map<Long, ItemIndex> itemIndexMap = new HashMap<Long, ItemIndex>();
-            for (ItemIndex itemIndex : itemIndexs) {
-                itemIndexMap.put(itemIndex.getItemId(), itemIndex);
-            }
-            Collections.sort(noteItems, new NoteItemComparator(itemIndexMap));
+    /**
+     * Returns all {@link NoteItem}s of the given {@link Note}.
+     * 
+     * @param note
+     *            The {@link Note}.
+     * @return All {@link NoteItem}s of the given {@link Note}.
+     */
+    public List<NoteItem> getNoteItems(Note note) {
+        return noteItemDao.listBy(note);
+    }
+
+    public void orderByLocation(Location location, List<NoteItem> noteItems) {
+        Iterable<ItemIndex> itemIndexs = itemIndexDao.findBy(location);
+        final Map<Long, ItemIndex> itemIndexMap = new HashMap<Long, ItemIndex>();
+        for (ItemIndex itemIndex : itemIndexs) {
+            itemIndexMap.put(itemIndex.getItemId(), itemIndex);
         }
+        Collections.sort(noteItems, new NoteItemComparator(itemIndexMap));
     }
 
-    public Collection<NoteItem> getAllNoteItems(Long noteId) {
-        SortedSet<NoteItem> noteItems = new TreeSet<NoteItem>(getNoteItems(noteId));
+    /**
+     * Returns all {@link NoteItem}s. The {@link Note} is required to indicate
+     * if the {@link NoteItem} is contained in the {@link Note}. In that case,
+     * the {@link NoteItem#isInNote()} will return <tt>true</tt>.
+     * 
+     * @param note
+     *            The {@link Note}.
+     * @return all {@link NoteItem}s, indicating if contained in the
+     *         {@link Note}.
+     */
+    public Collection<NoteItem> getAllNoteItems(Note note) {
+        SortedSet<NoteItem> noteItems = new TreeSet<NoteItem>(getNoteItems(note));
         Set<Long> itemIds = new HashSet<Long>(noteItems.size());
         for (NoteItem noteItem : noteItems) {
             itemIds.add(noteItem.getItemId());
-            noteItem.setInList(true);
+            noteItem.setInNote(true);
         }
-        for (Item item : itemDao.findAll(orderBy("text"))) {
+        for (Item item : itemDao.findAll()) {
             if (!itemIds.contains(item.getId())) {
                 NoteItem noteItem = new NoteItem();
                 noteItem.setItemId(item.getId());
@@ -168,61 +162,68 @@ public class ItemService {
         return noteItems;
     }
 
-    public Note getNote(Long id) {
-        return noteDao.find(id);
+    public Note getNote(Long noteId) {
+        return noteDao.find(noteId);
     }
 
     /**
      * Deletes the {@link Note} and all {@link NoteItem}s.
      * 
-     * @param id
+     * @param noteId
      *            The id of the {@link Note}
      */
-    public void deleteNote(Long id) {
-        noteDao.delete(id);
-        noteItemDao.deleteAll(filter("noteId", id));
+    public void deleteNote(Long noteId) {
+        noteDao.delete(noteId);
+        noteItemDao.deleteByNoteId(noteId);
     }
 
     /**
-     * Deletes the {@link Item}, the {@link NoteItem}, the {@link ItemIndex} and
-     * the {@link Tick}.
+     * Deletes the {@link Item}, the {@link NoteItem} and the {@link ItemIndex}.
      * 
-     * @param id
+     * @param itemId
      *            The id of the {@link Item}.
      */
-    public void deleteItem(Long id) {
-        itemDao.delete(id);
-        QueryOperator filter = filter("itemId", id);
-        noteItemDao.deleteAll(filter);
-        itemIndexDao.deleteAll(filter);
-        // tickDao.deleteAll(filter);
+    public void deleteItem(Long itemId) {
+        itemDao.delete(itemId);
+        noteItemDao.deleteByItemId(itemId);
+        itemIndexDao.deleteByItemId(itemId);
     }
 
-    public void addOrRemove(Long noteId, Long itemId, String attribute) {
-        NoteItem noteItem = new NoteItem();
-        Item item = itemDao.find(itemId);
-        Iterator<NoteItem> it = noteItemDao.findAll(filter("noteId", noteId), filter("itemId", itemId)).iterator();
-        if (it.hasNext()) {
-            noteItem = it.next();
-            if (it.hasNext()) {
-                throw new IllegalStateException(String.format("Multiple instances exist for item %s in note %s",
-                        item,
-                        noteDao.find(noteId)));
-            }
+    /**
+     * Adds or removes an {@link Item} to a {@link Note} by creating or deleting
+     * a {@link NoteItem}. If the {@link NoteItem} already exists it will be
+     * deleted only if the <tt>attribute</tt> is not empty, otherwise it will be
+     * created.
+     * 
+     * @param note
+     *            The {@link Note}
+     * @param item
+     *            The {@link Item}
+     * @param attribute
+     *            The attribute of the {@link NoteItem}. If the {@link NoteItem}
+     *            already exists and the attribute is not empty, it will be
+     *            updated with the given attribute. Otherwise it will be
+     *            deleted.
+     */
+    public void addOrRemove(Note note, Item item, String attribute) {
+        NoteItem noteItem = noteItemDao.findSingleBy(note, item);
+        if (noteItem != null) {
             if (StringUtil.isEmptyOrWhitespace(attribute)) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Deleting noteItem with noteId = " + noteId + " and itemId = " + itemId);
-                }
-                noteItemDao.deleteAll(filter("noteId", noteId), filter("itemId", itemId));
+                noteItemDao.delete(noteItem.getId());
                 return;
             }
         }
         else {
-            noteItem.setItemId(itemId);
-            noteItem.setNoteId(noteId);
+            noteItem = new NoteItem();
+            noteItem.setItemId(item.getId());
+            noteItem.setNoteId(note.getId());
+            noteItem.setText(item.getText());
         }
         noteItem.setAttribute(attribute);
-        noteItem.setText(item.getText());
         noteItemDao.save(noteItem);
+    }
+
+    public Item getItem(Long itemId) {
+        return itemDao.find(itemId);
     }
 }

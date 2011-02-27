@@ -14,6 +14,13 @@ import com.googlecode.objectify.annotation.Cached;
 public class Item extends DomainObject {
     private String text;
 
+    public Item(Long id) {
+        super(id);
+    }
+
+    public Item() {
+    }
+
     public String getText() {
         return text;
     }

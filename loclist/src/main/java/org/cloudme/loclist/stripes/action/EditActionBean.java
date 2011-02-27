@@ -36,13 +36,13 @@ public class EditActionBean extends AbstractActionBean {
     @DontValidate
     @DefaultHandler
     public Resolution index() {
-        noteItems = itemService.getAllNoteItems(noteId);
         note = itemService.getNote(noteId);
+        noteItems = itemService.getAllNoteItems(note);
         return resolve("edit.jsp");
     }
 
     public Resolution create() {
-        itemService.createItem(noteId, item, attribute);
+        itemService.createItem(new Note(noteId), item, attribute);
         return new RedirectResolution("/action/edit/" + noteId);
     }
 
@@ -57,7 +57,8 @@ public class EditActionBean extends AbstractActionBean {
         if (LOG.isDebugEnabled()) {
             LOG.debug("attribute = " + attribute);
         }
-        itemService.addOrRemove(noteId, itemId, attribute);
+        Item item = itemService.getItem(itemId);
+        itemService.addOrRemove(new Note(noteId), item, attribute);
         return null;
     }
 

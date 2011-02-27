@@ -66,11 +66,11 @@ public class NoteItem extends DomainObject implements Comparable<NoteItem> {
         return text;
     }
 
-    public void setInList(boolean inList) {
+    public void setInNote(boolean inList) {
         this.inList = inList;
     }
 
-    public boolean isInList() {
+    public boolean isInNote() {
         return inList;
     }
 

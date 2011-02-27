@@ -84,7 +84,11 @@ function checkin(event) {
       $(checkinLink).attr('href', url);
       $(checkinLink).click();
     }, function(error) {
-      alert(error);
+//      alert(error);
+      var position = '0/0';
+      var url = $(checkinLink).attr('href') + position;
+      $(checkinLink).attr('href', url);
+      $(checkinLink).click();
     });
   }
   else {
@@ -92,16 +96,26 @@ function checkin(event) {
   }
 }
 
-function clearAttribute(a) {
-  $(a).closest('li').find('input.attribute').val('');  
-}
-
-function attributeChange() {
+function changeAttribute() {
   var li = $(this).closest('li');
   var a = li.find('a.edit');
-  if (!a.hasClass('inList')) {
-    a.addClass('inList');
+  if (!a.hasClass('inNote')) {
+    a.addClass('inNote');
   }
+}
+
+function tickItem(event) {
+  if ($(this).hasClass('ticked')) {
+    event.preventDefault();
+    return;
+  }
+  $(this).addClass('ticked'); 
+  $(this).removeClass('unticked'); 
+}
+
+function toggleInNote() {
+  $(this).toggleClass('inNote'); 
+  $(this).closest('li').find('input.attribute').val('');  
 }
 
 $(function() {
@@ -109,9 +123,9 @@ $(function() {
     url : '/action/index',
     onLoad : function() {
         $('a.checkin').click(checkin);
-        $('a.note').click(function() { $(this).toggleClass('ticked'); });
-        $('a.edit').click(function() { $(this).toggleClass('inNote'); clearAttribute(this); });
-        $('input.attribute').change(attributeChange);
+        $('a.unticked').click(tickItem);
+        $('a.edit').click(toggleInNote);
+        $('input.attribute').change(changeAttribute);
         $('a.edit').touchwipe({
           wipeLeft: function(source) { $(source).closest('li').find('a.delete').toggle(); },
           wipeRight: function(source) { $(source).closest('li').find('a.delete').toggle(); },

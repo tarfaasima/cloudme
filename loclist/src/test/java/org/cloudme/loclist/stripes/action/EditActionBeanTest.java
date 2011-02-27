@@ -20,9 +20,9 @@ public class EditActionBeanTest extends AbstractServiceTestCase {
         EditActionBean bean = createActionBean(url, EditActionBean.class);
 
         Iterator<NoteItem> it = bean.getNoteItems().iterator();
-        assertTrue(it.next().isInList());
-        assertFalse(it.next().isInList());
-        assertFalse(it.next().isInList());
+        assertTrue(it.next().isInNote());
+        assertFalse(it.next().isInNote());
+        assertFalse(it.next().isInNote());
         assertFalse(it.hasNext());
     }
 

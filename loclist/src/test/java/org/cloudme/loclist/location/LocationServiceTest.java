@@ -18,11 +18,11 @@ public class LocationServiceTest extends AbstractServiceTestCase {
     @Test
     public void testLocationService() {
         locationService.setRadius(300);
-        Location manchester = locationDao.find(locationService.checkin(53.480712f, -2.234376f).getLocationId());
-        Location london1 = locationDao.find(locationService.checkin(51.500152f, -0.126236f).getLocationId());
+        Location manchester = locationDao.find(locationService.checkin(53.480712f, -2.234376f).getId());
+        Location london1 = locationDao.find(locationService.checkin(51.500152f, -0.126236f).getId());
         assertEquals(manchester.getGeoPt(), london1.getGeoPt());
         locationService.setRadius(200);
-        Location london2 = locationDao.find(locationService.checkin(51.500152f, -0.126236f).getLocationId());
+        Location london2 = locationDao.find(locationService.checkin(51.500152f, -0.126236f).getId());
         assertEquals(new Location(51.500152f, -0.126236f).getGeoPt(), london2.getGeoPt());
 
         assertEquals(2, locationDao.listAll().size());

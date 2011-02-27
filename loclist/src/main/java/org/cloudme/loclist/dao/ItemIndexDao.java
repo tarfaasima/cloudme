@@ -2,23 +2,50 @@ package org.cloudme.loclist.dao;
 
 import java.util.Iterator;
 
+import org.cloudme.loclist.model.Item;
 import org.cloudme.loclist.model.ItemIndex;
+import org.cloudme.loclist.model.Location;
 
 public class ItemIndexDao extends BaseDao<ItemIndex> {
     public ItemIndexDao() {
         super(ItemIndex.class);
     }
 
-    public Iterable<ItemIndex> findByLocation(Long locationId) {
-        return findAll(filter("locationId", locationId));
+    /**
+     * Finds all {@link ItemIndex}s by {@link Location}.
+     * 
+     * @param location
+     *            The {@link Location}
+     * @return The {@link ItemIndex}s of the {@link Location}
+     */
+    public Iterable<ItemIndex> findBy(Location location) {
+        return findBy(filter("locationId", location.getId()));
     }
 
-    public ItemIndex findByLocationAndItem(long locationId, Long itemId) {
-        return findSingle(filter("locationId", locationId), filter("itemId", itemId));
+    /**
+     * Finds the {@link ItemIndex} by {@link Location} and {@link Item}.
+     * 
+     * @param location
+     *            The {@link Location}
+     * @param item
+     *            The {@link Item}
+     * @return The {@link ItemIndex} or <tt>null</tt> if the {@link ItemIndex}
+     *         does not exist
+     */
+    public ItemIndex findBy(Location location, Item item) {
+        return findSingle(filter("locationId", location.getId()), filter("itemId", item.getId()));
     }
 
-    public ItemIndex findLastByLocation(long locationId) {
-        Iterable<ItemIndex> itemIndexs = findAll(filter("locationId", locationId), orderBy("-lastUpdate"));
+    /**
+     * Finds the last updated {@link ItemIndex} for the given {@link Location}.
+     * 
+     * @param location
+     *            The {@link Location}
+     * @return The last updated {@link ItemIndex} or <tt>null</tt> if no
+     *         {@link ItemIndex} exists for the given {@link Location}
+     */
+    public ItemIndex findLastBy(Location location) {
+        Iterable<ItemIndex> itemIndexs = findBy(filter("locationId", location.getId()), orderBy("-lastUpdate"));
         if (itemIndexs == null) {
             return null;
         }
@@ -27,5 +54,9 @@ public class ItemIndexDao extends BaseDao<ItemIndex> {
             return null;
         }
         return it.next();
+    }
+
+    public void deleteByItemId(Long itemId) {
+        deleteAll(filter("itemId", itemId));
     }
 }

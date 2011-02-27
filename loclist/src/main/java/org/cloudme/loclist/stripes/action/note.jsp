@@ -3,14 +3,19 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <s:layout-render name="/layout/iphone.jsp">
   <s:layout-component name="header">${actionBean.note.name}</s:layout-component>
-  <s:layout-component name="buttonLeft"><a href="/action/index">Lists</a></s:layout-component>
+  <s:layout-component name="buttonLeft"><a href="/action/index">Notes</a></s:layout-component>
   <s:layout-component name="buttonRight"><a href="/action/edit/${actionBean.note.id}">Edit</a></s:layout-component>
   <s:layout-component name="content">
     <ul class="edgeToEdge">
     <c:forEach var="noteItem" items="${actionBean.noteItems}">
       <li>
-        <a href="!/action/item/tick/${actionBean.checkinId}/${noteItem.id}" class="note${noteItem.ticked ? ' ticked' : ''}">
-          <c:if test="${not empty noteItem.attribute}"><span class="attribute">${noteItem.attribute}</span> </c:if>${noteItem.text}
+        <c:if test="${!noteItem.ticked}">
+          <a class="unticked" href="!/action/item/tick/${actionBean.location.id}/${noteItem.id}">
+        </c:if>
+        <c:if test="${noteItem.ticked}">
+          <a class="ticked" name="noteItem_${noteItem.id}">
+        </c:if>
+        <c:if test="${not empty noteItem.attribute}"><span class="attribute">${noteItem.attribute}</span> </c:if>${noteItem.text}
         </a>
       </li>
     </c:forEach>

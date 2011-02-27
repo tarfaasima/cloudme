@@ -6,6 +6,7 @@ import org.cloudme.gaestripes.DomainObject;
 import com.googlecode.objectify.annotation.Cached;
 
 @Cached
+@Deprecated
 public class Update extends DomainObject {
     private long timestamp;
 

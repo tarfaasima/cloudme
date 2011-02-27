@@ -1,20 +1,16 @@
 package org.cloudme.loclist.location;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.cloudme.loclist.dao.CheckinDao;
 import org.cloudme.loclist.dao.LocationDao;
-import org.cloudme.loclist.model.Checkin;
 import org.cloudme.loclist.model.Location;
 
 import com.google.inject.Inject;
 
 public class LocationService {
-    private static final Log LOG = LogFactory.getLog(LocationService.class);
+    // private static final Log LOG = LogFactory.getLog(LocationService.class);
     @Inject
     private LocationDao locationDao;
-    @Inject
-    private CheckinDao checkinDao;
+    // @Inject
+    // private CheckinDao checkinDao;
     /**
      * The radius in kilometers of tolerance to map a checkin to an existing
      * location within this radius.
@@ -38,10 +34,10 @@ public class LocationService {
      *            The latitude of the geo location.
      * @param longitude
      *            The longitude of the geo location.
-     * @return A {@link Checkin} at the nearest existing location or a new
-     *         location with the given coordinates.
+     * @return The nearest existing {@link Location} within a defined
+     *         {@link #radius} or a new {@link Location}.
      */
-    public Checkin checkin(float latitude, float longitude) {
+    public Location checkin(float latitude, float longitude) {
         Location location = null;
         double dMin = Double.MAX_VALUE;
         for (Location tmp : locationDao.findAll()) {
@@ -55,20 +51,21 @@ public class LocationService {
             location = new Location(latitude, longitude);
             locationDao.save(location);
         }
-        Checkin checkin = new Checkin();
-        checkin.setLocationId(location.getId());
-        checkin.setTimestamp(System.currentTimeMillis());
-        checkin.setLatitude(latitude);
-        checkin.setLongitude(longitude);
-        checkinDao.save(checkin);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(String.format("Checkin %d at (%f, %f) location %d",
-                    checkin.getId(),
-                    checkin.getLongitude(),
-                    checkin.getLatitude(),
-                    checkin.getLocationId()));
-        }
-        return checkin;
+        return location;
+        // Checkin checkin = new Checkin();
+        // checkin.setLocationId(location.getId());
+        // checkin.setTimestamp(System.currentTimeMillis());
+        // checkin.setLatitude(latitude);
+        // checkin.setLongitude(longitude);
+        // checkinDao.save(checkin);
+        // if (LOG.isDebugEnabled()) {
+        // LOG.debug(String.format("Checkin %d at (%f, %f) location %d",
+        // checkin.getId(),
+        // checkin.getLongitude(),
+        // checkin.getLatitude(),
+        // checkin.getLocationId()));
+        // }
+        // return checkin;
     }
 
     /**

@@ -26,6 +26,10 @@ public class Location extends DomainObject {
         this.setGeoPt(new GeoPt(latitude, longitude));
     }
 
+    public Location(Long id) {
+        super(id);
+    }
+
     public void setGeoPt(GeoPt geoPt) {
         this.geoPt = geoPt;
     }

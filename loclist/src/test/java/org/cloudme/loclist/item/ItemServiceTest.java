@@ -1,6 +1,5 @@
 package org.cloudme.loclist.item;
 
-import static org.cloudme.gaestripes.AbstractDao.filter;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -14,8 +13,8 @@ import java.util.List;
 
 import org.cloudme.loclist.dao.ItemIndexDao;
 import org.cloudme.loclist.location.LocationService;
-import org.cloudme.loclist.model.Checkin;
 import org.cloudme.loclist.model.Item;
+import org.cloudme.loclist.model.Location;
 import org.cloudme.loclist.model.Note;
 import org.cloudme.loclist.model.NoteItem;
 import org.cloudme.loclist.test.AbstractServiceTestCase;
@@ -31,9 +30,6 @@ public class ItemServiceTest extends AbstractServiceTestCase {
     private ItemService itemService;
     @Inject
     private LocationService locationService;
-
-    // @Inject
-    // private TickDao tickDao;
 
     @Before
     public void generateTestData() {
@@ -52,7 +48,7 @@ public class ItemServiceTest extends AbstractServiceTestCase {
 
         Item item = new Item();
         item.setText("Milk");
-        itemService.createItem(note("Shopping List").getId(), item, "");
+        itemService.createItem(note("Shopping List"), item, "");
 
         assertEquals(milk.getId(), item.getId());
         assertEquals(6, itemDao.listAll().size());
@@ -61,10 +57,8 @@ public class ItemServiceTest extends AbstractServiceTestCase {
     @Test
     public void testRemoveNoteItem() {
         assertEquals(6, noteItemDao.listAll().size());
-        Long noteId = note("Shopping List").getId();
-        Long itemId = item("Milk").getId();
 
-        itemService.addOrRemove(noteId, itemId, "");
+        itemService.addOrRemove(note("Shopping List"), item("Milk"), "");
 
         assertEquals(5, noteItemDao.listAll().size());
     }
@@ -72,8 +66,10 @@ public class ItemServiceTest extends AbstractServiceTestCase {
     @Test( expected = IllegalStateException.class )
     public void testCreateNoteItemIllegalState() {
         assertEquals(6, noteItemDao.listAll().size());
-        Long noteId = note("Shopping List").getId();
-        Long itemId = item("Milk").getId();
+        Note note = note("Shopping List");
+        Long noteId = note.getId();
+        Item item = item("Milk");
+        Long itemId = item.getId();
 
         NoteItem noteItem = new NoteItem();
         noteItem.setItemId(itemId);
@@ -81,7 +77,7 @@ public class ItemServiceTest extends AbstractServiceTestCase {
         noteItemDao.save(noteItem);
 
         try {
-            itemService.addOrRemove(noteId, itemId, "");
+            itemService.addOrRemove(note, item, "");
         }
         catch (IllegalStateException e) {
             System.out.println("If you can see this, the test is successful: " + e.getMessage());
@@ -91,18 +87,9 @@ public class ItemServiceTest extends AbstractServiceTestCase {
         fail("Exception should have been thrown.");
     }
 
-    //
-    // @Test
-    // public void testTick() {
-    // Checkin checkin = locationService.checkin(53.480712f, -2.234376f);
-    // itemService.tick(checkin.getId(), itemInstance("Milk").getId());
-    // itemService.tick(checkin.getId(), itemInstance("Cheese").getId());
-    // assertEquals(2, tickDao.listAll(orderBy("timestamp")).size());
-    // }
-
     @Test
     public void testGetNote() {
-        Checkin checkin = locationService.checkin(53.480712f, -2.234376f);
+        Location location = locationService.checkin(53.480712f, -2.234376f);
 
         List<Note> notes = itemService.getNotes();
         assertEquals(2, notes.size());
@@ -110,35 +97,33 @@ public class ItemServiceTest extends AbstractServiceTestCase {
         assertEquals("Shopping List", notes.get(1).getName());
 
         Note shoppingList = notes.get(1);
-        assertNoteItemIndex(checkin, shoppingList, "Bread", "Cheese", "Milk", "Sugar", "Tea");
+        assertNoteItemIndex(location, shoppingList, "Bread", "Cheese", "Milk", "Sugar", "Tea");
 
-        simulateTicks(checkin, "Cheese", "Bread");
+        simulateTicks(location, "Cheese", "Bread");
 
-        // itemService.updateItemIndex();
-
-        assertNoteItemIndex(checkin, shoppingList, "Cheese", "Bread", "Milk", "Sugar", "Tea");
+        assertNoteItemIndex(location, shoppingList, "Cheese", "Bread", "Milk", "Sugar", "Tea");
     }
 
     @Test
     public void testAddOrRemove() {
-        Long noteId = note("Shopping List").getId();
+        Note note = note("Shopping List");
         assertInList("Shopping List", "Milk", "Cheese", "Tea", "Bread", "Sugar");
 
-        itemService.addOrRemove(noteId, item("Milk").getId(), null);
+        itemService.addOrRemove(note, item("Milk"), null);
         assertInList("Shopping List", "Cheese", "Tea", "Bread", "Sugar");
 
-        itemService.addOrRemove(noteId, item("Tea").getId(), null);
+        itemService.addOrRemove(note, item("Tea"), null);
         assertInList("Shopping List", "Cheese", "Bread", "Sugar");
 
-        itemService.addOrRemove(noteId, item("Milk").getId(), "2l");
+        itemService.addOrRemove(note, item("Milk"), "2l");
         assertInList("Shopping List", "Milk", "Cheese", "Bread", "Sugar");
     }
 
     private void assertInList(String name, String... texts) {
         List<String> textList = new ArrayList<String>(Arrays.asList(texts));
-        Collection<NoteItem> noteItems = itemService.getAllNoteItems(note(name).getId());
+        Collection<NoteItem> noteItems = itemService.getAllNoteItems(note(name));
         for (NoteItem noteItem : noteItems) {
-            if (noteItem.isInList()) {
+            if (noteItem.isInNote()) {
                 textList.remove(noteItem.getText());
             }
         }
@@ -147,44 +132,41 @@ public class ItemServiceTest extends AbstractServiceTestCase {
 
     @Test
     public void testDeleteNote() {
-        Long noteId = note("Shopping List").getId();
-        assertEquals(5, noteItemDao.listAll(filter("noteId", noteId)).size());
+        Note note = note("Shopping List");
+        assertEquals(5, noteItemDao.listBy(note).size());
 
-        itemService.deleteNote(noteId);
+        itemService.deleteNote(note.getId());
 
         refresh();
-        assertEquals(0, noteItemDao.listAll(filter("noteId", noteId)).size());
-        assertNull(noteDao.find(noteId));
+        assertEquals(0, noteItemDao.listBy(note).size());
+        assertNull(noteDao.find(note.getId()));
     }
 
     @Test
     public void testDeleteItem() {
-        Long itemId = item("Tea").getId();
-        Long checkinId = locationService.checkin(1.0F, 1.0F).getId();
-        itemService.tick(checkinId, noteItem("Tea").getId());
-        itemService.tick(checkinId, noteItem("Milk").getId());
-        // assertEquals(2, tickDao.listAll().size());
-        // itemService.updateItemIndex();
+        Item item = item("Tea");
+        Location location = locationService.checkin(1.0F, 1.0F);
+        itemService.tick(location, noteItem("Tea"));
+        itemService.tick(location, noteItem("Milk"));
         assertEquals(2, itemIndexDao.listAll().size());
 
-        itemService.deleteItem(itemId);
+        itemService.deleteItem(item.getId());
 
         refresh();
-        assertNull(itemDao.find(itemId));
-        assertEquals(0, noteItemDao.listAll(filter("itemId", itemId)).size());
+        assertNull(itemDao.find(item.getId()));
+        assertEquals(0, noteItemDao.listBy(item).size());
         assertEquals(1, itemIndexDao.listAll().size());
-        // assertEquals(1, tickDao.listAll().size());
     }
 
-    private void simulateTicks(Checkin checkin, String... texts) {
+    private void simulateTicks(Location location, String... texts) {
         for (String text : texts) {
-            itemService.tick(checkin.getId(), noteItem(text).getId());
+            itemService.tick(location, noteItem(text));
         }
     }
 
-    private void assertNoteItemIndex(Checkin checkin, Note note, String... texts) {
-        List<NoteItem> noteItems = itemService.getNoteItems(note.getId());
-        itemService.orderByCheckin(checkin.getId(), noteItems);
+    private void assertNoteItemIndex(Location location, Note note, String... texts) {
+        List<NoteItem> noteItems = itemService.getNoteItems(note);
+        itemService.orderByLocation(location, noteItems);
         assertEquals(texts.length, noteItems.size());
         for (int i = 0; i < texts.length; i++) {
             Long itemId = noteItems.get(i).getItemId();

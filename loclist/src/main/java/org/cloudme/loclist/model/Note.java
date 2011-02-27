@@ -13,6 +13,14 @@ import com.googlecode.objectify.annotation.Cached;
 public class Note extends DomainObject {
     private String name;
 
+    public Note() {
+        // empty constructor
+    }
+
+    public Note(Long id) {
+        super(id);
+    }
+
     public void setName(String name) {
         this.name = name;
     }

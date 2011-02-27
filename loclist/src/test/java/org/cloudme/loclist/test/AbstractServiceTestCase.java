@@ -17,12 +17,12 @@ import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidationError;
 
 import org.cloudme.loclist.dao.ItemDao;
-import org.cloudme.loclist.dao.NoteItemDao;
 import org.cloudme.loclist.dao.NoteDao;
+import org.cloudme.loclist.dao.NoteItemDao;
 import org.cloudme.loclist.guice.LoclistModule;
 import org.cloudme.loclist.model.Item;
-import org.cloudme.loclist.model.NoteItem;
 import org.cloudme.loclist.model.Note;
+import org.cloudme.loclist.model.NoteItem;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -95,7 +95,7 @@ public class AbstractServiceTestCase {
     }
 
     protected Note note(String name) {
-        return noteDao.findSingle("name", name);
+        return noteDao.findSingleByName(name);
     }
 
     protected NoteItem noteItem(String text) {

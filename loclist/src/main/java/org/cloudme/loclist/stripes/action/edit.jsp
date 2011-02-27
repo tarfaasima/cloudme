@@ -4,7 +4,7 @@
 
 <s:layout-render name="/layout/iphone.jsp">
   <s:layout-component name="header">${actionBean.note.name}</s:layout-component>
-  <s:layout-component name="buttonRight"><a href="/action/list/checkin/${actionBean.note.id}/" class="checkin">Done</a></s:layout-component>
+  <s:layout-component name="buttonRight"><a href="/action/note/checkin/${actionBean.note.id}/" class="checkin">Done</a></s:layout-component>
   <s:layout-component name="content">
     <ul class="edgeToEdge">
       <c:forEach items="${actionBean.noteItems}" var="noteItem">
@@ -12,7 +12,7 @@
           <form action="!/action/edit/${actionBean.note.id}/addOrRemove/${noteItem.itemId}">
             <input type="text" size="5" name="attribute" value="${noteItem.attribute}" placeholder="?" class="attribute"/>
           </form>
-          <a href="!/action/edit/${actionBean.note.id}/addOrRemove/${noteItem.itemId}" id="${noteItem.itemId}" class="edit${noteItem.inList ? ' inList' : ''}">
+          <a href="!/action/edit/${actionBean.note.id}/addOrRemove/${noteItem.itemId}" id="${noteItem.itemId}" class="edit ${noteItem.inNote ? ' inNote' : ''}">
             ${noteItem.text}
           </a>
           <a href="!/action/edit/${actionBean.note.id}/delete/${noteItem.itemId}" title="Do you want to delete ${noteItem.text}?" class="delete">
@@ -30,7 +30,7 @@
           <input type="text" name="item.text" placeholder="Item" class="create"/>
         </div>
       </form>
-      <a href="/action/list/delete/${actionBean.note.id}" class="delete" title="Do you want to delete list ${actionBean.note.name}?"><span>Delete List</span></a>
+      <a href="/action/note/delete/${actionBean.note.id}" class="delete" title="Do you want to delete note ${actionBean.note.name}?"><span>Delete Note</span></a>
     </div>
   </s:layout-component>
 </s:layout-render>
