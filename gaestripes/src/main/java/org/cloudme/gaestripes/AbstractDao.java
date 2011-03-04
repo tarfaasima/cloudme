@@ -10,7 +10,25 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Query;
 
+/**
+ * An abstract DAO to handle Objectify persistence.
+ * 
+ * @author Moritz Petersen
+ * 
+ * @param <T>
+ *            The entity type that is handled by this DAO.
+ */
 public abstract class AbstractDao<T> {
+    /**
+     * Creates a {@link QueryOperator} to filter based on the given condition
+     * and value.
+     * 
+     * @param condition
+     *            The filter condition.
+     * @param value
+     *            The filter value.
+     * @return A {@link QueryOperator} to filter a query.
+     */
     protected static QueryOperator filter(final String condition, final Object value) {
         return new QueryOperator() {
             @Override
@@ -25,6 +43,14 @@ public abstract class AbstractDao<T> {
         };
     }
 
+    /**
+     * Creates a {@link QueryOperator} to sort a query result by the given
+     * condition.
+     * 
+     * @param condition
+     *            The sort condition.
+     * @return A {@link QueryOperator} to sort a query.
+     */
     protected static QueryOperator orderBy(final String condition) {
         return new QueryOperator() {
             @Override
@@ -39,6 +65,15 @@ public abstract class AbstractDao<T> {
         };
     }
 
+    /**
+     * A callback class that can be applied to the
+     * {@link AbstractDao#execute(Callback)} method.
+     * 
+     * @author Moritz Petersen
+     * 
+     * @param <R>
+     *            Type of the result.
+     */
     protected abstract class Callback<R> {
         private final boolean needsTransaction;
 
@@ -46,10 +81,25 @@ public abstract class AbstractDao<T> {
             this(false);
         }
 
+        /**
+         * Initializes the {@link Callback}.
+         * 
+         * @param needsTransaction
+         *            If <tt>true</tt> the {@link Callback} will be executed in
+         *            a transaction context.
+         */
         public Callback(boolean needsTransaction) {
             this.needsTransaction = needsTransaction;
         }
 
+        /**
+         * To be implemented in order to execute operations on the
+         * {@link Objectify} instance.
+         * 
+         * @param ofy
+         *            The current {@link Objectify} instance.
+         * @return The result of the operations.
+         */
         protected abstract R execute(Objectify ofy);
 
         boolean isNeedsTransaction() {
@@ -57,18 +107,29 @@ public abstract class AbstractDao<T> {
         }
     }
 
-    protected static void register(Class<? extends DomainObject>... classes) {
-        for (Class<? extends DomainObject> clazz : classes) {
-            ObjectifyService.register(clazz);
-        }
-    }
-
+    /**
+     * The base class of this DAO.
+     */
     protected final Class<T> baseClass;
 
+    /**
+     * Initializes the DAO with the given class. The class will be registered in
+     * the {@link Objectify} context.
+     * 
+     * @param baseClass
+     *            The entity class.
+     */
     public AbstractDao(Class<T> baseClass) {
         this.baseClass = baseClass;
+        ObjectifyService.register(baseClass);
     }
 
+    /**
+     * Deletes an entity with the given id.
+     * 
+     * @param id
+     *            The id of the entity.
+     */
     public void delete(final Long id) {
         delete(new Key<T>(baseClass, id));
     }
@@ -83,12 +144,27 @@ public abstract class AbstractDao<T> {
         });
     }
 
-    public void deleteAll(QueryOperator... operators) {
+    /**
+     * Delete all instances that are matched by the given operators.
+     * 
+     * @param operators
+     *            The operators to select the entities to be deleted.
+     */
+    protected void deleteAll(QueryOperator... operators) {
         for (Key<T> key : ((Query<T>) findBy(operators)).fetchKeys()) {
             delete(key);
         }
     }
 
+    /**
+     * Execute a {@link Callback} in a Objectify context.
+     * 
+     * @param <R>
+     *            The result type of the execution.
+     * @param callback
+     *            The {@link Callback}
+     * @return The result
+     */
     protected <R> R execute(Callback<R> callback) {
         Objectify ofy = callback.needsTransaction ? ObjectifyService.beginTransaction() : ObjectifyService.begin();
         Transaction txn = ofy.getTxn();
@@ -119,7 +195,7 @@ public abstract class AbstractDao<T> {
         });
     }
 
-    protected T findSingleBy(String condition, Object value) {
+    protected T findSingle(String condition, Object value) {
         return findSingle(filter(condition, value));
     }
 
@@ -161,7 +237,7 @@ public abstract class AbstractDao<T> {
         });
     }
 
-    public void save(final Iterable<? extends T> objs) {
+    public void put(final Iterable<? extends T> objs) {
         execute(new Callback<Object>() {
             @Override
             protected Object execute(Objectify ofy) {
@@ -171,12 +247,12 @@ public abstract class AbstractDao<T> {
         });
     }
 
-    public void save(final T t) {
-        execute(new Callback<Object>(true) {
+    public T put(final T t) {
+        return execute(new Callback<T>(true) {
             @Override
-            protected Object execute(Objectify ofy) {
+            protected T execute(Objectify ofy) {
                 ofy.put(t);
-                return null;
+                return t;
             }
         });
     }

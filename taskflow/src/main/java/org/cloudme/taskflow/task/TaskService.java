@@ -12,7 +12,7 @@ public class TaskService {
     private TaskDao taskDao;
 
     public void create(Task task) {
-        taskDao.save(task);
+        taskDao.put(task);
     }
 
     public List<Task> list() {

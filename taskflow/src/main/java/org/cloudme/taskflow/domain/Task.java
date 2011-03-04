@@ -4,9 +4,9 @@ import java.util.Date;
 
 import javax.persistence.Transient;
 
-import org.cloudme.gaestripes.DomainObject;
+import org.cloudme.gaestripes.Entity;
 
-public class Task extends DomainObject {
+public class Task extends Entity {
     private String title;
     private String content;
     private Date dueDate;

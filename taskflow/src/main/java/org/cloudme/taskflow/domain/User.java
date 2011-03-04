@@ -1,8 +1,8 @@
 package org.cloudme.taskflow.domain;
 
-import org.cloudme.gaestripes.DomainObject;
+import org.cloudme.gaestripes.Entity;
 
-public class User extends DomainObject {
+public class User extends Entity {
     private String userId;
     private String email;
     private String name;

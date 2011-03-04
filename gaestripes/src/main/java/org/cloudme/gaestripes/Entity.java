@@ -7,25 +7,25 @@ import javax.persistence.Id;
  * 
  * @author Moritz Petersen
  */
-public class DomainObject {
+public class Entity {
     @Id
     private Long id;
 
     /**
-     * Initializes an empty {@link DomainObject}
+     * Initializes an empty {@link Entity}
      */
-    public DomainObject() {
+    public Entity() {
         // do nothing
     }
 
     /**
-     * Convenient constructor to create a {@link DomainObject} with the given
+     * Convenient constructor to create a {@link Entity} with the given
      * id.
      * 
      * @param id
-     *            The id of the {@link DomainObject}
+     *            The id of the {@link Entity}
      */
-    public DomainObject(Long id) {
+    public Entity(Long id) {
         this.id = id;
     }
 

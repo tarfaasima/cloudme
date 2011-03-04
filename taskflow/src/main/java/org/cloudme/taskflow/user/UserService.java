@@ -16,7 +16,7 @@ public class UserService {
             user.setEmail(email);
             user.setName(nickname);
             user.setUserId(userId);
-            userDao.save(user);
+            userDao.put(user);
         }
         return user;
     }

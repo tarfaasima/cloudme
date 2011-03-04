@@ -18,12 +18,13 @@ import com.google.inject.Module;
 
 @Intercepts( { LifecycleStage.ActionBeanResolution } )
 public class ActionBeanResolutionInterceptor extends AbstractActionBeanResolutionInterceptor {
+    private static final Module[] MODULES = { new TaskFlowModule() };
     @Inject
     private UserService userService;
 
     @Override
-    protected Module createModule() {
-        return new TaskFlowModule();
+    protected Module[] createModules() {
+        return MODULES;
     }
 
     @Override

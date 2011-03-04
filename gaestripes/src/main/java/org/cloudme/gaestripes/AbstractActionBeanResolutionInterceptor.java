@@ -13,11 +13,11 @@ public abstract class AbstractActionBeanResolutionInterceptor implements Interce
     private final Injector injector;
 
     public AbstractActionBeanResolutionInterceptor() {
-        injector = Guice.createInjector(createModule());
+        injector = Guice.createInjector(createModules());
         injector.injectMembers(this);
     }
 
-    protected abstract Module createModule();
+    protected abstract Module[] createModules();
 
     @Override
     public Resolution intercept(ExecutionContext context) throws Exception {
