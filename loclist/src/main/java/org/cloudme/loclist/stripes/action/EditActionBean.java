@@ -13,10 +13,12 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cloudme.gaestripes.AbstractActionBean;
+import org.cloudme.loclist.item.Item;
 import org.cloudme.loclist.item.ItemService;
-import org.cloudme.loclist.model.Item;
-import org.cloudme.loclist.model.Note;
-import org.cloudme.loclist.model.NoteItem;
+import org.cloudme.loclist.location.LocationService;
+import org.cloudme.loclist.note.Note;
+import org.cloudme.loclist.note.NoteItem;
+import org.cloudme.loclist.note.NoteService;
 
 import com.google.inject.Inject;
 
@@ -25,6 +27,10 @@ public class EditActionBean extends AbstractActionBean {
     private static final Log LOG = LogFactory.getLog(EditActionBean.class);
     @Inject
     private ItemService itemService;
+    @Inject
+    private NoteService noteService;
+    @Inject
+    private LocationService locationService;
     private Long itemId;
     private Long noteId;
     @ValidateNestedProperties( { @Validate( field = "text", required = true ) } )
@@ -36,19 +42,21 @@ public class EditActionBean extends AbstractActionBean {
     @DontValidate
     @DefaultHandler
     public Resolution index() {
-        note = itemService.getNote(noteId);
-        noteItems = itemService.getAllNoteItems(note);
+        note = noteService.find(noteId);
+        noteItems = noteService.getAllNoteItems(note);
         return resolve("edit.jsp");
     }
 
     public Resolution create() {
-        itemService.createItem(new Note(noteId), item, attribute);
+        noteService.addOrRemove(new Note(noteId), item, attribute);
         return new RedirectResolution("/action/edit/" + noteId);
     }
 
     @DontValidate
     public Resolution delete() {
-        itemService.deleteItem(itemId);
+        itemService.delete(itemId);
+        noteService.deleteNoteItemByItemId(itemId);
+        locationService.deleteByItemId(itemId);
         return new RedirectResolution("/action/edit/" + noteId);
     }
 
@@ -57,8 +65,8 @@ public class EditActionBean extends AbstractActionBean {
         if (LOG.isDebugEnabled()) {
             LOG.debug("attribute = " + attribute);
         }
-        Item item = itemService.getItem(itemId);
-        itemService.addOrRemove(new Note(noteId), item, attribute);
+        Item item = itemService.find(itemId);
+        noteService.addOrRemove(new Note(noteId), item, attribute);
         return null;
     }
 

@@ -2,12 +2,12 @@ package org.cloudme.loclist.stripes.action;
 
 import static org.junit.Assert.assertEquals;
 
-import org.cloudme.loclist.test.AbstractServiceTestCase;
+import org.cloudme.loclist.test.BaseTestCase;
 import org.junit.Before;
 import org.junit.Test;
 
 
-public class NoteActionBeanTest extends AbstractServiceTestCase {
+public class NoteActionBeanTest extends BaseTestCase {
     @Before
     public void generateTestData() {
         createItems("Bread", "Apple", "Cheese");

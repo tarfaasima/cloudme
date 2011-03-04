@@ -8,11 +8,11 @@ import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.validation.Validate;
 
 import org.cloudme.gaestripes.AbstractActionBean;
-import org.cloudme.loclist.item.ItemService;
+import org.cloudme.loclist.location.Location;
 import org.cloudme.loclist.location.LocationService;
-import org.cloudme.loclist.model.Location;
-import org.cloudme.loclist.model.Note;
-import org.cloudme.loclist.model.NoteItem;
+import org.cloudme.loclist.note.Note;
+import org.cloudme.loclist.note.NoteItem;
+import org.cloudme.loclist.note.NoteService;
 import org.cloudme.loclist.stripes.validation.GeoCoordinateConverter;
 
 import com.google.inject.Inject;
@@ -20,9 +20,9 @@ import com.google.inject.Inject;
 @UrlBinding( "/action/note/{$event}/{id}/{latitude}/{longitude}" )
 public class NoteActionBean extends AbstractActionBean {
     @Inject
-    private LocationService locationService;
+    private NoteService noteService;
     @Inject
-    private ItemService itemService;
+    private LocationService locationService;
     private Long id;
     @Validate( converter = GeoCoordinateConverter.class )
     private float latitude;
@@ -34,14 +34,14 @@ public class NoteActionBean extends AbstractActionBean {
 
     public Resolution checkin() {
         location = locationService.checkin(latitude, longitude);
-        note = itemService.getNote(id);
-        noteItems = itemService.getNoteItems(note);
-        itemService.orderByLocation(location, noteItems);
+        note = noteService.find(id);
+        noteItems = noteService.getNoteItems(note);
+        locationService.sortNoteItems(location, noteItems);
         return resolve("note.jsp");
     }
 
     public Resolution delete() {
-        itemService.deleteNote(id);
+        noteService.delete(id);
         return new RedirectResolution("/action/index");
     }
 

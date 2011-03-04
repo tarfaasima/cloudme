@@ -6,8 +6,9 @@ import net.sourceforge.stripes.action.UrlBinding;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cloudme.gaestripes.AbstractActionBean;
-import org.cloudme.loclist.item.ItemService;
-import org.cloudme.loclist.model.Location;
+import org.cloudme.loclist.location.Location;
+import org.cloudme.loclist.location.LocationService;
+import org.cloudme.loclist.note.NoteService;
 
 import com.google.inject.Inject;
 
@@ -17,21 +18,17 @@ public class ItemActionBean extends AbstractActionBean {
     private long locationId;
     private long noteItemId;
     @Inject
-    private ItemService itemService;
+    private NoteService noteService;
+    @Inject
+    private LocationService locationService;
 
     public Resolution tick() {
         if (LOG.isDebugEnabled()) {
             LOG.debug("tick(" + locationId + ", " + noteItemId + ")");
         }
-        itemService.tick(new Location(locationId), itemService.getNoteItem(noteItemId));
+        locationService.tick(new Location(locationId), noteService.getNoteItem(noteItemId), System.currentTimeMillis());
         return null;
     }
-
-    //
-    // public Resolution updateItemIndex() {
-    // itemService.updateItemIndex();
-    // return null;
-    // }
 
     public long getLocationId() {
         return locationId;

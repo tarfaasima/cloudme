@@ -1,12 +1,11 @@
-package org.cloudme.loclist.dao;
+package org.cloudme.loclist.location;
 
 import java.util.Iterator;
 
-import org.cloudme.loclist.model.Item;
-import org.cloudme.loclist.model.ItemIndex;
-import org.cloudme.loclist.model.Location;
+import org.cloudme.gaestripes.AbstractDao;
+import org.cloudme.loclist.item.Item;
 
-public class ItemIndexDao extends BaseDao<ItemIndex> {
+class ItemIndexDao extends AbstractDao<ItemIndex> {
     public ItemIndexDao() {
         super(ItemIndex.class);
     }

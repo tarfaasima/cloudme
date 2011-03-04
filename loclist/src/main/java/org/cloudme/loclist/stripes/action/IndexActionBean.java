@@ -11,15 +11,15 @@ import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
 import org.cloudme.gaestripes.AbstractActionBean;
-import org.cloudme.loclist.item.ItemService;
-import org.cloudme.loclist.model.Note;
+import org.cloudme.loclist.note.Note;
+import org.cloudme.loclist.note.NoteService;
 
 import com.google.inject.Inject;
 
 @UrlBinding( "/action/index/{$event}" )
 public class IndexActionBean extends AbstractActionBean {
     @Inject
-    private ItemService itemService;
+    private NoteService noteService;
     private List<Note> notes;
     @ValidateNestedProperties( { @Validate( field = "name", required = true ) } )
     private Note note;
@@ -27,12 +27,12 @@ public class IndexActionBean extends AbstractActionBean {
     @DefaultHandler
     @DontValidate
     public Resolution view() {
-        notes = itemService.getNotes();
+        notes = noteService.listAll();
         return resolve("index.jsp");
     }
 
     public Resolution create() {
-        itemService.put(note);
+        noteService.put(note);
         return new RedirectResolution("/action/index");
     }
 

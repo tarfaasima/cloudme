@@ -1,16 +1,15 @@
-package org.cloudme.loclist.item;
+package org.cloudme.loclist.location;
 
-import org.cloudme.loclist.model.Item;
-import org.cloudme.loclist.model.ItemIndex;
-import org.cloudme.loclist.model.Location;
+import org.cloudme.loclist.item.Item;
+import org.cloudme.loclist.item.ItemService;
 
 /**
  * Component that updates the index value of {@link ItemIndex}.
  * 
  * @author Moritz Petersen
- * @see ItemService#tick(Long, Long)
+ * @see ItemService#tick(Long, Long, long)
  */
-public class ItemIndexEngine {
+class ItemIndexEngine {
     /**
      * Hours.
      */

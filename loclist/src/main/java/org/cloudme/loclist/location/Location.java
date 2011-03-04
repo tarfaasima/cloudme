@@ -1,6 +1,6 @@
-package org.cloudme.loclist.model;
+package org.cloudme.loclist.location;
 
-import org.cloudme.gaestripes.DomainObject;
+import org.cloudme.gaestripes.Entity;
 
 import com.google.appengine.api.datastore.GeoPt;
 import com.googlecode.objectify.annotation.Cached;
@@ -14,7 +14,7 @@ import com.googlecode.objectify.annotation.Unindexed;
  * 
  */
 @Cached
-public class Location extends DomainObject {
+public class Location extends Entity {
     @Unindexed
     private GeoPt geoPt;
 

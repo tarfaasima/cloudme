@@ -7,11 +7,11 @@ import static org.junit.Assert.assertNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.cloudme.loclist.model.Note;
-import org.cloudme.loclist.test.AbstractServiceTestCase;
+import org.cloudme.loclist.note.Note;
+import org.cloudme.loclist.test.BaseTestCase;
 import org.junit.Test;
 
-public class IndexActionBeanTest extends AbstractServiceTestCase {
+public class IndexActionBeanTest extends BaseTestCase {
     @Test
     public void testIndex() throws Exception {
         createNote("Test 1");

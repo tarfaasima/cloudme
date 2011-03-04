@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.cloudme.loclist.item;
+package org.cloudme.loclist.location;
 
 import java.util.Comparator;
 import java.util.Map;
 
-import org.cloudme.loclist.model.NoteItem;
-import org.cloudme.loclist.model.ItemIndex;
+import org.cloudme.loclist.note.NoteItem;
 
 final class NoteItemComparator implements Comparator<NoteItem> {
     private final Map<Long, ItemIndex> itemIndexMap;

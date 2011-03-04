@@ -1,13 +1,11 @@
-package org.cloudme.loclist.item;
+package org.cloudme.loclist.location;
 
 import static org.junit.Assert.assertEquals;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 
-import org.cloudme.loclist.model.Item;
-import org.cloudme.loclist.model.ItemIndex;
-import org.cloudme.loclist.model.Location;
+import org.cloudme.loclist.item.Item;
 import org.junit.Test;
 
 public class ItemIndexEngineTest {
@@ -18,7 +16,7 @@ public class ItemIndexEngineTest {
     private final ItemIndexEngine engine = new ItemIndexEngine();
 
     @Test
-    public void testCreateOrder() {
+    public void testUpdate() {
         assertIndex(0, null, 0, TS_1, null, 0, TS_1);
         assertIndex(0, 0L, 0, TS_1, 0L, 0, TS_1);
         assertIndex(1, null, 0, TS_1, 0L, 0, TS_1);

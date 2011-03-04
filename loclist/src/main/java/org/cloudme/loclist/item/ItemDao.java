@@ -1,8 +1,8 @@
-package org.cloudme.loclist.dao;
+package org.cloudme.loclist.item;
 
-import org.cloudme.loclist.model.Item;
+import org.cloudme.gaestripes.AbstractDao;
 
-public class ItemDao extends BaseDao<Item> {
+class ItemDao extends AbstractDao<Item> {
     public ItemDao() {
         super(Item.class);
     }
@@ -13,6 +13,6 @@ public class ItemDao extends BaseDao<Item> {
     }
 
     public Item findSingleByText(String text) {
-        return findSingleBy("text", text);
+        return findSingle("text", text);
     }
 }

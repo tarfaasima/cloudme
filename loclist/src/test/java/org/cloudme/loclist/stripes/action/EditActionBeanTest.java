@@ -6,11 +6,11 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Iterator;
 
-import org.cloudme.loclist.model.NoteItem;
-import org.cloudme.loclist.test.AbstractServiceTestCase;
+import org.cloudme.loclist.note.NoteItem;
+import org.cloudme.loclist.test.BaseTestCase;
 import org.junit.Test;
 
-public class EditActionBeanTest extends AbstractServiceTestCase {
+public class EditActionBeanTest extends BaseTestCase {
     @Test
     public void testDefault() throws Exception {
         createItems("A", "B", "C");

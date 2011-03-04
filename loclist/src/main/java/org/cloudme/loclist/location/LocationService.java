@@ -1,21 +1,29 @@
 package org.cloudme.loclist.location;
 
-import org.cloudme.loclist.dao.LocationDao;
-import org.cloudme.loclist.model.Location;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.cloudme.loclist.item.Item;
+import org.cloudme.loclist.note.NoteItem;
+import org.cloudme.loclist.note.NoteService;
 
 import com.google.inject.Inject;
 
 public class LocationService {
-    // private static final Log LOG = LogFactory.getLog(LocationService.class);
     @Inject
     private LocationDao locationDao;
-    // @Inject
-    // private CheckinDao checkinDao;
     /**
      * The radius in kilometers of tolerance to map a checkin to an existing
      * location within this radius.
      */
     private double radius = 0.05d;
+    private final ItemIndexEngine engine = new ItemIndexEngine();
+    @Inject
+    private ItemIndexDao itemIndexDao;
+    @Inject
+    private NoteService noteService;
 
     public double getRadius() {
         return radius;
@@ -49,23 +57,9 @@ public class LocationService {
         }
         if (location == null) {
             location = new Location(latitude, longitude);
-            locationDao.save(location);
+            locationDao.put(location);
         }
         return location;
-        // Checkin checkin = new Checkin();
-        // checkin.setLocationId(location.getId());
-        // checkin.setTimestamp(System.currentTimeMillis());
-        // checkin.setLatitude(latitude);
-        // checkin.setLongitude(longitude);
-        // checkinDao.save(checkin);
-        // if (LOG.isDebugEnabled()) {
-        // LOG.debug(String.format("Checkin %d at (%f, %f) location %d",
-        // checkin.getId(),
-        // checkin.getLongitude(),
-        // checkin.getLatitude(),
-        // checkin.getLocationId()));
-        // }
-        // return checkin;
     }
 
     /**
@@ -92,5 +86,42 @@ public class LocationService {
                 * Math.cos(lat2)
                 * Math.cos(lon1 - lon2));
         return 6371.0f * angle;
+    }
+
+    /**
+     * Registers a tick for the given {@link Location} and {@link NoteItem} and
+     * triggers index update.
+     * 
+     * @param location
+     *            The {@link Location}
+     * @param noteItem
+     *            The {@link NoteItem}
+     * @param timestamp TODO
+     */
+    public void tick(Location location, NoteItem noteItem, long timestamp) {
+        if (noteItem.isTicked()) {
+            return;
+        }
+        noteItem.setTicked(true);
+        noteService.put(noteItem);
+
+        Item item = new Item(noteItem.getItemId());
+        ItemIndex itemIndex = itemIndexDao.findBy(location, item);
+        ItemIndex lastItemIndex = itemIndexDao.findLastBy(location);
+        itemIndex = engine.update(location, item, timestamp, itemIndex, lastItemIndex);
+        itemIndexDao.put(itemIndex);
+    }
+
+    public void sortNoteItems(Location location, List<NoteItem> noteItems) {
+        Iterable<ItemIndex> itemIndexs = itemIndexDao.findBy(location);
+        final Map<Long, ItemIndex> itemIndexMap = new HashMap<Long, ItemIndex>();
+        for (ItemIndex itemIndex : itemIndexs) {
+            itemIndexMap.put(itemIndex.getItemId(), itemIndex);
+        }
+        Collections.sort(noteItems, new NoteItemComparator(itemIndexMap));
+    }
+
+    public void deleteByItemId(Long itemId) {
+        itemIndexDao.deleteByItemId(itemId);
     }
 }

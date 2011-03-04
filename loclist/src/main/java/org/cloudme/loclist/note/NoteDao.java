@@ -1,10 +1,10 @@
-package org.cloudme.loclist.dao;
+package org.cloudme.loclist.note;
 
 import java.util.List;
 
-import org.cloudme.loclist.model.Note;
+import org.cloudme.gaestripes.AbstractDao;
 
-public class NoteDao extends BaseDao<Note> {
+class NoteDao extends AbstractDao<Note> {
     public NoteDao() {
         super(Note.class);
     }
@@ -15,6 +15,6 @@ public class NoteDao extends BaseDao<Note> {
     }
 
     public Note findSingleByName(String name) {
-        return findSingleBy("name", name);
+        return findSingle("name", name);
     }
 }

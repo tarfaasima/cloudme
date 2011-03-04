@@ -1,10 +1,10 @@
-package org.cloudme.loclist.model;
+package org.cloudme.loclist.user;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.cloudme.gaestripes.DomainObject;
+import org.cloudme.gaestripes.Entity;
 
 import com.googlecode.objectify.annotation.Cached;
 import com.googlecode.objectify.annotation.Indexed;
@@ -12,7 +12,7 @@ import com.googlecode.objectify.annotation.Unindexed;
 
 @Unindexed
 @Cached
-public class UserProfile extends DomainObject {
+public class UserProfile extends Entity {
     private String authDomain;
     private String email;
     private String federatedIdentity;

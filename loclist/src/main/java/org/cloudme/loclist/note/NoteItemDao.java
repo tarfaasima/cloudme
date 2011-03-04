@@ -1,14 +1,13 @@
-package org.cloudme.loclist.dao;
+package org.cloudme.loclist.note;
 
 import java.util.List;
 
-import org.cloudme.loclist.model.Item;
-import org.cloudme.loclist.model.Note;
-import org.cloudme.loclist.model.NoteItem;
+import org.cloudme.gaestripes.AbstractDao;
+import org.cloudme.loclist.item.Item;
 
 import com.googlecode.objectify.Query;
 
-public class NoteItemDao extends BaseDao<NoteItem> {
+class NoteItemDao extends AbstractDao<NoteItem> {
     public NoteItemDao() {
         super(NoteItem.class);
     }

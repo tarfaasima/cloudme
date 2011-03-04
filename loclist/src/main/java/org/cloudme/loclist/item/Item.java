@@ -1,6 +1,7 @@
-package org.cloudme.loclist.model;
+package org.cloudme.loclist.item;
 
-import org.cloudme.gaestripes.DomainObject;
+import org.cloudme.gaestripes.Entity;
+import org.cloudme.loclist.note.Note;
 
 import com.googlecode.objectify.annotation.Cached;
 
@@ -11,7 +12,7 @@ import com.googlecode.objectify.annotation.Cached;
  * @author Moritz Petersen
  */
 @Cached
-public class Item extends DomainObject {
+public class Item extends Entity {
     private String text;
 
     public Item(Long id) {

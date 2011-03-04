@@ -1,6 +1,7 @@
-package org.cloudme.loclist.model;
+package org.cloudme.loclist.location;
 
-import org.cloudme.gaestripes.DomainObject;
+import org.cloudme.gaestripes.Entity;
+import org.cloudme.loclist.item.Item;
 
 import com.googlecode.objectify.annotation.Cached;
 import com.googlecode.objectify.annotation.Unindexed;
@@ -12,7 +13,7 @@ import com.googlecode.objectify.annotation.Unindexed;
  * @author Moritz Petersen
  */
 @Cached
-public class ItemIndex extends DomainObject implements Comparable<ItemIndex> {
+public class ItemIndex extends Entity implements Comparable<ItemIndex> {
     @Unindexed
     private int index = -1;
     private Long itemId;
