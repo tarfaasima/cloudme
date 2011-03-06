@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <s:layout-render name="/layout/iphone.jsp">
+  <s:layout-component name="title">Lists</s:layout-component>
   <s:layout-component name="content">
     <ul class="edgeToEdge">
       <c:forEach items="${actionBean.notes}" var="note">
