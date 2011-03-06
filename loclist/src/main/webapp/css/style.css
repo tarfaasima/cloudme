@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #C5CCD3;
+  background-color: #FFF;
 }
 
 a {
@@ -11,43 +11,67 @@ a {
 /* Header */
 
 div#header {
-  background-color: #000000;
-  color: white;
-  font: bold 20px Helvetica;
-  padding: 17px 10px;
+  display: table-cell;
+  background-color: #000;
+  color: #FFF;
+  font: bold 17px Helvetica;
   text-transform: uppercase;
 }
 
 div#header a {
+  display: block;
+  padding: 14px 10px;
   color: white;
 }
 
+div#title {
+  float: left;
+}
 div#title a {
   font-weight: bold;
 }
 
-div#buttonLeft {
-  float: left;
+div#button {
+  display: block;
+  float: right;
 }
 
-div#buttonRight {
-  float: right;
+div#content {
+  display: block;
+  clear: both;
 }
 
 /* List style edge-to-edge */
 
 ul.edgeToEdge {
   list-style-type: none;
-  background-color: #FFFFFF;
   padding: 0;
   margin: 0;
   font: bold 17px Helvetica;
 }
 ul.edgeToEdge li {
-  position: relative;
-  display: block;
   border-bottom: 1px solid #D9D9D9;
 }
+li a {
+  display: block;
+  color: #000;
+  padding: 14px 10px;
+}
+
+form.edgeToEdge {
+  display: block;
+  padding: 10px;
+}
+form.edgeToEdge input {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  font: normal 17px Helvetica;
+  -webkit-appearance: none;
+}
+
+/*
 ul.edgeToEdge form {
   position: absolute;
   float: left;
@@ -101,14 +125,12 @@ li .attribute {
   font-weight: normal;
 }
 
-/* User */
 div#user {
   font: normal 10px Helvetica;
   text-align: center;
   padding: 5px;
 }
 
-/* Form */
 .roundedRectangle {
   display: block;
   padding: 10px;
@@ -152,3 +174,8 @@ div#user {
   display: block;
   padding: 10px;
 }
+
+input.wide {
+  width: 100%;
+}
+*/
