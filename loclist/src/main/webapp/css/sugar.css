@@ -1,0 +1,104 @@
+body {
+  padding: 0;
+  margin: 0;
+  font: 17px Helvetica;
+}
+
+a {
+  text-decoration: none;
+}
+
+div#header {
+  background-color: #000;
+  color: #fff;
+  overflow: hidden;
+  text-transform: uppercase;
+}
+
+div#title {
+  float: left;
+  font-weight: bold;
+}
+
+div#button {
+  float: right;
+}
+
+div#header a {
+  padding: 14px 10px;
+  display: block;
+  color: #fff;
+}
+
+div#content a {
+  font-size: 17px;
+  padding: 14px 10px;
+  color: #000;
+  display: block;
+}
+
+ul.edgetoedge {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.edgetoedge li {
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  overflow: hidden;
+}
+
+ul.edgetoedge form {
+  margin: 14px 10px;
+  float: left;
+}
+
+ul.edgetoedge input {
+  padding: 0;
+  margin: 0;
+  border: none;
+  font: 17px Helvetica;
+  -webkit-appearance: none;
+}
+
+ul.edgetoedge a {
+  font-size: 17px;
+  display: block;
+}
+
+ul.edgetoedge a.button {
+  float: right;
+}
+
+ul.edgetoedge div {
+  padding: 14px 10px;
+  color: #000;
+}
+
+form.edgetoedge {
+  margin: 14px 10px;
+}
+
+form.edgetoedge input {
+  padding: 0;
+  margin: 0;
+  border: none;
+  font: 17px Helvetica;
+  -webkit-appearance: none;
+  width: 100%;
+}
+
+div#content a.edgetoedge {
+  overflow: hidden;
+  text-align: center;
+  border-radius: 25px;
+  margin: 14px 10px;
+  padding: 7px 7px;
+  font-weight: bold;
+  background-color: #ccc;
+}
+
+a.delete {
+  background-color: #f00;
+}

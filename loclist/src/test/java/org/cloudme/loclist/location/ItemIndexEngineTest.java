@@ -2,8 +2,8 @@ package org.cloudme.loclist.location;
 
 import static org.junit.Assert.assertEquals;
 
-import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import org.cloudme.loclist.item.Item;
 import org.junit.Test;
@@ -53,7 +53,7 @@ public class ItemIndexEngineTest {
 
     private static long createTimestamp(String dateStr) {
         try {
-            return DateFormat.getDateInstance().parse(dateStr).getTime();
+            return new SimpleDateFormat("dd.MM.yyyy").parse(dateStr).getTime();
         }
         catch (ParseException e) {
             throw new IllegalArgumentException(e);

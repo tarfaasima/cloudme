@@ -3,34 +3,27 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
 <s:layout-render name="/layout/iphone.jsp">
-  <s:layout-component name="header">${actionBean.note.name}</s:layout-component>
-  <s:layout-component name="buttonRight"><a href="/action/note/checkin/${actionBean.note.id}/" class="checkin">Done</a></s:layout-component>
-  <s:layout-component name="content">
-    <ul class="edgeToEdge">
-      <c:forEach items="${actionBean.noteItems}" var="noteItem">
-        <li class="${action}">
-          <form action="!/action/edit/${actionBean.note.id}/addOrRemove/${noteItem.itemId}">
-            <input type="text" size="5" name="attribute" value="${noteItem.attribute}" placeholder="?" class="attribute"/>
-          </form>
-          <a href="!/action/edit/${actionBean.note.id}/addOrRemove/${noteItem.itemId}" id="${noteItem.itemId}" class="edit ${noteItem.inNote ? ' inNote' : ''}">
-            ${noteItem.text}
-          </a>
-          <a href="!/action/edit/${actionBean.note.id}/delete/${noteItem.itemId}" title="Do you want to delete ${noteItem.text}?" class="delete">
-            Delete
-          </a>
-        </li>
-      </c:forEach>
-    </ul>
-    <div class="roundedRectangle">
-      <div class="formLabel">
-        Create a new item
-      </div>
-      <form action="/action/edit/${actionBean.note.id}/create">
-        <div class="inputContainer">
-          <input type="text" name="item.text" placeholder="Item" class="create"/>
-        </div>
-      </form>
-      <a href="/action/note/delete/${actionBean.note.id}" class="delete" title="Do you want to delete note ${actionBean.note.name}?"><span>Delete Note</span></a>
-    </div>
-  </s:layout-component>
+<s:layout-component name="title">${actionBean.note.name}</s:layout-component>
+<s:layout-component name="button"><a href="/action/note/checkin/${actionBean.note.id}/" class="checkin">Done</a></s:layout-component>
+<s:layout-component name="content">
+<ul class="edgetoedge">
+<c:forEach items="${actionBean.noteItems}" var="noteItem">
+<li class="${action}">
+<form action="!/action/edit/${actionBean.note.id}/addOrRemove/${noteItem.itemId}">
+<input type="text" size="5" name="attribute" value="${noteItem.attribute}" placeholder="?" class="attribute"/>
+</form>
+<a href="!/action/edit/${actionBean.note.id}/delete/${noteItem.itemId}" title="Do you want to delete ${noteItem.text}?" class="button">
+Delete
+</a>
+<a href="!/action/edit/${actionBean.note.id}/addOrRemove/${noteItem.itemId}" id="${noteItem.itemId}" class="edit${noteItem.inNote ? ' inNote' : ''}">
+${noteItem.text}
+</a>
+</li>
+</c:forEach>
+</ul>
+<form action="/action/edit/${actionBean.note.id}/create" class="edgetoedge">
+<input type="text" name="item.text" placeholder="Create a new item"/>
+</form>
+<a href="/action/note/delete/${actionBean.note.id}" class="edgetoedge" title="Do you want to delete list ${actionBean.note.name}?">Delete list</a>
+</s:layout-component>
 </s:layout-render>
