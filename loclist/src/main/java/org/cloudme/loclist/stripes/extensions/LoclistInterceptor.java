@@ -5,12 +5,12 @@ import net.sourceforge.stripes.controller.ExecutionContext;
 import net.sourceforge.stripes.controller.Intercepts;
 import net.sourceforge.stripes.controller.LifecycleStage;
 
-import org.cloudme.gaestripes.AbstractActionBeanResolutionInterceptor;
 import org.cloudme.loclist.item.ItemModule;
 import org.cloudme.loclist.location.LocationModule;
 import org.cloudme.loclist.note.NoteModule;
 import org.cloudme.loclist.user.UserProfileModule;
 import org.cloudme.loclist.user.UserProfileService;
+import org.cloudme.sugar.AbstractActionBeanResolutionInterceptor;
 
 import com.google.appengine.api.NamespaceManager;
 import com.google.appengine.api.users.User;

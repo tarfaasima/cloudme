@@ -2,7 +2,7 @@ package org.cloudme.loclist.note;
 
 import java.util.List;
 
-import org.cloudme.gaestripes.AbstractDao;
+import org.cloudme.sugar.AbstractDao;
 
 class NoteDao extends AbstractDao<Note> {
     public NoteDao() {

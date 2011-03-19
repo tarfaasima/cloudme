@@ -10,9 +10,9 @@ import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
-import org.cloudme.gaestripes.AbstractActionBean;
 import org.cloudme.loclist.note.Note;
 import org.cloudme.loclist.note.NoteService;
+import org.cloudme.sugar.AbstractActionBean;
 
 import com.google.inject.Inject;
 

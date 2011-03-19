@@ -7,9 +7,9 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.cloudme.gaestripes.AbstractService;
 import org.cloudme.loclist.item.Item;
 import org.cloudme.loclist.item.ItemService;
+import org.cloudme.sugar.AbstractService;
 
 import com.google.appengine.repackaged.com.google.common.base.StringUtil;
 import com.google.inject.Inject;

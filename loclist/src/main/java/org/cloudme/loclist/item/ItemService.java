@@ -1,7 +1,7 @@
 package org.cloudme.loclist.item;
 
 
-import org.cloudme.gaestripes.AbstractService;
+import org.cloudme.sugar.AbstractService;
 
 import com.google.inject.Inject;
 

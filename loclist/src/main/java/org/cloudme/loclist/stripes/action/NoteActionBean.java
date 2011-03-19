@@ -7,13 +7,13 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.validation.Validate;
 
-import org.cloudme.gaestripes.AbstractActionBean;
 import org.cloudme.loclist.location.Location;
 import org.cloudme.loclist.location.LocationService;
 import org.cloudme.loclist.note.Note;
 import org.cloudme.loclist.note.NoteItem;
 import org.cloudme.loclist.note.NoteService;
 import org.cloudme.loclist.stripes.validation.GeoCoordinateConverter;
+import org.cloudme.sugar.AbstractActionBean;
 
 import com.google.inject.Inject;
 

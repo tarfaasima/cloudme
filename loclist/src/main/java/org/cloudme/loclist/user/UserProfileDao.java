@@ -1,6 +1,6 @@
 package org.cloudme.loclist.user;
 
-import org.cloudme.gaestripes.AbstractDao;
+import org.cloudme.sugar.AbstractDao;
 
 class UserProfileDao extends AbstractDao<UserProfile> {
     public UserProfileDao() {

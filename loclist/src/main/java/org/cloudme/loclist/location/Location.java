@@ -1,6 +1,6 @@
 package org.cloudme.loclist.location;
 
-import org.cloudme.gaestripes.Entity;
+import org.cloudme.sugar.Entity;
 
 import com.google.appengine.api.datastore.GeoPt;
 import com.googlecode.objectify.annotation.Cached;

@@ -2,8 +2,8 @@ package org.cloudme.loclist.note;
 
 import java.util.List;
 
-import org.cloudme.gaestripes.AbstractDao;
 import org.cloudme.loclist.item.Item;
+import org.cloudme.sugar.AbstractDao;
 
 import com.googlecode.objectify.Query;
 

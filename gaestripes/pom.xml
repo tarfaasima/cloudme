@@ -3,10 +3,10 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.cloudme.gaestripes</groupId>
-  <artifactId>gaestripes</artifactId>
+  <groupId>org.cloudme.sugar</groupId>
+  <artifactId>sugar</artifactId>
   <version>0.1.6-SNAPSHOT</version>
-  <name>Stripes Tools</name>
+  <name>Sugar</name>
   <description>Simplifies development with Stripes framework by adding useful helper classes, Google Guice integration etc.</description>
   <dependencies>
     <!-- Testing -->

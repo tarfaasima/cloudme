@@ -5,10 +5,10 @@ import net.sourceforge.stripes.action.UrlBinding;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.cloudme.gaestripes.AbstractActionBean;
 import org.cloudme.loclist.location.Location;
 import org.cloudme.loclist.location.LocationService;
 import org.cloudme.loclist.note.NoteService;
+import org.cloudme.sugar.AbstractActionBean;
 
 import com.google.inject.Inject;
 

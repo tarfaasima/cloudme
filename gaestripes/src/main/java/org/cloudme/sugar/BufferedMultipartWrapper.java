@@ -1,4 +1,4 @@
-package org.cloudme.gaestripes;
+package org.cloudme.sugar;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

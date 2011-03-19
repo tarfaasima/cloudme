@@ -2,8 +2,8 @@ package org.cloudme.loclist.location;
 
 import java.util.Iterator;
 
-import org.cloudme.gaestripes.AbstractDao;
 import org.cloudme.loclist.item.Item;
+import org.cloudme.sugar.AbstractDao;
 
 class ItemIndexDao extends AbstractDao<ItemIndex> {
     public ItemIndexDao() {

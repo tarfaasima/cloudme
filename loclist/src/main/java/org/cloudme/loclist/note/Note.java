@@ -1,7 +1,7 @@
 package org.cloudme.loclist.note;
 
-import org.cloudme.gaestripes.Entity;
 import org.cloudme.loclist.item.Item;
+import org.cloudme.sugar.Entity;
 
 import com.googlecode.objectify.annotation.Cached;
 

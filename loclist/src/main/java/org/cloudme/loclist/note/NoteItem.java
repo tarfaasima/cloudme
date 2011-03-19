@@ -2,8 +2,8 @@ package org.cloudme.loclist.note;
 
 import javax.persistence.Transient;
 
-import org.cloudme.gaestripes.Entity;
 import org.cloudme.loclist.item.Item;
+import org.cloudme.sugar.Entity;
 
 import com.googlecode.objectify.annotation.Cached;
 import com.googlecode.objectify.annotation.Unindexed;

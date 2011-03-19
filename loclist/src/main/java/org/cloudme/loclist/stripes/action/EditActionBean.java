@@ -12,13 +12,13 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.cloudme.gaestripes.AbstractActionBean;
 import org.cloudme.loclist.item.Item;
 import org.cloudme.loclist.item.ItemService;
 import org.cloudme.loclist.location.LocationService;
 import org.cloudme.loclist.note.Note;
 import org.cloudme.loclist.note.NoteItem;
 import org.cloudme.loclist.note.NoteService;
+import org.cloudme.sugar.AbstractActionBean;
 
 import com.google.inject.Inject;
 

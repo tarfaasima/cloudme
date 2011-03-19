@@ -1,6 +1,6 @@
 package org.cloudme.loclist.item;
 
-import org.cloudme.gaestripes.AbstractDao;
+import org.cloudme.sugar.AbstractDao;
 
 class ItemDao extends AbstractDao<Item> {
     public ItemDao() {

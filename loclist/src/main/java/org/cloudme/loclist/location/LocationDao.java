@@ -1,6 +1,6 @@
 package org.cloudme.loclist.location;
 
-import org.cloudme.gaestripes.AbstractDao;
+import org.cloudme.sugar.AbstractDao;
 
 class LocationDao extends AbstractDao<Location> {
     public LocationDao() {

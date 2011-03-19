@@ -3,8 +3,6 @@ package org.cloudme.loclist.test;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.cloudme.gaestripes.AbstractDao;
-import org.cloudme.gaestripes.AbstractServiceTestCase;
 import org.cloudme.loclist.item.Item;
 import org.cloudme.loclist.item.ItemModule;
 import org.cloudme.loclist.location.LocationModule;
@@ -12,6 +10,8 @@ import org.cloudme.loclist.note.Note;
 import org.cloudme.loclist.note.NoteItem;
 import org.cloudme.loclist.note.NoteModule;
 import org.cloudme.loclist.user.UserProfileModule;
+import org.cloudme.sugar.AbstractDao;
+import org.cloudme.sugar.AbstractServiceTestCase;
 
 import com.google.inject.Module;
 
