@@ -13,59 +13,6 @@
 <script type="text/javascript" src="/js/jquery.touchwipe.js"></script>
 <script type="text/javascript" src="/js/sugar.js"></script>
 <script type="text/javascript">
-var noteId;
-
-function edit(url) {
-  $('body').load(url == null ? '/action/edit/' + noteId : url, function() {
-    $('#buttonRight a').click(function() { checkin(noteId); });
-    $('.roundedRectangle a.delete').click(function() {
-      var title = $(this).attr('title');
-      var url = $(this).attr('href');
-      if (confirm(title)) { index(url); }
-      return false;
-    });
-    $('.edgeToEdge input').each(function() {
-      var e = $(this).closest('li'); 
-      $(this).asyncSubmit(function(url) { 
-        $.get(url);
-        if (e.hasClass('add')) {
-          e.removeClass('add');
-          e.addClass('remove');
-        }
-      }) 
-    });
-    $('.roundedRectangle input').asyncSubmit(function(url) {
-      edit(url); 
-    });
-    $('.edgeToEdge a.toggle').click(function() {
-      var id = $(this).attr('id');
-      var e = $(this).closest('li');
-      var url = '/action/edit/' + noteId + '/' + (e.hasClass('add') ? 'add' : 'remove') + '/' + id;
-      $.get(url);
-      if (e.hasClass('remove')) {
-        e.find('input').val('');
-      }
-      e.toggleClass('add');
-      e.toggleClass('remove');
-      return false;
-    });
-    $('.edgeToEdge a').touchwipe({
-      wipeLeft: function(source) { $(source).closest('li').find('a.delete').toggle(); },
-      wipeRight: function(source) { $(source).closest('li').find('a.delete').toggle(); },
-      min_move_x: 150,
-      preventDefaultEvents: false
-    });
-    $('.edgeToEdge a.delete').click(function() {
-      $(this).closest('li').hide();
-      $.get($(this).attr('href'));
-      return false;
-    });
-  });
-}
-
-
-
-// --------------------------------------
 var undefined;
 var checkinLink = undefined;
 
@@ -82,7 +29,6 @@ function checkin(event) {
       $(checkinLink).attr('href', url);
       $(checkinLink).click();
     }, function(error) {
-//      alert(error);
       var position = '0/0';
       var url = $(checkinLink).attr('href') + position;
       $(checkinLink).attr('href', url);
@@ -137,8 +83,11 @@ $(function() {
           min_move_x: 150,
           preventDefaultEvents: false
         });
-        $('li a.delete').click(function() {
+        $('li a.delete').bind('confirm', function() {
           $(this).closest('li').hide();
+        });
+        $('li a.delete').click(function() {
+          $(this).hide();
         });
       },
   });

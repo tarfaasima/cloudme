@@ -27,7 +27,10 @@
             event.stopImmediatePropagation();
             var title = $(this).attr('title');
             if (title !== undefined) {
-              if (confirm(title)) { doLoad(this); }
+              if (confirm(title)) { 
+                doLoad(this);
+                $(this).trigger('confirm');
+              }
             }
           });
           $('a').click(function(event) {
