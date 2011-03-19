@@ -50,12 +50,12 @@ ul.edgetoedge li {
 }
 
 ul.edgetoedge form {
-  margin: 14px 10px;
+  margin: 0px 10px;
   float: left;
 }
 
 ul.edgetoedge input {
-  padding: 0;
+  padding: 14px 0px;
   margin: 0;
   border: none;
   font: 17px Helvetica;
@@ -67,8 +67,13 @@ ul.edgetoedge a {
   display: block;
 }
 
-ul.edgetoedge a.button {
+div#content ul.edgetoedge a.button {
   float: right;
+  padding: 7px;
+  margin: 7px 10px;
+  /*font-weight: normal;*/
+  border-radius: 20px;
+  background-color: #ccc;
 }
 
 ul.edgetoedge div {
@@ -77,11 +82,11 @@ ul.edgetoedge div {
 }
 
 form.edgetoedge {
-  margin: 14px 10px;
+  margin: 0px 10px;
 }
 
 form.edgetoedge input {
-  padding: 0;
+  padding: 14px 0px;
   margin: 0;
   border: none;
   font: 17px Helvetica;
@@ -92,13 +97,9 @@ form.edgetoedge input {
 div#content a.edgetoedge {
   overflow: hidden;
   text-align: center;
-  border-radius: 25px;
+  border-radius: 20px;
   margin: 14px 10px;
-  padding: 7px 7px;
+  padding: 7px;
   font-weight: bold;
   background-color: #ccc;
-}
-
-a.delete {
-  background-color: #f00;
 }

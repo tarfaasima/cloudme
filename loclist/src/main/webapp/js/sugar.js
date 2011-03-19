@@ -4,17 +4,25 @@
   $.fn.sugar = function(args) {
     base = $(this);
     load(args.url);
+    if (args.confirm === undefined) {
+    	args.confirm = 'a.confirm';
+    }
+    if (args.submit === undefined) {
+    	args.submit = 'input.submit';
+    }
+    if (args.expand === undefined) {
+    	args.expand = 'input.expand';
+    }
     
     function load(url) {
       if (url.substr(0, 1) === '!') {
         url = url.substr(1);
         $.get(url);
-//        args.onPostLoad();
       }
       else {
         base.load(url, function() {
           args.onLoad();
-          $('a.delete').click(function(event) {
+          $(args.confirm).click(function(event) {
             event.preventDefault();
             event.stopImmediatePropagation();
             var title = $(this).attr('title');
@@ -26,14 +34,23 @@
             event.preventDefault();
             doLoad(this);
           });
-          $('input').each(function() {
+          $(args.submit).each(function() {
             var form = $(this).closest('form');
             $(this).change(function() { doSubmit(form); });
             $(form).submit(function(event) { event.preventDefault(); });
           });
-//          args.onPostLoad();
+          $(args.expand).each(function() {
+            var e = this;
+            doExpand(e);
+            $(this).keypress(function() { doExpand(e); });
+            $(this).change(function() { doExpand(e); });
+          });
         });
       }
+    }
+    
+    function doExpand(e) {
+  	  $(e).attr('size', Math.max(3, $(e).val().length));
     }
 
     function doLoad(e) {

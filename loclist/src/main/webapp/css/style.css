@@ -4,7 +4,7 @@ span.attribute {
 
 div#content a.ticked {
   color: #ccc;
-  text-decoration: strikethrough;
+  text-decoration: line-through;
 }
 
 div#content a.edit {
@@ -13,4 +13,14 @@ div#content a.edit {
 
 div#content a.inNote {
   color: #000;
+}
+
+div#content ul.edgetoedge a.delete {
+  display: none;
+}
+
+div#footer {
+  font-size: 12px;
+  margin: 17px;
+  text-align: center;
 }

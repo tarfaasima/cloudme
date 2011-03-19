@@ -44,27 +44,46 @@ public class NoteServiceTest extends BaseTestCase {
     @Test
     public void testAddOrRemove() {
         Note note = note("Shopping List");
-        assertInList("Shopping List", "Milk", "Cheese", "Tea", "Bread", "Sugar");
+        assertInList("Shopping List", "Bread", "Cheese", "Milk", "Sugar", "Tea");
 
         noteService.addOrRemove(note, item("Milk"), null);
-        assertInList("Shopping List", "Cheese", "Tea", "Bread", "Sugar");
+        assertInList("Shopping List", "Bread", "Cheese", "Sugar", "Tea");
 
-        assertInList("Shopping List", "Cheese", "Bread", "Sugar");
         noteService.addOrRemove(note, item("Tea"), null);
+        assertInList("Shopping List", "Bread", "Cheese", "Sugar");
 
         noteService.addOrRemove(note, item("Milk"), "2l");
-        assertInList("Shopping List", "Milk", "Cheese", "Bread", "Sugar");
+        assertInList("Shopping List", "Bread", "Cheese", "Milk", "Sugar");
     }
 
     private void assertInList(String name, String... texts) {
         List<String> textList = new ArrayList<String>(Arrays.asList(texts));
-        Collection<NoteItem> noteItems = noteService.getAllNoteItems(note(name));
+        Collection<NoteItem> noteItems = noteService.getNoteItems(note(name));
+        assertEquals("Expected " + textList + " but was: " + texts(noteItems),
+                texts.length,
+                noteItems.size());
+        int i = 0;
         for (NoteItem noteItem : noteItems) {
-            if (noteItem.isInNote()) {
+            if (texts[i++].equals(noteItem.getText())) {
                 textList.remove(noteItem.getText());
             }
         }
         assertTrue("Items not in note: " + textList, textList.isEmpty());
+    }
+
+    private String texts(Collection<NoteItem> noteItems) {
+        StringBuilder sb = new StringBuilder();
+        for (NoteItem noteItem : noteItems) {
+            if (sb.length() == 0) {
+                sb.append("[");
+            }
+            else {
+                sb.append(", ");
+            }
+            sb.append(noteItem.getText());
+        }
+        sb.append("]");
+        return sb.toString();
     }
 
     @Test

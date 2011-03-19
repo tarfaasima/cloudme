@@ -112,13 +112,20 @@ function tickItem(event) {
 }
 
 function toggleInNote() {
-  $(this).toggleClass('inNote'); 
-  $(this).closest('li').find('input.attribute').val('');  
+  if ($(this).hasClass('inNote')) {
+    var attribute = $(this).closest('li').find('input.attribute');
+    attribute.val('');
+    attribute.attr('size', 3);
+  }
+  $(this).toggleClass('inNote');
 }
 
 $(function() {
   $('body').sugar({ 
     url : '/action/index',
+    submit : 'input.submit',
+    confirm : 'a.delete',
+    expand : 'input.attribute',
     onLoad : function() {
         $('a.checkin').click(checkin);
         $('a.unticked').click(tickItem);
@@ -129,6 +136,9 @@ $(function() {
           wipeRight: function(source) { $(source).closest('li').find('a.delete').toggle(); },
           min_move_x: 150,
           preventDefaultEvents: false
+        });
+        $('li a.delete').click(function() {
+          $(this).closest('li').hide();
         });
       },
   });
