@@ -80,7 +80,7 @@ public class LocationServiceTest extends BaseTestCase {
         locationService.tick(manchester, noteItem("Bread"), ts++);
 
         locationService.sortNoteItems(manchester, noteItems);
-        assertItemOrder(noteItems, "Milk", "Tea", "Bread", "Cheese", "Sugar");
+        assertItemOrder(noteItems, "Cheese", "Sugar", "Milk", "Tea", "Bread");
     }
 
     private void assertItemOrder(List<NoteItem> actualNoteItems, String... expectedTexts) {
