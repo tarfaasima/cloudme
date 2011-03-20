@@ -69,9 +69,10 @@ public class LocationServiceTest extends BaseTestCase {
     public void testSortNoteItems() {
         long ts = System.currentTimeMillis();
 
-        List<NoteItem> noteItems = noteService.getNoteItems(note("Shopping List"));
         Location manchester = locationService.checkin(MANCHESTER_LAT, MANCHESTER_LON);
+        List<NoteItem> noteItems = null;
 
+        noteItems = noteService.getNoteItems(note("Shopping List"));
         locationService.sortNoteItems(manchester, noteItems);
         assertItemOrder(noteItems, "Bread", "Cheese", "Milk", "Sugar", "Tea");
 
@@ -79,6 +80,7 @@ public class LocationServiceTest extends BaseTestCase {
         locationService.tick(manchester, noteItem("Tea"), ts++);
         locationService.tick(manchester, noteItem("Bread"), ts++);
 
+        noteItems = noteService.getNoteItems(note("Shopping List"));
         locationService.sortNoteItems(manchester, noteItems);
         assertItemOrder(noteItems, "Cheese", "Sugar", "Milk", "Tea", "Bread");
     }

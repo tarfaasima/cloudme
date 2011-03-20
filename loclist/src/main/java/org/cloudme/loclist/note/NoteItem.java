@@ -5,6 +5,7 @@ import javax.persistence.Transient;
 import org.cloudme.loclist.item.Item;
 import org.cloudme.sugar.Entity;
 
+import com.google.inject.internal.ToStringBuilder;
 import com.googlecode.objectify.annotation.Cached;
 import com.googlecode.objectify.annotation.Unindexed;
 
@@ -25,7 +26,7 @@ public class NoteItem extends Entity implements Comparable<NoteItem> {
     private boolean ticked;
     private String text;
     @Transient
-    private boolean inList = false;
+    private boolean inNote = false;
 
     public Long getNoteId() {
         return noteId;
@@ -67,16 +68,22 @@ public class NoteItem extends Entity implements Comparable<NoteItem> {
         return text;
     }
 
-    public void setInNote(boolean inList) {
-        this.inList = inList;
+    public void setInNote(boolean inNote) {
+        this.inNote = inNote;
     }
 
     public boolean isInNote() {
-        return inList;
+        return inNote;
     }
 
     @Override
     public int compareTo(NoteItem o) {
         return text.compareTo(o.text);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(NoteItem.class).add("text", text).add("attribute", attribute).add("ticked", ticked)
+                .add("inNote", inNote).toString();
     }
 }

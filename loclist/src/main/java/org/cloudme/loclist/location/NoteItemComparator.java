@@ -28,6 +28,12 @@ final class NoteItemComparator implements Comparator<NoteItem> {
 
     @Override
     public int compare(NoteItem i1, NoteItem i2) {
+        if (i1.isTicked() && !i2.isTicked()) {
+            return 1;
+        }
+        if (!i1.isTicked() && i2.isTicked()) {
+            return -1;
+        }
         ItemIndex o1 = itemIndexMap.get(i1.getItemId());
         ItemIndex o2 = itemIndexMap.get(i2.getItemId());
         return o1 == null ? o2 == null ? 0 : 1 : o2 == null ? -1 : o1.getIndex() - o2.getIndex();
