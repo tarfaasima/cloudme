@@ -21,6 +21,6 @@
 </ul>
 </s:layout-component>
 <s:layout-component name="footer">
-${actionBean.longitude}, ${actionBean.latitude}
+${actionBean.longitude},${actionBean.latitude} &bull;
 </s:layout-component>
 </s:layout-render>

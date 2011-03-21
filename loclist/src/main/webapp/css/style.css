@@ -24,3 +24,9 @@ div#footer {
   margin: 17px;
   text-align: center;
 }
+
+div#footer a {
+  color: black;
+  font-weight: bold;
+  text-decoration: underline;
+}

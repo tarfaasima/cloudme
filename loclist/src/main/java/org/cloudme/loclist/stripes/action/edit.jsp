@@ -21,9 +21,9 @@ ${noteItem.text}
 </li>
 </c:forEach>
 </ul>
-<form action="/action/edit/${actionBean.note.id}/create" class="edgetoedge">
+<s:form action="/action/edit/${actionBean.note.id}/create" class="edgetoedge">
 <input type="text" name="item.text" placeholder="Create a new item" class="submit"/>
-</form>
+</s:form>
 <a href="/action/note/delete/${actionBean.note.id}" class="edgetoedge delete" title="Do you want to delete list ${actionBean.note.name}?">Delete list</a>
 </s:layout-component>
 </s:layout-render>

@@ -13,6 +13,6 @@
 <s:layout-component name="content"/>
 </div>
 <div id="footer">
-<s:layout-component name="footer"/>
+<s:layout-component name="footer"/> ${user.email} &bull; <a href="${logout}">Logout</a>
 </div>
 </s:layout-definition>

@@ -1,5 +1,7 @@
 package org.cloudme.loclist.stripes.extensions;
 
+import javax.servlet.ServletContext;
+
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.controller.ExecutionContext;
 import net.sourceforge.stripes.controller.Intercepts;
@@ -14,6 +16,7 @@ import org.cloudme.sugar.AbstractActionBeanResolutionInterceptor;
 
 import com.google.appengine.api.NamespaceManager;
 import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -27,11 +30,14 @@ public class LoclistInterceptor extends AbstractActionBeanResolutionInterceptor 
 
     @Override
     public Resolution intercept(ExecutionContext context) throws Exception {
-        User user = UserServiceFactory.getUserService().getCurrentUser();
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
         if (user != null) {
             userProfileService.login(user);
             NamespaceManager.set(user.getUserId());
-            context.getActionBeanContext().getServletContext().setAttribute("user", user);
+            ServletContext servletContext = context.getActionBeanContext().getServletContext();
+            servletContext.setAttribute("user", user);
+            servletContext.setAttribute("logout", userService.createLogoutURL("/"));
         }
         return super.intercept(context);
     }

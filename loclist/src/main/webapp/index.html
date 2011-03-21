@@ -89,6 +89,11 @@ $(function() {
         $('li a.delete').click(function() {
           $(this).hide();
         });
+        $('div.footer a').click(function(event) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          window.location = $(this).attr('href');    
+        });      
       },
   });
 });
