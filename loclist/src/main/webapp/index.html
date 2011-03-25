@@ -66,7 +66,8 @@ function toggleInNote() {
   $(this).toggleClass('inNote');
 }
 
-$(function() {
+$(document).ready(function() {
+  $.ajaxSetup({ cache: false });
   $('body').sugar({ 
     url : '/action/index',
     submit : 'input.submit',
@@ -89,10 +90,10 @@ $(function() {
         $('li a.delete').click(function() {
           $(this).hide();
         });
-        $('div.footer a').click(function(event) {
-          event.preventDefault();
+        $('a#logout').click(function(event) { 
+          window.location = $(this).attr('href');
           event.stopImmediatePropagation();
-          window.location = $(this).attr('href');    
+          event.preventDefault();
         });      
       },
   });

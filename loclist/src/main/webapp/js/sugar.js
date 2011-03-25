@@ -15,9 +15,11 @@
     }
     
     function load(url) {
+      console.log(url);
       if (url.substr(0, 1) === '!') {
         url = url.substr(1);
-        $.get(url);
+        var response = $.get(url);
+        console.log(response);
       }
       else {
         base.load(url, function() {
@@ -34,6 +36,7 @@
             }
           });
           $('a').click(function(event) {
+            console.log("sugar");
             event.preventDefault();
             doLoad(this);
           });

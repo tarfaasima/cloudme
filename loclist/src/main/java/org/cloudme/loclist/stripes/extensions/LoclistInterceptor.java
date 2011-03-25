@@ -1,12 +1,15 @@
 package org.cloudme.loclist.stripes.extensions;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.controller.ExecutionContext;
 import net.sourceforge.stripes.controller.Intercepts;
 import net.sourceforge.stripes.controller.LifecycleStage;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cloudme.loclist.item.ItemModule;
 import org.cloudme.loclist.location.LocationModule;
 import org.cloudme.loclist.note.NoteModule;
@@ -23,6 +26,7 @@ import com.google.inject.Module;
 
 @Intercepts( { LifecycleStage.ActionBeanResolution } )
 public class LoclistInterceptor extends AbstractActionBeanResolutionInterceptor {
+    private static final Log LOG = LogFactory.getLog(LoclistInterceptor.class);
     private static final Module[] MODULES = { new ItemModule(), new NoteModule(), new LocationModule(),
             new UserProfileModule() };
     @Inject
@@ -30,6 +34,11 @@ public class LoclistInterceptor extends AbstractActionBeanResolutionInterceptor 
 
     @Override
     public Resolution intercept(ExecutionContext context) throws Exception {
+        if (LOG.isDebugEnabled()) {
+            HttpServletRequest request = context.getActionBeanContext().getRequest();
+            String queryString = request.getQueryString();
+            LOG.debug(request.getRequestURI() + (queryString == null ? "" : "?" + queryString));
+        }
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         if (user != null) {
