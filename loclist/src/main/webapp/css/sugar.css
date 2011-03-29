@@ -9,10 +9,18 @@ a {
 }
 
 div#header {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#999), color-stop(50%,#333), color-stop(51%,#000), color-stop(100%,#666));
   background-color: #000;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #333;
+  border-right: 1px solid #666;
+  border-left: 1px solid #666;
   color: #fff;
   overflow: hidden;
   text-transform: uppercase;
+  text-shadow: 0px -1px 0px #333;
 }
 
 div#title {
