@@ -1,8 +1,12 @@
 package org.cloudme.loclist.location;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.cloudme.loclist.note.NoteItem;
@@ -102,6 +106,22 @@ public class LocationServiceTest extends BaseTestCase {
 
         locationService.deleteByItemId(item("Milk").getId());
         assertEquals(0, itemIndexDao.listAll().size());
+    }
+
+    @Test
+    public void testFindAllLocations() {
+        Location man = locationService.checkin(MANCHESTER_LAT, MANCHESTER_LON);
+        locationService.tick(man, noteItem("Milk"), System.currentTimeMillis());
+        Location lon = locationService.checkin(LONDON_LAT, LONDON_LON);
+
+        Collection<Location> locations = locationService.findAllLocations();
+        assertEquals(2, locations.size());
+        Iterator<Location> it = locations.iterator();
+        Location l1 = it.next();
+        assertEquals(MANCHESTER_LAT, l1.getLatitude(), 0.00001d);
+        assertEquals("Milk", l1.getItemIndexs().iterator().next().getText());
+        assertTrue(it.next().getItemIndexs().isEmpty());
+        assertFalse(it.hasNext());
     }
 
     private <T> List<T> list(Iterable<T> iterable) {

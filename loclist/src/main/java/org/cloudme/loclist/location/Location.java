@@ -1,7 +1,12 @@
 package org.cloudme.loclist.location;
 
+import java.util.Collection;
+
+import javax.persistence.Transient;
+
 import org.cloudme.sugar.Entity;
 
+import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.GeoPt;
 import com.googlecode.objectify.annotation.Cached;
 import com.googlecode.objectify.annotation.Unindexed;
@@ -17,6 +22,10 @@ import com.googlecode.objectify.annotation.Unindexed;
 public class Location extends Entity {
     @Unindexed
     private GeoPt geoPt;
+    @Unindexed
+    private Blob thumbnail;
+    @Transient
+    private Collection<ItemIndex> itemIndexs;
 
     public Location() {
         // Required for persistence
@@ -44,5 +53,29 @@ public class Location extends Entity {
 
     public float getLongitude() {
         return geoPt.getLongitude();
+    }
+
+    public void setThumbnail(Blob thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+    public Blob getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnailBytes(byte[] bytes) {
+        this.thumbnail = new Blob(bytes);
+    }
+
+    public byte[] getThumbnailBytes() {
+        return thumbnail.getBytes();
+    }
+
+    public void setItemIndexs(Collection<ItemIndex> itemIndexs) {
+        this.itemIndexs = itemIndexs;
+    }
+
+    public Collection<ItemIndex> getItemIndexs() {
+        return itemIndexs;
     }
 }

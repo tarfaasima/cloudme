@@ -1,11 +1,13 @@
 package org.cloudme.loclist.location;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.cloudme.loclist.item.Item;
+import org.cloudme.loclist.item.ItemService;
 import org.cloudme.loclist.note.NoteItem;
 import org.cloudme.loclist.note.NoteService;
 
@@ -24,6 +26,8 @@ public class LocationService {
     private ItemIndexDao itemIndexDao;
     @Inject
     private NoteService noteService;
+    @Inject
+    private ItemService itemService;
 
     public double getRadius() {
         return radius;
@@ -123,5 +127,28 @@ public class LocationService {
 
     public void deleteByItemId(Long itemId) {
         itemIndexDao.deleteByItemId(itemId);
+    }
+
+    public Collection<Location> findAllLocations() {
+        Map<Long, Item> itemMap = null;
+        List<Location> locations = locationDao.listAll();
+        for (Location location : locations) {
+            List<ItemIndex> itemIndexs = itemIndexDao.listBy(location);
+            location.setItemIndexs(itemIndexs);
+            for (ItemIndex itemIndex : itemIndexs) {
+                if (itemIndex.getText() == null) {
+                    if (itemMap == null) {
+                        itemMap = new HashMap<Long, Item>();
+                        Iterable<Item> items = itemService.findAll();
+                        for (Item item : items) {
+                            itemMap.put(item.getId(), item);
+                        }
+                    }
+                    itemIndex.setText(itemMap.get(itemIndex.getItemId()).getText());
+                    itemIndexDao.put(itemIndex);
+                }
+            }
+        }
+        return locations;
     }
 }

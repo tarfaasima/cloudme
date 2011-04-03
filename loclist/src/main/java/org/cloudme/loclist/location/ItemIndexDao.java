@@ -1,6 +1,7 @@
 package org.cloudme.loclist.location;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.cloudme.loclist.item.Item;
 import org.cloudme.sugar.AbstractDao;
@@ -57,5 +58,9 @@ class ItemIndexDao extends AbstractDao<ItemIndex> {
 
     public void deleteByItemId(Long itemId) {
         deleteAll(filter("itemId", itemId));
+    }
+
+    public List<ItemIndex> listBy(Location location) {
+        return super.listBy(filter("locationId", location.getId()));
     }
 }

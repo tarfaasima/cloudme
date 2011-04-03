@@ -1,5 +1,8 @@
 package org.cloudme.loclist.location;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 import org.cloudme.loclist.item.Item;
 import org.cloudme.sugar.Entity;
 
@@ -19,6 +22,8 @@ public class ItemIndex extends Entity implements Comparable<ItemIndex> {
     private Long itemId;
     private Long locationId;
     private Long lastUpdate;
+    @Unindexed
+    private String text;
 
     public int getIndex() {
         return index;
@@ -69,5 +74,17 @@ public class ItemIndex extends Entity implements Comparable<ItemIndex> {
 
     public Long getLastUpdate() {
         return lastUpdate;
+    }
+
+    public String getLastUpdateString() {
+        return DateFormat.getDateTimeInstance().format(new Date(lastUpdate));
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getText() {
+        return text;
     }
 }
