@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <s:layout-render name="/layout/iphone.jsp">
-<s:layout-component name="title">${actionBean.note.name}</s:layout-component>
+<s:layout-component name="title">&#9664; ${actionBean.note.name}</s:layout-component>
 <s:layout-component name="button"><a href="/action/edit/${actionBean.note.id}">Edit</a></s:layout-component>
 <s:layout-component name="content">
 <ul class="edgetoedge">
