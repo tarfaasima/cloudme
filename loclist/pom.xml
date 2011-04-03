@@ -61,8 +61,8 @@
   </reporting>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <gae.version>1.4.0</gae.version>
-    <maven-gae-plugin.version>0.8.2</maven-gae-plugin.version>
+    <gae.version>1.4.3</gae.version>
+    <maven-gae-plugin.version>0.8.4</maven-gae-plugin.version>
   </properties>
   <url>http://loclist.cloudme.org</url>
   <developers>
@@ -205,7 +205,7 @@
     <dependency>
       <groupId>org.cloudme.sugar</groupId>
       <artifactId>sugar</artifactId>
-      <version>0.1.6-SNAPSHOT</version>
+      <version>0.1.7-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>

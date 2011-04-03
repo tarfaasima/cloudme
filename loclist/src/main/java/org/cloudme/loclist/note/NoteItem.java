@@ -2,10 +2,10 @@ package org.cloudme.loclist.note;
 
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.cloudme.loclist.item.Item;
 import org.cloudme.sugar.Entity;
 
-import com.google.inject.internal.ToStringBuilder;
 import com.googlecode.objectify.annotation.Cached;
 import com.googlecode.objectify.annotation.Unindexed;
 
@@ -83,7 +83,7 @@ public class NoteItem extends Entity implements Comparable<NoteItem> {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(NoteItem.class).add("text", text).add("attribute", attribute).add("ticked", ticked)
-                .add("inNote", inNote).toString();
+        return new ToStringBuilder(NoteItem.class).append("text", text).append("attribute", attribute).append("ticked",
+                ticked).append("inNote", inNote).toString();
     }
 }
