@@ -68,7 +68,7 @@ public class Location extends Entity {
     }
 
     public byte[] getThumbnailBytes() {
-        return thumbnail.getBytes();
+        return thumbnail == null ? null : thumbnail.getBytes();
     }
 
     public void setItemIndexs(Collection<ItemIndex> itemIndexs) {

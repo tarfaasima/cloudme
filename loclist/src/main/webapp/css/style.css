@@ -30,3 +30,12 @@ div#footer a {
   font-weight: bold;
   text-decoration: underline;
 }
+
+div#thumbnail {
+  text-align: center;
+  margin: 17px 0;
+}
+
+div#thumbnail img {
+  border-radius: 8px;
+}

@@ -1,11 +1,18 @@
 package org.cloudme.loclist.location;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cloudme.loclist.item.Item;
 import org.cloudme.loclist.item.ItemService;
 import org.cloudme.loclist.note.NoteItem;
@@ -14,6 +21,8 @@ import org.cloudme.loclist.note.NoteService;
 import com.google.inject.Inject;
 
 public class LocationService {
+    private static final Log LOG = LogFactory.getLog(LocationService.class);
+    private static final String THUMBNAIL_ADDRESS = "http://maps.google.com/maps/api/staticmap?center=%1$s,%2$s&zoom=15&size=300x150&maptype=roadmap&markers=color:red%%7C%1$s,%2$s&sensor=false";
     @Inject
     private LocationDao locationDao;
     /**
@@ -150,5 +159,31 @@ public class LocationService {
             }
         }
         return locations;
+    }
+
+    public Location find(Long id) {
+        Location location = locationDao.find(id);
+        if (location.getThumbnailBytes() == null) {
+            String address = String.format(THUMBNAIL_ADDRESS, location.getLatitude(), location.getLongitude());
+            try {
+                URL url = new URL(address);
+                InputStream in = null;
+                try {
+                    in = url.openStream();
+                    location.setThumbnailBytes(IOUtils.toByteArray(in));
+                    locationDao.put(location);
+                }
+                catch (IOException e) {
+                    LOG.warn("Unable to retrieve thumbnail " + address, e);
+                }
+                finally {
+                    IOUtils.closeQuietly(in);
+                }
+            }
+            catch (MalformedURLException e) {
+                throw new IllegalStateException("Malformed URL: " + address, e);
+            }
+        }
+        return location;
     }
 }

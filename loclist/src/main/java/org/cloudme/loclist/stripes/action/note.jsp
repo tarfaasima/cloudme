@@ -19,6 +19,7 @@
 </li>
 </c:forEach>
 </ul>
+<div id="thumbnail"><img src="/action/image/location_${actionBean.location.id}.jpg"/></div>
 </s:layout-component>
 <s:layout-component name="footer">
 ${actionBean.longitude},${actionBean.latitude} &bull;

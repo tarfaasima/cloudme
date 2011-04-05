@@ -13,13 +13,13 @@ div#header {
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#999), color-stop(50%,#333), color-stop(51%,#000), color-stop(100%,#666));
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
+  border-right: 1px solid #666;
+  border-left: 1px solid #999;
   */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#999), color-stop(100%,#000));
   background-color: #000;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #666;
-  border-right: 1px solid #666;
-  border-left: 1px solid #999;
   color: #fff;
   overflow: hidden;
   text-transform: uppercase;
@@ -39,14 +39,14 @@ div#header div#button a {
   font-size: 13px;
   font-weight: bold;
   padding: 6px 10px;
-  margin: 10px 10px;
+  margin: 8px 10px;
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#999), color-stop(100%,#000));
   /*
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#44B4FF), color-stop(100%,#163B54));
   */
   border-top: 1px solid #666;
   border-left: 1px solid #666;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #999;
   border-right: 1px solid #999;
   border-radius: 5px;
   text-transform: none;

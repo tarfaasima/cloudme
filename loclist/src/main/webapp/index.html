@@ -9,7 +9,7 @@
 <link rel="apple-touch-startup-image" href="/apple-touch-startup-image.png"/>
 <link rel="stylesheet" href="/css/sugar.css" type="text/css" />
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
-<script type="text/javascript" src="/js/jquery-1.5.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript" src="/js/jquery.touchwipe.js"></script>
 <script type="text/javascript" src="/js/sugar.js"></script>
 <script type="text/javascript">
@@ -67,7 +67,6 @@ function toggleInNote() {
 }
 
 $(document).ready(function() {
-  $.ajaxSetup({ cache: false });
   $('body').sugar({ 
     url : '/action/index',
     submit : 'input.submit',

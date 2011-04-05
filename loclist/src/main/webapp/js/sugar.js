@@ -15,11 +15,12 @@
     }
     
     function load(url) {
+      url += url.indexOf('?') == -1 ? '?' : '&';
+      url += '_=' + new Date().getTime();
       console.log(url);
       if (url.substr(0, 1) === '!') {
         url = url.substr(1);
         var response = $.get(url);
-        console.log(response);
       }
       else {
         base.load(url, function() {
@@ -36,7 +37,6 @@
             }
           });
           $('a').click(function(event) {
-            console.log("sugar");
             event.preventDefault();
             doLoad(this);
           });
@@ -68,11 +68,18 @@
     }
 
     function doSubmit(form) {
+      var needsAmp = false;
       var url = $(form).attr('action') + '?';
       $(form).find('input').each(function(index, input) {
+        if (needsAmp) {
+          url += '&';
+        }
+        else {
+          needsAmp = true;
+        }
         var value = encodeURI($(input).attr('value'));
         var name = $(input).attr('name');
-        url = url + name + '=' + value + '&';
+        url += name + '=' + value;
       });
       load(url);
     }
