@@ -112,7 +112,7 @@ public class LocationServiceTest extends BaseTestCase {
     public void testFindAllLocations() {
         Location man = locationService.checkin(MANCHESTER_LAT, MANCHESTER_LON);
         locationService.tick(man, noteItem("Milk"), System.currentTimeMillis());
-        Location lon = locationService.checkin(LONDON_LAT, LONDON_LON);
+        locationService.checkin(LONDON_LAT, LONDON_LON);
 
         Collection<Location> locations = locationService.findAllLocations();
         assertEquals(2, locations.size());
@@ -122,6 +122,18 @@ public class LocationServiceTest extends BaseTestCase {
         assertEquals("Milk", l1.getItemIndexs().iterator().next().getText());
         assertTrue(it.next().getItemIndexs().isEmpty());
         assertFalse(it.hasNext());
+    }
+
+    @Test
+    public void testDelete() {
+        Location man = locationService.checkin(MANCHESTER_LAT, MANCHESTER_LON);
+        locationService.tick(man, noteItem("Milk"), System.currentTimeMillis());
+        assertEquals(1, itemIndexDao.listBy(man).size());
+        assertEquals(1, locationDao.listAll().size());
+
+        locationService.delete(man.getId());
+        assertEquals(0, itemIndexDao.listBy(man).size());
+        assertEquals(0, locationDao.listAll().size());
     }
 
     private <T> List<T> list(Iterable<T> iterable) {

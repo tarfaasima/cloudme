@@ -23,7 +23,7 @@ public class LocationImageActionBean extends AbstractActionBean {
     @DefaultHandler
     public Resolution show() throws IOException {
         ServletOutputStream out = getContext().getResponse().getOutputStream();
-        Location location = locationService.find(id);
+        Location location = locationService.findWithThumbnail(id);
         out.write(location.getThumbnailBytes());
         return null;
     }

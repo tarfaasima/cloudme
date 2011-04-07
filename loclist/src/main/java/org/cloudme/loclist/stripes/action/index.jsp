@@ -3,6 +3,7 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <s:layout-render name="/layout/iphone.jsp">
 <s:layout-component name="title">Lists</s:layout-component>
+<s:layout-component name="button"><a href="/action/location">Locations</a></s:layout-component>
 <s:layout-component name="content">
 <ul class="edgetoedge">
 <c:forEach items="${actionBean.notes}" var="note">

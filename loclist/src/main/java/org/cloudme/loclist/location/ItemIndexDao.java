@@ -63,4 +63,8 @@ class ItemIndexDao extends AbstractDao<ItemIndex> {
     public List<ItemIndex> listBy(Location location) {
         return super.listBy(filter("locationId", location.getId()));
     }
+
+    public void deleteByLocationId(Long id) {
+        deleteAll(filter("locationId", id));
+    }
 }

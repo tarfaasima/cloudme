@@ -161,7 +161,7 @@ public class LocationService {
         return locations;
     }
 
-    public Location find(Long id) {
+    public Location findWithThumbnail(Long id) {
         Location location = locationDao.find(id);
         if (location.getThumbnailBytes() == null) {
             String address = String.format(THUMBNAIL_ADDRESS, location.getLatitude(), location.getLongitude());
@@ -184,6 +184,18 @@ public class LocationService {
                 throw new IllegalStateException("Malformed URL: " + address, e);
             }
         }
+        return location;
+    }
+
+    public void delete(Long id) {
+        locationDao.delete(id);
+        itemIndexDao.deleteByLocationId(id);
+    }
+
+    public Location findWithItemIndexs(Long id) {
+        Location location = locationDao.find(id);
+        List<ItemIndex> itemIndexs = itemIndexDao.listBy(location);
+        location.setItemIndexs(itemIndexs);
         return location;
     }
 }

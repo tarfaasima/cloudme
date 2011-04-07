@@ -31,11 +31,20 @@ div#footer a {
   text-decoration: underline;
 }
 
-div#thumbnail {
+div.thumbnail {
   text-align: center;
   margin: 17px 0;
 }
 
-div#thumbnail img {
+img.thumbnail {
   border-radius: 8px;
+}
+
+a.thumbnail {
+  font-size: 12px;
+  text-align: center;
+}
+
+span.details {
+  font-weight: normal;
 }
