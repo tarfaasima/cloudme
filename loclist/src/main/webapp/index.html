@@ -90,10 +90,16 @@ $(document).ready(function() {
           $(this).hide();
         });
         $('a#logout').click(function(event) { 
-          window.location = $(this).attr('href');
+          $(this).unbind('click');
           event.stopImmediatePropagation();
-          event.preventDefault();
+//          window.location = $(this).attr('href');
+//          event.stopImmediatePropagation();
+//          event.preventDefault();
         });      
+        $('a#maps').click(function(event) {
+          $(this).unbind('click');
+          event.stopImmediatePropagation();
+        });
       },
   });
 });

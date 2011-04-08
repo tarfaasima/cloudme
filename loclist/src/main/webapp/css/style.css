@@ -40,7 +40,7 @@ img.thumbnail {
   border-radius: 8px;
 }
 
-a.thumbnail {
+div#content a.thumbnail {
   font-size: 12px;
   text-align: center;
 }

@@ -29,7 +29,7 @@ public class LocationService {
      * The radius in kilometers of tolerance to map a checkin to an existing
      * location within this radius.
      */
-    private double radius = 0.05d;
+    private double radius = 0.5d;
     private final ItemIndexEngine engine = new ItemIndexEngine();
     @Inject
     private ItemIndexDao itemIndexDao;

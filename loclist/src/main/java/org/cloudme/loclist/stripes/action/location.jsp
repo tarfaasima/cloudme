@@ -11,7 +11,7 @@
 <li>
 <a href="/action/location/details/${location.id}" class="thumbnail">
 <img src="/action/image/location_${location.id}.jpg" class="thumbnail"/>
-${location.longitude},${location.latitude} 
+${location.latitude},${location.longitude} 
 <span class="details">(${fn:length(location.itemIndexs)} items)</span>
 </a>
 </li>
