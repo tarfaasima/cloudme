@@ -1,6 +1,7 @@
 package org.cloudme.loclist.note;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -128,4 +129,18 @@ public class NoteServiceTest extends BaseTestCase {
         assertNull(noteItemDao.find(noteItem("Milk").getId()));
     }
 
+    @Test
+    public void testResetTicks() {
+        noteItem("Milk").setTicked(true);
+        noteItem("Cheese").setTicked(true);
+
+        assertTrue(noteItem("Milk").isTicked());
+        assertTrue(noteItem("Cheese").isTicked());
+
+        noteService.resetTicks(note("Shopping List"));
+        refresh();
+
+        assertFalse(noteItem("Milk").isTicked());
+        assertFalse(noteItem("Cheese").isTicked());
+    }
 }

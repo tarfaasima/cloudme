@@ -124,4 +124,20 @@ public class NoteService extends AbstractService<Note> {
         noteItemDao.deleteByItemId(itemId);
     }
 
+    /**
+     * Resets the ticks of the {@link NoteItem}s of the given {@link Note}.
+     * 
+     * @param note
+     *            The {@link Note}.
+     */
+    public void resetTicks(Note note) {
+        List<NoteItem> noteItems = noteItemDao.listTickedBy(note);
+        for (NoteItem noteItem : noteItems) {
+            if (noteItem.isTicked()) {
+                noteItem.setTicked(false);
+            }
+        }
+        noteItemDao.put(noteItems);
+    }
+
 }

@@ -22,7 +22,6 @@ public class NoteItem extends Entity implements Comparable<NoteItem> {
     private Long noteId;
     @Unindexed
     private String attribute;
-    @Unindexed
     private boolean ticked;
     private String text;
     @Transient

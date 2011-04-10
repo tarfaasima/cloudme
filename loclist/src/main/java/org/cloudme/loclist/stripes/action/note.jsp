@@ -20,6 +20,7 @@
 </c:forEach>
 </ul>
 <div class="thumbnail"><img src="/action/image/location_${actionBean.location.id}.jpg" class="thumbnail"/></div>
+<a href="/action/note/reset/${actionBean.id}/${actionBean.latitude}/${actionBean.longitude}" class="edgetoedge" title="Do you want to reset this list?">Reset</a>
 </s:layout-component>
 <s:layout-component name="footer">
 ${actionBean.longitude},${actionBean.latitude} &bull;

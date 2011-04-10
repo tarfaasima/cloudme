@@ -45,6 +45,11 @@ public class NoteActionBean extends AbstractActionBean {
         return new RedirectResolution("/action/index");
     }
 
+    public Resolution reset() {
+        noteService.resetTicks(new Note(id));
+        return checkin();
+    }
+
     public Long getId() {
         return id;
     }

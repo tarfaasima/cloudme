@@ -39,4 +39,8 @@ class NoteItemDao extends AbstractDao<NoteItem> {
     public NoteItem findSingleBy(Note note, Item item) {
         return findSingle(filter("noteId", note.getId()), filter("itemId", item.getId()));
     }
+
+    public List<NoteItem> listTickedBy(Note note) {
+        return listBy(filter("noteId", note.getId()), filter("ticked", true));
+    }
 }
