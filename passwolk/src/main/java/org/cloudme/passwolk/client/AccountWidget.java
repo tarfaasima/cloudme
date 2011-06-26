@@ -8,6 +8,7 @@ public class AccountWidget extends Composite {
     public AccountWidget() {
         VerticalPanel vPanel = new VerticalPanel();
         vPanel.add(new LabeledWidget("Name", new TextBox()));
+        vPanel.add(new LabeledWidget("Name", new TextBox()));
         initWidget(vPanel);
     }
 }
