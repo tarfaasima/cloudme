@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Passwolk</title>
+<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $.getJSON("/account", function(accounts) {
+    $.each(accounts, function(index, account) {
+      $.each(account, function(key, val) {
+        $("#" + key).val(val);
+      });
+    });
+  });
+});
+</script>
+</head>
+<body>
+  <form action="/account" method="post">
+    <div>Name</div>
+    <input type="text" name="account.name" id="name"/>
+    <div>URL</div>
+    <input type="text" name="account.url" id="url"/>
+    <div>Login</div>
+    <input type="text" name="account.login" id="login"/>
+    <div>Password</div>
+    <input type="text" name="account.password" id="password"/>
+    <div>Email</div>
+    <input type="text" name="account.email" id="email"/>
+    <input type="submit" name="Create"/>
+  </form>
+</body>
+</html>
