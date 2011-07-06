@@ -28,7 +28,13 @@ public class AccountServlet extends AbstractGuiceServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Account> accounts = accountService.listAll();
         if (accounts.isEmpty()) {
-        // dummy code
+            accounts.add(createDummyAccount());
+            accounts.add(createDummyAccount());
+        }
+        resp.getWriter().print(new Gson().toJson(accounts));
+    }
+
+    private Account createDummyAccount() {
         Account account = new Account();
         account.setEmail("test@user.com");
         account.setId(1L);
@@ -36,12 +42,7 @@ public class AccountServlet extends AbstractGuiceServlet {
         account.setName("Test Account");
         account.setPassword("secret123");
         account.setUrl("http://my.url.com");
-        String json = new Gson().toJson(account);
-        resp.getWriter().print(json);
-        }
-        else {
-            resp.getWriter().print(new Gson().toJson(accounts));
-        }
+        return account;
     }
 
     @Override
