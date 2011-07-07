@@ -32,8 +32,16 @@ public abstract class AbstractGuiceServlet extends HttpServlet {
             throw new IllegalArgumentException("Unable to get properties of object " + obj, e);
         }
         try {
+            if (prefix != null) {
+                if (prefix.isEmpty()) {
+                    prefix = null;
+                }
+                else {
+                    prefix += ".";
+                }
+            }
             for (String propertyName : propertiesMap.keySet()) {
-                String parameter = req.getParameter(prefix + "." + propertyName);
+                String parameter = req.getParameter(prefix == null ? propertyName : prefix + propertyName);
                 if (parameter != null) {
                     BeanUtils.setProperty(obj, propertyName, parameter);
                 }

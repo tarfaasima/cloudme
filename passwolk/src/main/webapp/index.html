@@ -13,25 +13,10 @@
 </script>
 </head>
 <body>
-  <div id="newAccount">
-    <form action="/account" method="post">
-      <div>Name</div>
-      <div class="name"><input type="text" name="name"/></div>
-      <div>URL</div>
-      <div class="url"><input type="text" name="url"/></div>
-      <div>Login</div>
-      <div class="login"><input type="text" name="login"/></div>
-      <div>Password</div>
-      <div class="password"><input type="text" name="password"/></div>
-      <div>Email</div>
-      <div class="email"><input type="text" name="email"/></div>
-      <div><input type="submit" name="Create"/></div>
-    </form>
-  </div>
-  <div id="accounts">
-    <script id="accountTemplate" type="text/x-jquery-tmpl">
+  <script id="accountTemplate" type="text/x-jquery-tmpl">
     <div class="account">
       <form action="/account" method="post">
+        <input type="hidden" name="id" value="${id}"/>
         <div>Name</div>
         <div class="name">${name}</div>
         <div>URL</div>
@@ -44,7 +29,34 @@
         <div class="email">${email}</div>
       </form>
     </div>
-    </script>
+</script>
+  <div id="newAccount">
+    <form action="/account" method="post">
+      <div>Name</div>
+      <div class="name">
+        <input type="text" name="name" />
+      </div>
+      <div>URL</div>
+      <div class="url">
+        <input type="text" name="url" />
+      </div>
+      <div>Login</div>
+      <div class="login">
+        <input type="text" name="login" />
+      </div>
+      <div>Password</div>
+      <div class="password">
+        <input type="text" name="password" />
+      </div>
+      <div>Email</div>
+      <div class="email">
+        <input type="text" name="email" />
+      </div>
+      <div>
+        <input type="submit" name="Create" />
+      </div>
+    </form>
   </div>
+  <div id="accounts"></div>
 </body>
 </html>
