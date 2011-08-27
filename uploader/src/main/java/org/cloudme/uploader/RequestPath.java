@@ -1,5 +1,8 @@
 package org.cloudme.uploader;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 public class RequestPath {
     private Long id;
     private String fileName;
@@ -37,7 +40,12 @@ public class RequestPath {
         return id != null;
     }
 
-    public String getFileNameOr(String name) {
-        return fileName == null ? name : fileName;
+    public String getFileNameOr(String name, String encoding) {
+        try {
+            return fileName == null ? name : URLDecoder.decode(fileName, encoding);
+        }
+        catch (UnsupportedEncodingException e) {
+            return fileName;
+        }
     }
 }

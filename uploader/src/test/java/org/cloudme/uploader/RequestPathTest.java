@@ -7,12 +7,14 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class RequestPathTest {
+    private static final String ENCODING = System.getProperty("file.encoding");
+
     @Test
     public void testIdOnly() {
         RequestPath path = new RequestPath("/12");
         assertTrue(path.isValid());
         assertEquals(new Long(12), path.getId());
-        assertEquals("abc", path.getFileNameOr("abc"));
+        assertEquals("abc", path.getFileNameOr("abc", ENCODING));
     }
 
     @Test
@@ -26,7 +28,7 @@ public class RequestPathTest {
         RequestPath path = new RequestPath("/12/abc.jpg");
         assertTrue(path.isValid());
         assertEquals(new Long(12), path.getId());
-        assertEquals("abc.jpg", path.getFileNameOr("xyz"));
+        assertEquals("abc.jpg", path.getFileNameOr("xyz", ENCODING));
     }
 
     @Test
@@ -34,6 +36,6 @@ public class RequestPathTest {
         RequestPath path = new RequestPath("/12/234x344/abc.jpg");
         assertTrue(path.isValid());
         assertEquals(new Long(12), path.getId());
-        assertEquals("abc.jpg", path.getFileNameOr("xyz"));
+        assertEquals("abc.jpg", path.getFileNameOr("xyz", ENCODING));
     }
 }

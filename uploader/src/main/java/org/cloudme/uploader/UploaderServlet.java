@@ -2,7 +2,7 @@ package org.cloudme.uploader;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLDecoder;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.logging.Logger;
 
@@ -23,6 +23,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 
 public class UploaderServlet extends HttpServlet {
+    private static final String ENCODING = System.getProperty("file.encoding");
     private static final Logger LOG = Logger.getLogger(UploaderServlet.class.getName());
     private static final int MAX_FILE_SIZE = 1024 * 1024;
     @Inject
@@ -38,10 +39,10 @@ public class UploaderServlet extends HttpServlet {
         RequestPath path = new RequestPath(req.getPathInfo());
         if (path.isValid()) {
             Item item = dao.find(path.getId());
+            resp.setCharacterEncoding(ENCODING);
             resp.setContentType(item.getContentType());
+            resp.setHeader("Content-Disposition", "filename=\"" + path.getFileNameOr(item.getName(), ENCODING) + "\"");
             resp.setHeader("Content-Length", String.valueOf(item.getData().length));
-            resp.setHeader("Content-Disposition",
-                    "filename=\"" + URLDecoder.decode(path.getFileNameOr(item.getName()), "UTF-8") + "\"");
             ServletOutputStream out = resp.getOutputStream();
             IOUtils.write(item.getData(), out);
         }
@@ -71,8 +72,7 @@ public class UploaderServlet extends HttpServlet {
                         item.setName(fileItem.getName());
                         item.setContentType(fileItem.getContentType());
                         dao.put(item);
-                        String url = req.getRequestURL().append("/").append(item.getId()).append("/")
-                                .append(URLEncoder.encode(item.getName(), "UTF-8")).toString();
+                        String url = createUploadUrl(req, item);
                         resp.getWriter().print(url);
                     }
                 }
@@ -81,5 +81,10 @@ public class UploaderServlet extends HttpServlet {
                 throw new ServletException(e);
             }
         }
+    }
+
+    private String createUploadUrl(HttpServletRequest req, Item item) throws UnsupportedEncodingException {
+        return req.getRequestURL().append("/").append(item.getId()).append("/")
+                .append(URLEncoder.encode(item.getName(), ENCODING)).toString();
     }
 }
