@@ -3,74 +3,18 @@
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4">
-  <filter>
-    <display-name>Stripes Filter</display-name>
-    <filter-name>StripesFilter</filter-name>
-    <filter-class>net.sourceforge.stripes.controller.StripesFilter</filter-class>
-    <init-param>
-      <param-name>ActionResolver.Packages</param-name>
-      <param-value>org.cloudme.loclist.stripes.action</param-value>
-    </init-param>
-    <init-param>
-      <param-name>MultipartWrapper.Class</param-name>
-      <param-value>org.cloudme.sugar.NullMultipartWrapper</param-value>
-    </init-param>
-    <init-param>
-      <param-name>Extension.Packages</param-name>
-      <param-value>org.cloudme.loclist.stripes.extensions</param-value>
-    </init-param>
-  </filter>
-
-  <filter-mapping>
-    <filter-name>StripesFilter</filter-name>
-    <servlet-name>StripesDispatcher</servlet-name>
-    <dispatcher>REQUEST</dispatcher>
-    <dispatcher>FORWARD</dispatcher>
-  </filter-mapping>
-
   <servlet>
-    <servlet-name>StripesDispatcher</servlet-name>
-    <servlet-class>net.sourceforge.stripes.controller.DispatcherServlet</servlet-class>
+    <servlet-name>UploaderServlet</servlet-name>
+    <servlet-class>org.cloudme.uploader.UploaderServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>StripesDispatcher</servlet-name>
-    <url-pattern>/action/*</url-pattern>
+    <servlet-name>UploaderServlet</servlet-name>
+    <url-pattern>/u/*</url-pattern>
   </servlet-mapping>
-
-  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>Admin area.</web-resource-name>
-      <url-pattern>/action/admin/*</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>admin</role-name>
-    </auth-constraint>
-  </security-constraint>
-
-  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>User area.</web-resource-name>
-      <url-pattern>/*</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>*</role-name>
-    </auth-constraint>
-  </security-constraint>
-
-  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>Scheduled Task: updateItemIndex</web-resource-name>
-      <url-pattern>/action/item/updateItemIndex</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>admin</role-name>
-    </auth-constraint>
-  </security-constraint>
   
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
 </web-app>

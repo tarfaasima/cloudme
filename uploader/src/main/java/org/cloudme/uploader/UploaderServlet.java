@@ -2,6 +2,9 @@ package org.cloudme.uploader;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -11,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
+import org.apache.commons.fileupload.FileUploadBase.FileUploadIOException;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
@@ -19,6 +23,8 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 
 public class UploaderServlet extends HttpServlet {
+    private static final Logger LOG = Logger.getLogger(UploaderServlet.class.getName());
+    private static final int MAX_FILE_SIZE = 1024 * 1024;
     @Inject
     private ItemDao dao;
 
@@ -29,23 +35,15 @@ public class UploaderServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Long id = validateId(req.getPathInfo().substring(1));
-        if (id != null) {
-            Item item = dao.find(id);
+        RequestPath path = new RequestPath(req.getPathInfo());
+        if (path.isValid()) {
+            Item item = dao.find(path.getId());
             resp.setContentType(item.getContentType());
-            resp.setHeader("Content-Disposition", "attachment; filename=" + item.getName());
+            resp.setHeader("Content-Length", String.valueOf(item.getData().length));
+            resp.setHeader("Content-Disposition",
+                    "filename=\"" + URLDecoder.decode(path.getFileNameOr(item.getName()), "UTF-8") + "\"");
             ServletOutputStream out = resp.getOutputStream();
             IOUtils.write(item.getData(), out);
-        }
-    }
-
-    private Long validateId(String idStr) {
-        try {
-            Long id = new Long(idStr);
-            return id;
-        }
-        catch (NumberFormatException e) {
-            return null;
         }
     }
 
@@ -54,18 +52,27 @@ public class UploaderServlet extends HttpServlet {
         boolean isMultipart = ServletFileUpload.isMultipartContent(req);
         if (isMultipart) {
             ServletFileUpload upload = new ServletFileUpload();
+            upload.setFileSizeMax(MAX_FILE_SIZE);
             try {
                 for (FileItemIterator it = upload.getItemIterator(req); it.hasNext();) {
                     FileItemStream fileItem = it.next();
                     InputStream stream = fileItem.openStream();
                     if (!fileItem.isFormField()) {
-                        byte[] bytes = IOUtils.toByteArray(stream);
+                        byte[] bytes;
+                        try {
+                            bytes = IOUtils.toByteArray(stream);
+                        }
+                        catch (FileUploadIOException e) {
+                            LOG.warning("Error while uploading " + fileItem.getName());
+                            throw e;
+                        }
                         Item item = new Item();
                         item.setData(bytes);
                         item.setName(fileItem.getName());
                         item.setContentType(fileItem.getContentType());
                         dao.put(item);
-                        String url = req.getRequestURL().append("/").append(item.getId()).toString();
+                        String url = req.getRequestURL().append("/").append(item.getId()).append("/")
+                                .append(URLEncoder.encode(item.getName(), "UTF-8")).toString();
                         resp.getWriter().print(url);
                     }
                 }
