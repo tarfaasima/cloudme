@@ -1,11 +1,18 @@
 package org.cloudme.uploader;
 
+import java.util.Date;
+
 import org.cloudme.sugar.Entity;
 
+import com.googlecode.objectify.annotation.Unindexed;
+
+@Unindexed
 public class Item extends Entity {
     private byte[] data;
     private String contentType;
     private String name;
+    private Date uploadedAt;
+    private String uploadedBy;
 
     public byte[] getData() {
         return data;
@@ -29,5 +36,21 @@ public class Item extends Entity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Date getUploadedAt() {
+        return uploadedAt;
+    }
+
+    public void setUploadedAt(Date dateCreated) {
+        this.uploadedAt = dateCreated;
+    }
+
+    public String getUploadedBy() {
+        return uploadedBy;
+    }
+
+    public void setUploadedBy(String clientIp) {
+        this.uploadedBy = clientIp;
     }
 }

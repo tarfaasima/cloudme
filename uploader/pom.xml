@@ -224,5 +224,10 @@
       <artifactId>commons-io</artifactId>
       <version>2.0.1</version>
     </dependency>
+    <dependency>
+      <groupId>org.antlr</groupId>
+      <artifactId>stringtemplate</artifactId>
+      <version>3.2.1</version>
+    </dependency>
   </dependencies>
 </project>

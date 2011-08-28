@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<title>Uploader</title>
+</head>
+<body>
+<div id="logo"><img src="/img/logo.png" alt="Logo"/></div>
+$if(url)$
+<div id="success">
+<div>Upload successful.</div>
+<div>You can access your file at: <a href="$url$">$url$</a></div>
+</div>
+$endif$
+$if(error)$
+<div id="error">
+<div>Upload failed.</div>
+<div>$error$</div>
+</div>
+$endif$
+<div id="backButton">
+<a href="/">back</a>
+</div>
+</body>
+</html>
