@@ -141,6 +141,6 @@
   </pluginRepositories>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <gae.version>1.5.0.1</gae.version>
+    <gae.version>1.5.1</gae.version>
   </properties>
 </project>
