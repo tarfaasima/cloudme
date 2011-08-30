@@ -1,7 +1,6 @@
 package org.cloudme.uploader;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
@@ -10,6 +9,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,17 +54,9 @@ public class UploaderServlet extends HttpServlet {
             try {
                 for (FileItemIterator it = upload.getItemIterator(req); it.hasNext();) {
                     FileItemStream fileItem = it.next();
-                    InputStream stream = fileItem.openStream();
                     if (!fileItem.isFormField()) {
-                        byte[] bytes;
-                        bytes = IOUtils.toByteArray(stream);
-                        Item item = new Item();
-                        item.setUploadedBy(req.getLocalAddr());
-                        item.setUploadedAt(new Date());
-                        item.setData(bytes);
-                        item.setName(fileItem.getName());
-                        item.setContentType(fileItem.getContentType());
-                        dao.put(item);
+						Item item = createItem(req, fileItem);
+						dao.put(item);
                         String url = createUploadUrl(req, item);
                         writeTemplate(resp, "url", url);
                     }
@@ -83,7 +75,19 @@ public class UploaderServlet extends HttpServlet {
         }
     }
 
-    private void writeData(HttpServletResponse resp, byte[] data, String contentType, String fileName)
+	private Item createItem(ServletRequest req, FileItemStream fileItem) throws IOException {
+		byte[] bytes;
+		bytes = IOUtils.toByteArray(fileItem.openStream());
+		Item item = new Item();
+		item.setUploadedBy(req.getLocalAddr());
+		item.setUploadedAt(new Date());
+		item.setData(bytes);
+		item.setName(fileItem.getName());
+		item.setContentType(fileItem.getContentType());
+		return item;
+	}
+
+	private void writeData(HttpServletResponse resp, byte[] data, String contentType, String fileName)
             throws IOException {
         resp.setCharacterEncoding(ENCODING);
         resp.setContentLength(data.length);
