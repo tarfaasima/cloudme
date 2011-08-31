@@ -79,7 +79,7 @@ public class UploaderServlet extends HttpServlet {
 		byte[] bytes;
 		bytes = IOUtils.toByteArray(fileItem.openStream());
 		Item item = new Item();
-		item.setUploadedBy(req.getLocalAddr());
+        item.setUploadedBy(req.getRemoteAddr());
 		item.setUploadedAt(new Date());
 		item.setData(bytes);
 		item.setName(fileItem.getName());
