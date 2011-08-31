@@ -2,25 +2,31 @@
 <html>
 <head>
 <meta charset="UTF-8" />
+<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/js/uploader.js"></script>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <title>Uploader</title>
 </head>
 <body>
-<div id="logo"><img src="/img/logo.png" alt="Logo"/></div>
-$if(url)$
-<div id="success">
-<div>Upload successful.</div>
-<div>You can access your file at: <a href="$url$">$url$</a></div>
+<h1>Uploader</h1>
+<div class="inactive">
+<a href="#">
+<div class="big">Step 1: <span class="bold">Upload</span></div>
+<div>Select a file to upload. Once selected, the upload will start automatically.</div>
+</a>
 </div>
+<div class="active">
+<div class="big">Step 2: <span class="bold">Share</span></div>
+$if(url)$
+<div>You can access your file at: <a href="$url$" class="highlight">$url$</a></div>
 $endif$
 $if(error)$
-<div id="error">
-<div>Upload failed.</div>
-<div>$error$</div>
-</div>
+<div>Upload failed. File size may not exceed 1 MB.</div>
 $endif$
-<div id="backButton">
-<a href="/">back</a>
 </div>
+<form action="/u" method="post" enctype="multipart/form-data" id="uploadForm">
+<input type="file" name="file" id="fileInput">
+<!-- <input type="submit" name="submit" value="Upload"> -->
+</form>
 </body>
 </html>

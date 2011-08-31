@@ -2,16 +2,25 @@
 <html>
 <head>
 <meta charset="UTF-8" />
+<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/js/uploader.js"></script>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <title>Uploader</title>
 </head>
 <body>
-<div id="logo"><img src="/img/logo.png" alt="Logo"/></div>
-<div id="upload">
-<form action="/u" method="post" enctype="multipart/form-data" id="uploadForm">
-<input type="file" name="file">
-<input type="submit" name="submit" value="Upload">
+<h1>Uploader</h1>
+<div class="active">
+<a href="#">
+<div class="big">Step 1: <span class="bold">Upload</span></div>
+<div>Select a file to upload. Once selected, the upload will start automatically.</div>
+</a>
 </div>
+<div class="inactive">
+<div class="big">Step 2: <span class="bold">Share</span></div>
+</div>
+<form action="/u" method="post" enctype="multipart/form-data" id="uploadForm">
+<input type="file" name="file" id="fileInput">
+<!-- <input type="submit" name="submit" value="Upload"> -->
 </form>
 </body>
 </html>
