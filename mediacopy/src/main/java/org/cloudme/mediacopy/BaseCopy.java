@@ -57,6 +57,15 @@ public abstract class BaseCopy {
         }
         fireCopyCompleted();
         fileLog.save();
+        // FileIndex index = new FileIndex(destDir);
+        // File htmlFile = new File(destDir, "index.html");
+        // try {
+        // index.writeHtml(new PrintWriter(htmlFile));
+        // }
+        // catch (FileNotFoundException e) {
+        // fireCopyFailed(null, htmlFile, "Unable to write index file " +
+        // htmlFile.getName());
+        // }
     }
 
     private void fireCopyInitialized() {
