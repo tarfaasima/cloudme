@@ -34,7 +34,7 @@ public class AbstractDaoTest extends AbstractServiceTestCase {
 
 	@Override
 	protected Module[] getModules() {
-		return new Module[] {};
+		return null;
 	}
 
 }
