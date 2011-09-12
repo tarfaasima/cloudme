@@ -6,5 +6,6 @@ final class UploaderModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(ItemDao.class);
+		bind(ItemService.class);
     }
 }

@@ -19,28 +19,30 @@ import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadBase.FileUploadIOException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
+import org.cloudme.uploader.cache.CacheModule;
 import org.cloudme.uploader.template.Template;
 
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 
+@SuppressWarnings("serial")
 public class UploaderServlet extends HttpServlet {
     private static final String ENCODING = System.getProperty("file.encoding");
     private static final Logger LOG = Logger.getLogger(UploaderServlet.class.getName());
     private static final int MAX_FILE_SIZE = 1024 * 1024;
     @Inject
-    private ItemDao dao;
+	private ItemService itemService;
 
     @Override
     public void init() throws ServletException {
-        Guice.createInjector(new UploaderModule()).injectMembers(this);
+		Guice.createInjector(new UploaderModule(), new CacheModule()).injectMembers(this);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestPath path = new RequestPath(req.getPathInfo());
         if (path.isValid()) {
-            Item item = dao.find(path.getId());
+			Item item = itemService.find(path.getId());
             writeData(resp, item.getData(), item.getContentType(), path.getFileNameOr(item.getName(), ENCODING));
         }
     }
@@ -56,7 +58,7 @@ public class UploaderServlet extends HttpServlet {
                     FileItemStream fileItem = it.next();
                     if (!fileItem.isFormField()) {
 						Item item = createItem(req, fileItem);
-						dao.put(item);
+						itemService.put(item);
                         String url = createUploadUrl(req, item);
                         writeTemplate(resp, "url", url);
                     }

@@ -6,6 +6,7 @@ import org.cloudme.sugar.Entity;
 
 import com.googlecode.objectify.annotation.Unindexed;
 
+@SuppressWarnings("serial")
 @Unindexed
 public class Item extends Entity {
     private byte[] data;

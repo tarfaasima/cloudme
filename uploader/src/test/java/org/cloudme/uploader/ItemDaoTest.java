@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.cloudme.sugar.AbstractServiceTestCase;
+import org.cloudme.uploader.cache.CacheModule;
 import org.junit.Test;
 
 import com.google.inject.Inject;
@@ -28,6 +29,6 @@ public class ItemDaoTest extends AbstractServiceTestCase {
 
     @Override
     protected Module[] getModules() {
-        return new Module[] { new UploaderModule() };
+		return new Module[] { new UploaderModule(), new CacheModule() };
     }
 }
