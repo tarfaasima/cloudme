@@ -1,5 +1,7 @@
 package org.cloudme.sugar;
 
+import java.io.Serializable;
+
 import javax.persistence.Id;
 
 /**
@@ -7,7 +9,8 @@ import javax.persistence.Id;
  * 
  * @author Moritz Petersen
  */
-public class Entity {
+@SuppressWarnings("serial")
+public class Entity implements Serializable {
     @Id
     private Long id;
 
