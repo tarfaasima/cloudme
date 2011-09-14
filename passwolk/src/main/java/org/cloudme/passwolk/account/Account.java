@@ -2,6 +2,13 @@ package org.cloudme.passwolk.account;
 
 import org.cloudme.sugar.Entity;
 
+/**
+ * {@link Entity} that represents one account and contains additional
+ * information.
+ * 
+ * @author Moritz Petersen
+ */
+@SuppressWarnings("serial")
 public class Account extends Entity {
     private String title;
     private String login;

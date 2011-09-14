@@ -6,6 +6,15 @@ import java.util.Map.Entry;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
+/**
+ * Provides basic support to write JSON data from Java objects. Currently
+ * supports {@link Iterable} and {@link Object}.
+ * <p>
+ * This class requires a {@link PrintWriter} to generate output.
+ * 
+ * @author Moritz Petersen
+ * 
+ */
 public class JsonWriter {
 
     private final PrintWriter out;
@@ -23,7 +32,7 @@ public class JsonWriter {
         out.flush();
     }
 
-    private void write(Object object) {
+	public void write(Object object) {
         out.write("{");
         try {
             @SuppressWarnings( "unchecked" )

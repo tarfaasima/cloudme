@@ -20,71 +20,84 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 
 public class AccountServletTest extends AbstractServiceTestCase {
-    @Inject
-    private AccountService accountService;
-    private AccountServlet accountServlet;
-    private MockHttpServletRequest req;
-    private MockHttpServletResponse resp;
-    private Account account;
+	@Inject
+	private AccountService accountService;
+	private AccountServlet accountServlet;
+	private MockHttpServletRequest req;
+	private MockHttpServletResponse resp;
+	private Account account;
 
-    @Before
-    public void init() throws ServletException {
-        accountServlet = new AccountServlet();
-        accountServlet.init();
-        req = new MockHttpServletRequest();
-        resp = new MockHttpServletResponse();
+	@Before
+	public void init() throws ServletException {
+		accountServlet = new AccountServlet();
+		accountServlet.init();
+		req = new MockHttpServletRequest();
+		resp = new MockHttpServletResponse();
 
-        account = new Account();
-        account.setDescription("This is a test account");
-        account.setEmail("test@example.com");
-        account.setLogin("user");
-        account.setPassword("qwert");
-        account.setTitle("Test Account");
-    }
+		account = new Account();
+		account.setDescription("This is a test account");
+		account.setEmail("test@example.com");
+		account.setLogin("user");
+		account.setPassword("qwert");
+		account.setTitle("Test Account");
+	}
 
-    @Test
-    public void testDoGetHttpServletRequestHttpServletResponse() throws Exception {
-        assertDoGet("[]");
-        accountService.put(account);
-        assertDoGet("[{\"id\":1,\"title\":\"Test Account\",\"email\":\"test@example.com\",\"description\":\"This is a test account\",\"login\":\"user\",\"password\":\"qwert\"}]");
-    }
+	@Test
+	public void testDoGetHttpServletRequestHttpServletResponse() throws Exception {
+		assertDoGet("[]");
+		accountService.put(account);
+		assertDoGet("[{\"id\":1,\"title\":\"Test Account\",\"email\":\"test@example.com\",\"description\":\"This is a test account\",\"login\":\"user\",\"password\":\"qwert\"}]");
+	}
 
-    private void assertDoGet(String expected) throws ServletException, IOException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        resp.setWriter(new PrintWriter(out));
-        accountServlet.doGet(req, resp);
-        String output = out.toString();
-        assertEquals(expected, output);
-    }
+	private void assertDoGet(String expected) throws ServletException, IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		resp.setWriter(new PrintWriter(out));
+		accountServlet.doGet(req, resp);
+		String output = out.toString();
+		assertEquals(expected, output);
+	}
 
-    @Test
-    public void testDoPostHttpServletRequestHttpServletResponse() throws Exception {
-        req.setParameter("description", account.getDescription());
-        req.setParameter("email", account.getEmail());
-        req.setParameter("login", account.getLogin());
-        req.setParameter("password", account.getPassword());
-        req.setParameter("title", account.getTitle());
-        
-        accountServlet.doPost(req, resp);
-        
-        List<Account> accounts = accountService.listAll();
-        assertEquals(1, accounts.size());
-        assertEquals(account, accounts.get(0));
-    }
+	@Test
+	public void testDoPostHttpServletRequestHttpServletResponse() throws Exception {
+		performDoPost(account);
 
-    @Test
-    public void testDoDeleteHttpServletRequestHttpServletResponse() throws Exception {
-        accountService.put(account);
+		List<Account> accounts = accountService.listAll();
+		assertEquals(1, accounts.size());
+		Account account1 = accounts.get(0);
+		assertEquals(account, account1);
 
-        req.setParameter("id", String.valueOf(account.getId()));
-        accountServlet.doDelete(req, resp);
+		account1.setTitle("Some other title");
+		performDoPost(account1);
+		assertEquals(1, accountService.listAll().size());
+	}
 
-        assertEquals(0, accountService.listAll().size());
-    }
+	private void performDoPost(Account account) throws ServletException, IOException {
+		req.setParameter("description", account.getDescription());
+		req.setParameter("email", account.getEmail());
+		Long id = account.getId();
+		if (id != null) {
+			req.setParameter("id", String.valueOf(id));
+		}
+		req.setParameter("login", account.getLogin());
+		req.setParameter("password", account.getPassword());
+		req.setParameter("title", account.getTitle());
 
-    @Override
-    protected Module[] getModules() {
-        return new Module[] { new AccountModule() };
-    }
+		accountServlet.doPost(req, resp);
+	}
+
+	@Test
+	public void testDoDeleteHttpServletRequestHttpServletResponse() throws Exception {
+		accountService.put(account);
+
+		req.setParameter("id", String.valueOf(account.getId()));
+		accountServlet.doDelete(req, resp);
+
+		assertEquals(0, accountService.listAll().size());
+	}
+
+	@Override
+	protected Module[] getModules() {
+		return new Module[] { new AccountModule() };
+	}
 
 }

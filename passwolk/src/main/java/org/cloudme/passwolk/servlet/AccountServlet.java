@@ -15,6 +15,22 @@ import org.cloudme.passwolk.servlet.json.JsonWriter;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 
+/**
+ * Provides access to {@link Account}s.
+ * <p>
+ * The {@link #doGet(HttpServletRequest, HttpServletResponse)} method returns a
+ * list of all {@link Account}s.
+ * <p>
+ * The {@link #doPost(HttpServletRequest, HttpServletResponse)} method saves an
+ * {@link Account}.
+ * <p>
+ * The {@link #doDelete(HttpServletRequest, HttpServletResponse)} method deletes
+ * an account.
+ * <p>
+ * 
+ * @author Moritz Petersen
+ */
+@SuppressWarnings("serial")
 public class AccountServlet extends HttpServlet {
     @Inject
     private AccountService accountService;
@@ -36,6 +52,10 @@ public class AccountServlet extends HttpServlet {
         Account account = new Account();
         account.setDescription(req.getParameter("description"));
         account.setEmail(req.getParameter("email"));
+		String id = req.getParameter("id");
+		if (id != null) {
+			account.setId(Long.valueOf(id));
+		}
         account.setLogin(req.getParameter("login"));
         account.setPassword(req.getParameter("password"));
         account.setTitle(req.getParameter("title"));
