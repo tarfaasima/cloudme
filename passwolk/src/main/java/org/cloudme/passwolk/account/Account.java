@@ -1,5 +1,6 @@
 package org.cloudme.passwolk.account;
 
+import org.cloudme.passwolk.json.JsonSerializable;
 import org.cloudme.sugar.Entity;
 
 /**
@@ -9,8 +10,9 @@ import org.cloudme.sugar.Entity;
  * @author Moritz Petersen
  */
 @SuppressWarnings("serial")
-public class Account extends Entity {
-    private String title;
+public class Account extends Entity implements JsonSerializable {
+	private static final String[] SERIALIZABLE_PROPS = { "description", "email", "id", "login", "password", "title" };
+	private String title;
     private String login;
     private String password;
     private String email;
@@ -122,4 +124,9 @@ public class Account extends Entity {
         }
         return true;
     }
+
+	@Override
+	public String[] serializableProperties() {
+		return SERIALIZABLE_PROPS;
+	}
 }

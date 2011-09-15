@@ -1,4 +1,4 @@
-package org.cloudme.passwolk.servlet.json;
+package org.cloudme.passwolk.json;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,11 +7,12 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 
+import org.cloudme.passwolk.json.JsonWriter.Order;
 import org.junit.Test;
 
 public class JsonWriterTest {
 
-    public static class Person {
+	public static class Person implements JsonSerializable {
         private String name;
         private long age;
         private Person parent;
@@ -39,6 +40,11 @@ public class JsonWriterTest {
         public void setParent(Person parent) {
             this.parent = parent;
         }
+
+		@Override
+		public String[] serializableProperties() {
+			return new String[] { "age", "name", "parent" };
+		}
     }
 
     @Test
@@ -50,8 +56,7 @@ public class JsonWriterTest {
         List<Person> persons = Arrays.asList(person1);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        JsonWriter writer = new JsonWriter(new PrintWriter(out));
-        writer.init(Person.class, "name", "age", "parent");
+		JsonWriter writer = new JsonWriter(new PrintWriter(out), Order.SORTED);
         writer.write(persons);
 
         assertEquals("[{\"age\":42,\"name\":\"Joe Max\",\"parent\":null}]", new String(out.toByteArray()));
@@ -62,11 +67,11 @@ public class JsonWriterTest {
         person1.setParent(person2);
 
         out = new ByteArrayOutputStream();
-        writer = new JsonWriter(new PrintWriter(out));
-        writer.init(Person.class, "name", "age", "parent");
+		writer = new JsonWriter(new PrintWriter(out), Order.SORTED);
         writer.write(persons);
 
-        assertEquals("[{\"name\":\"Joe Max\",\"age\":42,\"parent\":{\"name\":\"John Smith\",\"age\":66,\"parent\":null}}]",
+		assertEquals(
+				"[{\"age\":42,\"name\":\"Joe Max\",\"parent\":{\"age\":66,\"name\":\"John Smith\",\"parent\":null}}]",
                 new String(out.toByteArray()));
     }
 

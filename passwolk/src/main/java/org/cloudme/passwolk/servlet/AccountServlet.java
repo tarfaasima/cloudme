@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.cloudme.passwolk.account.Account;
 import org.cloudme.passwolk.account.AccountModule;
 import org.cloudme.passwolk.account.AccountService;
-import org.cloudme.passwolk.servlet.json.JsonWriter;
+import org.cloudme.passwolk.json.JsonWriter;
 
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -40,7 +40,7 @@ public class AccountServlet extends HttpServlet {
         Guice.createInjector(new AccountModule()).injectMembers(this);
     }
 
-    @Override
+	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         JsonWriter writer = new JsonWriter(resp.getWriter());
