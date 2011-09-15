@@ -105,11 +105,11 @@ public class JsonWriter {
 	/**
 	 * Writes a single {@link JsonSerializable}.
 	 * 
-	 * @param object
+	 * @param obj
 	 *            The object that ist transformed to JSON.
 	 */
-	public void write(JsonSerializable object) {
-		Map<String, Object> props = describe(object);
+	public void write(JsonSerializable obj) {
+		Map<String, Object> props = describe(obj);
 		if (props != null) {
 			out.write("{");
 			boolean isFirst = true;
@@ -142,23 +142,25 @@ public class JsonWriter {
 	 * Creates a map containing all property names and values of the object.
 	 * Please note that the {@link Class} of the {@link Object} must be
 	 * initialized first using {@link #init(Class, String...)}.
+	 * <p>
+	 * In case of any exception while reading properties from the object, the
+	 * method will ignore the error and continue gracefully.
 	 * 
-	 * @param object
+	 * @param obj
 	 *            The object, that must follow the Java Bean syntax (using
 	 *            accessors in getXXX() setXXX style()).
 	 * 
 	 * @return A map containing the properties.
 	 */
-	private Map<String, Object> describe(JsonSerializable object) {
-		Class<?> clazz = object.getClass();
-		String[] propertyNames = object.serializableProperties();
+	private Map<String, Object> describe(JsonSerializable obj) {
+		Class<?> clazz = obj.getClass();
+		String[] propertyNames = obj.serializableProperties();
 		Map<String, Object> properties = order.createMap();
 		for (String propertyName : propertyNames) {
 			if (!isEmpty(propertyName)) {
-				String getterName = toGetterName(propertyName);
 				try {
-					Method getter = clazz.getMethod(getterName);
-					Object value = getter.invoke(object);
+					Method getter = clazz.getMethod(toGetterName(propertyName));
+					Object value = getter.invoke(obj);
 					properties.put(propertyName, value);
 				} catch (SecurityException e) {
 					// ignore
@@ -192,14 +194,19 @@ public class JsonWriter {
 	/**
 	 * Creates a getter method name from the property name.
 	 * 
-	 * @param propertyName
+	 * @param name
 	 *            The name of the property.
 	 * @return The name of the getter starting with "get" and followed by the
 	 *         name of the property starting with a capital letter.
 	 */
-	private String toGetterName(String propertyName) {
-		return "get"
-				+ (propertyName.length() == 1 ? propertyName.toUpperCase() : Character.toUpperCase(propertyName
-						.charAt(0)) + propertyName.substring(1));
+	private String toGetterName(String name) {
+		int length = name.length();
+		StringBuilder getterName = new StringBuilder(length + 3);
+		getterName.append("get");
+		getterName.append(Character.toUpperCase(name.charAt(0)));
+		if (length > 1) {
+			getterName.append(name.substring(1));
+		}
+		return getterName.toString();
 	}
 }
