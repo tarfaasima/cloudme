@@ -2,10 +2,11 @@ package org.cloudme.passwolk.servlet.json;
 
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.apache.commons.beanutils.PropertyUtils;
+import java.util.TreeMap;
 
 /**
  * Provides basic support to write JSON data from Java objects. Currently
@@ -22,6 +23,7 @@ public class JsonWriter {
      * The internal writer.
      */
     private final PrintWriter out;
+    private final Map<Class<?>, String[]> propertiesMap = new HashMap<Class<?>, String[]>();
 
     /**
      * Initializes the {@link JsonWriter} with the given {@link PrintWriter}.
@@ -31,6 +33,10 @@ public class JsonWriter {
      */
     public JsonWriter(PrintWriter out) {
         this.out = out;
+    }
+
+    public void init(Class<?> clazz, String... propertyNames) {
+        propertiesMap.put(clazz, propertyNames);
     }
 
     /**
@@ -98,20 +104,48 @@ public class JsonWriter {
      * 
      * @return A map containing the properties.
      */
-    @SuppressWarnings( "unchecked" )
     private Map<String, Object> describe(Object object) {
-        try {
-            return PropertyUtils.describe(object);
+        Class<?> clazz = object.getClass();
+        String[] propertyNames = propertiesMap.get(clazz);
+        Map<String, Object> properties = new TreeMap<String, Object>();
+        if (propertyNames != null) {
+            for (String propertyName : propertyNames) {
+                if (!isEmpty(propertyName)) {
+                    String getterName = toGetterName(propertyName);
+                    try {
+                        Method getter = clazz.getMethod(getterName);
+                        Object value = getter.invoke(object);
+                        properties.put(propertyName, value);
+                    }
+                    catch (SecurityException e) {
+                        // ignore
+                    }
+                    catch (NoSuchMethodException e) {
+                        // ignore
+                    }
+                    catch (IllegalArgumentException e) {
+                        // ignore
+                    }
+                    catch (IllegalAccessException e) {
+                        // ignore
+                    }
+                    catch (InvocationTargetException e) {
+                        // ignore
+                    }
+                }
+            }
         }
-        catch (IllegalAccessException e) {
-            return null;
-        }
-        catch (InvocationTargetException e) {
-            return null;
-        }
-        catch (NoSuchMethodException e) {
-            return null;
-        }
+        return properties;
+    }
+
+    private boolean isEmpty(String str) {
+        return str == null || str.length() == 0;
+    }
+
+    private String toGetterName(String propertyName) {
+        return "get"
+                + (propertyName.length() == 1 ? propertyName.toUpperCase() : Character.toUpperCase(propertyName
+                        .charAt(0)) + propertyName.substring(1));
     }
 
 }

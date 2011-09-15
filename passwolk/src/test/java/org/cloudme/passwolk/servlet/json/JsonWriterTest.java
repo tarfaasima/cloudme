@@ -51,9 +51,10 @@ public class JsonWriterTest {
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         JsonWriter writer = new JsonWriter(new PrintWriter(out));
+        writer.init(Person.class, "name", "age", "parent");
         writer.write(persons);
 
-        assertEquals("[{\"name\":\"Joe Max\",\"age\":42,\"parent\":null}]", new String(out.toByteArray()));
+        assertEquals("[{\"age\":42,\"name\":\"Joe Max\",\"parent\":null}]", new String(out.toByteArray()));
 
         Person person2 = new Person();
         person2.setAge(66);
@@ -62,6 +63,7 @@ public class JsonWriterTest {
 
         out = new ByteArrayOutputStream();
         writer = new JsonWriter(new PrintWriter(out));
+        writer.init(Person.class, "name", "age", "parent");
         writer.write(persons);
 
         assertEquals("[{\"name\":\"Joe Max\",\"age\":42,\"parent\":{\"name\":\"John Smith\",\"age\":66,\"parent\":null}}]",
