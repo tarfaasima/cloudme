@@ -45,6 +45,7 @@ public class AccountServlet extends HttpServlet {
         resp.setContentType("application/json");
         JsonWriter writer = new JsonWriter(resp.getWriter());
         writer.write(accountService.findAll());
+		writer.flush();
     }
 
     @Override

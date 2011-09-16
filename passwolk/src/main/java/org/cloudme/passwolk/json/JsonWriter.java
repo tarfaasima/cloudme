@@ -3,14 +3,17 @@ package org.cloudme.passwolk.json;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
 /**
- * Provides basic support to write JSON data from Java objects. Currently
- * supports {@link Iterable<JsonSerializable>} and {@link JsonSerializable}.
+ * Provides basic support to write JSON data from Java objects.
+ * <p>
+ * If a {@link JsonSerializable} object is used, the writer will automatically
+ * serialize all provided properties.
  * <p>
  * This class requires a {@link PrintWriter} to generate output.
  * <p>
@@ -87,54 +90,106 @@ public class JsonWriter {
 	}
 
 	/**
-	 * Writes the objects of the given {@link Iterable<JsonSerializable>}.
-	 * 
-	 * @param iterable
-	 *            The input that is transformed to JSON. Each instance must be
-	 *            of type {@link JsonSerializable}.
+	 * Calls {@link PrintWriter#flush()} of the internal {@link PrintWriter}.
 	 */
-	public void write(Iterable<? extends JsonSerializable> iterable) {
-		out.write("[");
-		for (JsonSerializable object : iterable) {
-			write(object);
-		}
-		out.write("]");
+	public void flush() {
 		out.flush();
 	}
 
 	/**
-	 * Writes a single {@link JsonSerializable}.
+	 * Writes the properties of the given {@link JsonSerializable} object in JSON notation.
+	 * 
+	 * @param jsonSerializable
+	 *            The {@link JsonSerializable} object.
+	 */
+	public void write(JsonSerializable jsonSerializable) {
+		write(describe(jsonSerializable));
+	}
+
+	/**
+	 * Writes a {@link Map} in JSON notation.
+	 * 
+	 * @param map
+	 *            the {@link Map} that is serialized.
+	 */
+	public void write(Map<?, ?> map) {
+		out.write('{');
+		boolean isFirst = true;
+		for (Entry<?, ?> property : map.entrySet()) {
+			if (isFirst) {
+				isFirst = false;
+			} else {
+				out.write(',');
+			}
+			write(String.valueOf(property.getKey()));
+			out.write(':');
+			write(property.getValue());
+		}
+		out.write('}');
+	}
+
+	/**
+	 * Writes a {@link String} in JSON notation.
+	 * 
+	 * @param str
+	 *            the {@link String} that will be written.
+	 */
+	public void write(String str) {
+		out.write('"');
+		out.write(str);
+		out.write('"');
+	}
+
+	/**
+	 * Writes the {@link Iterable} in JSON array notation.
+	 * 
+	 * @param iterable
+	 *            The {@link Iterable}.
+	 */
+	public void write(final Iterable<?> iterable) {
+		out.write('[');
+		boolean isFirst = true;
+		for (Object object : iterable) {
+			if (isFirst) {
+				isFirst = false;
+			} else {
+				out.write(',');
+			}
+			write(object);
+		}
+		out.write(']');
+	}
+
+	/**
+	 * Writes the given array in JSON notation.
+	 * 
+	 * @param array
+	 *            the array.
+	 */
+	public void write(final Object[] array) {
+		write(Arrays.asList(array));
+	}
+
+	/**
+	 * Writes a single {@link Object}.
 	 * 
 	 * @param obj
 	 *            The object that ist transformed to JSON.
+	 * @see JsonSerializable
 	 */
-	public void write(JsonSerializable obj) {
-		Map<String, Object> props = describe(obj);
-		if (props != null) {
-			out.write("{");
-			boolean isFirst = true;
-			for (Entry<String, Object> property : props.entrySet()) {
-				String key = property.getKey();
-				if (isFirst) {
-					isFirst = false;
-				} else {
-					out.write(',');
-				}
-				out.write('"');
-				out.write(key);
-				out.write("\":");
-				Object value = property.getValue();
-				if (value instanceof JsonSerializable) {
-					write((JsonSerializable) value);
-				} else if (value instanceof String) {
-					out.write('"');
-					out.write((String) value);
-					out.write('"');
-				} else {
-					out.write(String.valueOf(value));
-				}
-			}
-			out.write("}");
+	public void write(Object obj) {
+		if (obj == null) {
+			out.write("null");
+		} else if (obj instanceof JsonSerializable) {
+			write((JsonSerializable) obj);
+		} else if (obj instanceof String) {
+			write((String) obj);
+		} else if (obj instanceof Iterable<?>) {
+			write((Iterable<?>) obj);
+		} else if (obj.getClass().isArray()) {
+			write((Object[]) obj);
+		} else {
+			out.write(String.valueOf(obj));
 		}
 	}
 
