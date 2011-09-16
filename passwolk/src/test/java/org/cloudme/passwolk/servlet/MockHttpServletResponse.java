@@ -1,6 +1,5 @@
 package org.cloudme.passwolk.servlet;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Locale;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class MockHttpServletResponse implements HttpServletResponse {
 
-    private ByteArrayOutputStream out;
     private PrintWriter writer;
 
     @Override

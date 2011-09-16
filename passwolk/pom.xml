@@ -190,6 +190,14 @@
           <artifactId>stripes</artifactId>
           <groupId>net.sourceforge.stripes</groupId>
         </exclusion>
+        <exclusion>
+        	<artifactId>commons-fileupload</artifactId>
+        	<groupId>commons-fileupload</groupId>
+        </exclusion>
+        <exclusion>
+        	<artifactId>commons-io</artifactId>
+        	<groupId>commons-io</groupId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -221,30 +229,21 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>commons-fileupload</groupId>
-      <artifactId>commons-fileupload</artifactId>
-      <version>1.2.2</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.0.1</version>
-    </dependency>
-    <dependency>
       <groupId>org.antlr</groupId>
       <artifactId>stringtemplate</artifactId>
       <version>3.2.1</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-beanutils</groupId>
-      <artifactId>commons-beanutils-core</artifactId>
-      <version>1.8.3</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.stripes</groupId>
       <artifactId>stripes</artifactId>
       <version>1.5.6</version>
       <scope>test</scope>
+      <exclusions>
+      	<exclusion>
+      		<artifactId>commons-logging</artifactId>
+      		<groupId>commons-logging</groupId>
+      	</exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 </project>

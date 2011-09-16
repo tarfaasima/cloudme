@@ -25,7 +25,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
         return null;
     }
 
-    @Override
+	@SuppressWarnings("rawtypes")
+	@Override
     public Enumeration getAttributeNames() {
         // TODO Auto-generated method stub
         return null;
@@ -66,7 +67,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
         return parameterMap.get(name);
     }
 
-    @Override
+	@SuppressWarnings("rawtypes")
+	@Override
     public Enumeration getParameterNames() {
         return null;
     }
@@ -77,7 +79,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
         return null;
     }
 
-    @Override
+	@SuppressWarnings("rawtypes")
+	@Override
     public Map getParameterMap() {
         return parameterMap;
     }
@@ -142,7 +145,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
         return null;
     }
 
-    @Override
+	@SuppressWarnings("rawtypes")
+	@Override
     public Enumeration getLocales() {
         // TODO Auto-generated method stub
         return null;
@@ -214,13 +218,15 @@ public class MockHttpServletRequest implements HttpServletRequest {
         return null;
     }
 
-    @Override
+	@SuppressWarnings("rawtypes")
+	@Override
     public Enumeration getHeaders(String name) {
         // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
+	@SuppressWarnings("rawtypes")
+	@Override
     public Enumeration getHeaderNames() {
         // TODO Auto-generated method stub
         return null;
