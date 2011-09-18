@@ -129,4 +129,21 @@ public class Account extends Entity implements JsonSerializable {
 	public String[] serializableProperties() {
 		return SERIALIZABLE_PROPS;
 	}
+
+    @Override
+    public String toString() {
+        return "Account [id="
+                + getId()
+                + ", title="
+                + title
+                + ", login="
+                + login
+                + ", password="
+                + password
+                + ", email="
+                + email
+                + ", description="
+                + description
+                + "]";
+    }
 }

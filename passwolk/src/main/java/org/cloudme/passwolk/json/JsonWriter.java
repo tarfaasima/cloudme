@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.cloudme.passwolk.util.StringUtils;
+
 /**
  * Provides basic support to write JSON data from Java objects.
  * <p>
@@ -52,7 +54,7 @@ public class JsonWriter {
 			}
 		};
 
-		abstract Map<String, Object> createMap();
+        abstract Map<String, Object> createMap();
 	}
 
 	/**
@@ -195,8 +197,6 @@ public class JsonWriter {
 
 	/**
 	 * Creates a map containing all property names and values of the object.
-	 * Please note that the {@link Class} of the {@link Object} must be
-	 * initialized first using {@link #init(Class, String...)}.
 	 * <p>
 	 * In case of any exception while reading properties from the object, the
 	 * method will ignore the error and continue gracefully.
@@ -212,7 +212,7 @@ public class JsonWriter {
 		String[] propertyNames = obj.serializableProperties();
 		Map<String, Object> properties = order.createMap();
 		for (String propertyName : propertyNames) {
-			if (!isEmpty(propertyName)) {
+            if (!StringUtils.isEmpty(propertyName)) {
 				try {
 					Method getter = clazz.getMethod(toGetterName(propertyName));
 					Object value = getter.invoke(obj);
@@ -231,19 +231,6 @@ public class JsonWriter {
 			}
 		}
 		return properties;
-	}
-
-	/**
-	 * Convenience method to test if a {@link String} is <code>null</code> or
-	 * does not contain any characters. Does not consider trailing spaces.
-	 * 
-	 * @param str
-	 *            The tested {@link String}.
-	 * @return <code>true</code> if the {@link String} is <code>null</code> or
-	 *         does not contain any characters. Otherwise <code>false</code>.
-	 */
-	private boolean isEmpty(String str) {
-		return str == null || str.length() == 0;
 	}
 
 	/**

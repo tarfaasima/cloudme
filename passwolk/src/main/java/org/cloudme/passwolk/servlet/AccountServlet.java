@@ -11,6 +11,7 @@ import org.cloudme.passwolk.account.Account;
 import org.cloudme.passwolk.account.AccountModule;
 import org.cloudme.passwolk.account.AccountService;
 import org.cloudme.passwolk.json.JsonWriter;
+import org.cloudme.passwolk.util.StringUtils;
 
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -30,7 +31,7 @@ import com.google.inject.Inject;
  * 
  * @author Moritz Petersen
  */
-@SuppressWarnings("serial")
+@SuppressWarnings( "serial" )
 public class AccountServlet extends HttpServlet {
     @Inject
     private AccountService accountService;
@@ -40,26 +41,32 @@ public class AccountServlet extends HttpServlet {
         Guice.createInjector(new AccountModule()).injectMembers(this);
     }
 
-	@Override
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         JsonWriter writer = new JsonWriter(resp.getWriter());
         writer.write(accountService.findAll());
-		writer.flush();
+        writer.flush();
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Account account = new Account();
+        String id = req.getParameter("id");
+        if (!StringUtils.isEmpty(id)) {
+            try {
+                account.setId(Long.valueOf(id));
+            }
+            catch (NumberFormatException e) {
+                throw new ServletException("Wrong id.", e);
+            }
+        }
         account.setDescription(req.getParameter("description"));
         account.setEmail(req.getParameter("email"));
-		String id = req.getParameter("id");
-		if (id != null) {
-			account.setId(Long.valueOf(id));
-		}
         account.setLogin(req.getParameter("login"));
         account.setPassword(req.getParameter("password"));
         account.setTitle(req.getParameter("title"));
+        System.out.println(account);
         accountService.put(account);
     }
 

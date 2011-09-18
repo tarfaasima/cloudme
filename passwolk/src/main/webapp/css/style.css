@@ -1,0 +1,17 @@
+body {
+  font-family: Helvetica, sans-serif;
+}
+
+form {
+  width: 40em;
+  margin: 0 auto;
+}
+
+input[type=text] {
+  font-family: Helvetica, sans-serif;
+  width: 100%;
+}
+
+div.label {
+  font-weight: bold;
+}
