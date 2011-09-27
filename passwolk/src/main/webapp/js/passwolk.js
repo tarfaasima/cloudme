@@ -1,5 +1,13 @@
 $(document).ready(function() {
-  load('/html/account_input.html');
+  var markup = '<h1>Accounts</h1><ul>{{each data}}<li>${title}</li>{{/each}}</ul>';
+  
+  $.getJSON('/account', function(data) {
+    console.log(data);
+    data = {data: data};
+    console.log(data);
+    $.tmpl(markup, data).appendTo('body');
+  });
+//  load('/html/account_input.html');
 });
 
 function load(url) {
@@ -12,7 +20,7 @@ function load(url) {
       var data = $(this).serialize();
       console.log(url);
       console.log(method);
-      console.log(data);
+      console.log(data); 
       $.ajax({
         url : url,
         type : method,
