@@ -1,14 +1,11 @@
 package org.cloudme.uploader.cache;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collections;
 
 import javax.cache.Cache;
 import javax.cache.CacheException;
 import javax.cache.CacheManager;
-
-import com.google.appengine.api.memcache.stdimpl.GCacheFactory;
 
 class CacheServiceImpl implements CacheService {
 	private Cache cache;
@@ -32,9 +29,7 @@ class CacheServiceImpl implements CacheService {
 
 	private Cache getCacheInstance() throws CacheException {
 		if (cache == null) {
-			Map<Integer, Object> props = new HashMap<Integer, Object>();
-			props.put(GCacheFactory.EXPIRATION_DELTA, 3600);
-			cache = CacheManager.getInstance().getCacheFactory().createCache(props);
+            cache = CacheManager.getInstance().getCacheFactory().createCache(Collections.EMPTY_MAP);
 		}
 		return cache;
 	}
