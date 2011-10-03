@@ -1,14 +1,27 @@
 $(document).ready(function() {
-  var markup = '<h1>Accounts</h1><ul>{{each data}}<li>${title}</li>{{/each}}</ul>';
+  var accounts;
   
-  $.getJSON('/account', function(data) {
-    console.log(data);
-    data = {data: data};
-    console.log(data);
-    $.tmpl(markup, data).appendTo('body');
+  $('body').delegate('input[type=search]', 'keyup', function() {
+    var searchValue = $(this).val();
+    var filteredAccounts = $.grep(accounts, function(account) {
+      return account.title.indexOf(searchValue) != -1;
+    });
+    render('account_view', accounts);
   });
-//  load('/html/account_input.html');
+  
+  $.get('/tmpl/account_view.tmpl', function(markup) {
+    $.template('account_view', markup);
+    $.getJSON('/account', function(data) {
+      accounts = data;
+      render('account_view', accounts);
+    });
+  });
 });
+
+function render(name, data) {
+  $('body').empty();
+  $.tmpl(name, {data: data}).appendTo('body');
+}
 
 function load(url) {
   $('body').load(url, function() {
