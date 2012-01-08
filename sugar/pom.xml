@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.cloudme.sugar</groupId>
   <artifactId>sugar</artifactId>
-  <version>0.1.8-SNAPSHOT</version>
+  <version>0.1.9-SNAPSHOT</version>
   <name>Sugar</name>
   <description>Simplifies development with Stripes framework by adding useful helper classes, Google Guice integration etc.</description>
   <dependencies>
@@ -13,7 +13,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.8.2</version>
+      <version>4.9</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -42,7 +42,7 @@
     <dependency>
       <groupId>com.googlecode.objectify</groupId>
       <artifactId>objectify</artifactId>
-      <version>3.0</version>
+      <version>3.1</version>
     </dependency>
 
     <!-- AppEngine -->
@@ -141,6 +141,6 @@
   </pluginRepositories>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <gae.version>1.5.4</gae.version>
+    <gae.version>1.6.1</gae.version>
   </properties>
 </project>

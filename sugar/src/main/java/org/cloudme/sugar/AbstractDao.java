@@ -152,6 +152,10 @@ public abstract class AbstractDao<T> {
 		delete(new Key<T>(baseClass, id));
 	}
 
+    public void delete(final Id<T, Long> id) {
+        delete(id.value());
+    }
+
 	private void delete(final Key<T> key) {
 		execute(new Callback<Object>(true) {
 			@Override
@@ -211,6 +215,10 @@ public abstract class AbstractDao<T> {
 			}
 		});
 	}
+
+    public T find(final Id<T, Long> id) {
+        return find(id.value());
+    }
 
 	protected T findSingle(String condition, Object value) {
 		return findSingle(filter(condition, value));

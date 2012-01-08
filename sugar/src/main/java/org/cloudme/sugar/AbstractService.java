@@ -17,6 +17,10 @@ public abstract class AbstractService<T> {
         return dao.find(id);
     }
 
+    public T find(Id<T, Long> id) {
+        return find(id.value());
+    }
+
     public Iterable<T> findAll() {
         return dao.findAll();
     }
@@ -27,5 +31,9 @@ public abstract class AbstractService<T> {
 
     public void delete(Long id) {
         dao.delete(id);
+    }
+
+    public void delete(Id<T, Long> id) {
+        delete(id.value());
     }
 }
