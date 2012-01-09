@@ -4,6 +4,7 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.val;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.Resolution;
@@ -43,7 +44,7 @@ public class ApplicationActionBean extends AbstractActionBean {
     @DontValidate
     public Resolution edit() {
         if (application != null) {
-            Id<Application, Long> id = Id.of(application);
+			val id = Id.of(application);
             application = applicationService.find(id);
             applicationVersions = applicationVersionService.listByApplicationId(id);
         }
