@@ -13,6 +13,7 @@ import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
+import org.cloudme.notepad.meeting.Meeting;
 import org.cloudme.notepad.meeting.MeetingService;
 import org.cloudme.notepad.note.Note;
 import org.cloudme.notepad.note.NoteService;
@@ -22,11 +23,11 @@ import com.google.inject.Inject;
 
 @Getter
 @Setter
-@UrlBinding( "/app/note/{$event}" )
+@UrlBinding( "/app/note/{$event}/{id}" )
 public class NoteActionBean extends AbstractActionBean {
     @Inject
     private MeetingService meetingService;
-	@Inject
+    @Inject
     private NoteService noteService;
     private Set<String> topics;
     @ValidateNestedProperties( { @Validate( field = "content", required = true ) } )
@@ -35,18 +36,25 @@ public class NoteActionBean extends AbstractActionBean {
     private Date date;
     @Validate( required = true )
     private String topic;
+    private Long id;
 
     @DefaultHandler
     @DontValidate
     public Resolution edit() {
         topics = meetingService.findAllTopics();
-		date = Calendar.getInstance(getContext().getLocale()).getTime();
+        if (id == null) {
+            date = Calendar.getInstance(getContext().getLocale()).getTime();
+        }
+        else {
+            Meeting meeting = meetingService.find(id);
+            date = meeting.getDate();
+            topic = meeting.getTopic();
+        }
         return resolve("note.jsp");
     }
 
     public Resolution save() {
-        noteService.put(note);
-		note = null;
-        return edit();
+        noteService.put(note, date, topic);
+        return redirect("/app/note/edit/" + note.getMeetingId());
     }
 }

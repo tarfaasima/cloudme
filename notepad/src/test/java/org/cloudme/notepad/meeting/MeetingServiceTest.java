@@ -1,7 +1,11 @@
 package org.cloudme.notepad.meeting;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
 
 import org.cloudme.notepad.guice.GuiceModules;
@@ -12,7 +16,8 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 
 public class MeetingServiceTest extends AbstractServiceTestCase {
-	@Inject
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    @Inject
 	private MeetingService meetingService;
 
 	@Test
@@ -29,9 +34,17 @@ public class MeetingServiceTest extends AbstractServiceTestCase {
 		assertEquals("A", topics.iterator().next());
 	}
 
+    @Test
+    public void testFindOrCreate() throws Throwable {
+        Date date = DATE_FORMAT.parse("21.09.2011");
+        Meeting meeting = meetingService.findOrCreate(date, "DB Configuration Status");
+        assertNotNull(meeting);
+        Meeting otherMeeting = meetingService.findOrCreate(date, "DB Configuration Status");
+        assertEquals(meeting.getId(), otherMeeting.getId());
+    }
+
 	@Override
 	protected Module[] getModules() {
 		return GuiceModules.MODULES;
 	}
-
 }
