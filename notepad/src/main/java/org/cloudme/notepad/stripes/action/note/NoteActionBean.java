@@ -1,11 +1,11 @@
 package org.cloudme.notepad.stripes.action.note;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.val;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.Resolution;
@@ -26,6 +26,7 @@ import com.google.inject.Inject;
 public class NoteActionBean extends AbstractActionBean {
     @Inject
     private MeetingService meetingService;
+	@Inject
     private NoteService noteService;
     private Set<String> topics;
     @ValidateNestedProperties( { @Validate( field = "content", required = true ) } )
@@ -39,24 +40,13 @@ public class NoteActionBean extends AbstractActionBean {
     @DontValidate
     public Resolution edit() {
         topics = meetingService.findAllTopics();
+		date = Calendar.getInstance(getContext().getLocale()).getTime();
         return resolve("note.jsp");
     }
 
     public Resolution save() {
         noteService.put(note);
+		note = null;
         return edit();
-    }
-
-    public String getTopicsAsString() {
-        StringBuilder sb = new StringBuilder();
-        for (val topic : topics) {
-            if (sb.length() > 0) {
-                sb.append(", ");
-            }
-            sb.append('"');
-            sb.append(topic);
-            sb.append('"');
-        }
-        return sb.toString();
     }
 }

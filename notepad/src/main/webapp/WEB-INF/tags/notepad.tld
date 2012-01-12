@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.0" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd">
+
+  <tlib-version>1.0</tlib-version>
+  <short-name>notepad tags</short-name>
+  <uri>notepad</uri>
+
+  <function>
+    <description>Joins the elements of a collection.</description>
+    <name>join</name>
+    <function-class>org.cloudme.notepad.jsp.tags.Tags</function-class>
+    <function-signature>java.lang.String join(java.lang.Iterable, java.lang.String, java.lang.String, java.lang.String)</function-signature>
+  </function>
+
+</taglib>
