@@ -14,6 +14,9 @@
 <script src="/js/jquery-ui-1.8.17.custom.min.js"></script>
 <script>
   $(document).ready(function() {
+	$(".selectOnFocus").focus(function() {
+	  this.select();
+	});
 	var inputTopic = $("input#topic");
     inputTopic.autocomplete({
       source: [${n:join(actionBean.topics, "\"", "\"", ", ")}],
@@ -35,23 +38,23 @@
     method="post">
     <div>Date</div>
     <div>
-      <s:text name="date" formatPattern="medium" />
+      <s:text name="date" formatPattern="medium" class="selectOnFocus" />
     </div>
     <div>Topic</div>
     <div>
-      <s:text name="topic" id="topic" />
+      <s:text name="topic" id="topic" class="selectOnFocus" />
     </div>
     <div>Responsible</div>
     <div>
-      <s:text name="note.responsible" />
+      <s:text name="note.responsible" class="selectOnFocus" />
     </div>
     <div>Content</div>
     <div>
-      <s:text name="note.content" id="content" />
+      <s:textarea name="note.content" id="content" class="selectOnFocus" />
     </div>
     <div>Due Date</div>
     <div>
-      <s:text name="note.dueDate" />
+      <s:text name="note.dueDate" class="selectOnFocus" />
     </div>
     <s:submit value="Save" name="save" />
   </s:form>
