@@ -44,12 +44,14 @@ textarea {
 
 .submit {
   margin: 16px 8px;
+  clear: both;
 }
 
 input[type=submit] {
   font-size: 16px;
   font-family: Helvetica, Arial, sans-serif;
   float: right;
+  display: block;
 }
 
 /* ---------- Auto-complete ---------- */

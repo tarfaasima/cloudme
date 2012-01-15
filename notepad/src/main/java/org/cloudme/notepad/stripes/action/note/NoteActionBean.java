@@ -26,43 +26,62 @@ import com.google.inject.Inject;
 @Setter
 @UrlBinding( "/app/note/{$event}/{id}" )
 public class NoteActionBean extends AbstractActionBean {
-    @Inject
-    private MeetingService meetingService;
-    @Inject
-    private NoteService noteService;
-    @Inject
-    private DateService dateService;
+    @Inject private MeetingService meetingService;
+    @Inject private NoteService noteService;
+    @Inject private DateService dateService;
     private Set<String> topics;
-    @ValidateNestedProperties( { @Validate( field = "content", required = true ) } )
-    private Note note;
-    @Validate( required = true )
-    private Date date;
-    @Validate( required = true )
-    private String topic;
+    @ValidateNestedProperties( { @Validate( field = "content", required = true ) } ) private Note note;
+    @Validate( required = true ) private Date date;
+    @Validate( required = true ) private String topic;
     private Long id;
     private String dueDate;
 
     @DefaultHandler
     @DontValidate
-    public Resolution edit() {
+    public Resolution create() {
         if (id == null) {
             date = Calendar.getInstance(getContext().getLocale()).getTime();
         }
         else {
-            Meeting meeting = meetingService.find(id);
+            loadDateAndTopic(id);
+        }
+        return resolve("note.jsp");
+    }
+
+    private void loadDateAndTopic(Long id) {
+        Meeting meeting = meetingService.find(id);
+        if (meeting != null) {
             date = meeting.getDate();
             topic = meeting.getTopic();
         }
+    }
+
+    @DontValidate
+    public Resolution edit() {
+        if (id == null) {
+            return create();
+        }
+        note = noteService.find(id);
+        if (note == null) {
+            return create();
+        }
+        loadDateAndTopic(note.getMeetingId());
         return resolve("note.jsp");
     }
 
     public Resolution save() {
         note.setDueDate(dateService.convert(dueDate, date));
-        noteService.put(note, date, topic);
-        return redirect("/app/note/edit/" + note.getMeetingId());
+        if (note.getId() == null) {
+            meetingService.create(note, date, topic);
+            return redirect(getClass(), "create").addParameter("id", note.getMeetingId());
+        }
+        else {
+            meetingService.update(note, date, topic);
+            return redirect(getClass(), "edit").addParameter("id", note.getId());
+        }
     }
 
-    public Set<String> getTopcis() {
+    public Set<String> getTopics() {
         if (topics == null) {
             topics = meetingService.findAllTopics();
         }

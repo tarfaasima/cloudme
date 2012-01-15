@@ -1,0 +1,10 @@
+1. As a user I want to enter short notes quickly and effortlessly. (done)
+2. As a user I want to update and delete notes.
+3. As a user I want to get a list of all meetings I have created notes to.
+4. As a user I want to get a list of all notes I have created for a meeting.
+5. As a user I want to export all notes of a meeting.
+6. As a user I want to get a list of all notes.
+7. As a user I want to check all notes that have either a due date or a responsible or both. These notes are "To-Dos".
+8. As a user I want to get a list of all To-Dos.
+9. As a user I want to get a list of all open To-Dos.
+10. As a user I want to get a list of all open To-Dos for a certain responsible.

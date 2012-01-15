@@ -6,10 +6,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="viewport" content="width = device-width, initial-scale = 1, minimum-scale = 1, maximum-scale = 1, user-scaleable = no" />
+<meta name="viewport" content="width = device-width, initial-scale = 1, minimum-scale = 1, maximum-scale = 1, user-scalable = no" />
 <title>Notepad</title>
-<!-- <link href="/css/ui-lightness/jquery-ui-1.8.17.custom.css" -->
-<!--   rel="stylesheet" type="text/css" /> -->
 <link href="/css/notepad.css" rel="stylesheet" type="text/css"/>
 <script src="/js/jquery-1.7.1.min.js"></script>
 <script src="/js/jquery-ui-1.8.17.custom.min.js"></script>
@@ -32,22 +30,24 @@
   });
 </script>
 </head>
-<body class="ui-widget">
+<body>
   <h1>Edit Note</h1>
   <s:form
     beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean"
     method="post"
     id="noteEntry">
+    <s:hidden name="note.id" />
+    <s:hidden name="note.meetingId" />
     <div class="row">
-      <label>Date:</label>
+      <label for="date">Date:</label>
       <div class="field">
-        <s:text name="date" formatPattern="medium" class="selectOnFocus" />
+        <s:text id="date" name="date" formatPattern="medium" class="selectOnFocus" />
       </div>
     </div>
     <div class="row">
-      <label>Topic:</label>
+      <label for="topic">Topic:</label>
       <div class="field">
-        <s:text name="topic" id="topic" class="selectOnFocus" />
+        <s:text id="topic" name="topic" class="selectOnFocus" />
       </div>
     </div>
     <div class="row">
@@ -56,15 +56,15 @@
       </div>
     </div>
     <div class="row">
-      <label>Responsible:</label>
+      <label for="responsible">Responsible:</label>
       <div class="field">
-        <s:text name="note.responsible" class="selectOnFocus" />
+        <s:text id="responsible" name="note.responsible" class="selectOnFocus" />
       </div>
     </div>
     <div class="row">
-      <label>Due date:</label>
+      <label for="dueDate">Due date:</label>
       <div class="field">
-        <s:text name="dueDate" class="selectOnFocus" />
+        <s:text id="dueDate" name="dueDate" class="selectOnFocus" value="${actionBean.note.dueDate}" formatPattern="medium" />
       </div>
     </div>
     <div class="submit">
