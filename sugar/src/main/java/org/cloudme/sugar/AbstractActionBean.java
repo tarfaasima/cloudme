@@ -73,4 +73,28 @@ public abstract class AbstractActionBean implements ActionBean {
     protected Resolution redirect(String url) {
         return new RedirectResolution(url);
     }
+
+    /**
+     * Create a {@link RedirectResolution} to the given {@link ActionBean}.
+     * 
+     * @param beanType
+     *            The class of the {@link ActionBean}.
+     * @return The {@link RedirectResolution}.
+     */
+    protected RedirectResolution redirect(Class<? extends ActionBean> beanType) {
+        return new RedirectResolution(beanType);
+    }
+
+    /**
+     * Create a {@link RedirectResolution} to the given {@link ActionBean}.
+     * 
+     * @param beanType
+     *            The class of the {@link ActionBean}.
+     * @param event
+     *            The event of the {@link ActionBean}.
+     * @return The {@link RedirectResolution}.
+     */
+    protected RedirectResolution redirect(Class<? extends ActionBean> beanType, String event) {
+        return new RedirectResolution(beanType, event);
+    }
 }
