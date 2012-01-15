@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Test</title>
+<style>
+body {
+  font-size: 14px;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+div.row {
+  border: 1px solid white;
+  border-bottom: 1px solid lightgrey;
+  clear: both;
+}
+
+label {
+  float: left;
+  font-weight: bold;
+  margin: 16px 8px;
+}
+
+.field {
+  margin: 8px 16px 8px 100px;
+}
+
+.field input {
+  width: 100%;
+  padding: 8px 0px;
+  border: none;
+}
+
+input[type=submit] {
+  margin: 16px 8px;
+  float: right;
+}
+</style>
+</head>
+<body>
+  <form id="myForm">
+    <div class="row">
+      <label for="f1">Label:</label>
+      <div class="field">
+        <input type="text" id="f1" />
+      </div>
+    </div>
+    <div class="row">
+      <label for="f2">Label two:</label>
+      <div class="field">
+        <input type="text" id="f2" />
+      </div>
+    </div>
+    <input type="submit"/>
+  </form>
+</body>
+</html>

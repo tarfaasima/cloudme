@@ -13,6 +13,7 @@ import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
+import org.cloudme.notepad.date.DateService;
 import org.cloudme.notepad.meeting.Meeting;
 import org.cloudme.notepad.meeting.MeetingService;
 import org.cloudme.notepad.note.Note;
@@ -29,6 +30,8 @@ public class NoteActionBean extends AbstractActionBean {
     private MeetingService meetingService;
     @Inject
     private NoteService noteService;
+    @Inject
+    private DateService dateService;
     private Set<String> topics;
     @ValidateNestedProperties( { @Validate( field = "content", required = true ) } )
     private Note note;
@@ -37,11 +40,11 @@ public class NoteActionBean extends AbstractActionBean {
     @Validate( required = true )
     private String topic;
     private Long id;
+    private String dueDate;
 
     @DefaultHandler
     @DontValidate
     public Resolution edit() {
-        topics = meetingService.findAllTopics();
         if (id == null) {
             date = Calendar.getInstance(getContext().getLocale()).getTime();
         }
@@ -54,7 +57,15 @@ public class NoteActionBean extends AbstractActionBean {
     }
 
     public Resolution save() {
+        note.setDueDate(dateService.convert(dueDate, date));
         noteService.put(note, date, topic);
         return redirect("/app/note/edit/" + note.getMeetingId());
+    }
+
+    public Set<String> getTopcis() {
+        if (topics == null) {
+            topics = meetingService.findAllTopics();
+        }
+        return topics;
     }
 }
