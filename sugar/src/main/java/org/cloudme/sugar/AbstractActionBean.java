@@ -15,6 +15,16 @@ import org.apache.commons.logging.LogFactory;
  * @author Moritz Petersen
  */
 public abstract class AbstractActionBean implements ActionBean {
+	protected static final class RequestParameter {
+		private final String name;
+		private final Object value;
+
+		public RequestParameter(String name, Object value) {
+			this.name = name;
+			this.value = value;
+		}
+	}
+
     private static final Log LOG = LogFactory.getLog(AbstractActionBean.class);
     private ActionBeanContext context;
     private final String path = "/WEB-INF/classes/" + getClass().getPackage().getName().replace('.', '/') + "/";
@@ -74,27 +84,32 @@ public abstract class AbstractActionBean implements ActionBean {
         return new RedirectResolution(url);
     }
 
-    /**
-     * Create a {@link RedirectResolution} to the given {@link ActionBean}.
-     * 
-     * @param beanType
-     *            The class of the {@link ActionBean}.
-     * @return The {@link RedirectResolution}.
-     */
-    protected RedirectResolution redirect(Class<? extends ActionBean> beanType) {
-        return new RedirectResolution(beanType);
-    }
+	/**
+	 * Redirects to this {@link ActionBean} with the given event.
+	 * 
+	 * @param event
+	 *            The event of the {@link ActionBean}.
+	 * @return The {@link Resolution}.
+	 */
+	protected Resolution redirectSelf(String event, RequestParameter... parameters) {
+		RedirectResolution res = new RedirectResolution(getClass(), event);
+		for (RequestParameter parameter : parameters) {
+			res.addParameter(parameter.name, parameter.value);
+		}
+		return res;
+	}
 
-    /**
-     * Create a {@link RedirectResolution} to the given {@link ActionBean}.
-     * 
-     * @param beanType
-     *            The class of the {@link ActionBean}.
-     * @param event
-     *            The event of the {@link ActionBean}.
-     * @return The {@link RedirectResolution}.
-     */
-    protected RedirectResolution redirect(Class<? extends ActionBean> beanType, String event) {
-        return new RedirectResolution(beanType, event);
-    }
+	/**
+	 * Convenience method to create request parameters, used in
+	 * {@link #redirectSelf(String)}.
+	 * 
+	 * @param name
+	 *            Name of the parameter.
+	 * @param value
+	 *            Value of the parameter.
+	 * @return The {@link RequestParameter}
+	 */
+	protected RequestParameter param(String name, Object value) {
+		return new RequestParameter(name, value);
+	}
 }

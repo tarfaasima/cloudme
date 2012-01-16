@@ -14,4 +14,8 @@ public class Note extends Entity {
     private String content;
     private Date dueDate;
     private Long meetingId;
+
+	public boolean isManaged() {
+		return getId() != null;
+	}
 }

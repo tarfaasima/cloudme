@@ -15,8 +15,7 @@ public class NoteService extends AbstractService<Note> {
         this.dao = dao;
     }
 
-    public boolean hasNotes(Id<Meeting, Long> meetingId) {
-        Iterable<Note> notes = dao.findByMeetingId(meetingId);
-        return notes.iterator().hasNext();
+	public boolean hasNotes(Id<Meeting, Long> meetingId) {
+        return dao.findByMeetingId(meetingId).iterator().hasNext();
     }
 }

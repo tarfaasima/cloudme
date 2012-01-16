@@ -50,9 +50,9 @@ public class MeetingService extends AbstractService<Meeting> {
     }
 
     public void update(Note note, Date date, String topic) {
-        Id<Meeting, Long> oldMeetingId = Id.of(Meeting.class, note.getMeetingId());
+		val oldMeetingId = Id.of(Meeting.class, note.getMeetingId());
 
-        Meeting newMeeting = dao.findSingleByDateAndTopic(date, topic);
+		Meeting newMeeting = dao.findSingleByDateAndTopic(date, topic);
         if (newMeeting == null) {
             newMeeting = dao.find(oldMeetingId);
             newMeeting.setDate(date);

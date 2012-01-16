@@ -1,9 +1,11 @@
 package org.cloudme.notepad.date;
 
+import static java.util.Arrays.asList;
+import static java.util.regex.Pattern.compile;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -50,12 +52,11 @@ import lombok.val;
 public class DateService {
     private static final DateFormat[] FORMATS = { df("dd.MM.yy"), df("dd.MM.yyyy"), df("yyyy-MM-dd"), df("MM/dd/yy"),
             df("MM/dd/yyyy"), df("ddMMyy"), df("ddMMyyyy") };
-    private static final Pattern DATE_WITHOUT_YEAR_PATTERN = Pattern
-            .compile("(\\d{1,2})[\\.-/+# ]?(\\d{1,2})[\\.-/+# ]?");
-    private static final Pattern DURATION_PATTERN = Pattern.compile("(\\d{1,2})(.*)");
-    private final Set<String> WEEK_DURATION = new HashSet<String>(Arrays.asList("W", "WEEK", "WEEKS", "WK", "WOCHE",
+	private static final Pattern DATE_WITHOUT_YEAR_PATTERN = compile("(\\d{1,2})[\\.-/+# ]?(\\d{1,2})[\\.-/+# ]?");
+	private static final Pattern DURATION_PATTERN = compile("(\\d{1,2})(.*)");
+	private final Set<String> WEEK_DURATION = new HashSet<String>(asList("W", "WEEK", "WEEKS", "WK", "WOCHE",
             "WOCHEN"));
-    private final Set<String> DAY_DURATION = new HashSet<String>(Arrays.asList("D", "DAY", "DAYS", "DY", "DYS", "T",
+	private final Set<String> DAY_DURATION = new HashSet<String>(asList("D", "DAY", "DAYS", "DY", "DYS", "T",
             "TAG", "TAGE"));
 
     /**

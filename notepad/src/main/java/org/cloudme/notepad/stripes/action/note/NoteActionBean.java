@@ -6,6 +6,7 @@ import java.util.Set;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.val;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.Resolution;
@@ -14,7 +15,6 @@ import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
 import org.cloudme.notepad.date.DateService;
-import org.cloudme.notepad.meeting.Meeting;
 import org.cloudme.notepad.meeting.MeetingService;
 import org.cloudme.notepad.note.Note;
 import org.cloudme.notepad.note.NoteService;
@@ -49,7 +49,7 @@ public class NoteActionBean extends AbstractActionBean {
     }
 
     private void loadDateAndTopic(Long id) {
-        Meeting meeting = meetingService.find(id);
+		val meeting = meetingService.find(id);
         if (meeting != null) {
             date = meeting.getDate();
             topic = meeting.getTopic();
@@ -71,13 +71,13 @@ public class NoteActionBean extends AbstractActionBean {
 
     public Resolution save() {
         note.setDueDate(dateService.convert(dueDate, date));
-        if (note.getId() == null) {
-            meetingService.create(note, date, topic);
-            return redirect(getClass(), "create").addParameter("id", note.getMeetingId());
+		if (note.isManaged()) {
+			meetingService.update(note, date, topic);
+			return redirectSelf("edit", param("id", note.getId()));
         }
         else {
-            meetingService.update(note, date, topic);
-            return redirect(getClass(), "edit").addParameter("id", note.getId());
+			meetingService.create(note, date, topic);
+			return redirectSelf("create", param("id", note.getMeetingId()));
         }
     }
 
