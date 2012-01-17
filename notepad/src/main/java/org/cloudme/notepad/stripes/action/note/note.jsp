@@ -32,7 +32,15 @@
 </script>
 </head>
 <body>
-  <h1>${actionBean.note.managed ? "Edit" : "Create"} Note</h1>
+  <div id="menu">
+    <a href="#">Meetings</a>
+    <a href="#">Note</a>
+    <a href="#">To-Do</a>
+  </div>
+  <div id="header">
+    <h1>${actionBean.note.managed ? "Edit" : "Create"} Note</h1>
+  </div>
+  <div id="content">
   <s:form
     beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean"
     method="post" id="noteEntry">
@@ -75,5 +83,6 @@
       <s:submit value="Save" name="save" />
     </div>
   </s:form>
+  </div>
 </body>
 </html>
