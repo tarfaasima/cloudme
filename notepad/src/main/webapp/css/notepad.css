@@ -3,12 +3,13 @@ body {
   font-family: Helvetica, Arial, sans-serif;
   padding: 0;
   margin: 0;
-  background-color: #fff;
+  background-color: #F1F1D9;
 }
 
 #menu {
-  border-bottom: 3px solid #000;
+/*   border-bottom: 3px solid #000; */
   box-shadow: 0px 4px 8px 0px #999;
+  background-color: #fff;
 }
 
 #menu a {
@@ -27,7 +28,7 @@ h1 {
   display: inline;
   font-size: 16px;
   padding: 8px 16px;
-  background-color: #000;
+  background-color: #1947A3;
   color: #fff;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
@@ -40,8 +41,8 @@ h1 {
 
 /* ---------- Note ---------- */
 .row {
-  border: 1px solid #fff;
-  border-bottom: 1px solid #ddd;
+  border: 1px solid #F1F1D9;
+  border-bottom: 1px solid #1947A3;
   clear: both;
 }
 
@@ -63,6 +64,7 @@ label {
   border: none;
   font-size: 16px;
   font-family: Helvetica, Arial, sans-serif;
+  background-color: #F1F1D9;
 }
 
 .textarea {
@@ -77,6 +79,7 @@ textarea {
   font-family: Helvetica, Arial, sans-serif;
   margin: 0;
   padding: 0;
+  background-color: #F1F1D9;
 }
 
 .submit {
