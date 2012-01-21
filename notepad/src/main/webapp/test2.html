@@ -1,0 +1,87 @@
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport"
+  content="width = device-width, initial-scale = 1, minimum-scale = 1, maximum-scale = 1, user-scalable = no" />
+<title>Notepad</title>
+<link href="css/notepad.css" rel="stylesheet" type="text/css" />
+<script src="js/jquery-1.7.1.min.js"></script>
+<script src="js/jquery-ui-1.8.17.custom.min.js"></script>
+<script>
+  $(document).ready(
+      function() {
+        $(".selectOnFocus").focus(function() {
+          this.setSelectionRange(0, $(this).val().length);
+        });
+        var inputTopic = $("#topic");
+        inputTopic.autocomplete({
+          source : [ "Architektur Status", "GLOBE Status",
+              "Internet / Intranet", "Team Meeting", "Weihnachten" ],
+          autoFocus : true
+        });
+        if (inputTopic.val()) {
+          $("#content").focus();
+        } else {
+          inputTopic.focus();
+        }
+      });
+</script>
+</head>
+<body>
+  <div id="menu">
+    <a href="#">Meetings</a> <a href="#">Note</a> <a href="#">To-Do</a>
+  </div>
+  <div id="header">
+    <h1>Create Note</h1>
+  </div>
+  <form id="noteEntry" action="/app/note" method="post">
+    <input name="note.id" value="" type="hidden" /> <input name="note.meetingId" value="" type="hidden" />
+    <div class="row">
+      <label for="date">Date:</label>
+      <div class="field">
+        <input id="date" name="date" value="17.01.2012" class="selectOnFocus" type="text" />
+      </div>
+    </div>
+    <div class="row">
+      <label for="topic">Topic:</label>
+      <div class="field">
+        <input id="topic" name="topic" class="selectOnFocus" type="text" />
+      </div>
+    </div>
+    <div class="row">
+      <textarea id="content" name="note.content" class="selectOnFocus"></textarea>
+    </div>
+    <div class="row">
+      <label for="responsible">Responsible:</label>
+      <div class="field">
+        <input id="responsible" name="note.responsible" class="selectOnFocus" type="text" />
+      </div>
+    </div>
+    <div class="row">
+      <label for="dueDate">Due date:</label>
+      <div class="field">
+        <input id="dueDate" name="dueDate" class="selectOnFocus" type="text" />
+      </div>
+    </div>
+    <div id="controls">
+      <div class="left">
+        <a href="#" class="delete">Delete</a>
+        <a href="#" class="cancel">Cancel</a>
+      </div>
+      <div class="right">
+        <input name="save" value="Save" type="submit" />
+      </div>
+    </div>
+    <div style="display: none;">
+      <input type="hidden" name="_sourcePage"
+        value="w47-8eWimAjTQd3OOaM0-ubVwIRIIMuo6ukCOsXdAkUSqal376AhN3GajvOKqEy_CpGtiM7gm2T7MRW8vYT08MPM7KNRNH3R" /><input
+        type="hidden" name="__fp" value="KIYfmlHeDWo=" />
+    </div>
+  </form>
+</body>
+</html>

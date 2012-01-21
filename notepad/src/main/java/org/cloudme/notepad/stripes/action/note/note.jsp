@@ -33,24 +33,18 @@
 </head>
 <body>
   <div id="menu">
-    <a href="#">Meetings</a>
-    <a href="#">Note</a>
-    <a href="#">To-Do</a>
+    <a href="#">Meetings</a> <a href="#">Note</a> <a href="#">To-Do</a>
   </div>
   <div id="header">
     <h1>${actionBean.note.managed ? "Edit" : "Create"} Note</h1>
   </div>
-  <div id="content">
-  <s:form
-    beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean"
-    method="post" id="noteEntry">
+  <s:form beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" method="post" id="noteEntry">
     <s:hidden name="note.id" />
     <s:hidden name="note.meetingId" />
     <div class="row">
       <label for="date">Date:</label>
       <div class="field">
-        <s:text id="date" name="date" formatPattern="medium"
-          class="selectOnFocus" />
+        <s:text id="date" name="date" formatPattern="medium" class="selectOnFocus" />
       </div>
     </div>
     <div class="row">
@@ -61,28 +55,29 @@
     </div>
     <div class="row">
       <div class="textarea">
-        <s:textarea name="note.content" id="content"
-          class="selectOnFocus" />
+        <s:textarea name="note.content" id="content" class="selectOnFocus" />
       </div>
     </div>
     <div class="row">
       <label for="responsible">Responsible:</label>
       <div class="field">
-        <s:text id="responsible" name="note.responsible"
-          class="selectOnFocus" />
+        <s:text id="responsible" name="note.responsible" class="selectOnFocus" />
       </div>
     </div>
     <div class="row">
       <label for="dueDate">Due date:</label>
       <div class="field">
-        <s:text id="dueDate" name="dueDate" class="selectOnFocus"
-          value="${actionBean.note.dueDate}" formatPattern="medium" />
+        <s:text id="dueDate" name="dueDate" class="selectOnFocus" value="${actionBean.note.dueDate}"
+          formatPattern="medium" />
       </div>
     </div>
-    <div class="submit">
-      <s:submit value="Save" name="save" />
+    <div id="controls">
+      <div class="left">
+      </div>
+      <div class="right">
+        <s:submit value="Save" name="save" />
+      </div>
     </div>
   </s:form>
-  </div>
 </body>
 </html>
