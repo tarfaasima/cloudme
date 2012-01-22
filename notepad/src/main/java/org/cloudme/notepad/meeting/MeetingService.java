@@ -2,7 +2,6 @@ package org.cloudme.notepad.meeting;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Set;
 import java.util.TreeSet;
 
 import lombok.val;
@@ -25,9 +24,9 @@ public class MeetingService extends AbstractService<Meeting> {
         this.dao = dao;
     }
 
-    public Set<String> findAllTopics() {
+    public Iterable<String> findAllTopics() {
         val topics = new TreeSet<String>();
-        for (val meeting : findAll()) {
+        for (val meeting : dao.findAllOrderByTopic()) {
             topics.add(meeting.getTopic());
         }
         if (topics.isEmpty()) {
@@ -69,5 +68,4 @@ public class MeetingService extends AbstractService<Meeting> {
             }
         }
     }
-
 }

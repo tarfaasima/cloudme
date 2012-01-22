@@ -1,5 +1,7 @@
 package org.cloudme.notepad.note;
 
+import java.util.List;
+
 import org.cloudme.notepad.meeting.Meeting;
 import org.cloudme.sugar.AbstractService;
 import org.cloudme.sugar.Id;
@@ -15,7 +17,11 @@ public class NoteService extends AbstractService<Note> {
         this.dao = dao;
     }
 
-	public boolean hasNotes(Id<Meeting, Long> meetingId) {
-        return dao.findByMeetingId(meetingId).iterator().hasNext();
+    public boolean hasNotes(Id<Meeting, Long> id) {
+        return dao.findByMeetingId(id).iterator().hasNext();
+    }
+
+    public List<Note> listByMeetingId(Id<Meeting, Long> id) {
+        return dao.listByMeetingId(id);
     }
 }

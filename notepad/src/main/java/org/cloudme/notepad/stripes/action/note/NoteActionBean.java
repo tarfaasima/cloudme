@@ -2,7 +2,7 @@ package org.cloudme.notepad.stripes.action.note;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,10 +15,12 @@ import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
 import org.cloudme.notepad.date.DateService;
+import org.cloudme.notepad.meeting.Meeting;
 import org.cloudme.notepad.meeting.MeetingService;
 import org.cloudme.notepad.note.Note;
 import org.cloudme.notepad.note.NoteService;
 import org.cloudme.sugar.AbstractActionBean;
+import org.cloudme.sugar.Id;
 
 import com.google.inject.Inject;
 
@@ -29,12 +31,13 @@ public class NoteActionBean extends AbstractActionBean {
     @Inject private MeetingService meetingService;
     @Inject private NoteService noteService;
     @Inject private DateService dateService;
-    private Set<String> topics;
+    private Iterable<String> topics;
+    private List<Note> notes;
+    private Long id;
+    private String dueDate;
     @ValidateNestedProperties( { @Validate( field = "content", required = true ) } ) private Note note;
     @Validate( required = true ) private Date date;
     @Validate( required = true ) private String topic;
-    private Long id;
-    private String dueDate;
 
     @DefaultHandler
     @DontValidate
@@ -43,13 +46,13 @@ public class NoteActionBean extends AbstractActionBean {
             date = Calendar.getInstance(getContext().getLocale()).getTime();
         }
         else {
-            loadDateAndTopic(id);
+            loadDateAndTopic(Id.of(Meeting.class, id));
         }
         return resolve("note.jsp");
     }
 
-    private void loadDateAndTopic(Long id) {
-		val meeting = meetingService.find(id);
+    private void loadDateAndTopic(Id<Meeting, Long> id) {
+        val meeting = meetingService.find(id);
         if (meeting != null) {
             date = meeting.getDate();
             topic = meeting.getTopic();
@@ -65,26 +68,42 @@ public class NoteActionBean extends AbstractActionBean {
         if (note == null) {
             return create();
         }
-        loadDateAndTopic(note.getMeetingId());
+        loadDateAndTopic(Id.of(Meeting.class, note.getMeetingId()));
         return resolve("note.jsp");
     }
 
     public Resolution save() {
         note.setDueDate(dateService.convert(dueDate, date));
-		if (note.isManaged()) {
-			meetingService.update(note, date, topic);
-			return redirectSelf("edit", param("id", note.getId()));
+        if (note.isManaged()) {
+            meetingService.update(note, date, topic);
+            return redirectSelf("edit", param("id", note.getId()));
         }
         else {
-			meetingService.create(note, date, topic);
-			return redirectSelf("create", param("id", note.getMeetingId()));
+            meetingService.create(note, date, topic);
+            return redirectSelf("create", param("id", note.getMeetingId()));
         }
     }
 
-    public Set<String> getTopics() {
+    @DontValidate
+    public Resolution delete() {
+        noteService.delete(Id.of(Note.class, id));
+        return redirectSelf("create");
+    }
+
+    public synchronized Iterable<String> getTopics() {
         if (topics == null) {
             topics = meetingService.findAllTopics();
         }
         return topics;
+    }
+
+    public synchronized List<Note> getNotes() {
+        if (notes == null) {
+            Long meetingId = note == null ? id : note.getMeetingId();
+            if (meetingId != null) {
+                notes = noteService.listByMeetingId(Id.of(Meeting.class, meetingId));
+            }
+        }
+        return notes;
     }
 }

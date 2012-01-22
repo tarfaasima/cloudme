@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Set;
+import java.util.Collection;
 
 import org.cloudme.notepad.guice.GuiceModules;
 import org.cloudme.notepad.note.Note;
@@ -21,14 +21,14 @@ public class MeetingServiceTest extends AbstractServiceTestCase {
 
 	@Test
 	public void testFindAllTopics() {
-		Set<String> topics = meetingService.findAllTopics();
+        Collection<String> topics = (Collection<String>) meetingService.findAllTopics();
 		assertEquals(3, topics.size());
 
 		Meeting meeting = new Meeting();
 		meeting.setTopic("A");
 		meetingService.put(meeting);
 
-		topics = meetingService.findAllTopics();
+        topics = (Collection<String>) meetingService.findAllTopics();
 		assertEquals(1, topics.size());
 		assertEquals("A", topics.iterator().next());
 	}

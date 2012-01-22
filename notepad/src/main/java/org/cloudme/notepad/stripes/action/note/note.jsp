@@ -6,6 +6,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<link rel="apple-touch-icon" href="/apple-touch-icon-114x114.png" />
 <meta name="viewport"
   content="width = device-width, initial-scale = 1, minimum-scale = 1, maximum-scale = 1, user-scalable = no" />
 <title>Notepad</title>
@@ -28,6 +31,12 @@
     else {
       inputTopic.focus();
     }
+    $("a").on("click", function(event) {
+      event.preventDefault();
+      if (!$(this).hasClass("delete") || confirm($(this).attr("title"))) {
+        document.location.href = $(this).attr("href");
+      }
+    });
   });
 </script>
 </head>
@@ -73,11 +82,24 @@
     </div>
     <div id="controls">
       <div class="left">
+        <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="cancel">Cancel</s:link>
+        <c:if test="${actionBean.note.managed}">
+          <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="delete" event="delete"
+            title="Do you really want to delete the note?">
+            <s:param name="id">${actionBean.note.id}</s:param>
+            Delete
+          </s:link>
+        </c:if>
       </div>
       <div class="right">
-        <s:submit value="Save" name="save" />
+        <s:submit value="${actionBean.note.managed ? 'Update' : 'Save'}" name="save" />
       </div>
     </div>
   </s:form>
+  <c:forEach items="${actionBean.notes}" var="note">
+    <c:if test="${note.id != actionBean.id}">
+      <div class="note">${note.content}</div>
+    </c:if>
+  </c:forEach>
 </body>
 </html>

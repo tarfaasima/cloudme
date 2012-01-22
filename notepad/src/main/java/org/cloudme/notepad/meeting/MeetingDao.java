@@ -14,4 +14,8 @@ class MeetingDao extends AbstractDao<Meeting> {
         return findSingle(filter("date", date), filter("topic", topic));
     }
 
+    public Iterable<Meeting> findAllOrderByTopic() {
+        return findBy(orderBy("topic"));
+    }
+
 }
