@@ -82,7 +82,10 @@
     </div>
     <div id="controls">
       <div class="left">
-        <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="cancel">Cancel</s:link>
+        <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="cancel">
+          <s:param name="id">${actionBean.note.managed ? actionBean.note.meetingId : actionBean.id}</s:param>
+          Cancel
+        </s:link>
         <c:if test="${actionBean.note.managed}">
           <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="delete" event="delete"
             title="Do you really want to delete the note?">
