@@ -50,6 +50,7 @@
   <s:form beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" method="post" id="noteEntry">
     <s:hidden name="note.id" />
     <s:hidden name="note.meetingId" />
+    <s:errors />
     <div class="row">
       <label for="date">Date:</label>
       <div class="field">

@@ -73,6 +73,7 @@ public class NoteActionBean extends AbstractActionBean {
     }
 
     public Resolution save() {
+        System.out.println("save()");
         note.setDueDate(dateService.convert(dueDate, date));
         if (note.isManaged()) {
             meetingService.update(note, date, topic);
