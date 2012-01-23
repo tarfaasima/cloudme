@@ -158,6 +158,10 @@ div.note {
   padding: 12px 16px;
 }
 
+div.note + div.note {
+  border-top: 1px solid #ccc;
+}
+
 /* ---------- Auto-complete ---------- */
 ul.ui-autocomplete {
   list-style-type: none;
