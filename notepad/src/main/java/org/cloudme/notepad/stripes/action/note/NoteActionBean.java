@@ -13,8 +13,6 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
-import net.sourceforge.stripes.validation.ValidationErrorHandler;
-import net.sourceforge.stripes.validation.ValidationErrors;
 
 import org.cloudme.notepad.date.DateService;
 import org.cloudme.notepad.meeting.Meeting;
@@ -29,7 +27,7 @@ import com.google.inject.Inject;
 @Getter
 @Setter
 @UrlBinding( "/app/note/{$event}/{note.meetingId}/{note.id}" )
-public class NoteActionBean extends AbstractActionBean implements ValidationErrorHandler {
+public class NoteActionBean extends AbstractActionBean {
     @Inject private MeetingService meetingService;
     @Inject private NoteService noteService;
     @Inject private DateService dateService;
@@ -66,29 +64,26 @@ public class NoteActionBean extends AbstractActionBean implements ValidationErro
             return create();
         }
         note = noteService.find(note.getId());
-        if (note == null) {
-            return create();
-        }
-        loadDateAndTopic(Id.of(Meeting.class, note.getMeetingId()));
-        return resolve("note.jsp");
+        return create();
     }
 
     public Resolution save() {
-        System.out.println("save()");
         note.setDueDate(dateService.convert(dueDate, date));
+        RequestParameter[] params = new RequestParameter[] { param("note.id", note.getId()),
+                param("note.meetingId", note.getMeetingId()) };
         if (note.isManaged()) {
             meetingService.update(note, date, topic);
-            return redirectSelf("edit", param("id", note.getId()));
+            return redirectSelf("edit", params);
         }
         else {
             meetingService.create(note, date, topic);
-            return redirectSelf("create", param("id", note.getMeetingId()));
+            return redirectSelf("create", params);
         }
     }
 
     @DontValidate
     public Resolution delete() {
-        noteService.delete(Id.of(Note.class, note.getId()));
+        noteService.delete(Id.of(note));
         return redirectSelf("create");
     }
 
@@ -104,11 +99,5 @@ public class NoteActionBean extends AbstractActionBean implements ValidationErro
             notes = noteService.listByMeetingId(Id.of(Meeting.class, note.getMeetingId()));
         }
         return notes;
-    }
-
-    @Override
-    public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
-
-        return null;
     }
 }
