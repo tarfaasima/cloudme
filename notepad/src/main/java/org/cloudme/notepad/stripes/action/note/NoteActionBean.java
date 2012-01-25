@@ -13,6 +13,8 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
+import net.sourceforge.stripes.validation.ValidationErrorHandler;
+import net.sourceforge.stripes.validation.ValidationErrors;
 
 import org.cloudme.notepad.date.DateService;
 import org.cloudme.notepad.meeting.Meeting;
@@ -26,14 +28,13 @@ import com.google.inject.Inject;
 
 @Getter
 @Setter
-@UrlBinding( "/app/note/{$event}/{id}" )
-public class NoteActionBean extends AbstractActionBean {
+@UrlBinding( "/app/note/{$event}/{note.meetingId}/{note.id}" )
+public class NoteActionBean extends AbstractActionBean implements ValidationErrorHandler {
     @Inject private MeetingService meetingService;
     @Inject private NoteService noteService;
     @Inject private DateService dateService;
     private Iterable<String> topics;
     private List<Note> notes;
-    private Long id;
     private String dueDate;
     @ValidateNestedProperties( { @Validate( field = "content", required = true ) } ) private Note note;
     @Validate( required = true ) private Date date;
@@ -42,11 +43,11 @@ public class NoteActionBean extends AbstractActionBean {
     @DefaultHandler
     @DontValidate
     public Resolution create() {
-        if (id == null) {
+        if (note == null || note.getMeetingId() == null) {
             date = Calendar.getInstance(getContext().getLocale()).getTime();
         }
         else {
-            loadDateAndTopic(Id.of(Meeting.class, id));
+            loadDateAndTopic(Id.of(Meeting.class, note.getMeetingId()));
         }
         return resolve("note.jsp");
     }
@@ -61,10 +62,10 @@ public class NoteActionBean extends AbstractActionBean {
 
     @DontValidate
     public Resolution edit() {
-        if (id == null) {
+        if (note == null || note.getId() == null) {
             return create();
         }
-        note = noteService.find(id);
+        note = noteService.find(note.getId());
         if (note == null) {
             return create();
         }
@@ -87,7 +88,7 @@ public class NoteActionBean extends AbstractActionBean {
 
     @DontValidate
     public Resolution delete() {
-        noteService.delete(Id.of(Note.class, id));
+        noteService.delete(Id.of(Note.class, note.getId()));
         return redirectSelf("create");
     }
 
@@ -99,12 +100,15 @@ public class NoteActionBean extends AbstractActionBean {
     }
 
     public synchronized List<Note> getNotes() {
-        if (notes == null) {
-            Long meetingId = note == null ? id : note.getMeetingId();
-            if (meetingId != null) {
-                notes = noteService.listByMeetingId(Id.of(Meeting.class, meetingId));
-            }
+        if (notes == null && note != null && note.getMeetingId() != null) {
+            notes = noteService.listByMeetingId(Id.of(Meeting.class, note.getMeetingId()));
         }
         return notes;
+    }
+
+    @Override
+    public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
+
+        return null;
     }
 }

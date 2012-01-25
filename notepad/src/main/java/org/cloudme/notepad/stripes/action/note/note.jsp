@@ -83,14 +83,15 @@
     </div>
     <div id="controls">
       <div class="left">
-        <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="cancel">
-          <s:param name="id">${actionBean.note.managed ? actionBean.note.meetingId : actionBean.id}</s:param>
+        <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="cancel" event="create">
+          <s:param name="note.meetingId">${actionBean.note.meetingId}</s:param>
           Cancel
         </s:link>
         <c:if test="${actionBean.note.managed}">
           <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="delete" event="delete"
             title="Do you really want to delete the note?">
-            <s:param name="id">${actionBean.note.id}</s:param>
+            <s:param name="note.meetingId">${actionBean.note.meetingId}</s:param>
+            <s:param name="note.id">${actionBean.note.id}</s:param>
             Delete
           </s:link>
         </c:if>
@@ -101,7 +102,7 @@
     </div>
   </s:form>
   <c:forEach items="${actionBean.notes}" var="note">
-    <c:if test="${note.id != actionBean.id}">
+    <c:if test="${note.id != actionBean.note.id}">
       <div class="note">${note.content}</div>
     </c:if>
   </c:forEach>
