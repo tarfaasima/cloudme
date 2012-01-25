@@ -71,7 +71,7 @@ public class NoteActionBean extends AbstractActionBean {
         note.setDueDate(dateService.convert(dueDate, date));
         RequestParameter[] params = new RequestParameter[] { param("note.id", note.getId()),
                 param("note.meetingId", note.getMeetingId()) };
-        if (note.isManaged()) {
+		if (note.getId() != null) {
             meetingService.update(note, date, topic);
             return redirectSelf("edit", params);
         }

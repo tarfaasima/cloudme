@@ -186,5 +186,9 @@ ul.ui-autocomplete {
 
 /* ---------- Stripes error handling ---------- */
 input.error {
-  background-color: #cff;
+  background-color: #ffff99;
+}
+
+textarea.error {
+  background-color: #ffff99;
 }

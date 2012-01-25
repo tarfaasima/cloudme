@@ -48,8 +48,12 @@
     <h1>${actionBean.note.managed ? "Edit" : "Create"} Note</h1>
   </div>
   <s:form beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" method="post" id="noteEntry">
-    <s:hidden name="note.id" />
-    <s:hidden name="note.meetingId" />
+    <c:if test="${note.id}">
+      <s:hidden name="note.id" />
+    </c:if>
+    <c:if test="${note.meetingId}">
+      <s:hidden name="note.meetingId" />
+    </c:if>
     <s:errors />
     <div class="row">
       <label for="date">Date:</label>
@@ -84,10 +88,12 @@
     <div id="controls">
       <div class="left">
         <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="cancel" event="create">
-          <s:param name="note.meetingId">${actionBean.note.meetingId}</s:param>
+          <c:if test="${actionBean.note.meetingId}">
+            <s:param name="note.meetingId">${actionBean.note.meetingId}</s:param>
+          </c:if>
           Cancel
         </s:link>
-        <c:if test="${actionBean.note.managed}">
+        <c:if test="${actionBean.note.id}">
           <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="delete" event="delete"
             title="Do you really want to delete the note?">
             <s:param name="note.meetingId">${actionBean.note.meetingId}</s:param>
@@ -97,7 +103,7 @@
         </c:if>
       </div>
       <div class="right">
-        <s:submit value="${actionBean.note.managed ? 'Update' : 'Save'}" name="save" />
+        <s:submit value="${actionBean.note.id ? 'Update' : 'Save'}" name="save" />
       </div>
     </div>
   </s:form>
