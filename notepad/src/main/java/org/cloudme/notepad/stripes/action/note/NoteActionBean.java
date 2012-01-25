@@ -45,17 +45,10 @@ public class NoteActionBean extends AbstractActionBean {
             date = Calendar.getInstance(getContext().getLocale()).getTime();
         }
         else {
-            loadDateAndTopic(Id.of(Meeting.class, note.getMeetingId()));
+            loadDateAndTopic(note);
+            note.setId(null);
         }
         return resolve("note.jsp");
-    }
-
-    private void loadDateAndTopic(Id<Meeting, Long> id) {
-        val meeting = meetingService.find(id);
-        if (meeting != null) {
-            date = meeting.getDate();
-            topic = meeting.getTopic();
-        }
     }
 
     @DontValidate
@@ -64,27 +57,26 @@ public class NoteActionBean extends AbstractActionBean {
             return create();
         }
         note = noteService.find(note.getId());
-        return create();
+        loadDateAndTopic(note);
+        return resolve("note.jsp");
     }
 
     public Resolution save() {
         note.setDueDate(dateService.convert(dueDate, date));
-        RequestParameter[] params = new RequestParameter[] { param("note.id", note.getId()),
-                param("note.meetingId", note.getMeetingId()) };
 		if (note.getId() != null) {
             meetingService.update(note, date, topic);
-            return redirectSelf("edit", params);
+            return redirectSelf("edit", param("note.id", note.getId()), param("note.meetingId", note.getMeetingId()));
         }
         else {
             meetingService.create(note, date, topic);
-            return redirectSelf("create", params);
+            return redirectSelf("create", param("note.meetingId", note.getMeetingId()));
         }
     }
 
     @DontValidate
     public Resolution delete() {
         noteService.delete(Id.of(note));
-        return redirectSelf("create");
+        return redirectSelf("create", param("note.meetingId", note.getMeetingId()));
     }
 
     public synchronized Iterable<String> getTopics() {
@@ -99,5 +91,13 @@ public class NoteActionBean extends AbstractActionBean {
             notes = noteService.listByMeetingId(Id.of(Meeting.class, note.getMeetingId()));
         }
         return notes;
+    }
+
+    private void loadDateAndTopic(Note note) {
+        val meeting = meetingService.find(Id.of(Meeting.class, note.getMeetingId()));
+        if (meeting != null) {
+            date = meeting.getDate();
+            topic = meeting.getTopic();
+        }
     }
 }

@@ -35,9 +35,9 @@ public class NoteDaoTest extends AbstractServiceTestCase {
         List<Note> notes = noteDao.listByMeetingId(Id.of(Meeting.class, note.getMeetingId()));
 
         assertEquals(3, notes.size());
-        assertEquals(c3, notes.get(0).getContent());
+        assertEquals(c1, notes.get(0).getContent());
         assertEquals(c2, notes.get(1).getContent());
-        assertEquals(c1, notes.get(2).getContent());
+        assertEquals(c3, notes.get(2).getContent());
     }
 
     @SneakyThrows

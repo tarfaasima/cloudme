@@ -17,7 +17,7 @@ class NoteDao extends AbstractDao<Note> {
     }
 
     public List<Note> listByMeetingId(Id<Meeting, Long> id) {
-        return listBy(filter("meetingId", id.value()), orderBy("-creationDate"));
+        return listBy(filter("meetingId", id.value()), orderBy("creationDate"));
     }
 
 }

@@ -42,16 +42,19 @@
 </head>
 <body>
   <div id="menu">
-    <a href="#">Meetings</a> <a href="#">Note</a> <a href="#">To-Do</a>
+    <s:link beanclass="org.cloudme.notepad.stripes.action.logout.LogoutActionBean" class="logout">Sign out</s:link>
+    <a href="#">Meetings</a> 
+    <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" event="create">Note</s:link>
+    <a href="#">To-Do</a>
   </div>
   <div id="header">
-    <h1>${actionBean.note.managed ? "Edit" : "Create"} Note</h1>
+    <h1>${actionBean.note.id != null ? "Edit" : "Create"} Note</h1>
   </div>
   <s:form beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" method="post" id="noteEntry">
-    <c:if test="${note.id}">
+    <c:if test="${actionBean.note.id != null}">
       <s:hidden name="note.id" />
     </c:if>
-    <c:if test="${note.meetingId}">
+    <c:if test="${actionBean.note.meetingId != null}">
       <s:hidden name="note.meetingId" />
     </c:if>
     <s:errors />
@@ -88,12 +91,12 @@
     <div id="controls">
       <div class="left">
         <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="cancel" event="create">
-          <c:if test="${actionBean.note.meetingId}">
+          <c:if test="${actionBean.note.meetingId != null}">
             <s:param name="note.meetingId">${actionBean.note.meetingId}</s:param>
           </c:if>
           Cancel
         </s:link>
-        <c:if test="${actionBean.note.id}">
+        <c:if test="${actionBean.note.id != null}">
           <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="delete" event="delete"
             title="Do you really want to delete the note?">
             <s:param name="note.meetingId">${actionBean.note.meetingId}</s:param>
@@ -103,13 +106,19 @@
         </c:if>
       </div>
       <div class="right">
-        <s:submit value="${actionBean.note.id ? 'Update' : 'Save'}" name="save" />
+        <s:submit value="${actionBean.note.id != null ? 'Update' : 'Save'}" name="save" />
       </div>
     </div>
   </s:form>
   <c:forEach items="${actionBean.notes}" var="note">
     <c:if test="${note.id != actionBean.note.id}">
-      <div class="note">${note.content}</div>
+      <div class="note">
+        <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" event="edit">
+          <s:param name="note.meetingId">${note.meetingId}</s:param>
+          <s:param name="note.id">${note.id}</s:param>
+          ${note.content}
+        </s:link>
+      </div>
     </c:if>
   </c:forEach>
 </body>
