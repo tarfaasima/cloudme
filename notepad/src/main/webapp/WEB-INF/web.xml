@@ -20,6 +20,10 @@
       <param-name>Extension.Packages</param-name>
       <param-value>org.cloudme.notepad.stripes.extensions</param-value>
     </init-param>
+	<init-param>
+      <param-name>LocalePicker.Locales</param-name>
+      <param-value>en_US:UTF-8,de_DE:UTF-8</param-value>
+	</init-param>
   </filter>
 
   <filter-mapping>

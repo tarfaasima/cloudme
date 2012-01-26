@@ -65,12 +65,11 @@ public class NoteActionBean extends AbstractActionBean {
         note.setDueDate(dateService.convert(dueDate, date));
 		if (note.getId() != null) {
             meetingService.update(note, date, topic);
-            return redirectSelf("edit", param("note.id", note.getId()), param("note.meetingId", note.getMeetingId()));
         }
         else {
             meetingService.create(note, date, topic);
-            return redirectSelf("create", param("note.meetingId", note.getMeetingId()));
         }
+		return redirectSelf("create", param("note.meetingId", note.getMeetingId()));
     }
 
     @DontValidate

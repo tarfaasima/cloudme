@@ -13,4 +13,11 @@
     <function-signature>java.lang.String join(java.lang.Iterable, java.lang.String, java.lang.String, java.lang.String)</function-signature>
   </function>
 
+  <function>
+    <description>Escapes HTML entities in a String.</description>
+    <name>escapeHtml</name>
+    <function-class>org.cloudme.notepad.jsp.tags.Tags</function-class>
+    <function-signature>java.lang.String escapeHtml(java.lang.String)</function-signature>
+  </function>
+
 </taglib>

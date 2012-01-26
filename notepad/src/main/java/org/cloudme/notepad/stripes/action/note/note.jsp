@@ -116,7 +116,7 @@
         <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" event="edit">
           <s:param name="note.meetingId">${note.meetingId}</s:param>
           <s:param name="note.id">${note.id}</s:param>
-          ${note.content}
+          ${n:escapeHtml(note.content)}
         </s:link>
       </div>
     </c:if>
