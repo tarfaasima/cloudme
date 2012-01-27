@@ -19,6 +19,7 @@ import org.cloudme.notepad.meeting.Meeting;
 import org.cloudme.notepad.meeting.MeetingService;
 import org.cloudme.notepad.note.Note;
 import org.cloudme.notepad.note.NoteService;
+import org.cloudme.notepad.stripes.validation.SimpleDateConverter;
 import org.cloudme.sugar.AbstractActionBean;
 import org.cloudme.sugar.Id;
 
@@ -35,7 +36,8 @@ public class NoteActionBean extends AbstractActionBean {
     private List<Note> notes;
     private String dueDate;
     @ValidateNestedProperties( { @Validate( field = "content", required = true ) } ) private Note note;
-    @Validate( required = true ) private Date date;
+	@Validate(required = true, converter = SimpleDateConverter.class)
+	private Date date;
     @Validate( required = true ) private String topic;
 
     @DefaultHandler
