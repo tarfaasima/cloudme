@@ -42,8 +42,7 @@
 </head>
 <body>
   <div id="menu">
-    <s:link beanclass="org.cloudme.notepad.stripes.action.logout.LogoutActionBean" class="logout">Sign out</s:link>
-    <a href="#">Meetings</a> 
+    <a href="#">Meetings</a>
     <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" event="create">Note</s:link>
     <a href="#">To-Do</a>
   </div>
@@ -61,7 +60,7 @@
     <div class="row">
       <label for="date">Date:</label>
       <div class="field">
-        <s:text id="date" name="date" formatPattern="medium" class="selectOnFocus" />
+        <s:text id="date" name="date" formatPattern="dd.MM.yyyy" class="selectOnFocus" />
       </div>
     </div>
     <div class="row">
@@ -85,7 +84,7 @@
       <label for="dueDate">Due date:</label>
       <div class="field">
         <s:text id="dueDate" name="dueDate" class="selectOnFocus" value="${actionBean.note.dueDate}"
-          formatPattern="medium" />
+          formatPattern="dd.MM.yyyy" />
       </div>
     </div>
     <div id="controls">
@@ -121,5 +120,9 @@
       </div>
     </c:if>
   </c:forEach>
+  <div id="footer">
+    Logged in as <span id="userId">${actionBean.context.request.userPrincipal.name}</span>
+    <s:link beanclass="org.cloudme.notepad.stripes.action.logout.LogoutActionBean" class="logout">Sign out</s:link>
+  </div>
 </body>
 </html>
