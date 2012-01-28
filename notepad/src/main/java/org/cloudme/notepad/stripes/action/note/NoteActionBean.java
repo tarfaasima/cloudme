@@ -76,7 +76,7 @@ public class NoteActionBean extends AbstractActionBean {
 
     @DontValidate
     public Resolution delete() {
-        noteService.delete(Id.of(note));
+        meetingService.remove(Id.of(Meeting.class, note.getMeetingId()), Id.of(note));
         return redirectSelf("create", param("note.meetingId", note.getMeetingId()));
     }
 
@@ -99,6 +99,9 @@ public class NoteActionBean extends AbstractActionBean {
         if (meeting != null) {
             date = meeting.getDate();
             topic = meeting.getTopic();
+        }
+        else {
+            date = new Date();
         }
     }
 }

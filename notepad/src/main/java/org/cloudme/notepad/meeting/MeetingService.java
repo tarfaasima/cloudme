@@ -68,4 +68,20 @@ public class MeetingService extends AbstractService<Meeting> {
             }
         }
     }
+
+    /**
+     * Removes the note from the meeting. Deletes the meeting if it contains no
+     * more notes.
+     * 
+     * @param meetingId
+     *            The id of the meeting.
+     * @param noteId
+     *            The id of the note.
+     */
+    public void remove(Id<Meeting, Long> meetingId, Id<Note, Long> noteId) {
+        noteService.delete(noteId);
+        if (noteService.listByMeetingId(meetingId).isEmpty()) {
+            delete(meetingId);
+        }
+    }
 }
