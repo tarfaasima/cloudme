@@ -2,6 +2,7 @@ package org.cloudme.notepad.stripes.action.meeting;
 
 import java.util.List;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.Resolution;
@@ -9,18 +10,30 @@ import net.sourceforge.stripes.action.UrlBinding;
 
 import org.cloudme.notepad.meeting.Meeting;
 import org.cloudme.notepad.meeting.MeetingService;
+import org.cloudme.notepad.note.Note;
+import org.cloudme.notepad.note.NoteService;
 import org.cloudme.sugar.AbstractActionBean;
+import org.cloudme.sugar.Id;
 
 import com.google.inject.Inject;
 
-@UrlBinding( "/app/meeting" )
+@Getter
+@Setter
+@UrlBinding( "/app/meeting/{$event}/{id}" )
 public class MeetingActionBean extends AbstractActionBean {
     @Inject private MeetingService meetingService;
-    @Setter private List<Meeting> meetings;
+    @Inject private NoteService noteService;
+    private List<Meeting> meetings;
+    private List<Note> notes;
+    private Long id;
 
     @DefaultHandler
     public Resolution list() {
-        return resolve("meeting.jsp");
+        return resolve("list.jsp");
+    }
+
+    public Resolution show() {
+        return resolve("show.jsp");
     }
 
     public List<Meeting> getMeetings() {
@@ -28,5 +41,12 @@ public class MeetingActionBean extends AbstractActionBean {
             meetings = meetingService.listAll();
         }
         return meetings;
+    }
+
+    public List<Note> getNotes() {
+        if (notes == null) {
+            notes = noteService.listByMeetingId(Id.of(Meeting.class, id));
+        }
+        return notes;
     }
 }
