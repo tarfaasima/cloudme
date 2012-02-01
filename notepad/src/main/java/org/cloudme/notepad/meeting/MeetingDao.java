@@ -1,6 +1,7 @@
 package org.cloudme.notepad.meeting;
 
 import java.util.Date;
+import java.util.List;
 
 import org.cloudme.sugar.AbstractDao;
 
@@ -17,5 +18,10 @@ class MeetingDao extends AbstractDao<Meeting> {
     public Iterable<Meeting> findAllOrderByTopic() {
         return findBy(orderBy("topic"));
     }
+
+	@Override
+	public List<Meeting> listAll() {
+		return listBy(orderBy("-date"));
+	}
 
 }

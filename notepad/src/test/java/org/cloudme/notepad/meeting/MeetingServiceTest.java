@@ -1,12 +1,15 @@
 package org.cloudme.notepad.meeting;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 import org.cloudme.notepad.guice.GuiceModules;
 import org.cloudme.notepad.note.Note;
@@ -20,6 +23,7 @@ import com.google.inject.Module;
 
 public class MeetingServiceTest extends AbstractServiceTestCase {
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+	private static final DateFormat DATE_FORMAT_WITH_TZ = new SimpleDateFormat("dd.MM.yyyy Z");
     @Inject private MeetingService meetingService;
     @Inject private NoteService noteService;
 
@@ -99,6 +103,32 @@ public class MeetingServiceTest extends AbstractServiceTestCase {
         assertEquals(0, noteService.listByMeetingId(meetingId).size());
         assertNull(noteService.find(Id.of(n1)));
     }
+
+	@Test
+	public void testListAll() throws Throwable {
+		Note n1 = new Note();
+		n1.setContent("This is a test");
+		meetingService.create(n1, DATE_FORMAT_WITH_TZ.parse("21.09.2011 +0000"), "My topic");
+
+		Note n2 = new Note();
+		n2.setContent("This is another test");
+		meetingService.create(n2, DATE_FORMAT_WITH_TZ.parse("20.09.2011 +0000"), "My topic");
+
+		Note n3 = new Note();
+		n3.setContent("This is yet another test");
+		meetingService.create(n3, DATE_FORMAT_WITH_TZ.parse("22.09.2011 +0000"), "All new topic");
+
+		List<Meeting> meetings = meetingService.listAll();
+		// for (Meeting meeting : meetings) {
+		// System.out.println(meeting.getId() + " - " + meeting.getTopic() +
+		// " - " + meeting.getDate());
+		// }
+		Iterator<Meeting> it = meetings.iterator();
+		assertEquals(n3.getMeetingId(), it.next().getId());
+		assertEquals(n1.getMeetingId(), it.next().getId());
+		assertEquals(n2.getMeetingId(), it.next().getId());
+		assertFalse(it.hasNext());
+	}
 
     @Override
     protected Module[] getModules() {

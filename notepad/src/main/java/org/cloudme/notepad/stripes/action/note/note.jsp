@@ -24,6 +24,7 @@
     <s:form beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" method="post" id="noteEntry">
       <c:if test="${actionBean.note.id != null}">
         <s:hidden name="note.id" />
+        <s:hidden name="note.creationDateMillis" />
       </c:if>
       <c:if test="${actionBean.note.meetingId != null}">
         <s:hidden name="note.meetingId" />
@@ -81,6 +82,6 @@
         </div>
       </div>
     </s:form>
-    <tag:notes notes="${actionBean.notes}"/>
+    <tag:notes notes="${actionBean.notes}" currentNoteId="${actionBean.note.id}"/>
   </s:layout-component>
 </s:layout-render>

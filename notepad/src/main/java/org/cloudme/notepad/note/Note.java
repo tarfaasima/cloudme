@@ -15,4 +15,12 @@ public class Note extends Entity {
     private Date dueDate;
     private Long meetingId;
     private Date creationDate = new Date();
+
+	public long getCreationDateMillis() {
+		return creationDate.getTime();
+	}
+
+	public void setCreationDateMillis(long millis) {
+		creationDate = new Date(millis);
+	}
 }
