@@ -1,14 +1,15 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld"%>
-<%@ taglib prefix="n" uri="/WEB-INF/tags/notepad.tld"%>
+<%@ taglib prefix="fns" uri="/WEB-INF/tags/functions.tld"%>
+<%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
 
 <s:layout-render name="/WEB-INF/layout/default.jsp" title="${actionBean.note.id != null ? 'Edit' : 'Create'} Note">
   <s:layout-component name="javascript">
     $(document).ready(function() {
       var inputTopic = $("#topic");
       inputTopic.autocomplete({
-        source: [${n:join(actionBean.topics, "\"", "\"", ", ")}],
+        source: [${fns:join(actionBean.topics, "\"", "\"", ", ")}],
         autoFocus: true
       });
       if (inputTopic.val()) {
@@ -80,16 +81,6 @@
         </div>
       </div>
     </s:form>
-    <c:forEach items="${actionBean.notes}" var="note">
-      <c:if test="${note.id != actionBean.note.id}">
-        <div class="note">
-          <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" event="edit">
-            <s:param name="note.meetingId">${note.meetingId}</s:param>
-            <s:param name="note.id">${note.id}</s:param>
-            ${n:escapeHtml(note.content)}
-          </s:link>
-        </div>
-      </c:if>
-    </c:forEach>
+    <tag:notes notes="${actionBean.notes}"/>
   </s:layout-component>
 </s:layout-render>

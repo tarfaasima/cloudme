@@ -1,6 +1,6 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld"%>
-<<s:layout-definition>
+<s:layout-definition>
 <!DOCTYPE html>
 <html>
 <head>

@@ -3,7 +3,7 @@
   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd">
 
   <tlib-version>1.0</tlib-version>
-  <short-name>notepad tags</short-name>
+  <short-name>notepad functions</short-name>
   <uri>notepad</uri>
 
   <function>
