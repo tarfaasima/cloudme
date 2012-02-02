@@ -61,7 +61,7 @@
   </reporting>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <gae.version>1.6.1</gae.version>
+    <gae.version>1.6.1.1</gae.version>
     <maven-gae-plugin.version>0.9.1</maven-gae-plugin.version>
   </properties>
   <url>http://notepad.cloudme.org</url>
@@ -190,7 +190,7 @@
     <dependency>
       <groupId>org.cloudme.sugar</groupId>
       <artifactId>sugar</artifactId>
-      <version>0.1.9-SNAPSHOT</version>
+      <version>0.1.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>

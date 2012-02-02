@@ -19,13 +19,13 @@ import com.google.inject.Inject;
 
 @Getter
 @Setter
-@UrlBinding( "/app/meeting/{$event}/{id}" )
+@UrlBinding( "/app/meeting/{$event}/{meeting.id}" )
 public class MeetingActionBean extends AbstractActionBean {
     @Inject private MeetingService meetingService;
     @Inject private NoteService noteService;
     private List<Meeting> meetings;
     private List<Note> notes;
-    private Long id;
+    private Meeting meeting;
 
     @DefaultHandler
     public Resolution list() {
@@ -33,6 +33,7 @@ public class MeetingActionBean extends AbstractActionBean {
     }
 
     public Resolution show() {
+        meeting = meetingService.find(Id.of(meeting));
         return resolve("show.jsp");
     }
 
@@ -45,7 +46,7 @@ public class MeetingActionBean extends AbstractActionBean {
 
     public List<Note> getNotes() {
         if (notes == null) {
-            notes = noteService.listByMeetingId(Id.of(Meeting.class, id));
+            notes = noteService.listByMeetingId(Id.of(meeting));
         }
         return notes;
     }

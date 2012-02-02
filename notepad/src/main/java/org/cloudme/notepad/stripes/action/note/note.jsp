@@ -1,15 +1,15 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld"%>
-<%@ taglib prefix="fns" uri="/WEB-INF/tags/functions.tld"%>
-<%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="f" uri="/WEB-INF/tags/functions.tld"%>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<s:layout-render name="/WEB-INF/layout/default.jsp" title="${actionBean.note.id != null ? 'Edit' : 'Create'} Note">
-  <s:layout-component name="javascript">
+<t:default title="${actionBean.note.id != null ? 'Edit' : 'Create'} Note">
+  <jsp:attribute name="javascript">
     $(document).ready(function() {
       var inputTopic = $("#topic");
       inputTopic.autocomplete({
-        source: [${fns:join(actionBean.topics, "\"", "\"", ", ")}],
+        source: [${f:join(actionBean.topics, "\"", "\"", ", ")}],
         autoFocus: true
       });
       if (inputTopic.val()) {
@@ -19,8 +19,8 @@
         inputTopic.focus();
       }
     });
-  </s:layout-component>
-  <s:layout-component name="content">
+  </jsp:attribute>
+  <jsp:attribute name="content">
     <s:form beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" method="post" id="noteEntry">
       <c:if test="${actionBean.note.id != null}">
         <s:hidden name="note.id" />
@@ -82,6 +82,6 @@
         </div>
       </div>
     </s:form>
-    <tag:notes notes="${actionBean.notes}" currentNoteId="${actionBean.note.id}"/>
-  </s:layout-component>
-</s:layout-render>
+    <t:notes notes="${actionBean.notes}" currentNoteId="${actionBean.note.id}"/>
+  </jsp:attribute>
+</t:default>
