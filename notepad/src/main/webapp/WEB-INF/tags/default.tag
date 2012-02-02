@@ -1,8 +1,9 @@
-<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld"%>
+<%@ tag language="java" pageEncoding="UTF-8" %>
 <%@ attribute name="javascript" required="false" fragment="true" %>
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="content" required="true" %>
+
+<%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
 <!DOCTYPE html>
 <html>

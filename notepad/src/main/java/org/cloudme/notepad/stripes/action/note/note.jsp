@@ -12,6 +12,7 @@
         source: [${f:join(actionBean.topics, "\"", "\"", ", ")}],
         autoFocus: true
       });
+      
       if (inputTopic.val()) {
         $("#content").focus();
       }
@@ -19,6 +20,11 @@
         inputTopic.focus();
       }
     });
+    
+    function updateTitle(topic, date) {
+      var title = topic + "(" + date + ")";
+      
+    }
   </jsp:attribute>
   <jsp:attribute name="content">
     <s:form beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" method="post" id="noteEntry">
@@ -33,13 +39,13 @@
       <div class="row">
         <label for="date">Date:</label>
         <div class="field">
-          <s:text id="date" name="date" formatPattern="dd.MM.yyyy" class="selectOnFocus" />
+          <s:text id="date" name="date" formatPattern="dd.MM.yyyy" class="selectOnFocus updateTitle" />
         </div>
       </div>
       <div class="row">
         <label for="topic">Topic:</label>
         <div class="field">
-          <s:text id="topic" name="topic" class="selectOnFocus" />
+          <s:text id="topic" name="topic" class="selectOnFocus updateTitle" />
         </div>
       </div>
       <div class="row">
