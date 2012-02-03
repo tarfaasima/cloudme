@@ -1,6 +1,7 @@
 <%@ tag language="java" pageEncoding="UTF-8" %>
 <%@ attribute name="javascript" required="false" %>
 <%@ attribute name="title" required="true" %>
+<%@ attribute name="h1" required="false" %>
 <%@ attribute name="content" required="true" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -43,7 +44,7 @@ ${javascript}
     <a href="#">To-Do</a>
   </div>
   <div id="header">
-    <h1>${title}</h1>
+    <h1>${h1 == null ? title : h1}</h1>
   </div>
   ${content}
   <div id="footer">

@@ -9,6 +9,7 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 
 import org.cloudme.notepad.meeting.Meeting;
+import org.cloudme.notepad.meeting.MeetingGroup;
 import org.cloudme.notepad.meeting.MeetingService;
 import org.cloudme.notepad.note.Note;
 import org.cloudme.notepad.note.NoteService;
@@ -23,7 +24,7 @@ import com.google.inject.Inject;
 public class MeetingActionBean extends AbstractActionBean {
     @Inject private MeetingService meetingService;
     @Inject private NoteService noteService;
-    private List<Meeting> meetings;
+    private List<MeetingGroup> groups;
     private List<Note> notes;
     private Meeting meeting;
 
@@ -37,11 +38,11 @@ public class MeetingActionBean extends AbstractActionBean {
         return resolve("show.jsp");
     }
 
-    public List<Meeting> getMeetings() {
-        if (meetings == null) {
-            meetings = meetingService.listAll();
+    public List<MeetingGroup> getMeetingGroups() {
+        if (groups == null) {
+            groups = meetingService.getMeetingGrous();
         }
-        return meetings;
+        return groups;
     }
 
     public List<Note> getNotes() {

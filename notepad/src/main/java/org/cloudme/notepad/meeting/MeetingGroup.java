@@ -18,4 +18,8 @@ public class MeetingGroup {
 	public Date getDate() {
 		return date;
 	}
+
+    public Collection<Meeting> getMeetings() {
+        return meetings;
+    }
 }

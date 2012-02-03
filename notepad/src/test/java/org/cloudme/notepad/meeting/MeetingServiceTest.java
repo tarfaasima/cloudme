@@ -1,6 +1,7 @@
 package org.cloudme.notepad.meeting;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -125,17 +126,23 @@ public class MeetingServiceTest extends AbstractServiceTestCase {
 		n4.setContent("This is another test");
 		meetingService.create(n4, d2, "My new topic");
 
-		val groups = meetingService.getMeetingGrous();
-		assertEquals(3, groups.size());
-		val it = groups.iterator();
-		assertGroup(it.next(), d2, n2.getMeetingId(), n4.getMeetingId());
+        val it = meetingService.getMeetingGrous().iterator();
+        assertGroup(it.next(), d3, n3.getMeetingId());
+        assertGroup(it.next(), d1, n1.getMeetingId());
+        assertGroup(it.next(), d2, n2.getMeetingId(), n4.getMeetingId());
+        assertFalse(it.hasNext());
 	}
 
 	private static void assertGroup(MeetingGroup group, Date date, Long... meetingIds) {
 		assertEquals(date, group.getDate());
+        val it = group.getMeetings().iterator();
+        for (int i = 0; i < meetingIds.length; i++) {
+            assertEquals(meetingIds[i], it.next().getId());
+        }
+        assertFalse(it.hasNext());
 	}
 
-	@Override
+    @Override
     protected Module[] getModules() {
         return GuiceModules.MODULES;
     }

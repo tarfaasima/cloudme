@@ -2,8 +2,8 @@ package org.cloudme.notepad.meeting;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.TreeSet;
 
 import lombok.val;
@@ -87,11 +87,17 @@ public class MeetingService extends AbstractService<Meeting> {
         }
     }
 
-	public Collection<MeetingGroup> getMeetingGrous() {
+    /**
+     * Returns all meetings grouped by date. The groups are ordered by date
+     * descending.
+     * 
+     * @return All meetings grouped by date.
+     */
+    public List<MeetingGroup> getMeetingGrous() {
 		val groups = new ArrayList<MeetingGroup>();
 		MeetingGroup group = null;
 		for (val meeting : findAll()) {
-			if (group == null) {
+            if (group == null || !group.getDate().equals(meeting.getDate())) {
 				group = new MeetingGroup();
 				groups.add(group);
 			}

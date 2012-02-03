@@ -64,6 +64,10 @@ h1 {
   z-index: 300;
 }
 
+h1 .date {
+  font-weight: normal;
+}
+
 /* ---------- Note ---------- */
 .row {
   border-bottom: 1px solid #ccc;
@@ -130,12 +134,12 @@ textarea {
 }
 
 #controls a {
-  color: #000;
+  text-shadow: 1px 1px 0px #fff;
+  color: #363;
   display: table-cell;
   font-weight: bold;
   padding: 12px 16px;
   text-decoration: none;
-  text-shadow: 1px 1px 0px #fff;
 }
 
 #controls a.delete {
@@ -160,8 +164,8 @@ input[type=submit] {
   padding: 12px 16px;
   background: transparent;
   text-shadow: 1px 1px 0px #fff;
-  display: table-cell;
   color: #363;
+  display: table-cell;
   cursor: pointer;
 }
 
@@ -187,6 +191,12 @@ div.meeting a {
   color: #000;
   display: block;  
   font-size: 16px;
+}
+
+div.date {
+  font-weight: bold;
+  padding: 12px 16px;
+  border-bottom: 1px solid #ccc;
 }
 
 #footer {
