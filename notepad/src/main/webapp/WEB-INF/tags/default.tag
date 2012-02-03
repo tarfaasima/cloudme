@@ -1,8 +1,9 @@
 <%@ tag language="java" pageEncoding="UTF-8" %>
-<%@ attribute name="javascript" required="false" fragment="true" %>
+<%@ attribute name="javascript" required="false" %>
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="content" required="true" %>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
 <!DOCTYPE html>
@@ -31,9 +32,9 @@ $(document).ready(function() {
   });
 });
 </script>
-<script>
-${javascript}
-</script>
+<c:if test="${javascript != null}">
+<script src="${javascript}"></script>
+</c:if>
 </head>
 <body>
   <div id="menu">
