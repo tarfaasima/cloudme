@@ -45,7 +45,7 @@ public class MeetingActionBean extends AbstractActionBean {
     }
 
     public List<Note> getNotes() {
-        if (notes == null) {
+		if (notes == null) {
             notes = noteService.listByMeetingId(Id.of(meeting));
         }
         return notes;

@@ -1,6 +1,8 @@
 package org.cloudme.notepad.meeting;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.TreeSet;
 
@@ -84,4 +86,17 @@ public class MeetingService extends AbstractService<Meeting> {
             delete(meetingId);
         }
     }
+
+	public Collection<MeetingGroup> getMeetingGrous() {
+		val groups = new ArrayList<MeetingGroup>();
+		MeetingGroup group = null;
+		for (val meeting : findAll()) {
+			if (group == null) {
+				group = new MeetingGroup();
+				groups.add(group);
+			}
+			group.add(meeting);
+		}
+		return groups;
+	}
 }

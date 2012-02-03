@@ -32,9 +32,9 @@ $(document).ready(function() {
   });
 });
 </script>
-<c:if test="${javascript != null}">
-<script src="${javascript}"></script>
-</c:if>
+<script>
+${javascript}
+</script>
 </head>
 <body>
   <div id="menu">

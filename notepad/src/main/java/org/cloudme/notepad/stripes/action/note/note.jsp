@@ -4,7 +4,23 @@
 <%@ taglib prefix="f" uri="/WEB-INF/tags/functions.tld"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:default title="${actionBean.note.id != null ? 'Edit' : 'Create'} Note" javascript="/js/note.js">
+<t:default title="${actionBean.note.id != null ? 'Edit' : 'Create'} Note">
+  <jsp:attribute name="javascript">
+    $(document).ready(function() {
+      var inputTopic = $("#topic");
+      inputTopic.autocomplete({
+        source: [${f:join(actionBean.topics, "\"", "\"", ", ")}],
+        autoFocus: true
+      });
+      
+      if (inputTopic.val()) {
+        $("#content").focus();
+      }
+      else {
+        inputTopic.focus();
+      }
+    });
+  </jsp:attribute>
   <jsp:attribute name="content">
     <s:form beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" method="post" id="noteEntry">
       <c:if test="${actionBean.note.id != null}">

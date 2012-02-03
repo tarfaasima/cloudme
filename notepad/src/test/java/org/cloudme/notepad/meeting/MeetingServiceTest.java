@@ -1,15 +1,15 @@
 package org.cloudme.notepad.meeting;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Date;
+
+import lombok.val;
 
 import org.cloudme.notepad.guice.GuiceModules;
 import org.cloudme.notepad.note.Note;
@@ -105,32 +105,37 @@ public class MeetingServiceTest extends AbstractServiceTestCase {
     }
 
 	@Test
-	public void testListAll() throws Throwable {
+	public void testGetMeetingGroups() throws Throwable {
 		Note n1 = new Note();
 		n1.setContent("This is a test");
-		meetingService.create(n1, DATE_FORMAT_WITH_TZ.parse("21.09.2011 +0000"), "My topic");
+		Date d1 = DATE_FORMAT_WITH_TZ.parse("21.09.2011 +0000");
+		meetingService.create(n1, d1, "My topic");
 
 		Note n2 = new Note();
 		n2.setContent("This is another test");
-		meetingService.create(n2, DATE_FORMAT_WITH_TZ.parse("20.09.2011 +0000"), "My topic");
+		Date d2 = DATE_FORMAT_WITH_TZ.parse("20.09.2011 +0000");
+		meetingService.create(n2, d2, "My topic");
 
 		Note n3 = new Note();
 		n3.setContent("This is yet another test");
-		meetingService.create(n3, DATE_FORMAT_WITH_TZ.parse("22.09.2011 +0000"), "All new topic");
+		Date d3 = DATE_FORMAT_WITH_TZ.parse("22.09.2011 +0000");
+		meetingService.create(n3, d3, "All new topic");
 
-		List<Meeting> meetings = meetingService.listAll();
-		// for (Meeting meeting : meetings) {
-		// System.out.println(meeting.getId() + " - " + meeting.getTopic() +
-		// " - " + meeting.getDate());
-		// }
-		Iterator<Meeting> it = meetings.iterator();
-		assertEquals(n3.getMeetingId(), it.next().getId());
-		assertEquals(n1.getMeetingId(), it.next().getId());
-		assertEquals(n2.getMeetingId(), it.next().getId());
-		assertFalse(it.hasNext());
+		Note n4 = new Note();
+		n4.setContent("This is another test");
+		meetingService.create(n4, d2, "My new topic");
+
+		val groups = meetingService.getMeetingGrous();
+		assertEquals(3, groups.size());
+		val it = groups.iterator();
+		assertGroup(it.next(), d2, n2.getMeetingId(), n4.getMeetingId());
 	}
 
-    @Override
+	private static void assertGroup(MeetingGroup group, Date date, Long... meetingIds) {
+		assertEquals(date, group.getDate());
+	}
+
+	@Override
     protected Module[] getModules() {
         return GuiceModules.MODULES;
     }

@@ -24,4 +24,9 @@ class MeetingDao extends AbstractDao<Meeting> {
 		return listBy(orderBy("-date"));
 	}
 
+	@Override
+	public Iterable<Meeting> findAll() {
+		return findBy(orderBy("-date"));
+	}
+
 }
