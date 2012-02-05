@@ -9,7 +9,7 @@
   <jsp:attribute name="content">
     <c:forEach items="${actionBean.meetingGroups}" var="group">
       <div class="date"><fmt:formatDate value="${group.date}" pattern="dd.MM.yyyy"/></div>
-      <div>
+      <div class="meetings">
         <c:forEach items="${group.meetings}" var="meeting">
           <div class="meeting">
             <s:link beanclass="org.cloudme.notepad.stripes.action.meeting.MeetingActionBean" event="show">

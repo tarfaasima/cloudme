@@ -13,11 +13,11 @@
       <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" event="edit">
         <s:param name="note.meetingId">${note.meetingId}</s:param>
         <s:param name="note.id">${note.id}</s:param>
-        ${fns:escapeHtml(note.content)}
         <span class="details">
           ${note.responsible}
           <fmt:formatDate value="${note.dueDate}" pattern="dd.MM.yyyy" />
         </span>
+        ${fns:escapeHtml(note.content)}
       </s:link>
     </div>
   </c:if>
