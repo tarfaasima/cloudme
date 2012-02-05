@@ -174,8 +174,6 @@ div.note + div.note {
 }
 
 div.note a {
-  font-weight: bold;
-  clear: both;
   padding: 12px 16px;
   text-decoration: none;
   color: #000;
@@ -186,6 +184,8 @@ div.note a {
 div.note span.details {
   font-weight: normal;
   float: right;
+  color: #363;
+  margin-right: 8px;
 }
 
 div.meeting + div.meeting {
