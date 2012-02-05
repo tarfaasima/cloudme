@@ -10,13 +10,16 @@
 <c:forEach items="${notes}" var="note">
   <c:if test="${note.id != currentNoteId}">
     <div class="note">
+      <c:if test="${note.responsible != null || note.dueDate != null}">
+        <span class="details">
+          ${note.responsible}
+          ${note.responsible != null && note.dueDate != null ? " - " : ""}
+          <fmt:formatDate value="${note.dueDate}" pattern="dd.MM.yyyy" />
+        </span>
+      </c:if>
       <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" event="edit">
         <s:param name="note.meetingId">${note.meetingId}</s:param>
         <s:param name="note.id">${note.id}</s:param>
-        <span class="details">
-          ${note.responsible}
-          <fmt:formatDate value="${note.dueDate}" pattern="dd.MM.yyyy" />
-        </span>
         ${fns:escapeHtml(note.content)}
       </s:link>
     </div>

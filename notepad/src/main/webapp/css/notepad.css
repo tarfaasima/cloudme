@@ -169,6 +169,11 @@ input[type=submit] {
   cursor: pointer;
 }
 
+div.note {
+  clear: both;
+  font-weight: bold;
+}
+
 div.note + div.note {
   border-top: 1px solid #ccc;
 }
@@ -182,10 +187,13 @@ div.note a {
 }
 
 div.note span.details {
-  font-weight: normal;
+  background-color: #eee;
+  font-size: 14px;
   float: right;
   color: #363;
-  margin-right: 8px;
+  margin: 4px 16px;
+  padding: 8px;
+  border: 1px solid #ccc;
 }
 
 div.meeting + div.meeting {
@@ -215,6 +223,7 @@ div.meetings + div.date {
 }
 
 #footer {
+  clear: both;
   color: #363;
   text-align: center;
   font-size: 12px;
