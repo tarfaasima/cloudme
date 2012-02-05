@@ -46,7 +46,7 @@ a {
 }
 
 #header {
-  padding-left: 16px;
+  padding: 0 16px;
   margin-bottom: 24px;
 }
 
@@ -179,6 +179,10 @@ div.note a {
   color: #000;
   display: block;  
   font-size: 16px;
+}
+
+div.note span.details {
+  float: right;
 }
 
 div.meeting + div.meeting {

@@ -13,6 +13,12 @@
   <jsp:attribute name="content">
     <t:notes notes="${actionBean.notes}" />
     <div id="controls">
+      <div class="left">
+        <s:link beanclass="org.cloudme.notepad.stripes.action.export.ExportActionBean">
+          <s:param name="meeting.id">${actionBean.meeting.id}</s:param>
+          Export
+        </s:link>
+      </div>
       <div class="right">
         <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" event="create">
           <s:param name="note.meetingId">${actionBean.meeting.id}</s:param>

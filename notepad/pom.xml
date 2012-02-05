@@ -245,5 +245,10 @@
     	<artifactId>commons-lang</artifactId>
     	<version>2.5</version>
     </dependency>
+    <dependency>
+      <groupId>jexcelapi</groupId>
+      <artifactId>jxl</artifactId>
+      <version>2.6</version>
+    </dependency>
   </dependencies>
 </project>
