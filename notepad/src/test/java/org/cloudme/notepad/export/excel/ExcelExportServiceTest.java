@@ -61,7 +61,7 @@ public class ExcelExportServiceTest extends AbstractServiceTestCase {
         meetingService.create(n1, DATE_FORMAT.parse("10.3.2012 +0000"), "Team meeting");
 
         Meeting meeting = meetingService.find(Id.of(Meeting.class, n1.getMeetingId()));
-        assertEquals("Team meeting 10.03.2012.xls", excelExportService.createFileName(meeting));
+        assertEquals("Team_meeting-20120310.xls", excelExportService.createFileName(meeting));
     }
 
     private static void assertEqualsBytes(byte[] expected, byte[] actual) {

@@ -32,7 +32,7 @@ public class ExcelExportService {
             WritableFont.NO_BOLD));
     private static final WritableCellFormat BOLD = new WritableCellFormat(new WritableFont(WritableFont.ARIAL, 10,
             WritableFont.BOLD));
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
     @Inject private NoteService noteService;
 
     public void export(Meeting meeting, OutputStream out) {
@@ -84,6 +84,6 @@ public class ExcelExportService {
     }
 
     public String createFileName(Meeting meeting) {
-        return meeting.getTopic() + " " + DATE_FORMAT.format(meeting.getDate()) + ".xls";
+        return meeting.getTopic().replace(' ', '_') + "-" + DATE_FORMAT.format(meeting.getDate()) + ".xls";
     }
 }

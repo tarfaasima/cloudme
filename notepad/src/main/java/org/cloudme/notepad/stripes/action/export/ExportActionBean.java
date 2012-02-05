@@ -30,10 +30,10 @@ public class ExportActionBean extends AbstractActionBean {
     public Resolution xls() throws IOException {
         meeting = meetingService.find(Id.of(meeting));
         HttpServletResponse response = getContext().getResponse();
-        response.setContentType(excelExportService.getContentType());
-        response.setHeader("Content-Diposition", "attachment; filename=\""
+        response.setHeader("Content-Disposition", "attachment;filename=\""
                 + excelExportService.createFileName(meeting)
                 + "\"");
+        response.setContentType(excelExportService.getContentType());
         excelExportService.export(meeting, response.getOutputStream());
         return null;
     }
