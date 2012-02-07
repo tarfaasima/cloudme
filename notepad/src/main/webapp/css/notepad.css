@@ -171,7 +171,6 @@ input[type=submit] {
 
 div.note {
   clear: both;
-  font-weight: bold;
 }
 
 div.note + div.note {
@@ -194,6 +193,7 @@ div.note span.details {
   margin: 4px 16px;
   padding: 8px;
   border: 1px solid #ccc;
+  font-weight: bold;
 }
 
 div.meeting + div.meeting {

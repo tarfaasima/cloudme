@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.val;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.validation.Validate;
@@ -19,6 +20,7 @@ import org.cloudme.notepad.meeting.Meeting;
 import org.cloudme.notepad.meeting.MeetingService;
 import org.cloudme.notepad.note.Note;
 import org.cloudme.notepad.note.NoteService;
+import org.cloudme.notepad.stripes.action.meeting.MeetingActionBean;
 import org.cloudme.notepad.stripes.validation.SimpleDateConverter;
 import org.cloudme.sugar.AbstractActionBean;
 import org.cloudme.sugar.Id;
@@ -81,6 +83,22 @@ public class NoteActionBean extends AbstractActionBean {
             return redirectSelf("create");
         }
         return redirectSelf("create", param("note.meetingId", note.getMeetingId()));
+    }
+
+    @DontValidate
+    public Resolution cancel() {
+        if (note != null) {
+            if (note.getMeetingId() != null) {
+                if (note.getId() != null) {
+                    return redirectSelf("create", param("note.meetingId", note.getMeetingId()));
+                }
+                else {
+                    return new RedirectResolution(MeetingActionBean.class, "show").addParameter("meeting.id",
+                            note.getMeetingId());
+                }
+            }
+        }
+        return redirectSelf("create");
     }
 
     public synchronized Iterable<String> getTopics() {

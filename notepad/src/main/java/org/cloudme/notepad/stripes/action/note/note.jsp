@@ -63,25 +63,15 @@
       </div>
       <div id="controls">
         <div class="left">
-          <c:choose>
-            <c:when test="${actionBean.note.meetingId != null && actionBean.note.id != null}">
-              <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="cancel" event="create">
-                <s:param name="note.meetingId">${actionBean.note.meetingId}</s:param>
-                Cancel
-              </s:link>
-            </c:when>
-            <c:when test="${actionBean.note.meetingId != null && actionBean.note.id == null}">
-              <s:link beanclass="org.cloudme.notepad.stripes.action.meeting.MeetingActionBean" class="cancel" event="show">
-                <s:param name="meeting.id">${actionBean.note.meetingId}</s:param>
-                Cancel
-              </s:link>
-            </c:when>
-            <c:otherwise>
-              <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="cancel" event="create">
-                Cancel
-              </s:link>
-            </c:otherwise>
-          </c:choose>
+          <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="cancel" event="cancel">
+            <c:if test="${actionBean.note.meetingId != null}">
+              <s:param name="note.meetingId">${actionBean.note.meetingId}</s:param>
+            </c:if>
+            <c:if test="${actionBean.note.id != null}">
+              <s:param name="note.id">${actionBean.note.id}</s:param>
+            </c:if>
+            Cancel
+          </s:link>
           <c:if test="${actionBean.note.id != null}">
             <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="delete" event="delete"
               title="Do you really want to delete the note?">

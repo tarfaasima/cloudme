@@ -38,14 +38,14 @@ public class MeetingActionBean extends AbstractActionBean {
         return resolve("show.jsp");
     }
 
-    public List<MeetingGroup> getMeetingGroups() {
+    public synchronized List<MeetingGroup> getMeetingGroups() {
         if (groups == null) {
             groups = meetingService.getMeetingGrous();
         }
         return groups;
     }
 
-    public List<Note> getNotes() {
+    public synchronized List<Note> getNotes() {
 		if (notes == null) {
             notes = noteService.listByMeetingId(Id.of(meeting));
         }
