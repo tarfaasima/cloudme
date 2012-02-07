@@ -63,12 +63,25 @@
       </div>
       <div id="controls">
         <div class="left">
-          <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="cancel" event="create">
-            <c:if test="${actionBean.note.meetingId != null}">
-              <s:param name="note.meetingId">${actionBean.note.meetingId}</s:param>
-            </c:if>
-            Cancel
-          </s:link>
+          <c:choose>
+            <c:when test="${actionBean.note.meetingId != null && actionBean.note.id != null}">
+              <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="cancel" event="create">
+                <s:param name="note.meetingId">${actionBean.note.meetingId}</s:param>
+                Cancel
+              </s:link>
+            </c:when>
+            <c:when test="${actionBean.note.meetingId != null && actionBean.note.id == null}">
+              <s:link beanclass="org.cloudme.notepad.stripes.action.meeting.MeetingActionBean" class="cancel" event="show">
+                <s:param name="meeting.id">${actionBean.note.meetingId}</s:param>
+                Cancel
+              </s:link>
+            </c:when>
+            <c:otherwise>
+              <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="cancel" event="create">
+                Cancel
+              </s:link>
+            </c:otherwise>
+          </c:choose>
           <c:if test="${actionBean.note.id != null}">
             <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" class="delete" event="delete"
               title="Do you really want to delete the note?">

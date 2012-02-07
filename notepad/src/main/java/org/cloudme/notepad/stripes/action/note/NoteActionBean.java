@@ -76,7 +76,10 @@ public class NoteActionBean extends AbstractActionBean {
 
     @DontValidate
     public Resolution delete() {
-        meetingService.remove(Id.of(Meeting.class, note.getMeetingId()), Id.of(note));
+		boolean wholeMeetingDeleted = meetingService.remove(Id.of(Meeting.class, note.getMeetingId()), Id.of(note));
+        if (wholeMeetingDeleted) {
+            return redirectSelf("create");
+        }
         return redirectSelf("create", param("note.meetingId", note.getMeetingId()));
     }
 
