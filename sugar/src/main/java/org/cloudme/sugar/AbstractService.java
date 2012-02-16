@@ -13,6 +13,10 @@ public abstract class AbstractService<T> {
         return dao.put(t);
     }
 
+    public void put(Iterable<T> objs) {
+        dao.put(objs);
+    }
+
     public T find(Long id) {
         return dao.find(id);
     }
