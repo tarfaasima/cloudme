@@ -1,8 +1,6 @@
 <%@ tag language="java" pageEncoding="UTF-8" %>
-<%@ attribute name="javascript" required="false" %>
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="h1" required="false" %>
-<%@ attribute name="content" required="true" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
@@ -20,6 +18,22 @@
 <link href="/css/notepad.css" rel="stylesheet" type="text/css" />
 <script src="/js/jquery-1.7.1.min.js"></script>
 <script src="/js/jquery-ui-1.8.17.custom.min.js"></script>
+</head>
+<body>
+  <div id="menu">
+    <s:link beanclass="org.cloudme.notepad.stripes.action.meeting.MeetingActionBean">Meetings</s:link>
+    <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" event="create">Note</s:link>
+    <a href="#">To-Do</a>
+  </div>
+  <div id="header">
+    <h1>${h1 == null ? title : h1}</h1>
+  </div>
+  <jsp:doBody/>
+  <div id="footer">
+    Logged in as ${actionBean.context.request.userPrincipal.name}
+    <s:link beanclass="org.cloudme.notepad.stripes.action.logout.LogoutActionBean" class="logout">Sign out</s:link>
+  </div>
+</body>
 <script>
 $(document).ready(function() {
   $(".selectOnFocus").focus(function() {
@@ -33,23 +47,4 @@ $(document).ready(function() {
   });
 });
 </script>
-<script>
-${javascript}
-</script>
-</head>
-<body>
-  <div id="menu">
-    <s:link beanclass="org.cloudme.notepad.stripes.action.meeting.MeetingActionBean">Meetings</s:link>
-    <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" event="create">Note</s:link>
-    <a href="#">To-Do</a>
-  </div>
-  <div id="header">
-    <h1>${h1 == null ? title : h1}</h1>
-  </div>
-  ${content}
-  <div id="footer">
-    Logged in as ${actionBean.context.request.userPrincipal.name}
-    <s:link beanclass="org.cloudme.notepad.stripes.action.logout.LogoutActionBean" class="logout">Sign out</s:link>
-  </div>
-</body>
 </html>

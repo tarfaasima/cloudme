@@ -24,4 +24,10 @@ public class NoteService extends AbstractService<Note> {
     public List<Note> listByMeetingId(Id<Meeting, Long> id) {
         return dao.listByMeetingId(id);
     }
+
+    public void toggleDone(Id<Note, Long> id) {
+        Note note = dao.find(id);
+        note.setDone(!note.isDone());
+        dao.put(note);
+    }
 }

@@ -101,6 +101,12 @@ public class NoteActionBean extends AbstractActionBean {
         return redirectSelf("create");
     }
 
+    @DontValidate
+    public Resolution check() {
+        noteService.toggleDone(Id.of(note));
+        return null;
+    }
+
     public synchronized Iterable<String> getTopics() {
         if (topics == null) {
             topics = meetingService.findAllTopics();

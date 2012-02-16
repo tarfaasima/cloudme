@@ -15,6 +15,7 @@ public class Note extends Entity {
     private Date dueDate;
     private Long meetingId;
     private Date creationDate = new Date();
+    private boolean done;
 
 	public long getCreationDateMillis() {
 		return creationDate.getTime();

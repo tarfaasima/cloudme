@@ -169,38 +169,124 @@ input[type=submit] {
   cursor: pointer;
 }
 
-div.note {
+ul#notes {
+  margin: 0;
+  padding: 0;
+}
+
+li.note {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
   clear: both;
 }
 
-div.note + div.note {
+li.note + li.note {
   border-top: 1px solid #ccc;
 }
 
-div.note a {
-  padding: 12px 16px;
+div.responsible {
+  font-weight: bold;
+  font-size: 13px;
+  padding: 0px 8px 8px 8px;
+  margin-left: 56px;
+  float: left;
+}
+
+div.dueDate {
+  font-weight: bold;
+  font-size: 13px;
+  padding: 0px 16px 8px 8px;
+  float: right;
+}
+
+li.note a.check {
+  width: 30px;
+  text-align: center;
+  font-size: 10px;
+  color: #363;
+  float: left;
+  text-decoration: none;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 2px 8px;
+  margin: 8px;
+  background: #ffffff;
+  background: -moz-linear-gradient(top,  #ffffff 0%, #eeeeee 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#eeeeee));
+  background: -webkit-linear-gradient(top,  #ffffff 0%,#eeeeee 100%);
+  background: -o-linear-gradient(top,  #ffffff 0%,#eeeeee 100%);
+  background: -ms-linear-gradient(top,  #ffffff 0%,#eeeeee 100%);
+  background: linear-gradient(top,  #ffffff 0%,#eeeeee 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee',GradientType=0 );
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+  font-weight: bold;
+  text-shadow: 1px 1px 0px #fff;
+}
+
+li.note a.check:before {
+  content: " open";
+}
+
+li.done a.check {
+  box-shadow: none;
+  color: #ccc;
+}
+
+li.done a.check:before {
+  content: " done";
+}
+
+li.note a.content {
+  margin-left: 56px;
+  display: block;
+  padding: 8px 16px 8px 8px;
   text-decoration: none;
   color: #000;
-  display: block;  
   font-size: 16px;
 }
 
-div.note span.details {
-  background-color: #eee;
-  font-size: 14px;
-  float: right;
-  color: #363;
-  margin: 4px 16px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  font-weight: bold;
+li.done a.content {
+  text-decoration: line-through;
+  color: #999;
 }
 
-div.meeting + div.meeting {
+li.done div {
+  text-decoration: line-through;
+  color: #999;
+}
+
+div + div.content a {
+  padding-top: 0px;
+}
+
+ul.meetingGroups {
+  margin: 0;
+  padding: 0;
+}
+
+li.meetingGroup {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+ul.meetings {
+  padding: 0;
+  margin: 0;
+}
+
+li.meeting {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li.meeting + li.meeting {
   border-top: 1px solid #ccc;
 }
 
-div.meeting a {
+li.meeting a {
   font-weight: bold;
   padding: 12px 16px;
   text-decoration: none;
@@ -218,7 +304,7 @@ div.date {
   background-color: #eee;
 }
 
-div.meetings + div.date {
+li.meetings + li.date {
   border-top: 3px solid #ccc;
 }
 

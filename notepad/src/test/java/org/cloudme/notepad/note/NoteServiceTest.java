@@ -60,6 +60,22 @@ public class NoteServiceTest extends AbstractServiceTestCase {
         assertFalse(notes.hasNext());
     }
 
+    @Test
+    public void testToggleDone() throws Throwable {
+        Note note1 = new Note();
+        note1.setContent("This is a test");
+        meetingService.create(note1, DATE_FORMAT.parse("21.09.2011"), "Test Meeting");
+
+        Note note2 = new Note();
+        note2.setContent("This is another test");
+        meetingService.create(note2, DATE_FORMAT.parse("22.09.2011"), "Taste Meeting");
+
+        noteService.toggleDone(Id.of(note2));
+
+        assertFalse(noteService.find(Id.of(note1)).isDone());
+        assertTrue(noteService.find(Id.of(note2)).isDone());
+    }
+
     @Override
     protected Module[] getModules() {
         return GuiceModules.MODULES;

@@ -5,12 +5,12 @@
 
 <t:default>
   <jsp:attribute name="title">
-    ${actionBean.meeting.topic} - <fmt:formatDate value="${actionBean.meeting.date}" pattern="dd.MM.yyyy"/>
+    ${actionBean.meeting.topic} - <t:date date="${actionBean.meeting.date}" />
   </jsp:attribute>
   <jsp:attribute name="h1">
-    ${actionBean.meeting.topic} - <span class="date"><fmt:formatDate value="${actionBean.meeting.date}" pattern="dd.MM.yyyy"/></span>
+    ${actionBean.meeting.topic} - <span class="date"><t:date date="${actionBean.meeting.date}" /></span>
   </jsp:attribute>
-  <jsp:attribute name="content">
+  <jsp:body>
     <t:notes notes="${actionBean.notes}" />
     <div id="controls">
       <div class="left">
@@ -26,5 +26,5 @@
         </s:link>
       </div>
     </div>
-  </jsp:attribute>
+  </jsp:body>
 </t:default>

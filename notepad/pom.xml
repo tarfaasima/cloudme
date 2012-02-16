@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.cloudme.notepad</groupId>
   <artifactId>notepad</artifactId>
-  <version>0.14-SNAPSHOT</version>
+  <version>0.15-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>Notepad</name>
   <description>Notepad application.</description>
@@ -61,7 +61,7 @@
   </reporting>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <gae.version>1.6.1.1</gae.version>
+    <gae.version>1.6.2.1</gae.version>
     <maven-gae-plugin.version>0.9.1</maven-gae-plugin.version>
   </properties>
   <url>http://notepad.cloudme.org</url>
