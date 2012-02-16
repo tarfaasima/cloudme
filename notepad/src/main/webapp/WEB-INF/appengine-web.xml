@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
-	<application>notepad-cloudme-openid</application>
-	<version>15</version>
-	
-	<!-- Configure java.util.logging -->
-	<system-properties>
-		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
-	</system-properties>
-  
-    <sessions-enabled>false</sessions-enabled>
+  <application>notepad-cloudme-openid</application>
+  <version>16</version>
+
+  <!-- Configure java.util.logging -->
+  <system-properties>
+    <property name="java.util.logging.config.file" value="WEB-INF/logging.properties" />
+  </system-properties>
+
+  <sessions-enabled>false</sessions-enabled>
+
+  <admin-console>
+    <page name="Migration" url="/app/admin/migration" />
+  </admin-console>
 </appengine-web-app>

@@ -30,4 +30,8 @@ public class NoteService extends AbstractService<Note> {
         note.setDone(!note.isDone());
         dao.put(note);
     }
+
+    public List<Note> listAllTodos() {
+        return dao.listAllTodos();
+    }
 }

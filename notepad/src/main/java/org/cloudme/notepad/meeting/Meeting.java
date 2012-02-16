@@ -7,8 +7,11 @@ import lombok.Setter;
 
 import org.cloudme.sugar.Entity;
 
+import com.googlecode.objectify.annotation.Cached;
+
 @Getter
 @Setter
+@Cached
 public class Meeting extends Entity {
     private Date date;
     private String topic;

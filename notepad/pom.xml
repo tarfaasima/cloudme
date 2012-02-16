@@ -121,6 +121,15 @@
           <include>**/*.html</include>
           <include>**/*.jsp</include>
           <include>**/*.properties</include>
+          <include>**/*.xls</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/test/java</directory>
+        <targetPath>${basedir}/target/test-classes</targetPath>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*.xls</include>
         </includes>
       </resource>
       <resource>
@@ -190,7 +199,7 @@
     <dependency>
       <groupId>org.cloudme.sugar</groupId>
       <artifactId>sugar</artifactId>
-      <version>0.1.10-SNAPSHOT</version>
+      <version>0.1.11-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
