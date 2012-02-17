@@ -40,7 +40,7 @@ $(document).ready(function() {
           </div>
         </c:if>
         <c:if test="${note.dueDate != null}">
-          <div class="dueDate">
+          <div class="dueDate${note.overdue ? ' overdue' : ''}">
             <t:date date="${note.dueDate}" />
           </div>
         </c:if>

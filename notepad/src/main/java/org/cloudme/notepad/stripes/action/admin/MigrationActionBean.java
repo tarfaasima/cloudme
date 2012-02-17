@@ -20,12 +20,11 @@ import com.google.inject.Inject;
 @Setter
 public class MigrationActionBean extends AbstractActionBean {
     @Inject private NoteService noteService;
-    private final NamespaceUtil namespaceUtil = new NamespaceUtil();
     private Collection<String> namespaces;
 
     @DefaultHandler
     public Resolution execute() {
-        namespaces = namespaceUtil.availableNamespaces();
+        namespaces = NamespaceUtil.availableNamespaces();
         String currentNamespace = NamespaceManager.get();
         for (String namespace : namespaces) {
             NamespaceManager.set(namespace);

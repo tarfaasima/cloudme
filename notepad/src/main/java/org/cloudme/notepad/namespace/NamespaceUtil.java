@@ -11,7 +11,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
 public class NamespaceUtil {
-    public Collection<String> availableNamespaces() {
+    public static Collection<String> availableNamespaces() {
         Collection<String> namespaces = new ArrayList<String>();
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         String currentNS = NamespaceManager.get();

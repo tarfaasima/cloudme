@@ -21,7 +21,7 @@ class NoteDao extends AbstractDao<Note> {
     }
 
     public List<Note> listAllTodos() {
-        return listBy(filter("todo", true), orderBy("todo"), orderBy("dueDate"));
+        return listBy(filter("todo", true), filter("done", false), orderBy("todo"), orderBy("dueDate"));
     }
 
 }

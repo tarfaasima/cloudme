@@ -1,14 +1,11 @@
 6. As a user I want to get a list of all notes.
-7. As a user I want to check all notes that have either a due date or a responsible or both. These notes are "To-Dos".
 8. As a user I want to get a list of all To-Dos.
-9. As a user I want to get a list of all open To-Dos.
 10. As a user I want to get a list of all open To-Dos for a certain responsible or due date.
-11. As a user I want to have a pretty representation of lists of meetings.
-12. As a user I want to have a pretty representation of notes and lists of notes.
 13. As a user I want to view meetings ordered by date descending and by the first creation of a note of the meeting.
 14. As a user I want to search for meetings by title.
 15. As a user I want to search for To-Dos by content or responsible.
 16. As a user I want to sort To-Dos by content, responsible or date.
+17. As a user I want to see updates even when used on EDGE on the iPhone, and not a cached version.
 
 -- Closed --
 1. As a user I want to enter short notes quickly and effortlessly. (done)
@@ -16,3 +13,8 @@
 3. As a user I want to get a list of all meetings I have created notes to. (done, but not pretty)
 4. As a user I want to get a list of all notes I have created for a meeting. (done)
 5. As a user I want to export all notes of a meeting. (done)
+7. As a user I want to check all notes that have either a due date or a responsible or both. These notes are "To-Dos". (done)
+9. As a user I want to get a list of all open To-Dos. (done)
+18. As a user I want to use a checkbox and not a "open/done" button to close todos. (done)
+11. As a user I want to have a pretty representation of lists of meetings. (done)
+12. As a user I want to have a pretty representation of notes and lists of notes. (done)

@@ -16,7 +16,6 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 
 public class NamespaceUtilTest extends AbstractServiceTestCase {
-    NamespaceUtil namespaceUtil = new NamespaceUtil();
     @Inject NoteService noteService;
 
     @Test
@@ -31,7 +30,7 @@ public class NamespaceUtilTest extends AbstractServiceTestCase {
         n2.setContent("Content 2");
         noteService.put(n2);
 
-        Iterator<String> it = namespaceUtil.availableNamespaces().iterator();
+        Iterator<String> it = NamespaceUtil.availableNamespaces().iterator();
         assertEquals("ns1", it.next());
         assertEquals("ns2", it.next());
         assertFalse(it.hasNext());

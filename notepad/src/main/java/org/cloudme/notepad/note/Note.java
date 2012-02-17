@@ -45,4 +45,8 @@ public class Note extends Entity {
     private void updateIsTodo() {
         todo = dueDate != null || responsible != null;
     }
+
+    public boolean isOverdue() {
+        return dueDate != null && dueDate.before(new Date());
+    }
 }
