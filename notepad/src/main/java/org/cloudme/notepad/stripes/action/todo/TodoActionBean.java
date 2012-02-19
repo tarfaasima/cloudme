@@ -26,9 +26,13 @@ public class TodoActionBean extends AbstractActionBean {
         return resolve("todo.jsp");
     }
 
+    public Resolution export() {
+        return null;
+    }
+
     public List<Note> getTodos() {
         if (todos == null) {
-            todos = noteService.listAllTodos();
+            todos = noteService.listOpenTodos();
         }
         return todos;
     }

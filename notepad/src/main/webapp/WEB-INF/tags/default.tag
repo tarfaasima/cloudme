@@ -11,9 +11,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-<link rel="apple-touch-icon" href="/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon-114x114-precomposed.png" />
 <meta name="viewport"
   content="width = device-width, initial-scale = 1, minimum-scale = 1, maximum-scale = 1, user-scalable = no" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="-1">
 <title>Notepad - ${title}</title>
 <link href="/css/notepad.css" rel="stylesheet" type="text/css" />
 <script src="/js/jquery-1.7.1.min.js"></script>
@@ -42,7 +44,8 @@ $(document).ready(function() {
   $("a").on("click", function(event) {
     event.preventDefault();
     if (!$(this).hasClass("delete") || confirm($(this).attr("title"))) {
-      document.location.href = $(this).attr("href");
+      var now = new Date();
+      document.location.href = $(this).attr("href") + "?t=" + now.getTime() + "&tzo=" + (now.getTimezoneOffset() / 60);
     }
   });
 });

@@ -170,6 +170,7 @@ input[type=submit] {
 }
 
 ul#notes {
+  overflow: hidden;
   margin: 0;
   padding: 0;
 }
@@ -296,6 +297,7 @@ li.meetings + li.date {
 }
 
 #footer {
+  margin-top: 36px;
   clear: both;
   color: #363;
   text-align: center;

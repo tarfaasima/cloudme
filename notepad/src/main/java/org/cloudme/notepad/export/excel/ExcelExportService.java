@@ -41,8 +41,8 @@ public class ExcelExportService {
             WritableSheet sheet = workbook.createSheet("Notepad", 0);
             exportHeader(sheet);
             List<Note> notes = noteService.listByMeetingId(Id.of(meeting));
-            for (int i = 0, size = notes.size(); i < size;) {
-                exportNote(sheet, notes.get(i++), meeting, i);
+            for (int i = 0, size = notes.size(); i < size; i++) {
+                exportNote(sheet, notes.get(i), meeting, i + 1);
             }
             workbook.write();
             workbook.close();

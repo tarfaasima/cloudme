@@ -31,6 +31,10 @@ public class NoteService extends AbstractService<Note> {
         dao.put(note);
     }
 
+    public List<Note> listOpenTodos() {
+        return dao.listOpenTodos();
+    }
+
     public List<Note> listAllTodos() {
         return dao.listAllTodos();
     }

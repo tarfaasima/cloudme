@@ -81,11 +81,26 @@ public class NoteServiceTest extends AbstractServiceTestCase {
     }
 
     @Test
-    public void listTodos() throws Throwable {
+    public void listOpenTodos() throws Throwable {
         newNote("No To-Do", null, null, "21.09.2011", "Test Meeting");
         newNote("To-Do 1", "23.09.2011", null, "21.09.2011", "Test Meeting");
-        newNote("To-Do 2", "24.09.2011", "Thomas", "21.09.2011", "Test Meeting");
+        Note n3 = newNote("To-Do 2", "24.09.2011", "Thomas", "21.09.2011", "Test Meeting");
         newNote("To-Do 3", null, "Thomas", "21.09.2011", "Test Meeting");
+
+        noteService.toggleDone(Id.of(n3));
+
+        List<Note> todos = noteService.listOpenTodos();
+        assertEquals(2, todos.size());
+    }
+
+    @Test
+    public void listAllTodos() throws Throwable {
+        newNote("No To-Do", null, null, "21.09.2011", "Test Meeting");
+        newNote("To-Do 1", "23.09.2011", null, "21.09.2011", "Test Meeting");
+        Note n3 = newNote("To-Do 2", "24.09.2011", "Thomas", "21.09.2011", "Test Meeting");
+        newNote("To-Do 3", null, "Thomas", "21.09.2011", "Test Meeting");
+
+        noteService.toggleDone(Id.of(n3));
 
         List<Note> todos = noteService.listAllTodos();
         assertEquals(3, todos.size());

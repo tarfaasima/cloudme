@@ -5,7 +5,8 @@
 14. As a user I want to search for meetings by title.
 15. As a user I want to search for To-Dos by content or responsible.
 16. As a user I want to sort To-Dos by content, responsible or date.
-17. As a user I want to see updates even when used on EDGE on the iPhone, and not a cached version.
+18. As a user I want to export all To-Dos.
+20. As a user I want to be able to format text using *bold*, _underlined_, /italics/, 1. ordered lists and - unordered lists.
 
 -- Closed --
 1. As a user I want to enter short notes quickly and effortlessly. (done)
@@ -18,3 +19,5 @@
 18. As a user I want to use a checkbox and not a "open/done" button to close todos. (done)
 11. As a user I want to have a pretty representation of lists of meetings. (done)
 12. As a user I want to have a pretty representation of notes and lists of notes. (done)
+17. As a user I want to see updates even when used on EDGE on the iPhone, and not a cached version. (done)
+19. As a user I want to have a better application icon. (done)
