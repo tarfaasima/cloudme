@@ -5,7 +5,9 @@ import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 import jxl.Workbook;
@@ -36,23 +38,10 @@ public class ExcelExportService {
     @Inject private NoteService noteService;
 
     public void export(Meeting meeting, OutputStream out) {
-        try {
-            WritableWorkbook workbook = Workbook.createWorkbook(out);
-            WritableSheet sheet = workbook.createSheet("Notepad", 0);
-            exportHeader(sheet);
-            List<Note> notes = noteService.listByMeetingId(Id.of(meeting));
-            for (int i = 0, size = notes.size(); i < size; i++) {
-                exportNote(sheet, notes.get(i), meeting, i + 1);
-            }
-            workbook.write();
-            workbook.close();
-        }
-        catch (IOException e) {
-            log.log(Level.SEVERE, "Error while exporting meeting " + meeting.getId() + " to Excel.", e);
-        }
-        catch (WriteException e) {
-            log.log(Level.SEVERE, "Error while exporting meeting " + meeting.getId() + " to Excel.", e);
-        }
+        Map<Long, Meeting> meetingMap = new HashMap<Long, Meeting>();
+        meetingMap.put(meeting.getId(), meeting);
+        List<Note> notes = noteService.listByMeetingId(Id.of(meeting));
+        export(meetingMap, notes, out);
     }
 
     public String getContentType() {
@@ -71,6 +60,9 @@ public class ExcelExportService {
         if (dueDate != null) {
             sheet.addCell(new DateTime(4, row, dueDate, new WritableCellFormat(DateFormats.DEFAULT)));
         }
+        if (note.isTodo()) {
+            sheet.addCell(new Label(5, row, note.isDone() ? "Done" : "Open", NORMAL));
+        }
     }
 
     private void exportHeader(WritableSheet sheet) throws WriteException {
@@ -81,9 +73,31 @@ public class ExcelExportService {
         sheet.addCell(new Label(col++, 0, "Content", BOLD));
         sheet.addCell(new Label(col++, 0, "Responsible", BOLD));
         sheet.addCell(new Label(col++, 0, "Due Date", BOLD));
+        sheet.addCell(new Label(col++, 0, "State", BOLD));
     }
 
     public String createFileName(Meeting meeting) {
         return meeting.getTopic().replace(' ', '_') + "-" + DATE_FORMAT.format(meeting.getDate()) + ".xls";
+    }
+
+    public void export(Map<Long, Meeting> meetingMap, List<Note> notes, OutputStream out) {
+        try {
+            WritableWorkbook workbook = Workbook.createWorkbook(out);
+            WritableSheet sheet = workbook.createSheet("Notepad", 0);
+            exportHeader(sheet);
+            for (int i = 0, size = notes.size(); i < size; i++) {
+                Note note = notes.get(i);
+                Meeting meeting = meetingMap.get(note.getMeetingId());
+                exportNote(sheet, note, meeting, i + 1);
+            }
+            workbook.write();
+            workbook.close();
+        }
+        catch (IOException e) {
+            log.log(Level.SEVERE, "Error while exporting to Excel.", e);
+        }
+        catch (WriteException e) {
+            log.log(Level.SEVERE, "Error while exporting to Excel.", e);
+        }
     }
 }

@@ -3,7 +3,9 @@ package org.cloudme.notepad.meeting;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 
 import lombok.val;
@@ -109,4 +111,12 @@ public class MeetingService extends AbstractService<Meeting> {
 		}
 		return groups;
 	}
+
+    public Map<Long, Meeting> findAllAsMap() {
+        Map<Long, Meeting> meetingMap = new HashMap<Long, Meeting>();
+        for (Meeting meeting : findAll()) {
+            meetingMap.put(meeting.getId(), meeting);
+        }
+        return meetingMap;
+    }
 }

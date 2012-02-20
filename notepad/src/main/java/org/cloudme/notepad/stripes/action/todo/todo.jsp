@@ -8,5 +8,12 @@
   <jsp:attribute name="h1">Todo List <span class="date">(${fn:length(actionBean.todos)})</span></jsp:attribute>
   <jsp:body>
     <t:notes notes="${actionBean.todos}" />
+    <div id="controls">
+      <div class="left">
+        <s:link beanclass="org.cloudme.notepad.stripes.action.todo.TodoActionBean" event="export">
+          Export
+        </s:link>
+      </div>
+    </div>
   </jsp:body>
 </t:default>

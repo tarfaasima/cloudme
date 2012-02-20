@@ -6,7 +6,10 @@
 15. As a user I want to search for To-Dos by content or responsible.
 16. As a user I want to sort To-Dos by content, responsible or date.
 18. As a user I want to export all To-Dos.
-20. As a user I want to be able to format text using *bold*, _underlined_, /italics/, 1. ordered lists and - unordered lists.
+20. As a user I want to be able to format text using *bold*, _underlined_, /italics/, 1. ordered lists and - unordered lists, --> Arrow.
+21. As a new user I want to have an informative website to understand it before I use it, e.g. http://cloudme.org/projects/notepad
+22. As a user I want to be able to jump to overdue and future todos in the todo list.
+23. As a user I want to see a highlight in the menu bar, which is the selected function.
 
 -- Closed --
 1. As a user I want to enter short notes quickly and effortlessly. (done)
