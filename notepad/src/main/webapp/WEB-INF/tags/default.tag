@@ -23,9 +23,9 @@
 </head>
 <body>
   <div id="menu">
-    <s:link beanclass="org.cloudme.notepad.stripes.action.meeting.MeetingActionBean">Meetings</s:link>
+    <s:link beanclass="org.cloudme.notepad.stripes.action.meeting.MeetingActionBean">Topics</s:link>
     <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean">Note</s:link>
-    <s:link beanclass="org.cloudme.notepad.stripes.action.todo.TodoActionBean">To-Do</s:link>
+    <s:link beanclass="org.cloudme.notepad.stripes.action.todo.TodoActionBean">Tasks</s:link>
   </div>
   <div id="header">
     <h1>${h1 == null ? title : h1}</h1>

@@ -4,8 +4,8 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:default title="Todo List (${fn:length(actionBean.todos)})">
-  <jsp:attribute name="h1">Todo List <span class="date">(${fn:length(actionBean.todos)})</span></jsp:attribute>
+<t:default title="Task List (${fn:length(actionBean.todos)})">
+  <jsp:attribute name="h1">Task List <span class="date">(${fn:length(actionBean.todos)})</span></jsp:attribute>
   <jsp:body>
     <t:notes notes="${actionBean.todos}" />
     <div id="controls">

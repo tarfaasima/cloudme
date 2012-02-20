@@ -5,7 +5,7 @@
 <%@ taglib prefix="f" uri="/WEB-INF/tags/functions.tld"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 
-<t:default title="Meeting List">
+<t:default title="Topic List">
   <ul class="meetingGroups">
     <c:forEach items="${actionBean.meetingGroups}" var="group">
       <li class="meetingGroup">
