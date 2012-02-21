@@ -259,5 +259,11 @@
       <artifactId>jxl</artifactId>
       <version>2.6</version>
     </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>2.19.0</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 </project>

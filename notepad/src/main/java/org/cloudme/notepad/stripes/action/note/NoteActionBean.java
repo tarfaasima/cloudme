@@ -1,6 +1,5 @@
 package org.cloudme.notepad.stripes.action.note;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -46,7 +45,8 @@ public class NoteActionBean extends AbstractActionBean {
     @DontValidate
     public Resolution create() {
         if (note == null || note.getMeetingId() == null) {
-            date = Calendar.getInstance(getContext().getLocale()).getTime();
+            // date = Calendar.getInstance(getContext().getLocale()).getTime();
+            date = new Date();
         }
         else {
             loadDateAndTopic(note);
