@@ -30,10 +30,11 @@
       <s:hidden name="note.meetingId" />
     </c:if>
     <s:errors />
+    <!-- ${actionBean.date} -->
     <div class="row">
       <label for="date">Date:</label>
       <div class="field">
-        <s:text id="date" name="date" formatPattern="dd.MM.yyyy" class="selectOnFocus updateTitle" />
+        <s:text id="date" name="date" formatPattern="dd.MM.yyyy" class="selectOnFocus updateTitle" value="${actionBean.date}" />
       </div>
     </div>
     <div class="row">

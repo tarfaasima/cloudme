@@ -26,7 +26,7 @@ import org.cloudme.sugar.Id;
 
 import com.google.inject.Inject;
 
-@Getter
+//@Getter
 @Setter
 @UrlBinding( "/app/note/{$event}/{note.meetingId}/{note.id}" )
 public class NoteActionBean extends AbstractActionBean {
@@ -36,10 +36,9 @@ public class NoteActionBean extends AbstractActionBean {
     private Iterable<String> topics;
     private List<Note> notes;
     private String dueDate;
-    @ValidateNestedProperties( { @Validate( field = "content", required = true ) } ) private Note note;
-	@Validate(required = true, converter = SimpleDateConverter.class)
-	private Date date;
-    @Validate( required = true ) private String topic;
+    @Getter @ValidateNestedProperties( { @Validate( field = "content", required = true ) } ) private Note note;
+    @Validate( required = true, converter = SimpleDateConverter.class ) private Date date;
+    @Getter @Validate( required = true ) private String topic;
 
     @DefaultHandler
     @DontValidate
@@ -67,18 +66,18 @@ public class NoteActionBean extends AbstractActionBean {
 
     public Resolution save() {
         note.setDueDate(dateService.convert(dueDate, date));
-		if (note.getId() != null) {
+        if (note.getId() != null) {
             meetingService.update(note, date, topic);
         }
         else {
             meetingService.create(note, date, topic);
         }
-		return redirectSelf("create", param("note.meetingId", note.getMeetingId()));
+        return redirectSelf("create", param("note.meetingId", note.getMeetingId()));
     }
 
     @DontValidate
     public Resolution delete() {
-		boolean wholeMeetingDeleted = meetingService.remove(Id.of(Meeting.class, note.getMeetingId()), Id.of(note));
+        boolean wholeMeetingDeleted = meetingService.remove(Id.of(Meeting.class, note.getMeetingId()), Id.of(note));
         if (wholeMeetingDeleted) {
             return redirectSelf("create");
         }
@@ -130,5 +129,9 @@ public class NoteActionBean extends AbstractActionBean {
         else {
             date = new Date();
         }
+    }
+
+    public Date getDate() {
+        return date;
     }
 }

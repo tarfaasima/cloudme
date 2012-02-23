@@ -31,6 +31,10 @@ public class SeleniumTest {
     private static final String ADDRESS = localIpAddress() + ":" + PORT;
     private static final String SNAPSHOT_DIR = "target/selenium/";
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final File LOCAL_DB = new File(
+            "target/notepad-0.17-SNAPSHOT/WEB-INF/appengine-generated/local_db.bin");
+    private static final File LOCAL_DB_BAK = new File(
+            "target/notepad-0.17-SNAPSHOT/WEB-INF/appengine-generated/local_db.bin.bak");
     private WebDriver driver;
 
     @Before
@@ -42,10 +46,14 @@ public class SeleniumTest {
             System.err.println(e.getMessage());
         }
         FileUtils.deleteDirectory(new File(SNAPSHOT_DIR));
+        // assertTrue(LOCAL_DB.exists());
+        LOCAL_DB.renameTo(LOCAL_DB_BAK);
+        assertFalse(LOCAL_DB.exists());
     }
 
     @After
     public void quitDriver() {
+        LOCAL_DB_BAK.renameTo(LOCAL_DB);
         driver.quit();
     }
 
@@ -60,7 +68,20 @@ public class SeleniumTest {
         doSaveWithoutEntryAndDate();
         doEnterNote("18.03.2012", "Project Meeting", "This is a test", "Jim", "2d");
         doDeleteAllNotes();
+        doEnterNote("15.04.2011", "Database Migration", "Create migration scripts.", "Max", "20");
+        doEnterNote("15.04.2011", "Database Migration", "Data consistency checks were successful.", null, null);
+        doShowTasks();
+        doCheck("Create migration scripts.");
         doLogout();
+    }
+
+    private void doCheck(String string) {
+
+    }
+
+    private void doShowTasks() throws IOException {
+        driver.findElement(By.linkText("Tasks")).click();
+        takeSnapshot("doShowTasks");
     }
 
     private void doDeleteAllNotes() throws IOException {
@@ -98,6 +119,7 @@ public class SeleniumTest {
 
     private void enter(WebElement element, String text) {
         if (text != null) {
+            element.clear();
             element.sendKeys(text);
         }
     }
