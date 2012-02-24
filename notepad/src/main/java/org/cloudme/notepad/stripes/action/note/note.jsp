@@ -1,5 +1,6 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@ taglib prefix="f" uri="/WEB-INF/tags/functions.tld"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
@@ -30,7 +31,6 @@
       <s:hidden name="note.meetingId" />
     </c:if>
     <s:errors />
-    <!-- ${actionBean.date} -->
     <div class="row">
       <label for="date">Date:</label>
       <div class="field">
@@ -86,5 +86,28 @@
       </div>
     </div>
   </s:form>
-  <t:notes notes="${actionBean.notes}" currentNoteId="${actionBean.note.id}"/>
+  <c:choose>
+    <c:when test="${actionBean.note.meetingId != null}">
+      <t:notes notes="${actionBean.notes}" currentNoteId="${actionBean.note.id}"/>
+    </c:when>
+    <c:otherwise>
+      <c:if test="${fn:length(actionBean.recentMeetings) > 0}">
+        <ul class="meetingGroups">
+          <li class="meetingGroup">
+            <div class="date">Recent topics</div>
+            <ul class="meetings">
+              <c:forEach items="${actionBean.recentMeetings}" var="meeting">
+                <li class="meeting">
+                  <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" event="create">
+                    <s:param name="note.meetingId">${meeting.id}</s:param>
+                    ${f:escapeHtml(meeting.topic)}
+                  </s:link>
+                </li>
+              </c:forEach>
+            </ul>
+          </li>
+        </ul>
+      </c:if>
+    </c:otherwise>
+  </c:choose>
 </t:default>

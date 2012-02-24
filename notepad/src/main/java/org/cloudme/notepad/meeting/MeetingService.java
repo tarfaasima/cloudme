@@ -119,4 +119,8 @@ public class MeetingService extends AbstractService<Meeting> {
         }
         return meetingMap;
     }
+
+    public List<Meeting> findRecent() {
+        return dao.findRecent();
+    }
 }

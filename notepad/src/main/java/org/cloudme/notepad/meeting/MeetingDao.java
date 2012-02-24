@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.cloudme.sugar.AbstractDao;
 
+import com.googlecode.objectify.Query;
+
 class MeetingDao extends AbstractDao<Meeting> {
 
     public MeetingDao() {
@@ -28,5 +30,9 @@ class MeetingDao extends AbstractDao<Meeting> {
 	public Iterable<Meeting> findAll() {
 		return findBy(orderBy("-date"));
 	}
+
+    public List<Meeting> findRecent() {
+        return ((Query<Meeting>) findBy(orderBy("-date"))).limit(5).list();
+    }
 
 }

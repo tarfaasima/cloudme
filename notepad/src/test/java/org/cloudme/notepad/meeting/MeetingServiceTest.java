@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 
 import lombok.val;
 
@@ -141,6 +142,32 @@ public class MeetingServiceTest extends AbstractServiceTestCase {
         }
         assertFalse(it.hasNext());
 	}
+
+    @Test
+    public void testFindRecent() {
+        createMeeting("Meeting 1");
+        createMeeting("Meeting 2");
+        createMeeting("Meeting 3");
+        createMeeting("Meeting 4");
+        createMeeting("Meeting 5");
+        createMeeting("Meeting 6");
+        createMeeting("Meeting 7");
+
+        Iterator<Meeting> it = meetingService.findRecent().iterator();
+        assertEquals("Meeting 7", it.next().getTopic());
+        assertEquals("Meeting 6", it.next().getTopic());
+        assertEquals("Meeting 5", it.next().getTopic());
+        assertEquals("Meeting 4", it.next().getTopic());
+        assertEquals("Meeting 3", it.next().getTopic());
+        assertFalse(it.hasNext());
+    }
+
+    private void createMeeting(String topic) {
+        Meeting meeting = new Meeting();
+        meeting.setDate(new Date());
+        meeting.setTopic(topic);
+        meetingService.put(meeting);
+    }
 
     @Override
     protected Module[] getModules() {

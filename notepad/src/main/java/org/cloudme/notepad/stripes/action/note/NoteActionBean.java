@@ -26,7 +26,7 @@ import org.cloudme.sugar.Id;
 
 import com.google.inject.Inject;
 
-//@Getter
+@Getter
 @Setter
 @UrlBinding( "/app/note/{$event}/{note.meetingId}/{note.id}" )
 public class NoteActionBean extends AbstractActionBean {
@@ -36,9 +36,10 @@ public class NoteActionBean extends AbstractActionBean {
     private Iterable<String> topics;
     private List<Note> notes;
     private String dueDate;
-    @Getter @ValidateNestedProperties( { @Validate( field = "content", required = true ) } ) private Note note;
+    @ValidateNestedProperties( { @Validate( field = "content", required = true ) } ) private Note note;
     @Validate( required = true, converter = SimpleDateConverter.class ) private Date date;
-    @Getter @Validate( required = true ) private String topic;
+    @Validate( required = true ) private String topic;
+    private List<Meeting> recentMeetings;
 
     @DefaultHandler
     @DontValidate
@@ -120,6 +121,13 @@ public class NoteActionBean extends AbstractActionBean {
         return notes;
     }
 
+    public synchronized List<Meeting> getRecentMeetings() {
+        if (recentMeetings == null) {
+            recentMeetings = meetingService.findRecent();
+        }
+        return recentMeetings;
+    }
+
     private void loadDateAndTopic(Note note) {
         val meeting = meetingService.find(Id.of(Meeting.class, note.getMeetingId()));
         if (meeting != null) {
@@ -129,9 +137,5 @@ public class NoteActionBean extends AbstractActionBean {
         else {
             date = new Date();
         }
-    }
-
-    public Date getDate() {
-        return date;
     }
 }
