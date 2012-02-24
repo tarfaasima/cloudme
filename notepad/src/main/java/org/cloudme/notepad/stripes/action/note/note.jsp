@@ -92,21 +92,7 @@
     </c:when>
     <c:otherwise>
       <c:if test="${fn:length(actionBean.recentMeetings) > 0}">
-        <ul class="meetingGroups">
-          <li class="meetingGroup">
-            <div class="date">Recent topics</div>
-            <ul class="meetings">
-              <c:forEach items="${actionBean.recentMeetings}" var="meeting">
-                <li class="meeting">
-                  <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" event="create">
-                    <s:param name="note.meetingId">${meeting.id}</s:param>
-                    ${f:escapeHtml(meeting.topic)}
-                  </s:link>
-                </li>
-              </c:forEach>
-            </ul>
-          </li>
-        </ul>
+        <t:meetings groups="${actionBean.recentMeetings}"/>
       </c:if>
     </c:otherwise>
   </c:choose>

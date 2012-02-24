@@ -16,6 +16,7 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
 import org.cloudme.notepad.date.DateService;
 import org.cloudme.notepad.meeting.Meeting;
+import org.cloudme.notepad.meeting.MeetingGroup;
 import org.cloudme.notepad.meeting.MeetingService;
 import org.cloudme.notepad.note.Note;
 import org.cloudme.notepad.note.NoteService;
@@ -39,7 +40,7 @@ public class NoteActionBean extends AbstractActionBean {
     @ValidateNestedProperties( { @Validate( field = "content", required = true ) } ) private Note note;
     @Validate( required = true, converter = SimpleDateConverter.class ) private Date date;
     @Validate( required = true ) private String topic;
-    private List<Meeting> recentMeetings;
+    private List<MeetingGroup> recentMeetings;
 
     @DefaultHandler
     @DontValidate
@@ -121,7 +122,7 @@ public class NoteActionBean extends AbstractActionBean {
         return notes;
     }
 
-    public synchronized List<Meeting> getRecentMeetings() {
+    public synchronized List<MeetingGroup> getRecentMeetings() {
         if (recentMeetings == null) {
             recentMeetings = meetingService.findRecent();
         }

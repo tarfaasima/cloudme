@@ -9,8 +9,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 
+import lombok.SneakyThrows;
 import lombok.val;
 
 import org.cloudme.notepad.guice.GuiceModules;
@@ -145,26 +145,21 @@ public class MeetingServiceTest extends AbstractServiceTestCase {
 
     @Test
     public void testFindRecent() {
-        createMeeting("Meeting 1");
-        createMeeting("Meeting 2");
-        createMeeting("Meeting 3");
-        createMeeting("Meeting 4");
-        createMeeting("Meeting 5");
-        createMeeting("Meeting 6");
-        createMeeting("Meeting 7");
+        createMeeting("21.09.2011", "Meeting 1");
+        createMeeting("21.09.2011", "Meeting 2");
+        createMeeting("21.09.2011", "Meeting 3");
+        createMeeting("21.09.2011", "Meeting 4");
+        createMeeting("21.09.2011", "Meeting 5");
+        createMeeting("21.09.2011", "Meeting 6");
+        createMeeting("21.09.2011", "Meeting 7");
 
-        Iterator<Meeting> it = meetingService.findRecent().iterator();
-        assertEquals("Meeting 7", it.next().getTopic());
-        assertEquals("Meeting 6", it.next().getTopic());
-        assertEquals("Meeting 5", it.next().getTopic());
-        assertEquals("Meeting 4", it.next().getTopic());
-        assertEquals("Meeting 3", it.next().getTopic());
-        assertFalse(it.hasNext());
+        assertEquals(5, meetingService.findRecent().get(0).getMeetings().size());
     }
 
-    private void createMeeting(String topic) {
+    @SneakyThrows
+    private void createMeeting(String date, String topic) {
         Meeting meeting = new Meeting();
-        meeting.setDate(new Date());
+        meeting.setDate(DATE_FORMAT.parse(date));
         meeting.setTopic(topic);
         meetingService.put(meeting);
     }

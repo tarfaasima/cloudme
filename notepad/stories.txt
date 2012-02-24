@@ -10,8 +10,8 @@
 21. As a new user I want to have an informative website to understand it before I use it, e.g. http://cloudme.org/projects/notepad
 22. As a user I want to be able to jump to overdue and future todos in the todo list.
 23. As a user I want to see a highlight in the menu bar, which is the selected function.
-24. As a user I want to see the most recent topics when creating an empty, new note.
-25. As a user I want to create a new note for the topic I click on the recent topics list.
+28. As a user I want to be able to switch between relative and absolute dates in the task list.
+29. As a developer I want to change meeting -> topic and todo -> task in class, package and URL.
 
 -- Closed --
 1. As a user I want to enter short notes quickly and effortlessly. (done)
@@ -28,3 +28,5 @@
 19. As a user I want to have a better application icon. (done)
 26. As a user I want to hide ticked notes in the task list - after a certain amount of time. (done)
 27. As a user I want to see the number of tasks reduced when I tick them. (done)
+24. As a user I want to see the most recent topics when creating an empty, new note. (done)
+25. As a user I want to create a new note for the topic I click on the recent topics list. (done)

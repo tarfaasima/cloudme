@@ -100,9 +100,13 @@ public class MeetingService extends AbstractService<Meeting> {
      * @return All meetings grouped by date.
      */
     public List<MeetingGroup> getMeetingGrous() {
-		val groups = new ArrayList<MeetingGroup>();
+        return toMeetingGroups(findAll());
+    }
+
+    private List<MeetingGroup> toMeetingGroups(Iterable<Meeting> meetings) {
+        val groups = new ArrayList<MeetingGroup>();
 		MeetingGroup group = null;
-		for (val meeting : findAll()) {
+        for (val meeting : meetings) {
             if (group == null || !group.getDate().equals(meeting.getDate())) {
 				group = new MeetingGroup();
 				groups.add(group);
@@ -110,7 +114,7 @@ public class MeetingService extends AbstractService<Meeting> {
 			group.add(meeting);
 		}
 		return groups;
-	}
+    }
 
     public Map<Long, Meeting> findAllAsMap() {
         Map<Long, Meeting> meetingMap = new HashMap<Long, Meeting>();
@@ -120,7 +124,7 @@ public class MeetingService extends AbstractService<Meeting> {
         return meetingMap;
     }
 
-    public List<Meeting> findRecent() {
-        return dao.findRecent();
+    public List<MeetingGroup> findRecent() {
+        return toMeetingGroups(dao.findRecent());
     }
 }

@@ -31,8 +31,8 @@ class MeetingDao extends AbstractDao<Meeting> {
 		return findBy(orderBy("-date"));
 	}
 
-    public List<Meeting> findRecent() {
-        return ((Query<Meeting>) findBy(orderBy("-date"))).limit(5).list();
+    public Iterable<Meeting> findRecent() {
+        return ((Query<Meeting>) findBy(orderBy("-date"))).limit(5);
     }
 
 }
