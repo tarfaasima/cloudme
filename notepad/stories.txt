@@ -1,15 +1,17 @@
 6. As a user I want to get a list of all notes.
-8. As a user I want to get a list of all To-Dos.
-10. As a user I want to get a list of all open To-Dos for a certain responsible or due date.
+8. As a user I want to get a list of all Tasks.
+10. As a user I want to get a list of all open Tasks for a certain responsible or due date.
 13. As a user I want to view meetings ordered by date descending and by the first creation of a note of the meeting.
 14. As a user I want to search for meetings by title.
-15. As a user I want to search for To-Dos by content or responsible.
-16. As a user I want to sort To-Dos by content, responsible or date.
-18. As a user I want to export all To-Dos.
+15. As a user I want to search for Tasks by content or responsible.
+16. As a user I want to sort Tasks by content, responsible or date.
+18. As a user I want to export all Tasks.
 20. As a user I want to be able to format text using *bold*, _underlined_, /italics/, 1. ordered lists and - unordered lists, --> Arrow.
 21. As a new user I want to have an informative website to understand it before I use it, e.g. http://cloudme.org/projects/notepad
 22. As a user I want to be able to jump to overdue and future todos in the todo list.
 23. As a user I want to see a highlight in the menu bar, which is the selected function.
+24. As a user I want to see the most recent topics when creating an empty, new note.
+25. As a user I want to create a new note for the topic I click on the recent topics list.
 
 -- Closed --
 1. As a user I want to enter short notes quickly and effortlessly. (done)
@@ -17,10 +19,12 @@
 3. As a user I want to get a list of all meetings I have created notes to. (done, but not pretty)
 4. As a user I want to get a list of all notes I have created for a meeting. (done)
 5. As a user I want to export all notes of a meeting. (done)
-7. As a user I want to check all notes that have either a due date or a responsible or both. These notes are "To-Dos". (done)
-9. As a user I want to get a list of all open To-Dos. (done)
+7. As a user I want to check all notes that have either a due date or a responsible or both. These notes are "Tasks". (done)
+9. As a user I want to get a list of all open Tasks. (done)
 18. As a user I want to use a checkbox and not a "open/done" button to close todos. (done)
 11. As a user I want to have a pretty representation of lists of meetings. (done)
 12. As a user I want to have a pretty representation of notes and lists of notes. (done)
 17. As a user I want to see updates even when used on EDGE on the iPhone, and not a cached version. (done)
 19. As a user I want to have a better application icon. (done)
+26. As a user I want to hide ticked notes in the task list - after a certain amount of time. (done)
+27. As a user I want to see the number of tasks reduced when I tick them. (done)

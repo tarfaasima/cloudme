@@ -15,5 +15,19 @@
         </s:link>
       </div>
     </div>
+    <script>
+      $("a.check").on("click", function() {
+        if (!$(this).parent().hasClass("done")) {
+          $(this).parent().animate({opacity:1}, 10000).fadeOut(100, function() {
+            var numberOfTasks = $("li.note").length - $("li.done").length;
+            document.title = "Task List (" + numberOfTasks + ")";
+            $("h1").html("Task List <span class=\"date\">(" + numberOfTasks + ")</span>");
+          });
+        }
+        else {
+          $(this).parent().stop(true, true);
+        }
+      });
+    </script>
   </jsp:body>
 </t:default>
