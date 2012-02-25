@@ -92,7 +92,7 @@
     </c:when>
     <c:otherwise>
       <c:if test="${fn:length(actionBean.recentMeetings) > 0}">
-        <t:meetings groups="${actionBean.recentMeetings}"/>
+        <t:meetings groups="${actionBean.recentMeetings}" beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" event="create" name="note.meetingId"/>
       </c:if>
     </c:otherwise>
   </c:choose>

@@ -1,5 +1,8 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ attribute name="groups" required="true" type="java.util.List" %>
+<%@ attribute name="beanclass" required="true" %>
+<%@ attribute name="event" required="true" %>
+<%@ attribute name="name" required="true" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld"%>
@@ -14,8 +17,8 @@
       <ul class="meetings">
         <c:forEach items="${group.meetings}" var="meeting">
           <li class="meeting">
-            <s:link beanclass="org.cloudme.notepad.stripes.action.meeting.MeetingActionBean" event="show">
-              <s:param name="meeting.id">${meeting.id}</s:param>
+            <s:link beanclass="${beanclass}" event="${event}">
+              <s:param name="${name}">${meeting.id}</s:param>
               ${f:escapeHtml(meeting.topic)}
             </s:link>
           </li>

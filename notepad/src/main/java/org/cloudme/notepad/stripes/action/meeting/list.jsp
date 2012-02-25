@@ -2,5 +2,5 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 
 <t:default title="Topic List">
-  <t:meetings groups="${actionBean.meetingGroups}"/>
+  <t:meetings groups="${actionBean.meetingGroups}" beanclass="org.cloudme.notepad.stripes.action.meeting.MeetingActionBean" event="show" name="meeting.id"/>
 </t:default>

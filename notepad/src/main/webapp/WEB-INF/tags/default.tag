@@ -48,6 +48,7 @@ $(document).ready(function() {
       document.location.href = $(this).attr("href") + "?t=" + now.getTime() + "&tzo=" + (now.getTimezoneOffset() / 60);
     }
   });
+  window.scrollBy(0, document.getElementById("header").offsetTop);
 });
 </script>
 </html>
