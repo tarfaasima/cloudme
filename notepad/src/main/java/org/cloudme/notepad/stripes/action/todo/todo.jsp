@@ -18,8 +18,9 @@
     <script>
       $("a.check").on("click", function() {
         if (!$(this).parent().hasClass("done")) {
-          $(this).parent().animate({opacity:1}, 10000).fadeOut(100, function() {
-            var numberOfTasks = $("li.note").length - $("li.done").length;
+          $(this).parent().animate({opacity:1}, 10000).hide(100, function() {
+            $(this).remove();
+            var numberOfTasks = $("li.note").length;
             document.title = "Task List (" + numberOfTasks + ")";
             $("h1").html("Task List <span class=\"date\">(" + numberOfTasks + ")</span>");
           });
