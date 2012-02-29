@@ -21,6 +21,7 @@ import org.cloudme.notepad.meeting.MeetingService;
 import org.cloudme.notepad.note.Note;
 import org.cloudme.notepad.note.NoteService;
 import org.cloudme.notepad.stripes.action.meeting.MeetingActionBean;
+import org.cloudme.notepad.stripes.action.todo.TodoActionBean;
 import org.cloudme.notepad.stripes.validation.SimpleDateConverter;
 import org.cloudme.sugar.AbstractActionBean;
 import org.cloudme.sugar.Id;
@@ -29,7 +30,7 @@ import com.google.inject.Inject;
 
 @Getter
 @Setter
-@UrlBinding( "/app/note/{$event}/{note.meetingId}/{note.id}" )
+@UrlBinding( "/app/note/{$event}/{note.meetingId}/{note.id}/{source}" )
 public class NoteActionBean extends AbstractActionBean {
     @Inject private MeetingService meetingService;
     @Inject private NoteService noteService;
@@ -41,6 +42,7 @@ public class NoteActionBean extends AbstractActionBean {
     @Validate( required = true, converter = SimpleDateConverter.class ) private Date date;
     @Validate( required = true ) private String topic;
     private List<MeetingGroup> recentMeetings;
+    private String source;
 
     @DefaultHandler
     @DontValidate
@@ -74,30 +76,19 @@ public class NoteActionBean extends AbstractActionBean {
         else {
             meetingService.create(note, date, topic);
         }
-        return redirectSelf("create", param("note.meetingId", note.getMeetingId()));
+        return createRedirect(source, note.getMeetingId());
     }
 
     @DontValidate
     public Resolution delete() {
         boolean wholeMeetingDeleted = meetingService.remove(Id.of(Meeting.class, note.getMeetingId()), Id.of(note));
-        if (wholeMeetingDeleted) {
-            return redirectSelf("create");
-        }
-        return redirectSelf("create", param("note.meetingId", note.getMeetingId()));
+        return createRedirect(source, wholeMeetingDeleted ? null : note.getMeetingId());
     }
 
     @DontValidate
     public Resolution cancel() {
         if (note != null) {
-            if (note.getMeetingId() != null) {
-                if (note.getId() != null) {
-                    return redirectSelf("create", param("note.meetingId", note.getMeetingId()));
-                }
-                else {
-                    return new RedirectResolution(MeetingActionBean.class, "show").addParameter("meeting.id",
-                            note.getMeetingId());
-                }
-            }
+            return createRedirect(source, note.getMeetingId());
         }
         return redirectSelf("create");
     }
@@ -138,5 +129,18 @@ public class NoteActionBean extends AbstractActionBean {
         else {
             date = new Date();
         }
+    }
+
+    private Resolution createRedirect(String source, Long meetingId) {
+        if (MeetingActionBean.SOURCE.equalsIgnoreCase(source) && meetingId != null) {
+            return new RedirectResolution(MeetingActionBean.class, "show").addParameter("meeting.id", meetingId);
+        }
+        if (TodoActionBean.SOURCE.equalsIgnoreCase(source)) {
+            return new RedirectResolution(TodoActionBean.class);
+        }
+        if (meetingId != null) {
+            return redirectSelf("create", param("note.meetingId", meetingId));
+        }
+        return redirectSelf("create");
     }
 }

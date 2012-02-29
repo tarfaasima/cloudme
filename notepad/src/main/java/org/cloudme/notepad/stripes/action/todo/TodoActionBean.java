@@ -28,6 +28,7 @@ import com.google.inject.Inject;
 @Getter
 @Setter
 public class TodoActionBean extends AbstractActionBean {
+    public static final String SOURCE = "task";
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
     @Inject ExcelExportService excelExportService;
     @Inject MeetingService meetingService;

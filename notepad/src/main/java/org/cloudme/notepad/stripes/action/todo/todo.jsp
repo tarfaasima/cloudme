@@ -7,7 +7,7 @@
 <t:default title="Task List (${fn:length(actionBean.todos)})">
   <jsp:attribute name="h1">Task List <span class="date">(${fn:length(actionBean.todos)})</span></jsp:attribute>
   <jsp:body>
-    <t:notes notes="${actionBean.todos}" />
+    <t:notes notes="${actionBean.todos}" source="task" />
     <div id="controls">
       <div class="left">
         <s:link beanclass="org.cloudme.notepad.stripes.action.todo.TodoActionBean" event="export">

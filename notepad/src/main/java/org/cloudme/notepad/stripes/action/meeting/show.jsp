@@ -11,7 +11,7 @@
     ${actionBean.meeting.topic} - <span class="date"><t:date date="${actionBean.meeting.date}" /></span>
   </jsp:attribute>
   <jsp:body>
-    <t:notes notes="${actionBean.notes}" />
+    <t:notes notes="${actionBean.notes}" source="meeting" />
     <div id="controls">
       <div class="left">
         <s:link beanclass="org.cloudme.notepad.stripes.action.export.ExportActionBean">

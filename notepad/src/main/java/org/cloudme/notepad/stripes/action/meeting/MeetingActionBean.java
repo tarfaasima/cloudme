@@ -22,6 +22,7 @@ import com.google.inject.Inject;
 @Setter
 @UrlBinding( "/app/meeting/{$event}/{meeting.id}" )
 public class MeetingActionBean extends AbstractActionBean {
+    public static final String SOURCE = "meeting";
     @Inject private MeetingService meetingService;
     @Inject private NoteService noteService;
     private List<MeetingGroup> groups;

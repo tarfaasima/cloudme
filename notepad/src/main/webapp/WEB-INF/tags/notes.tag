@@ -1,6 +1,7 @@
 <%@ tag language="java" pageEncoding="UTF-8" %>
 <%@ attribute name="notes" required="true" type="java.util.List" %>
 <%@ attribute name="currentNoteId" required="false" type="java.lang.Long" %>
+<%@ attribute name="source" required="true" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
@@ -31,6 +32,7 @@ $(document).ready(function() {
       <s:link beanclass="org.cloudme.notepad.stripes.action.note.NoteActionBean" event="edit" class="content">
         <s:param name="note.meetingId">${note.meetingId}</s:param>
         <s:param name="note.id">${note.id}</s:param>
+        <s:param name="source">${source}</s:param>
         ${fns:escapeHtml(note.content)}
       </s:link>
       <c:if test="${note.responsible != null || note.dueDate != null}">

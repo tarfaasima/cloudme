@@ -30,6 +30,9 @@
     <c:if test="${actionBean.note.meetingId != null}">
       <s:hidden name="note.meetingId" />
     </c:if>
+    <c:if test="${actionBean.source != null}">
+      <s:hidden name="source" />
+    </c:if>
     <s:errors />
     <div class="row">
       <label for="date">Date:</label>
@@ -70,6 +73,9 @@
           <c:if test="${actionBean.note.id != null}">
             <s:param name="note.id">${actionBean.note.id}</s:param>
           </c:if>
+          <c:if test="${actionBean.source != null}">
+            <s:param name="source">${actionBean.source}</s:param>
+          </c:if>
           Cancel
         </s:link>
         <c:if test="${actionBean.note.id != null}">
@@ -77,6 +83,7 @@
             title="Do you really want to delete the note?">
             <s:param name="note.meetingId">${actionBean.note.meetingId}</s:param>
             <s:param name="note.id">${actionBean.note.id}</s:param>
+            <s:param name="source">${actionBean.source}</s:param>
             Delete
           </s:link>
         </c:if>
@@ -88,7 +95,7 @@
   </s:form>
   <c:choose>
     <c:when test="${actionBean.note.meetingId != null}">
-      <t:notes notes="${actionBean.notes}" currentNoteId="${actionBean.note.id}"/>
+      <t:notes notes="${actionBean.notes}" currentNoteId="${actionBean.note.id}" source="note" />
     </c:when>
     <c:otherwise>
       <c:if test="${fn:length(actionBean.recentMeetings) > 0}">
