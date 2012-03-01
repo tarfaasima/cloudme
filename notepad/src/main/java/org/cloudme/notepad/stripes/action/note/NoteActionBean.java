@@ -132,7 +132,10 @@ public class NoteActionBean extends AbstractActionBean {
     }
 
     private Resolution createRedirect(String source, Long meetingId) {
-        if (MeetingActionBean.SOURCE.equalsIgnoreCase(source) && meetingId != null) {
+        if (MeetingActionBean.SOURCE.equalsIgnoreCase(source)) {
+            if (meetingId == null) {
+                return new RedirectResolution(MeetingActionBean.class, "list");
+            }
             return new RedirectResolution(MeetingActionBean.class, "show").addParameter("meeting.id", meetingId);
         }
         if (TodoActionBean.SOURCE.equalsIgnoreCase(source)) {
