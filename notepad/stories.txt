@@ -10,8 +10,9 @@
 21. As a new user I want to have an informative website to understand it before I use it, e.g. http://cloudme.org/projects/notepad
 22. As a user I want to be able to jump to overdue and future todos in the todo list.
 23. As a user I want to see a highlight in the menu bar, which is the selected function.
-28. As a user I want to be able to switch between relative and absolute dates in the task list.
-29. As a developer I want to change meeting -> topic and todo -> task in class, package and URL.
+28. As a user I want to see relative dates (x days ago... in x days)
+29. As a user I want to be able to switch between absolute and relative dates
+30. As a developer I want to change meeting -> topic and todo -> task in class, package and URL.
 
 -- Closed --
 1. As a user I want to enter short notes quickly and effortlessly. (done)
