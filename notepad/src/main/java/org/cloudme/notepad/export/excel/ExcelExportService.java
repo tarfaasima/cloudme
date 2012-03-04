@@ -51,7 +51,7 @@ public class ExcelExportService {
     private void exportNote(WritableSheet sheet, Note note, Meeting meeting, int row) throws WriteException {
         sheet.addCell(new Label(0, row, meeting.getTopic(), NORMAL));
         sheet.addCell(new DateTime(1, row, meeting.getDate(), new WritableCellFormat(DateFormats.DEFAULT)));
-        sheet.addCell(new Label(2, row, note.getContent(), NORMAL));
+        sheet.addCell(new Label(2, row, new ExcelFormatter().format(note.getContent()), NORMAL));
         String responsible = note.getResponsible();
         if (responsible != null) {
             sheet.addCell(new Label(3, row, responsible, NORMAL));
