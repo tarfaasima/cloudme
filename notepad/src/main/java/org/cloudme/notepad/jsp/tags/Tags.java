@@ -2,8 +2,6 @@ package org.cloudme.notepad.jsp.tags;
 
 import lombok.val;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
 public class Tags {
 
 	/**
@@ -43,8 +41,6 @@ public class Tags {
 	}
 
 	public static String escapeHtml(String str) {
-        return StringEscapeUtils.escapeHtml(str).replace("--&gt;", "&rarr;").replace("&lt;--", "&larr;")
-                .replace("\n-", "<br>&bull;")
-                .replace("\n", "<br>");
+        return new HtmlFormatter().format(str);
 	}
 }

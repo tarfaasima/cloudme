@@ -20,7 +20,7 @@ public class TagsTest {
 
 	@Test
 	public void testEscapeHtml() {
-		assertEquals("Das ist ein<br>T&auml;st!", Tags.escapeHtml("Das ist ein\nTäst!"));
+        assertEquals("Das ist ein<br>T&#228;st!", Tags.escapeHtml("Das ist ein\nTäst!"));
 	}
 
 }
