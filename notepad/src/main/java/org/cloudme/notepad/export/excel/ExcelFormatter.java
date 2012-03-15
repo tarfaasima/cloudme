@@ -26,12 +26,12 @@ public class ExcelFormatter extends Formatter {
 
     @Override
     protected void writeListStart(Writer out) throws IOException {
-        // do nothing
+        out.write("\n");
     }
 
     @Override
     protected void writeListEnd(Writer out) throws IOException {
-        out.write("\n");
+        // out.write("\n");
         isList = false;
     }
 
