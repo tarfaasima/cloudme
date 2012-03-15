@@ -54,10 +54,8 @@ public class DateService {
             df("MM/dd/yyyy"), df("ddMMyy"), df("ddMMyyyy") };
 	private static final Pattern DATE_WITHOUT_YEAR_PATTERN = compile("(\\d{1,2})[\\.-/+# ]?(\\d{1,2})[\\.-/+# ]?");
 	private static final Pattern DURATION_PATTERN = compile("(\\d{1,2})(.*)");
-	private final Set<String> WEEK_DURATION = new HashSet<String>(asList("W", "WEEK", "WEEKS", "WK", "WOCHE",
-            "WOCHEN"));
-	private final Set<String> DAY_DURATION = new HashSet<String>(asList("D", "DAY", "DAYS", "DY", "DYS", "T",
-            "TAG", "TAGE"));
+	private final Set<String> WEEK_DURATION = createSet("W", "WEEK", "WEEKS", "WK", "WOCHE", "WOCHEN");
+	private final Set<String> DAY_DURATION = createSet("D", "DAY", "DAYS", "DY", "DYS", "T", "TAG", "TAGE");
 
     /**
      * Converts user input to a {@link Date}.
@@ -104,10 +102,31 @@ public class DateService {
         catch (NumberFormatException e) {
             // can happen, try next
         }
+		try {
+			return parseAsWeekday(input, referenceDate);
+		} catch (NumberFormatException e) {
+			// can happen, try next
+		}
         return null;
     }
 
-    private Date parseAsDuration(String input, Date referenceDate) {
+	private <T> Set<T> createSet(T... args) {
+		return new HashSet<T>(asList(args));
+	}
+
+	private Date parseAsWeekday(String input, Date referenceDate) {
+		for (Weekday weekday : Weekday.values()) {
+			if (weekday.matches(input)) {
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(referenceDate);
+				cal.set(Calendar.DAY_OF_WEEK, weekday.dayOfWeek);
+				return incrementIfBefore(cal, referenceDate, Calendar.WEEK_OF_YEAR);
+			}
+		}
+		throw new NumberFormatException();
+	}
+
+	private Date parseAsDuration(String input, Date referenceDate) {
         Matcher matcher = DURATION_PATTERN.matcher(input);
         if (matcher.matches()) {
             Calendar cal = Calendar.getInstance();
@@ -157,7 +176,7 @@ public class DateService {
 
     private Date incrementIfBefore(Calendar cal, Date referenceDate, int field) {
         val date = cal.getTime();
-        if (referenceDate.after(date)) {
+		if (!referenceDate.before(date)) {
             cal.add(field, 1);
             return cal.getTime();
         }

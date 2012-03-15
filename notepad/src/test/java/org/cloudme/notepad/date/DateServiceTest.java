@@ -37,6 +37,9 @@ public class DateServiceTest {
         assertConvert("16.01.2012", "2 days");
         assertConvert("26.01.2012", "10 Tage");
         assertConvert("17.01.2013", "53w");
+		assertConvert("16.01.2012", "Mo");
+		assertConvert("19.01.2012", "Thu");
+		assertConvert("13.01.2012", "Fr");
         assertConvert(null, "");
         assertConvert(null, null);
     }
