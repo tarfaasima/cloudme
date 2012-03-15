@@ -46,6 +46,8 @@ import lombok.val;
  * </ul>
  * For day durations, weekends are ommitted and only working days are counted.
  * No holidays are considered.
+ * <p>
+ * Another option is to enter the short-name of the day (such as "Mon").
  * 
  * @author Moritz Petersen
  */
