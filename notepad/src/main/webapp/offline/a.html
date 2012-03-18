@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html manifest="/offline/cache.manifest">
+<head>
+<meta charset="UTF-8">
+<title>A</title>
+</head>
+<body>
+<h1>A</h1>
+<ul>
+<li><a href="/offline/a.html">A</a></li>
+<li><a href="/offline/b.html">B</a></li>
+<li><a href="/offline/c.html">C</a></li>
+</ul>
+<p>Some changes</p>
+<script>
+console.log("online: " + navigator.onLine);
+var cache = window.applicationCache;
+console.log("cache status: " + cache.status);
+</script>
+</body>
+</html>
