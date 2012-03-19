@@ -22,5 +22,4 @@ public class JsonWriterTest {
         JsonWriter json = new JsonWriter(new PrintWriter(stringWriter));
         json.write(new Person("Max Mustermann", 35));
     }
-
 }
