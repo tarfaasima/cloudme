@@ -17,7 +17,7 @@ import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.val;
 
-import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.cloudme.wrestle.annotation.Mapping;
 import org.cloudme.wrestle.convert.BooleanConverter;
 import org.cloudme.wrestle.convert.Converter;
@@ -82,7 +82,7 @@ class RequestHandler {
     }
 
     private Object mapParameter(String mapping, Class<?> parameterType, HttpServletRequest req)
-            throws InstantiationException, IllegalAccessException, InvocationTargetException {
+            throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         mapping += ".";
         @SuppressWarnings( "unchecked" )
         Map<String, String[]> parameterMap = req == null ? Collections.EMPTY_MAP : req.getParameterMap();
@@ -91,7 +91,7 @@ class RequestHandler {
             String key = entry.getKey();
             if (key.startsWith(mapping)) {
                 String name = key.substring(mapping.length());
-                BeanUtils.setProperty(arg, name, entry.getValue()[0]);
+                PropertyUtils.setProperty(arg, name, entry.getValue()[0]);
             }
         }
         return arg;
