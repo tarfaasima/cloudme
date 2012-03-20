@@ -37,9 +37,9 @@ public class JsonWriter {
             });
         }
         else if (obj instanceof Map) {
-            write(((Map<String, Object>) obj).entrySet(), '{', '}', new Formatter<Entry<String, Object>>() {
+            write(((Map<Object, Object>) obj).entrySet(), '{', '}', new Formatter<Entry<Object, Object>>() {
                 @Override
-                public void format(Entry<String, Object> entry) {
+                public void format(Entry<Object, Object> entry) {
                     write(entry.getKey().toString());
                     out.write(':');
                     write(entry.getValue());
@@ -105,5 +105,4 @@ public class JsonWriter {
         }
         out.write(ch);
     }
-
 }

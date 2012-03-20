@@ -18,10 +18,21 @@ import lombok.SneakyThrows;
 import org.cloudme.wrestle.annotation.Get;
 import org.cloudme.wrestle.annotation.Post;
 import org.cloudme.wrestle.annotation.UrlMapping;
+import org.cloudme.wrestle.json.JsonWriter;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Module;
 
 public class Controller extends HttpServlet {
     private final Collection<RequestHandler> httpGetHandlers = new ArrayList<RequestHandler>();
     private final Collection<RequestHandler> httpPostHandlers = new ArrayList<RequestHandler>();
+    private Injector injector;
+
+    protected void register(Module... modules) {
+        injector = Guice.createInjector(modules);
+        injector.injectMembers(this);
+    }
 
     protected void register(ActionHandler handler) {
         String urlMapping = handler.getClass().getAnnotation(UrlMapping.class).value();
@@ -32,6 +43,7 @@ public class Controller extends HttpServlet {
             addIfHasAnnotation(Get.class, method, handler, urlMapping, httpGetHandlers);
             addIfHasAnnotation(Post.class, method, handler, urlMapping, httpPostHandlers);
         }
+        injector.injectMembers(handler);
     }
 
     private void addIfHasAnnotation(Class<? extends Annotation> annotation,
@@ -60,6 +72,10 @@ public class Controller extends HttpServlet {
         for (RequestHandler handler : requestHandlers) {
             if (handler.matches(path)) {
                 Object value = handler.execute(path, req, resp);
+                resp.setContentType("application/json");
+                JsonWriter json = new JsonWriter(resp.getWriter());
+                json.write(value);
+                return;
             }
         }
     }
