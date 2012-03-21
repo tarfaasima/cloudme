@@ -52,7 +52,8 @@ public class Controller extends HttpServlet {
             String urlMapping,
             Collection<RequestHandler> requestHandlers) {
         if (hasAnnotation(method, annotation)) {
-            requestHandlers.add(new RequestHandler(handler, method, urlMapping + "/" + method.getName()));
+            String methodMapping = urlMapping + method.getName();
+            requestHandlers.add(new RequestHandler(handler, method, methodMapping));
         }
     }
 
@@ -68,7 +69,7 @@ public class Controller extends HttpServlet {
 
     @SneakyThrows
     private void execute(HttpServletRequest req, HttpServletResponse resp, Collection<RequestHandler> requestHandlers) {
-        String path = req.getContextPath();
+        String path = req.getPathInfo();
         for (RequestHandler handler : requestHandlers) {
             if (handler.matches(path)) {
                 Object value = handler.execute(path, req, resp);

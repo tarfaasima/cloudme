@@ -74,27 +74,52 @@ class RequestHandler {
             }
             else {
                 if (pathArgsIndex < pathArgs.length) {
-                    args[i] = converters.get(parameterTypes[i]).convert(pathArgs[pathArgsIndex++]);
+                    args[i] = convert(parameterTypes[i], pathArgs[pathArgsIndex++]);
                 }
             }
         }
         return args;
     }
 
+    private Object convert(Class<?> type, String obj) {
+        Converter<?> converter = converters.get(type);
+        if (converter == null) {
+            return null;
+        }
+        return converter.convert(obj);
+    }
+
+    @SuppressWarnings( "unchecked" )
     private Object mapParameter(String mapping, Class<?> parameterType, HttpServletRequest req)
             throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        String parameter = getParameter(req, mapping);
+        if (parameter != null) {
+            return convert(parameterType, parameter);
+        }
         mapping += ".";
-        @SuppressWarnings( "unchecked" )
         Map<String, String[]> parameterMap = req == null ? Collections.EMPTY_MAP : req.getParameterMap();
         Object arg = parameterType.newInstance();
         for (Entry<String, String[]> entry : parameterMap.entrySet()) {
             String key = entry.getKey();
             if (key.startsWith(mapping)) {
                 String name = key.substring(mapping.length());
-                PropertyUtils.setProperty(arg, name, entry.getValue()[0]);
+                Class<?> type = PropertyUtils.getPropertyType(arg, name);
+                String value = entry.getValue()[0];
+                PropertyUtils.setProperty(arg, name, convert(type, value));
             }
         }
         return arg;
+    }
+
+    private String getParameter(HttpServletRequest req, String name) {
+        String parameter = req.getParameter(name);
+        if (parameter == null) {
+            String[] parameterValues = req.getParameterValues(name);
+            if (parameterValues != null && parameterValues.length > 0) {
+                parameter = parameterValues[0];
+            }
+        }
+        return parameter;
     }
 
     private String getMapping(Annotation[] annotations) {

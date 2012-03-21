@@ -99,7 +99,7 @@ public class MeetingService extends AbstractService<Meeting> {
      * 
      * @return All meetings grouped by date.
      */
-    public List<MeetingGroup> getMeetingGrous() {
+    public List<MeetingGroup> getMeetingGroups() {
         return toMeetingGroups(findAll());
     }
 

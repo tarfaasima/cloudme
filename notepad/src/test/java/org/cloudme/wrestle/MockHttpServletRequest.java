@@ -64,20 +64,21 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     @Override
     public String getParameter(String name) {
-        // TODO Auto-generated method stub
-        return null;
+        String[] values = (String[]) parameterMap.get(name);
+        if (values == null || values.length == 0) {
+            return null;
+        }
+        return values[0];
     }
 
     @Override
     public Enumeration getParameterNames() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public String[] getParameterValues(String name) {
-        // TODO Auto-generated method stub
-        return null;
+        return (String[]) parameterMap.get(name);
     }
 
     @Override

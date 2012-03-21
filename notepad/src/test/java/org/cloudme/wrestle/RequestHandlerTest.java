@@ -57,4 +57,23 @@ public class RequestHandlerTest {
         assertEquals("Hello, World!", result);
     }
 
+    @SuppressWarnings( { "unchecked", "rawtypes" } )
+    @Test
+    public void testExecuteWithSimpleMapping() throws Throwable {
+        val actionHandler = new ActionHandler() {
+            @SuppressWarnings( "unused" )
+            @Get
+            public String hello(@Mapping( "name" ) String name) {
+                return "Hello, " + name + "!";
+            }
+        };
+        val method = actionHandler.getClass().getMethod("hello", String.class);
+        val requestHandler = new RequestHandler(actionHandler, method, "/api/test");
+        HttpServletRequest req = new MockHttpServletRequest();
+        Map params = req.getParameterMap();
+        params.put("name", new String[] { "World" });
+        val result = requestHandler.execute("/api/test/hello", req, null);
+        assertEquals("Hello, World!", result);
+    }
+
 }

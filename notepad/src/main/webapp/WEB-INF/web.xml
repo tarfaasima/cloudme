@@ -53,6 +53,17 @@
     <url-pattern>/app/*</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>Controller</servlet-name>
+    <servlet-class>org.cloudme.notepad.rest.NotepadController</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Controller</servlet-name>
+    <url-pattern>/api/*</url-pattern>
+  </servlet-mapping>
+
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Administration area.</web-resource-name>
@@ -66,6 +77,15 @@
   <security-constraint>
     <web-resource-collection>
       <url-pattern>/app/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>*</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <url-pattern>/api/*</url-pattern>
     </web-resource-collection>
     <auth-constraint>
       <role-name>*</role-name>

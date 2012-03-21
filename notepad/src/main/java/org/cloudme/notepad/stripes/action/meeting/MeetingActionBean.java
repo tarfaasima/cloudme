@@ -41,7 +41,7 @@ public class MeetingActionBean extends AbstractActionBean {
 
     public synchronized List<MeetingGroup> getMeetingGroups() {
         if (groups == null) {
-            groups = meetingService.getMeetingGrous();
+            groups = meetingService.getMeetingGroups();
         }
         return groups;
     }

@@ -127,7 +127,7 @@ public class MeetingServiceTest extends AbstractServiceTestCase {
 		n4.setContent("This is another test");
 		meetingService.create(n4, d2, "My new topic");
 
-        val it = meetingService.getMeetingGrous().iterator();
+        val it = meetingService.getMeetingGroups().iterator();
         assertGroup(it.next(), d3, n3.getMeetingId());
         assertGroup(it.next(), d1, n1.getMeetingId());
         assertGroup(it.next(), d2, n2.getMeetingId(), n4.getMeetingId());
