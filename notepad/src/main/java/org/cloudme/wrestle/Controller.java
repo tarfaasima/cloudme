@@ -39,11 +39,16 @@ public class Controller extends HttpServlet {
         if (!urlMapping.endsWith("/")) {
             urlMapping += "/";
         }
+        if (!urlMapping.startsWith("/")) {
+            urlMapping = "/" + urlMapping;
+        }
         for (Method method : handler.getClass().getMethods()) {
             addIfHasAnnotation(Get.class, method, handler, urlMapping, httpGetHandlers);
             addIfHasAnnotation(Post.class, method, handler, urlMapping, httpPostHandlers);
         }
-        injector.injectMembers(handler);
+        if (injector != null) {
+            injector.injectMembers(handler);
+        }
     }
 
     private void addIfHasAnnotation(Class<? extends Annotation> annotation,

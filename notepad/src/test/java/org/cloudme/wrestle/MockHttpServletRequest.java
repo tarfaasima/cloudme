@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 public class MockHttpServletRequest implements HttpServletRequest {
 
     private final Map parameterMap = new HashMap();
+    private String pathInfo;
 
     @Override
     public Object getAttribute(String name) {
@@ -244,8 +245,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     @Override
     public String getPathInfo() {
-        // TODO Auto-generated method stub
-        return null;
+        return pathInfo;
     }
 
     @Override
@@ -342,6 +342,10 @@ public class MockHttpServletRequest implements HttpServletRequest {
     public boolean isRequestedSessionIdFromUrl() {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    public void setPathInfo(String pathInfo) {
+        this.pathInfo = pathInfo;
     }
 
 }
