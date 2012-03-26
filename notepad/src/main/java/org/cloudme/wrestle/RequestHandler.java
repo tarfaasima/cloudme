@@ -57,12 +57,15 @@ class RequestHandler {
 
     @SneakyThrows
     public Object execute(String path, HttpServletRequest req, HttpServletResponse resp) {
-        val pathArgs = path.substring(urlMapping.length() + 1).split("/");
+        val pathArgs = path.length() == urlMapping.length() ? null : path.substring(urlMapping.length() + 1).split("/");
         return method.invoke(actionHandler, convert(pathArgs, req));
     }
 
     @SneakyThrows
     private Object[] convert(String[] pathArgs, HttpServletRequest req) {
+        if (pathArgs == null) {
+            return null;
+        }
         val parameterTypes = method.getParameterTypes();
         val parameterAnnotations = method.getParameterAnnotations();
         val args = new Object[parameterTypes.length];

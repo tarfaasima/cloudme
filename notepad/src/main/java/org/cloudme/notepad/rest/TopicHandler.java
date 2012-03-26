@@ -22,7 +22,9 @@ public class TopicHandler implements ActionHandler {
 
     @Get
     public List<MeetingGroup> list() {
-        return meetingService.getMeetingGroups();
+        List<MeetingGroup> meetingGroups = meetingService.getMeetingGroups();
+        System.out.println("meetingGroups = " + meetingGroups);
+        return meetingGroups;
     }
 
     @Get
