@@ -3,8 +3,6 @@ package org.cloudme.wrestle;
 import static org.cloudme.wrestle.annotation.AnnotationUtils.hasAnnotation;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -27,7 +25,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 
-public class Controller extends HttpServlet {
+public abstract class Controller extends HttpServlet {
     private final Collection<RequestHandler> httpGetHandlers = new ArrayList<RequestHandler>();
     private final Collection<RequestHandler> httpPostHandlers = new ArrayList<RequestHandler>();
     private Injector injector;
@@ -61,7 +59,6 @@ public class Controller extends HttpServlet {
             Collection<RequestHandler> requestHandlers) {
         if (hasAnnotation(method, annotation)) {
             String methodMapping = urlMapping + method.getName();
-            System.out.println("methodMapping = " + methodMapping);
             requestHandlers.add(new RequestHandler(handler, method, methodMapping));
         }
     }
@@ -79,20 +76,12 @@ public class Controller extends HttpServlet {
     @SneakyThrows
     private void execute(HttpServletRequest req, HttpServletResponse resp, Collection<RequestHandler> requestHandlers) {
         val path = req.getPathInfo();
-        System.out.println("path = " + path);
         for (RequestHandler handler : requestHandlers) {
             if (handler.matches(path)) {
                 val value = handler.execute(path, req, resp);
-                System.out.println("value = " + value);
-                System.out.println("value class = " + value.getClass());
                 resp.setContentType("application/json");
-                StringWriter stringWriter = new StringWriter();
-                val out = new PrintWriter(stringWriter);
-                val json = new JsonWriter(out);
+                val json = new JsonWriter(resp.getWriter());
                 json.write(value);
-                out.flush();
-                System.out.println("json = " + stringWriter);
-                resp.getWriter().write(stringWriter.toString());
                 return;
             }
         }

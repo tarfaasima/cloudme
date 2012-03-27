@@ -113,7 +113,6 @@ public class MeetingService extends AbstractService<Meeting> {
 			}
 			group.add(meeting);
 		}
-        System.out.println("groups = " + groups);
 		return groups;
     }
 

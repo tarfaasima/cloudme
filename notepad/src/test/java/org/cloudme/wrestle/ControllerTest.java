@@ -21,7 +21,8 @@ public class ControllerTest {
 
     @Test
     public void testDoGetHttpServletRequestHttpServletResponse() throws Throwable {
-        Controller controller = new Controller();
+        Controller controller = new Controller() {
+        };
         controller.register(new HandlerA());
 
         controller.init();
