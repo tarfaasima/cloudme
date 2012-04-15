@@ -13,6 +13,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 public class JsonWriter {
     private interface Formatter<T> {
         void format(T obj);
+
+        boolean isNull(T obj);
     }
 
     private static final char[] CONTROL_CHARS = "\"\"\\\\//\bb\nn\rr\tt".toCharArray();
@@ -34,6 +36,11 @@ public class JsonWriter {
                 public void format(Object obj) {
                     write(obj);
                 }
+
+                @Override
+                public boolean isNull(Object obj) {
+                    return obj == null;
+                }
             });
         }
         else if (obj instanceof Map) {
@@ -43,6 +50,11 @@ public class JsonWriter {
                     write(entry.getKey().toString());
                     out.write(':');
                     write(entry.getValue());
+                }
+
+                @Override
+                public boolean isNull(Entry<Object, Object> entry) {
+                    return entry.getValue() == null;
                 }
             });
         }
@@ -81,14 +93,16 @@ public class JsonWriter {
     private <T> void write(Iterable<T> it, char before, char after, Formatter<T> formatter) {
         boolean isFirst = true;
         for (T obj : it) {
-            if (isFirst) {
-                out.write(before);
-                isFirst = false;
+            if (!formatter.isNull(obj)) {
+                if (isFirst) {
+                    out.write(before);
+                    isFirst = false;
+                }
+                else {
+                    out.write(',');
+                }
+                formatter.format(obj);
             }
-            else {
-                out.write(',');
-            }
-            formatter.format(obj);
         }
         if (!isFirst) {
             out.write(after);

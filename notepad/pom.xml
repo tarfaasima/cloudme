@@ -61,8 +61,10 @@
   </reporting>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <gae.version>1.6.2.1</gae.version>
+    <gae.version>1.6.3</gae.version>
     <maven-gae-plugin.version>0.9.2</maven-gae-plugin.version>
+    <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+    <timestamp>${maven.build.timestamp}</timestamp>
   </properties>
   <url>http://notepad.cloudme.org</url>
   <developers>
@@ -122,6 +124,7 @@
           <include>**/*.jsp</include>
           <include>**/*.properties</include>
           <include>**/*.xls</include>
+          <include>**/*.txt</include>
         </includes>
       </resource>
       <resource>
