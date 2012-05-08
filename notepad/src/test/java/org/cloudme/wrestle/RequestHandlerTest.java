@@ -2,26 +2,69 @@ package org.cloudme.wrestle;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletException;
 
 import lombok.Data;
+import lombok.SneakyThrows;
 import lombok.val;
 
 import org.cloudme.wrestle.annotation.Get;
-import org.cloudme.wrestle.annotation.Mapping;
+import org.cloudme.wrestle.annotation.Param;
+import org.cloudme.wrestle.annotation.Post;
+import org.cloudme.wrestle.annotation.UrlMapping;
+import org.junit.Before;
 import org.junit.Test;
 
+import com.meterware.httpunit.GetMethodWebRequest;
+import com.meterware.httpunit.PostMethodWebRequest;
+import com.meterware.httpunit.WebRequest;
+import com.meterware.httpunit.WebResponse;
+import com.meterware.servletunit.ServletRunner;
+import com.meterware.servletunit.ServletUnitClient;
+
 public class RequestHandlerTest {
+    private static enum Method {
+        GET {
+            @Override
+            WebRequest getWebRequest(String urlString) {
+                return new GetMethodWebRequest(urlString);
+            }
+        },
+        POST {
+            @Override
+            WebRequest getWebRequest(String urlString) {
+                return new PostMethodWebRequest(urlString);
+            }
+        };
+
+        abstract WebRequest getWebRequest(String urlString);
+    }
+
+    private static ActionHandler actionHandler;
+    private ServletRunner sr;
+
     @Data
     public static class Person {
         private String name;
     }
 
+    public static class TestController extends WrestleController {
+        @Override
+        public void init() throws ServletException {
+            registerActionHandler(actionHandler);
+        }
+    }
+
+    @Before
+    public void setUp() {
+        actionHandler = null;
+        sr = new ServletRunner();
+    }
+
     @Test
     public void testExecute() throws Throwable {
-        val actionHandler = new ActionHandler() {
+        @UrlMapping( "app" )
+        class TestActionHandler implements ActionHandler {
             @SuppressWarnings( "unused" )
             @Get
             public String hello(String name, int repeats, String greeting) {
@@ -31,49 +74,52 @@ public class RequestHandlerTest {
                 }
                 return sb.toString();
             }
-        };
-        val method = actionHandler.getClass().getMethod("hello", String.class, int.class, String.class);
-        val requestHandler = new RequestHandler(actionHandler, method, "/api/test");
-        val result = requestHandler.execute("/api/test/World/3", null, null);
-        assertEquals("Hello, World!\nHello, World!\nHello, World!\n", result);
+        }
+        runServletTest("\"Hello, World!\\nHello, World!\\nHello, World!\\n\"", new TestActionHandler(),
+                "app/hello/World/3", Method.GET);
     }
 
-    @SuppressWarnings( { "unchecked", "rawtypes" } )
     @Test
     public void testExecuteWithMapping() throws Throwable {
-        val actionHandler = new ActionHandler() {
+        @UrlMapping( "app" )
+        class TestActionHandler implements ActionHandler {
             @SuppressWarnings( "unused" )
-            @Get
-            public String hello(@Mapping( "foo" ) Person person) {
+            @Post
+            public String hello(@Param( name = "foo" ) Person person) {
                 return "Hello, " + person.getName() + "!";
             }
-        };
-        val method = actionHandler.getClass().getMethod("hello", Person.class);
-        val requestHandler = new RequestHandler(actionHandler, method, "/api/test");
-        HttpServletRequest req = new MockHttpServletRequest();
-        Map params = req.getParameterMap();
-        params.put("foo.name", new String[] { "World" });
-        val result = requestHandler.execute("/api/test/hello", req, null);
-        assertEquals("Hello, World!", result);
+        }
+        runServletTest("\"Hello, World!\"", new TestActionHandler(), "app/hello", Method.POST, "foo.name", "World");
     }
 
-    @SuppressWarnings( { "unchecked", "rawtypes" } )
     @Test
     public void testExecuteWithSimpleMapping() throws Throwable {
-        val actionHandler = new ActionHandler() {
+        @UrlMapping("app")
+        class TestActionHandler implements ActionHandler {
             @SuppressWarnings( "unused" )
             @Get
-            public String hello(@Mapping( "name" ) String name) {
+            public String hello(@Param( name = "name" ) String name) {
                 return "Hello, " + name + "!";
             }
-        };
-        val method = actionHandler.getClass().getMethod("hello", String.class);
-        val requestHandler = new RequestHandler(actionHandler, method, "/api/test");
-        HttpServletRequest req = new MockHttpServletRequest();
-        Map params = req.getParameterMap();
-        params.put("name", new String[] { "World" });
-        val result = requestHandler.execute("/api/test/hello", req, null);
-        assertEquals("Hello, World!", result);
+        }
+
+        runServletTest("\"Hello, World!\"", new TestActionHandler(), "app/hello", Method.GET, "name", "World");
     }
 
+    @SneakyThrows
+    private void runServletTest(String expected, ActionHandler handler, String path, Method method, String... params) {
+        RequestHandlerTest.actionHandler = handler;
+
+        sr.registerServlet(path, TestController.class.getName());
+        ServletUnitClient sc = sr.newClient();
+        WebRequest req = method.getWebRequest("http://www.example.com/" + path);
+        if (params != null) {
+            for (int i = 0; i < params.length; i += 2) {
+                req.setParameter(params[i], params[i + 1]);
+            }
+        }
+
+        WebResponse resp = sc.getResponse(req);
+        assertEquals(expected, resp.getText());
+    }
 }

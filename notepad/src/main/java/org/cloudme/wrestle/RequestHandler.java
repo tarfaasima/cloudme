@@ -18,7 +18,7 @@ import lombok.SneakyThrows;
 import lombok.val;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.cloudme.wrestle.annotation.Mapping;
+import org.cloudme.wrestle.annotation.Param;
 import org.cloudme.wrestle.convert.BooleanConverter;
 import org.cloudme.wrestle.convert.Converter;
 import org.cloudme.wrestle.convert.DateConverter;
@@ -51,37 +51,53 @@ class RequestHandler {
         converters.put(String.class, new StringConverter());
     }
 
-    public boolean matches(String path) {
-        return path.startsWith(urlMapping);
+    public boolean matches(HttpServletRequest req) {
+        return req.getServletPath().startsWith(urlMapping);
     }
 
     @SneakyThrows
-    public Object execute(String path, HttpServletRequest req, HttpServletResponse resp) {
-        val pathArgs = path.length() == urlMapping.length() ? null : path.substring(urlMapping.length() + 1).split("/");
-        return method.invoke(actionHandler, convert(pathArgs, req));
+    public Object execute(HttpServletRequest req, HttpServletResponse resp) {
+        return method.invoke(actionHandler, convertToParams(req));
     }
 
-    @SneakyThrows
-    private Object[] convert(String[] pathArgs, HttpServletRequest req) {
-        if (pathArgs == null) {
-            return null;
+    private String[] asPathArgs(String path) {
+        if (path.length() == urlMapping.length()) {
+            return new String[0];
         }
-        val parameterTypes = method.getParameterTypes();
-        val parameterAnnotations = method.getParameterAnnotations();
-        val args = new Object[parameterTypes.length];
+        else {
+            return path.substring(urlMapping.length() + 1).split("/");
+        }
+    }
+
+    @SneakyThrows
+    private Object[] convertToParams(HttpServletRequest req) {
+        val pathArgs = asPathArgs(req.getServletPath());
+        val paramTypes = method.getParameterTypes();
+        val paramAnnotations = method.getParameterAnnotations();
+        val args = new Object[paramTypes.length];
         int pathArgsIndex = 0;
         for (int i = 0; i < args.length; i++) {
-            String mapping = getMapping(parameterAnnotations[i]);
-            if (mapping != null) {
-                args[i] = mapParameter(mapping, parameterTypes[i], req);
+            String name = getParamName(paramAnnotations[i]);
+            if (name != null) {
+                args[i] = mapParameter(name, paramTypes[i], req);
             }
             else {
                 if (pathArgsIndex < pathArgs.length) {
-                    args[i] = convert(parameterTypes[i], pathArgs[pathArgsIndex++]);
+                    args[i] = convert(paramTypes[i], pathArgs[pathArgsIndex++]);
                 }
             }
         }
         return args;
+    }
+
+    private String getParamName(Annotation[] annotations) {
+        for (Annotation annotation : annotations) {
+            if (annotation instanceof Param) {
+                Param param = (Param) annotation;
+                return param.name();
+            }
+        }
+        return null;
     }
 
     private Object convert(Class<?> type, String obj) {
@@ -123,14 +139,5 @@ class RequestHandler {
             }
         }
         return parameter;
-    }
-
-    private String getMapping(Annotation[] annotations) {
-        for (Annotation annotation : annotations) {
-            if (annotation instanceof Mapping) {
-                return ((Mapping) annotation).value();
-            }
-        }
-        return null;
     }
 }

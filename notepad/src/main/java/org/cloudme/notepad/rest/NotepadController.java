@@ -10,19 +10,19 @@ import org.cloudme.notepad.date.DateModule;
 import org.cloudme.notepad.export.ExportModule;
 import org.cloudme.notepad.meeting.MeetingModule;
 import org.cloudme.notepad.note.NoteModule;
-import org.cloudme.wrestle.Controller;
+import org.cloudme.wrestle.WrestleController;
 
 import com.google.appengine.api.NamespaceManager;
 import com.google.appengine.api.users.UserServiceFactory;
 
-public class NotepadController extends Controller {
+public class NotepadController extends WrestleController {
     @Override
     public void init() throws ServletException {
-        register(new DateModule(), new MeetingModule(), new NoteModule(), new ExportModule());
+        registerModules(new DateModule(), new MeetingModule(), new NoteModule(), new ExportModule());
 
-        register(new NoteHandler());
-        register(new TaskHandler());
-        register(new TopicHandler());
+        registerActionHandler(new NoteHandler());
+        registerActionHandler(new TaskHandler());
+        registerActionHandler(new TopicHandler());
     }
 
     @Override

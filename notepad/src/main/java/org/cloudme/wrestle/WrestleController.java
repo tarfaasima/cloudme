@@ -25,17 +25,17 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 
-public abstract class Controller extends HttpServlet {
+public abstract class WrestleController extends HttpServlet {
     private final Collection<RequestHandler> httpGetHandlers = new ArrayList<RequestHandler>();
     private final Collection<RequestHandler> httpPostHandlers = new ArrayList<RequestHandler>();
     private Injector injector;
 
-    protected void register(Module... modules) {
+    protected void registerModules(Module... modules) {
         injector = Guice.createInjector(modules);
         injector.injectMembers(this);
     }
 
-    protected void register(ActionHandler handler) {
+    protected void registerActionHandler(ActionHandler handler) {
         String urlMapping = handler.getClass().getAnnotation(UrlMapping.class).value();
         if (!urlMapping.endsWith("/")) {
             urlMapping += "/";
@@ -75,10 +75,9 @@ public abstract class Controller extends HttpServlet {
 
     @SneakyThrows
     private void execute(HttpServletRequest req, HttpServletResponse resp, Collection<RequestHandler> requestHandlers) {
-        val path = req.getPathInfo();
         for (RequestHandler handler : requestHandlers) {
-            if (handler.matches(path)) {
-                val value = handler.execute(path, req, resp);
+            if (handler.matches(req)) {
+                val value = handler.execute(req, resp);
                 resp.setContentType("application/json");
                 val json = new JsonWriter(resp.getWriter());
                 json.write(value);

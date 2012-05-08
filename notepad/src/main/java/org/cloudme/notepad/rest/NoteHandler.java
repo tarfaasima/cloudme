@@ -10,7 +10,7 @@ import org.cloudme.notepad.note.NoteService;
 import org.cloudme.sugar.Id;
 import org.cloudme.wrestle.ActionHandler;
 import org.cloudme.wrestle.annotation.Get;
-import org.cloudme.wrestle.annotation.Mapping;
+import org.cloudme.wrestle.annotation.Param;
 import org.cloudme.wrestle.annotation.Post;
 import org.cloudme.wrestle.annotation.UrlMapping;
 
@@ -28,10 +28,10 @@ public class NoteHandler implements ActionHandler {
     }
 
     @Post
-    public void save(@Mapping( "note" ) Note note,
-            @Mapping( "topic" ) String topic,
-            @Mapping( "date" ) String dateStr,
-            @Mapping( "dueDate" ) String dueDate) {
+    public void save(@Param( name = "note" ) Note note,
+            @Param( name = "topic" ) String topic,
+            @Param( name = "dateStr" ) String dateStr,
+            @Param( name = "dueDate" ) String dueDate) {
         Date date = dateService.convert(dateStr, new Date());
         note.setDueDate(dateService.convert(dueDate, date));
         if (note.getId() != null) {
