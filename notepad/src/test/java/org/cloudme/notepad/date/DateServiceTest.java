@@ -2,15 +2,28 @@ package org.cloudme.notepad.date;
 
 import static org.junit.Assert.assertEquals;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 public class DateServiceTest {
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final TimeZone DEFAULT_TZ = TimeZone.getDefault();
+
+    @Before
+    public void setUtc() {
+        System.out.println("Default: " + DEFAULT_TZ);
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
+
+    @After
+    public void restoreDefaultTimeZone() {
+        TimeZone.setDefault(DEFAULT_TZ);
+    }
 
     @Test
     public void testConvert() throws Throwable {
@@ -53,7 +66,7 @@ public class DateServiceTest {
         if (str == null) {
             return null;
         }
-        return DATE_FORMAT.parse(str);
+        return new SimpleDateFormat("dd.MM.yyyy").parse(str);
     }
 
 }

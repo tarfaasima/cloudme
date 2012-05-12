@@ -67,6 +67,7 @@ public class ExcelExportServiceTest extends AbstractServiceTestCase {
         assertEquals("Team_meeting-20120310.xls", excelExportService.createFileName(meeting));
     }
 
+    @SuppressWarnings( "unused" )
     private static void assertEqualsBytes(byte[] expected, byte[] actual) {
         assertEquals(expected.length, actual.length);
         for (int i = 0; i < expected.length; i++) {
@@ -74,6 +75,7 @@ public class ExcelExportServiceTest extends AbstractServiceTestCase {
         }
     }
 
+    @SuppressWarnings( "unused" )
     private byte[] toByteArray(String name) throws Throwable {
         InputStream in = getClass().getResourceAsStream(name);
         ByteArrayOutputStream out = new ByteArrayOutputStream();

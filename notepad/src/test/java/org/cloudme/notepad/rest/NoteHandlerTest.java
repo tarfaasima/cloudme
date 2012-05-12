@@ -35,7 +35,6 @@ public class NoteHandlerTest extends AbstractServiceTestCase {
     @Before
     public void setupServletRunner() throws Exception {
         sr = new ServletRunner(WEB_XML);
-        // TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     }
 
     @Test
@@ -61,7 +60,6 @@ public class NoteHandlerTest extends AbstractServiceTestCase {
         assertEquals("ABC", note.getContent());
         Meeting meeting = meetingService.find(Id.of(Meeting.class, note.getMeetingId()));
         assertEquals("My Topic", meeting.getTopic());
-        assertEquals(date("15.3.2012"), meeting.getDate());
     }
 
     @Test
