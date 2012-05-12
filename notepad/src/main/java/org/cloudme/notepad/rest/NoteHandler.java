@@ -16,7 +16,7 @@ import org.cloudme.wrestle.annotation.UrlMapping;
 
 import com.google.inject.Inject;
 
-@UrlMapping( "/note" )
+@UrlMapping( "note" )
 public class NoteHandler implements ActionHandler {
     @Inject private DateService dateService;
     @Inject private MeetingService meetingService;

@@ -13,4 +13,7 @@
   <admin-console>
     <page name="Migration" url="/app/admin/migration" />
   </admin-console>
+  
+  <threadsafe>true</threadsafe>
+
 </appengine-web-app>

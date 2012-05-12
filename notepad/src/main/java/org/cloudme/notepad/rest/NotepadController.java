@@ -11,10 +11,12 @@ import org.cloudme.notepad.export.ExportModule;
 import org.cloudme.notepad.meeting.MeetingModule;
 import org.cloudme.notepad.note.NoteModule;
 import org.cloudme.wrestle.WrestleController;
+import org.cloudme.wrestle.annotation.UrlMapping;
 
 import com.google.appengine.api.NamespaceManager;
 import com.google.appengine.api.users.UserServiceFactory;
 
+@UrlMapping( "api" )
 public class NotepadController extends WrestleController {
     @Override
     public void init() throws ServletException {

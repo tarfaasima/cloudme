@@ -29,6 +29,11 @@ public abstract class WrestleController extends HttpServlet {
     private final Collection<RequestHandler> httpGetHandlers = new ArrayList<RequestHandler>();
     private final Collection<RequestHandler> httpPostHandlers = new ArrayList<RequestHandler>();
     private Injector injector;
+    private String controllerUrlMapping = "";
+
+    public WrestleController() {
+        controllerUrlMapping = UrlMapping.Util.normalizedValue(this);
+    }
 
     protected void registerModules(Module... modules) {
         injector = Guice.createInjector(modules);
@@ -36,13 +41,7 @@ public abstract class WrestleController extends HttpServlet {
     }
 
     protected void registerActionHandler(ActionHandler handler) {
-        String urlMapping = handler.getClass().getAnnotation(UrlMapping.class).value();
-        if (!urlMapping.endsWith("/")) {
-            urlMapping += "/";
-        }
-        if (!urlMapping.startsWith("/")) {
-            urlMapping = "/" + urlMapping;
-        }
+        String urlMapping = controllerUrlMapping + UrlMapping.Util.normalizedValue(handler) + '/';
         for (Method method : handler.getClass().getMethods()) {
             addIfHasAnnotation(Get.class, method, handler, urlMapping, httpGetHandlers);
             addIfHasAnnotation(Post.class, method, handler, urlMapping, httpPostHandlers);

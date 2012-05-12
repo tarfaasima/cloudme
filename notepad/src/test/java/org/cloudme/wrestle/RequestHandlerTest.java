@@ -18,9 +18,7 @@ import org.junit.Test;
 import com.meterware.httpunit.GetMethodWebRequest;
 import com.meterware.httpunit.PostMethodWebRequest;
 import com.meterware.httpunit.WebRequest;
-import com.meterware.httpunit.WebResponse;
 import com.meterware.servletunit.ServletRunner;
-import com.meterware.servletunit.ServletUnitClient;
 
 public class RequestHandlerTest {
     private static enum Method {
@@ -111,15 +109,15 @@ public class RequestHandlerTest {
         RequestHandlerTest.actionHandler = handler;
 
         sr.registerServlet(path, TestController.class.getName());
-        ServletUnitClient sc = sr.newClient();
-        WebRequest req = method.getWebRequest("http://www.example.com/" + path);
+        val sc = sr.newClient();
+        val req = method.getWebRequest("http://www.example.com/" + path);
         if (params != null) {
             for (int i = 0; i < params.length; i += 2) {
                 req.setParameter(params[i], params[i + 1]);
             }
         }
 
-        WebResponse resp = sc.getResponse(req);
+        val resp = sc.getResponse(req);
         assertEquals(expected, resp.getText());
     }
 }
