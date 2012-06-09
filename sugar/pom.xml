@@ -15,6 +15,7 @@
       <artifactId>junit</artifactId>
       <version>4.9</version>
       <scope>test</scope>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.google.appengine</groupId>
@@ -22,6 +23,7 @@
       <version>${gae.version}</version>
       <type>jar</type>
       <scope>test</scope>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.google.appengine</groupId>
@@ -29,6 +31,7 @@
       <version>${gae.version}</version>
       <type>jar</type>
       <scope>test</scope>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.google.appengine</groupId>
@@ -36,6 +39,7 @@
       <version>${gae.version}</version>
       <type>jar</type>
       <scope>test</scope>
+      <optional>true</optional>
     </dependency>
 
     <!-- Objectify -->
