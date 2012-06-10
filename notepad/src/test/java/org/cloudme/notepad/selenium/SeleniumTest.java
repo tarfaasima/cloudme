@@ -37,7 +37,7 @@ public class SeleniumTest {
             "target/notepad-0.17-SNAPSHOT/WEB-INF/appengine-generated/local_db.bin.bak");
     private WebDriver driver;
 
-    @Before
+    // @Before
     public void initDriver() throws Throwable {
         try {
             driver = new ChromeDriver();
@@ -51,7 +51,7 @@ public class SeleniumTest {
         assertFalse(LOCAL_DB.exists());
     }
 
-    @After
+    // @After
     public void quitDriver() {
         LOCAL_DB_BAK.renameTo(LOCAL_DB);
         driver.quit();
