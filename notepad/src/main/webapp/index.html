@@ -31,7 +31,21 @@
     <a href="#" class="logout">Sign out</a>
   </div>
 </body>
+<script id="noteEntry" type="">
+  {{#with note}}
+  <form action="" method="post">
+    {{#htmlHidden id}}
+  </form>
+  {{/with}}
+</script>
 <script>
+// Handlebars helpers
+Handlebars.registerHelper("htmlHidden", function(name, value) {
+  if (value) {
+    return new Handlebars.SafeString('<html type="hidden" name="' + name + '" value="' + value + '"/>');
+  }
+});
+
 $(document).ready(function() {
   $(".selectOnFocus").focus(function() {
     this.setSelectionRange(0, $(this).val().length);
