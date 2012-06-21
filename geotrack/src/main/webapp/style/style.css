@@ -1,0 +1,10 @@
+body {
+  font: normal 14pt/120% Helvetica;
+  background-color: #000;
+  color: #fff;
+}
+
+label {
+  font-size: 9pt;
+  color: #999;
+}

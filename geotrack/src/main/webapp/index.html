@@ -1,0 +1,116 @@
+<html mainfest="manifest.appcache">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="viewport" content="width = device-width, initial-scale = 1, minimum-scale = 1, maximum-scale = 1, user-scalable = no" />
+<link href="style/style.css" rel="stylesheet" type="text/css" />
+<title>GeoTrack</title>
+</head>
+<body>
+<div id="updatePosition">Update position now</div>
+<div id="position"></div>
+<script id="position-template" type="text/x-handlebars-template">
+	{{#with coords}}
+	<label>Latitude</label>
+	<div>{{degFormat latitude}}</div>
+	<label>Longitude</label>
+	<div>{{degFormat longitude}}</div>	
+	<label>Accuracy</label> 
+	<div>{{numberFormat accuracy 1}}m</div>
+	<label>Altitude</label> 
+	<div>{{numberFormat altitude 1}}m</div>
+	<label>Altitude accuracy</label> 
+	<div>{{numberFormat altitudeAccuracy 1}}m</div>
+	{{/with}}
+	<label>Timestamp</label>
+	<div>{{dateFormat timestamp}}</div>
+</script>
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="js/handlebars-1.0.0.beta.6.js"></script>
+<script src="js/moment-1.6.2.min.js"></script>
+<script>
+function Timer(fn) {
+	var timer = 0;
+	var _this = this;
+	this.stop = function() {
+		clearTimeout(timer);
+		timer = 0;
+		return _this;
+	}
+	this.start = function() {
+		fn();
+		timer = setTimeout(function() { _this.start() }, 1000);
+		return _this;
+	}
+	this.isRunning = function() {
+		return timer != 0;
+	}
+}
+
+Handlebars.registerHelper("dateFormat", function(context, block) {
+	if (window.moment) {
+		var format = block.hash.format || "YYYY-MM-DD HH:mm:ss";
+		return moment(context).format(format);
+	}
+	else {
+		return context;
+	}
+});
+
+Handlebars.registerHelper("numberFormat", function(context, length) {
+	if (length && context != null) {
+		return context.toFixed(length);
+	}
+	else {
+		return context;
+	}
+});
+
+Handlebars.registerHelper("degFormat", function(context) {
+	var deg = parseInt(context);
+	context = (context % deg) * 60;
+	var min = parseInt(context);
+	var sec = ((context % min) * 60).toFixed(3);
+	return deg + "&deg; " + min + "&prime; " + sec + "&Prime;";
+});
+
+function template(name, data, templateName) {
+	if (!templateName) {
+		templateName = name + "-template";
+	}
+	var source = $(templateName).html();
+	var template = Handlebars.compile(source);
+	var output = template(data);
+	$(name).html(output);
+}
+
+function locationSuccess(position) {
+	template("#position", position);
+	var key = "position_" + position.timestamp;
+	var value = JSON.stringify(position)
+	localStorage[key] = value;
+}
+
+function locationError() {
+	$("#position").text("Unable to get current location.");
+};
+
+$(document).ready(function() {
+	var updateTimer = new Timer(function () {
+		navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
+	}).start();
+	$("#updatePosition").on("touchstart", function() {
+		if (updateTimer.isRunning()) {
+			$(this).text("Update position stopped");
+			updateTimer.stop();
+		}
+		else {
+			$(this).text("Update position");
+			updateTimer.start();
+		}
+	});
+});
+</script>
+</body>
+</html>
