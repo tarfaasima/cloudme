@@ -1,4 +1,4 @@
-<html mainfest="manifest.appcache">
+<html manifest="manifest.appcache">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -11,9 +11,9 @@
 <div id="updatePosition">Update position now</div>
 <div id="position"></div>
 <script id="position-template" type="text/x-handlebars-template">
+	<div id="time">{{dateFormat timestamp}}</div>
 	{{#with coords}}
-	<label>Latitude</label>
-	<div>{{degFormat latitude}}</div>
+    <div class="row"><label>Latitude</label><div>{{degFormat latitude}}</div></div>
 	<label>Longitude</label>
 	<div>{{degFormat longitude}}</div>	
 	<label>Accuracy</label> 
@@ -24,7 +24,6 @@
 	<div>{{numberFormat altitudeAccuracy 1}}m</div>
 	{{/with}}
 	<label>Timestamp</label>
-	<div>{{dateFormat timestamp}}</div>
 </script>
 <script src="js/jquery-1.7.2.min.js"></script>
 <script src="js/handlebars-1.0.0.beta.6.js"></script>
