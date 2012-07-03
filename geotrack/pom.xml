@@ -59,8 +59,8 @@
   </reporting>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <gae.version>1.6.6</gae.version>
-    <maven-gae-plugin.version>0.9.2</maven-gae-plugin.version>
+    <gae.version>1.7.0</gae.version>
+    <maven-gae-plugin.version>0.9.4</maven-gae-plugin.version>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
     <timestamp>${maven.build.timestamp}</timestamp>
   </properties>
@@ -209,18 +209,18 @@
       <type>jar</type>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.cloudme.sugar</groupId>
-      <artifactId>sugar</artifactId>
-      <version>0.1.13-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jstl</artifactId>
-      <version>1.1.2</version>
-      <type>jar</type>
-      <scope>test</scope>
-    </dependency>
+<!--     <dependency> -->
+<!--       <groupId>org.cloudme.sugar</groupId> -->
+<!--       <artifactId>sugar</artifactId> -->
+<!--       <version>0.1.13-SNAPSHOT</version> -->
+<!--     </dependency> -->
+<!--     <dependency> -->
+<!--       <groupId>javax.servlet</groupId> -->
+<!--       <artifactId>jstl</artifactId> -->
+<!--       <version>1.1.2</version> -->
+<!--       <type>jar</type> -->
+<!--       <scope>test</scope> -->
+<!--     </dependency> -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
@@ -233,28 +233,6 @@
       <artifactId>lombok</artifactId>
       <version>0.10.6</version>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.5</version>
-    </dependency>
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-java</artifactId>
-      <version>2.19.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-beanutils</groupId>
-      <artifactId>commons-beanutils-core</artifactId>
-      <version>1.8.3</version>
-    </dependency>
-    <dependency>
-      <groupId>httpunit</groupId>
-      <artifactId>httpunit</artifactId>
-      <version>1.7</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>

@@ -2,18 +2,43 @@ body {
   font: normal 14pt/120% Helvetica;
   background-color: #000;
   color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+div#position div#left {
+  float: left;
+  width: 50%;
+}
+
+div#position div#right {
+  float: right;
+  width: 50%;
+}
+
+label + div {
+  clear: both;
 }
 
 label {
-/*   font-size: 9pt; */
-  font-weight: bold;
+  font-size: 9pt;
+/*   font-weight: bold; */
   color: #999;
-  border: 1px solid blue;
-  width: 200px;
-  display: box;
+/*   width: 200px; */
+/*   display: box; */
+/*   background: blue; */
+/*   width: 50%; */
+/*   display: block; */
+/*   margin: 0; */
+/*   padding: 0; */
 }
 
-div.row div {
-  display: inline;
-  border: 1px solid red;
-}
+/* div.row div { */
+/*   display: block; */
+/*   background: yellow; */
+/*   border: 1px solid red; */
+/*   float: right; */
+/*   width: 50%; */
+/*   margin: 0; */
+/*   padding: 0; */
+/* } */
