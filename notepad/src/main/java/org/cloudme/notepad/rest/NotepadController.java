@@ -25,11 +25,18 @@ public class NotepadController extends WrestleController {
         registerActionHandler(new NoteHandler());
         registerActionHandler(new TaskHandler());
         registerActionHandler(new TopicHandler());
+        registerActionHandler(new UserHandler());
     }
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String previousNamespace = NamespaceManager.get();
         NamespaceManager.set(UserServiceFactory.getUserService().getCurrentUser().getUserId());
-        super.service(req, resp);
+        try {
+            super.service(req, resp);
+        }
+        finally {
+            NamespaceManager.set(previousNamespace);
+        }
     }
 }

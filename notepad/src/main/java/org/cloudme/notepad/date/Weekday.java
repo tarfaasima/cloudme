@@ -2,7 +2,7 @@ package org.cloudme.notepad.date;
 
 import java.util.Calendar;
 
-public enum Weekday {
+enum Weekday {
 	MONDAY(Calendar.MONDAY, "MO", "MON"), TUESDAY(Calendar.TUESDAY, "TU", "TUE", "DI", "DIE"), WEDNESDAY(
 			Calendar.WEDNESDAY, "WE", "WED", "MI", "MIT"), THURSDAY(Calendar.THURSDAY, "TH", "THU", "DO", "DON"), FRIDAY(
 			Calendar.FRIDAY, "FR", "FRI", "FRE"), SATURDAY(Calendar.SATURDAY, "SA", "SAT", "SAM"), SUNDAY(

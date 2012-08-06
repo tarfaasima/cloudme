@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,10 +49,13 @@ import lombok.val;
  * No holidays are considered.
  * <p>
  * Another option is to enter the short-name of the day (such as "Mon").
+ * <p>
+ * All dates are represented as UTC.
  * 
  * @author Moritz Petersen
  */
 public class DateService {
+    private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
     private static final DateFormat[] FORMATS = { df("dd.MM.yy"), df("dd.MM.yyyy"), df("yyyy-MM-dd"), df("MM/dd/yy"),
             df("MM/dd/yyyy"), df("ddMMyy"), df("ddMMyyyy") };
 	private static final Pattern DATE_WITHOUT_YEAR_PATTERN = compile("(\\d{1,2})[\\.-/+# ]?(\\d{1,2})[\\.-/+# ]?");
@@ -119,8 +123,7 @@ public class DateService {
 	private Date parseAsWeekday(String input, Date referenceDate) {
 		for (Weekday weekday : Weekday.values()) {
 			if (weekday.matches(input)) {
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(referenceDate);
+                Calendar cal = createCalendar(referenceDate);
 				cal.set(Calendar.DAY_OF_WEEK, weekday.dayOfWeek);
 				return incrementIfBefore(cal, referenceDate, Calendar.WEEK_OF_YEAR);
 			}
@@ -128,11 +131,17 @@ public class DateService {
 		throw new NumberFormatException();
 	}
 
+    private Calendar createCalendar(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeZone(UTC);
+        cal.setTime(date);
+        return cal;
+    }
+
 	private Date parseAsDuration(String input, Date referenceDate) {
         Matcher matcher = DURATION_PATTERN.matcher(input);
         if (matcher.matches()) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(referenceDate);
+            Calendar cal = createCalendar(referenceDate);
             int value = Integer.parseInt(matcher.group(1));
             String duration = matcher.group(2).trim();
             if (WEEK_DURATION.contains(duration)) {
@@ -159,8 +168,7 @@ public class DateService {
         if (matcher.matches()) {
             int day = Integer.parseInt(matcher.group(1));
             int month = Integer.parseInt(matcher.group(2));
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(referenceDate);
+            Calendar cal = createCalendar(referenceDate);
             cal.set(Calendar.DAY_OF_MONTH, day);
             cal.set(Calendar.MONTH, month - 1);
             return incrementIfBefore(cal, referenceDate, Calendar.YEAR);
@@ -170,8 +178,7 @@ public class DateService {
 
     private Date parseAsDay(String input, Date referenceDate) {
         val day = Integer.parseInt(input);
-        val cal = Calendar.getInstance();
-        cal.setTime(referenceDate);
+        val cal = createCalendar(referenceDate);
         cal.set(Calendar.DAY_OF_MONTH, day);
         return incrementIfBefore(cal, referenceDate, Calendar.MONTH);
     }
@@ -186,6 +193,8 @@ public class DateService {
     }
 
     private static DateFormat df(String pattern) {
-        return new SimpleDateFormat(pattern);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        dateFormat.setTimeZone(UTC);
+        return dateFormat;
     }
 }
