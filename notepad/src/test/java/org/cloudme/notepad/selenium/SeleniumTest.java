@@ -15,8 +15,6 @@ import java.util.List;
 import lombok.SneakyThrows;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;

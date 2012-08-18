@@ -63,7 +63,6 @@ public class RequestHandlerTest {
     public void testExecute() throws Throwable {
         @UrlMapping( "app" )
         class TestActionHandler implements ActionHandler {
-            @SuppressWarnings( "unused" )
             @Get
             public String hello(String name, int repeats, String greeting) {
                 val sb = new StringBuilder();
@@ -81,7 +80,6 @@ public class RequestHandlerTest {
     public void testExecuteWithMapping() throws Throwable {
         @UrlMapping( "app" )
         class TestActionHandler implements ActionHandler {
-            @SuppressWarnings( "unused" )
             @Post
             public String hello(@Param( name = "foo" ) Person person) {
                 return "Hello, " + person.getName() + "!";
@@ -94,7 +92,6 @@ public class RequestHandlerTest {
     public void testExecuteWithSimpleMapping() throws Throwable {
         @UrlMapping("app")
         class TestActionHandler implements ActionHandler {
-            @SuppressWarnings( "unused" )
             @Get
             public String hello(@Param( name = "name" ) String name) {
                 return "Hello, " + name + "!";

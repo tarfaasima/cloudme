@@ -85,6 +85,7 @@ public class ExcelExportServiceTest extends AbstractServiceTestCase {
             out.write(bytes, 0, len);
         }
         in.close();
+        out.close();
         return out.toByteArray();
     }
 
