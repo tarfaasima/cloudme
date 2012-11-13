@@ -14,11 +14,10 @@ import org.apache.commons.io.IOUtils;
 import com.google.inject.Inject;
 
 public abstract class BaseCopy {
-    private static final long BUFLEN = 1024 * 1024 * 50;
-    private File destDir;
-    private FileLog fileLog;
-    @Inject
-    private CopyListener copyListener;
+    private static final long    BUFLEN = 1024 * 1024 * 50;
+    private File                 destDir;
+    private FileLog              fileLog;
+    @Inject private CopyListener copyListener;
 
     public final void copy() {
         if (!destDir.exists()) {
@@ -119,7 +118,7 @@ public abstract class BaseCopy {
         if (dest == null) {
             throw new NullPointerException("Destination must not be null");
         }
-        if (src.exists() == false) {
+        if (!src.exists()) {
             throw new FileNotFoundException("Source '" + src + "' does not exist");
         }
         if (src.isDirectory()) {
@@ -128,16 +127,20 @@ public abstract class BaseCopy {
         if (src.getCanonicalPath().equals(dest.getCanonicalPath())) {
             throw new IOException("Source '" + src + "' and destination '" + dest + "' are the same");
         }
-        if (dest.getParentFile() != null && dest.getParentFile().exists() == false) {
-            if (dest.getParentFile().mkdirs() == false) {
+        if (dest.getParentFile() != null && !dest.getParentFile().exists()) {
+            if (!dest.getParentFile().mkdirs()) {
                 throw new IOException("Destination '" + dest + "' directory cannot be created");
             }
         }
-        if (dest.exists() && dest.canWrite() == false) {
+        if (dest.exists() && !dest.canWrite()) {
             throw new IOException("Destination '" + dest + "' exists but is read-only");
         }
         if (dest.exists() && dest.isDirectory()) {
             throw new IOException("Destination '" + dest + "' exists but is a directory");
+        }
+
+        if (dest.exists()) {
+            return;
         }
 
         FileInputStream fis = null;
@@ -153,7 +156,7 @@ public abstract class BaseCopy {
             long pos = 0;
             long count = 0;
             while (pos < size) {
-                count = (size - pos) > BUFLEN ? BUFLEN : (size - pos);
+                count = size - pos > BUFLEN ? BUFLEN : size - pos;
                 pos += output.transferFrom(input, pos, count);
                 fireCopyProgressed(src, dest, size, pos);
             }
