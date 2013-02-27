@@ -14,9 +14,9 @@ import org.apache.commons.io.IOUtils;
 import com.google.inject.Inject;
 
 public abstract class BaseCopy {
-    private static final long    BUFLEN = 1024 * 1024 * 50;
-    private File                 destDir;
-    private FileLog              fileLog;
+    private static final long BUFLEN = 1024 * 1024 * 50;
+    private File destDir;
+    private FileLog fileLog;
     @Inject private CopyListener copyListener;
 
     public final void copy() {
@@ -139,7 +139,7 @@ public abstract class BaseCopy {
             throw new IOException("Destination '" + dest + "' exists but is a directory");
         }
 
-        if (dest.exists()) {
+        if (dest.exists() && dest.length() == src.length()) {
             return;
         }
 
