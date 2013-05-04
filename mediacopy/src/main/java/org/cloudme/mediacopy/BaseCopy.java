@@ -18,6 +18,7 @@ public abstract class BaseCopy {
     private File destDir;
     private FileLog fileLog;
     @Inject private CopyListener copyListener;
+    private boolean moveMode;
 
     public final void copy() {
         if (!destDir.exists()) {
@@ -143,33 +144,41 @@ public abstract class BaseCopy {
             return;
         }
 
-        FileInputStream fis = null;
-        FileOutputStream fos = null;
-        FileChannel input = null;
-        FileChannel output = null;
-        try {
-            fis = new FileInputStream(src);
-            fos = new FileOutputStream(dest);
-            input = fis.getChannel();
-            output = fos.getChannel();
-            long size = input.size();
-            long pos = 0;
-            long count = 0;
-            while (pos < size) {
-                count = size - pos > BUFLEN ? BUFLEN : size - pos;
-                pos += output.transferFrom(input, pos, count);
-                fireCopyProgressed(src, dest, size, pos);
+        if (moveMode) {
+            boolean success = src.renameTo(dest);
+            if (!success) {
+                throw new IOException("Failed to move '" + src + "' to '" + dest + "'");
             }
         }
-        finally {
-            IOUtils.closeQuietly(output);
-            IOUtils.closeQuietly(fos);
-            IOUtils.closeQuietly(input);
-            IOUtils.closeQuietly(fis);
-        }
+        else {
+            FileInputStream fis = null;
+            FileOutputStream fos = null;
+            FileChannel input = null;
+            FileChannel output = null;
+            try {
+                fis = new FileInputStream(src);
+                fos = new FileOutputStream(dest);
+                input = fis.getChannel();
+                output = fos.getChannel();
+                long size = input.size();
+                long pos = 0;
+                long count = 0;
+                while (pos < size) {
+                    count = size - pos > BUFLEN ? BUFLEN : size - pos;
+                    pos += output.transferFrom(input, pos, count);
+                    fireCopyProgressed(src, dest, size, pos);
+                }
+            }
+            finally {
+                IOUtils.closeQuietly(output);
+                IOUtils.closeQuietly(fos);
+                IOUtils.closeQuietly(input);
+                IOUtils.closeQuietly(fis);
+            }
 
-        if (src.length() != dest.length()) {
-            throw new IOException("Failed to copy full contents from '" + src + "' to '" + dest + "'");
+            if (src.length() != dest.length()) {
+                throw new IOException("Failed to copy full contents from '" + src + "' to '" + dest + "'");
+            }
         }
     }
 
@@ -190,5 +199,9 @@ public abstract class BaseCopy {
 
     public void setFileLog(FileLog fileLog) {
         this.fileLog = fileLog;
+    }
+
+    protected void setMoveMode(boolean moveMode) {
+        this.moveMode = moveMode;
     }
 }
