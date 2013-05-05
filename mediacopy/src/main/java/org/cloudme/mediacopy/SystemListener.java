@@ -12,7 +12,7 @@ public class SystemListener implements CopyListener {
     @Override
     public void copyCompleted() {
         System.out.printf("Completed in %s%n",
-                DurationFormatUtils.formatDurationHMS(System.currentTimeMillis() - startTime));
+                          DurationFormatUtils.formatDurationHMS(System.currentTimeMillis() - startTime));
     }
 
     @Override
@@ -39,13 +39,13 @@ public class SystemListener implements CopyListener {
     @Override
     public void copySuccess(File src, File dest) {
         long tNow = System.currentTimeMillis();
-        bytesCopied += src.length();
+        bytesCopied += dest.length();
         long spent = tNow - startTime;
         long tMax = spent * totalSize / bytesCopied;
         System.out.printf("%n%s remaining [%s of %s]%n",
-                DurationFormatUtils.formatDurationHMS(tMax - spent),
-                (bytesCopied >> 20) + "MB",
-                (totalSize >> 20) + "MB");
+                          DurationFormatUtils.formatDurationHMS(tMax - spent),
+                          (bytesCopied >> 20) + "MB",
+                          (totalSize >> 20) + "MB");
     }
 
     @Override
