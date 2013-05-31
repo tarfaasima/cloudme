@@ -16,10 +16,10 @@ import com.google.inject.Injector;
 public class OtrCopyTest {
     @Test
     public void testCopy() throws IOException, InterruptedException {
-    	// Guice setup
-    	Injector injector = Guice.createInjector(new AbstractModule() {
-			@Override
-			protected void configure() {
+        // Guice setup
+        Injector injector = Guice.createInjector(new AbstractModule() {
+            @Override
+            protected void configure() {
                 bind(CopyListener.class).toInstance(new SystemListener() {
                     @Override
                     public void copyProgressed(File src, File dest, long size, long pos) {
@@ -33,13 +33,13 @@ public class OtrCopyTest {
                         super.copyProgressed(src, dest, size, pos);
                     }
                 });
-			}
-		});
-		// Test setup
+            }
+        });
+        // Test setup
         File tmp = new File("target/tmp");
         File cutDir = new File(tmp, "cutDir");
         File destDir = new File(tmp, "destDir");
-		FileLog fileLog = new FileLog(new File(tmp, "otrCopy.log"));
+        FileLog fileLog = new FileLog(new File(tmp, "otrCopy.log"));
         File originalsDir = new File(tmp, "originalsDir");
         FileUtils.deleteQuietly(tmp);
         destDir.mkdirs();
@@ -48,18 +48,18 @@ public class OtrCopyTest {
         createFile(cutDir, "Die_Bourne_Verschwoerung_10.12.26_22-15_zdf_105_TVOON_DE.mpg.avi");
         createFile(cutDir, "Die_Bourne_Identitaet_10.12.25_22-15_zdf_105_TVOON_DE.mpg.avi");
         OtrCopy otrCopy = new OtrCopy();
-		injector.injectMembers(otrCopy);
+        injector.injectMembers(otrCopy);
         otrCopy.setCutDir(cutDir.getAbsolutePath());
         otrCopy.setDestDir(destDir.getAbsolutePath());
         otrCopy.setOriginalsDir(originalsDir.getAbsolutePath());
-		otrCopy.setFileLog(fileLog);
+        otrCopy.setFileLog(fileLog);
         otrCopy.copy();
-		assertEquals(1, destDir.list().length);
+        assertEquals(1, destDir.list().length);
         File[] list = new File(destDir, "D").listFiles();
         assertEquals(3, list.length);
-        assertEquals("Das Bourne Ultimatum (ZDF, 2010-12-27 22-15).mpg.avi", list[0].getName());
-        assertEquals("Die Bourne Identitaet (ZDF, 2010-12-25 22-15, CUT).mpg.avi", list[1].getName());
-        assertEquals("Die Bourne Verschwoerung (ZDF, 2010-12-26 22-15, CUT).mpg.avi", list[2].getName());
+        assertEquals("Das Bourne Ultimatum (2010-12-27 22-15, ZDF).mpg.avi", list[0].getName());
+        assertEquals("Die Bourne Identitaet (2010-12-25 22-15, ZDF, CUT).mpg.avi", list[1].getName());
+        assertEquals("Die Bourne Verschwoerung (2010-12-26 22-15, ZDF, CUT).mpg.avi", list[2].getName());
         long lastModified = list[0].lastModified();
         Thread.sleep(1000);
         otrCopy.copy();

@@ -15,8 +15,7 @@ public class OtrFile {
     private final File file;
 
     /**
-     * Creates a new {@link OtrFile} with the given file name. The file name
-     * must have the following structure:
+     * Creates a new {@link OtrFile} with the given file name. The file name must have the following structure:
      * 
      * <code>Das_Bourne_Ultimatum_10.12.27_22-15_zdf_105_TVOON_DE.mpg.avi</code>
      * 
@@ -72,11 +71,11 @@ public class OtrFile {
     }
 
     public String createFileName(boolean isCut) {
-        return String.format("%1$s (%2$s, %3$tF %3$tH-%3$tM%4$s).%5$s",
-                title,
-                channel,
-                date,
-                (isCut ? ", CUT" : ""),
-                suffix);
+        return String.format("%1$s (%2$tF %2$tH-%2$tM, %3$s%4$s).%5$s",
+                             title,
+                             date,
+                             channel,
+                             isCut ? ", CUT" : "",
+                             suffix);
     }
 }

@@ -14,8 +14,8 @@ public class OtrFileTest {
     @Test
     public void testCreateFileName() {
         OtrFile otrFile = new OtrFile(new File("Das_Bourne_Ultimatum_10.12.27_22-15_zdf_105_TVOON_DE.mpg.avi"));
-        assertEquals("Das Bourne Ultimatum (ZDF, 2010-12-27 22-15, CUT).mpg.avi", otrFile.createFileName(true));
-        assertEquals("Das Bourne Ultimatum (ZDF, 2010-12-27 22-15).mpg.avi", otrFile.createFileName(false));
+        assertEquals("Das Bourne Ultimatum (2010-12-27 22-15, ZDF, CUT).mpg.avi", otrFile.createFileName(true));
+        assertEquals("Das Bourne Ultimatum (2010-12-27 22-15, ZDF).mpg.avi", otrFile.createFileName(false));
     }
 
     @Test
@@ -28,13 +28,13 @@ public class OtrFileTest {
         assertEquals("Das Bourne Ultimatum", otrFile.getTitle());
     }
 
-	@Test(expected = IllegalArgumentException.class)
+    @Test( expected = IllegalArgumentException.class )
     public void testWithoutSuffix() {
         String fileName = "Das_Bourne_Ultimatum_10.12.27_22-15_zdf_105_TVOON_DE";
         new OtrFile(new File(fileName));
     }
 
-	@Test(expected = IllegalArgumentException.class)
+    @Test( expected = IllegalArgumentException.class )
     public void testIncompleteFileName() {
         String fileName = "10.12.27_22-15_zdf_105_TVOON_DE.mpg.avi";
         new OtrFile(new File(fileName));
