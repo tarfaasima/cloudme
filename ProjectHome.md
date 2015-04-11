@@ -1,0 +1,1 @@
+Project for creating cloud-oriented applications and libraries.
